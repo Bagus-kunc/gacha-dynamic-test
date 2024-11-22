@@ -1,0 +1,92 @@
+<template>
+  <template v-if="!isFetching">
+    <div
+      :class="[
+        roundedClass,
+        'bg-white p-3 inline-flex gap-2 border-b border-b-exd-light-grey w-100 relative cursor-pointer',
+      ]"
+      @click="handleClick"
+    >
+      <div class="w-full max-w-20 max-h-20">
+        <CharacterCard :image="imageCard" variant="without-background" />
+      </div>
+      <slot name="text"></slot>
+      <div class="!absolute !right-3 !top-1/2 !transform !-translate-y-1/2">
+        <img
+          :src="arrow"
+          alt="arrow"
+          width="12"
+          height="12"
+          preload
+          class="invert"
+        />
+      </div>
+    </div>
+  </template>
+  <template v-else>
+    <div
+      :class="[
+        roundedClass,
+        'bg-white p-3 inline-flex gap-2 border-b border-b-exd-light-grey w-100 relative',
+      ]"
+    >
+      <div class="h-16 w-20">
+        <Skeleton width="10rem" class="!h-full !w-full"></Skeleton>
+      </div>
+      <div class="inline-flex justify-between w-100">
+        <div class="flex flex-col justify-center gap-2 w-11/12">
+          <Skeleton class="!w-full !h-2"></Skeleton>
+          <Skeleton class="!w-full !h-2"></Skeleton>
+          <Skeleton width="5rem" class="!h-2"></Skeleton>
+        </div>
+      </div>
+      <div class="!absolute !right-3 !top-1/2 !transform !-translate-y-1/2">
+        <img
+          :src="arrow"
+          alt="arrow"
+          width="12"
+          height="12"
+          preload
+          class="invert"
+        />
+      </div>
+    </div>
+  </template>
+</template>
+
+<script setup>
+import arrow from '~/assets/images/arrow.svg'
+const props = defineProps({
+  isFetching: {
+    type: Boolean,
+    default: false,
+  },
+  hasBorderBottom: {
+    type: Boolean,
+    default: true,
+  },
+  hasRounded: {
+    type: Boolean,
+    default: false,
+  },
+  withBackgroundIconImage: {
+    type: Boolean,
+    default: true,
+  },
+  imageCard: { type: String, default: '' },
+  onClick: {
+    type: Function,
+    default: null,
+  },
+})
+
+const handleClick = (event) => {
+  if (props.onClick) {
+    props.onClick(event)
+  }
+}
+
+const roundedClass = computed(() => {
+  return props.hasRounded ? 'rounded-xl' : 'rounded-none'
+})
+</script>
