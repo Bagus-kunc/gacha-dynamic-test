@@ -52,36 +52,6 @@
           class="font-medium text-exd-1218 text-exd-gray-scorpion mb-4 text-word-wrap vhtml-desc"
           v-html="historyDetailData.character_description"
         />
-        <div class="inline-flex gap-3 w-full justify-center my-2">
-          <img
-            :src="download"
-            alt="download"
-            class="size-8 cursor-pointer"
-            @click="share('image')"
-            preload
-          />
-          <img
-            :src="line"
-            alt="line"
-            class="size-8 cursor-pointer"
-            @click="share('line')"
-            preload
-          />
-          <img
-            :src="x"
-            alt="x"
-            class="size-8 cursor-pointer"
-            @click="share('x')"
-            preload
-          />
-          <img
-            :src="facebook"
-            alt="facebook"
-            class="size-8 cursor-pointer"
-            @click="share('facebook')"
-            preload
-          />
-        </div>
 
         <HeadingSection
           :is-fetching="isFetching"
@@ -103,11 +73,11 @@
               class="absolute bg-white inset-x-0 bottom-0 h-8 flex items-center z-20"
             >
               <span
-                class="text-exd-red-vermilion text-sm flex items-center cursor-pointer border-b border-b-exd-red-vermilion"
+                class="text-exd-blue-green text-sm flex items-center cursor-pointer border-b border-b-exd-blue-green"
                 @click="openGoogleMaps"
                 >{{ $t('openGoogleMaps') }}
                 <img
-                  src="~/assets/images/export-red.svg"
+                  src="~/assets/images/export-blue-green.png"
                   alt="export"
                   width="15"
                   height="15"
@@ -117,6 +87,42 @@
             </div>
           </div>
         </div>
+      </div>
+
+      <div class="inline-flex gap-3 w-full justify-center items-center mb-6">
+        <div class="speech-bubble text-[10pt]">
+          {{ $t('share') }}
+          <div class="triangle-border"></div>
+          <div class="triangle-inner"></div>
+        </div>
+        <img
+          :src="download"
+          alt="download"
+          class="size-5 cursor-pointer"
+          @click="share('image')"
+          preload
+        />
+        <img
+          :src="line"
+          alt="line"
+          class="size-5 cursor-pointer"
+          @click="share('line')"
+          preload
+        />
+        <img
+          :src="x"
+          alt="x"
+          class="size-5 cursor-pointer"
+          @click="share('x')"
+          preload
+        />
+        <img
+          :src="facebook"
+          alt="facebook"
+          class="size-5 cursor-pointer"
+          @click="share('facebook')"
+          preload
+        />
       </div>
     </div>
   </div>
@@ -411,6 +417,41 @@ watch(LOCALE, async (val) => {
   box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
   animation: slide-in 0.5s forwards, slide-out 0.5s 1.5s forwards;
   z-index: 1000;
+}
+
+.speech-bubble {
+  position: relative;
+  background-color: #ffffff;
+  border: 1px solid #555555;
+  border-radius: 6px;
+  padding: 2px 10px;
+  display: inline-block;
+  color: #000;
+  max-width: 300px;
+}
+
+.triangle-border {
+  position: absolute;
+  top: 50%;
+  right: -9px;
+  width: 0;
+  height: 0;
+  border-style: solid;
+  border-width: 4px 0 4px 9px;
+  border-color: transparent transparent transparent #606060;
+  transform: translateY(-50%);
+}
+
+.triangle-inner {
+  position: absolute;
+  top: 50%;
+  right: -8px;
+  width: 0;
+  height: 0;
+  border-style: solid;
+  border-width: 4px 0 4px 14px;
+  border-color: transparent transparent transparent white;
+  transform: translateY(-50%);
 }
 
 @keyframes slide-in {

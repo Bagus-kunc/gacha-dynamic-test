@@ -28,6 +28,7 @@
       <SolidButton
         :label="$t('toTheNext')"
         :on-click="handleButton"
+        variant="red-coral"
         has-bottom
       />
     </div>
@@ -62,11 +63,12 @@
         <SolidButton
           :label="$t('newMemberRegistration')"
           :on-click="handleToRegister"
+          variant="red-coral"
         />
         <SolidButton
           :label="$t('loginToMyPage')"
           :on-click="handleToLogin"
-          variant="red"
+          variant="blue-green"
         />
       </div>
     </template>

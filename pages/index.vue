@@ -1,7 +1,7 @@
 <template>
   <div
     @touchmove="(e) => e.preventDefault()"
-    class="flex flex-col grow bg-[url('assets/images/bg-red3.webp')] bg-cover bg-center justify-between relative overflow-hidden cursor-pointer"
+    class="flex flex-col grow bg-[url('/images/bg-blue-green.png')] bg-cover bg-center justify-between relative overflow-hidden cursor-pointer"
   >
     <div class="background-gradient absolute inset-0"></div>
 
@@ -11,10 +11,10 @@
       @touchmove="handleTouchMove"
       @click="handleShowModal"
     >
-      <img src="/assets/images/new-top.png" alt="top" class="h-screen w-full" />
+      <img src="/assets/images/TOP.png" alt="top" class="h-screen w-full" />
       <div class="">
         <!-- Tap screen -->
-        <div class="absolute w-full pb-10 tap-screen">
+        <!-- <div class="absolute w-full pb-10 tap-screen">
           <div class="justify-center items-center w-full flex flex-col mb-3">
             <img :src="tapScreen" alt="intl" class="" preload />
             <p class="text-exd-1218 text-white text-center">
@@ -27,7 +27,7 @@
           >
             {{ $t('addToBookmarks') }}
           </p>
-        </div>
+        </div> -->
       </div>
     </div>
   </div>

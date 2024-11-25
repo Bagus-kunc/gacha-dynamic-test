@@ -55,7 +55,7 @@
             :body="prizeDetailData.location_description"
           />
 
-          <div 
+          <div
           v-if="popupType != 'a' && popupType != 'b'"
           class="w-full mb-5">
             <Skeleton v-if="isFetching" class="!w-full !h-72" />
@@ -87,10 +87,11 @@
           </div>
         </div>
       </div>
+        <!-- :disabled="disableRedeem || isFetching" -->
       <SolidButton
-        :disabled="disableRedeem || isFetching"
         :label="disableRedeem ? $t('cannotBeExchanged') : $t('exchange')"
         :on-click="handleToggleModal"
+        variant="red-coral"
         has-bottom
       />
     </div>
@@ -129,6 +130,7 @@
         <SolidButton
           :label="$t('applyNow')"
           :on-click="handleGoToRedeem"
+          variant="red-coral"
           has-bottom
         />
       </div>

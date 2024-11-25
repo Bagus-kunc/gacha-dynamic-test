@@ -291,5 +291,6 @@
   "tapBrowserRefreshToComplete": "{tapBrowserRefresh} をタップして完了",
   "tapBrowserRefresh": "ブラウザの更新ボタン",
   "validPhoneNumber": "正しい電話番号を入力してください。",
-  "skip": "スキップ"
+  "skip": "スキップ",
+  "share": "シェアする"
 }

@@ -5,13 +5,13 @@
     <HeaderBar withLogo />
 
     <div
-      class="flex flex-col grow bg-[url('/images/bg-red2.webp')] bg-cover bg-center relative"
+      class="flex flex-col grow bg-[url('/images/bg-blue-green.png')] bg-cover bg-center relative"
     >
       <div
         class="grow w-full flex flex-col items-center justify-center relative mb-4 mt-[15%]"
       >
         <img
-          src="/images/gacha2.webp"
+          src="/images/gacha-blue-green.png"
           alt="gacha2"
           class="absolute left-1/2 top-1/2 transform -translate-x-1/2 -translate-y-[47%] w-full h-auto max-h-[88%] object-contain"
           preload
@@ -20,6 +20,7 @@
 
       <SolidButton
         :label="$t('spinTheGacha')"
+        variant="red-coral"
         :on-click="() => (playVideo = true)"
         has-bottom
       />
@@ -36,7 +37,7 @@
     <template v-slot:body>
       <div class="w-full flex flex-col justify-center items-center gap-4 py-6">
         <img
-          src="/images/warning.svg"
+          src="/images/warning.png"
           alt="warning"
           width="40"
           height="40"

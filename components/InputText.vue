@@ -10,7 +10,7 @@
         >{{ label }}
         <span
           v-if="required"
-          class="!bg-exd-red-vermilion text-white text-exd-0910 px-1 py-[2px] rounded-sm"
+          class="!bg-exd-red-coral text-white text-exd-0910 px-1 py-[2px] rounded-sm"
           >{{ $t('required') }}</span
         >
       </label>

@@ -44,7 +44,7 @@
           >
             {{ $t('age') }}
             <span
-              class="bg-exd-red-vermilion text-white text-exd-0910 px-1 py-[2px] rounded-sm"
+              class="bg-exd-red-coral text-white text-exd-0910 px-1 py-[2px] rounded-sm"
               >{{ $t('required') }}</span
             >
           </label>
@@ -73,7 +73,7 @@
             class="text-exd-gray-scorpion text-exd-1424 flex items-center gap-2"
             >{{ $t('sex') }}
             <span
-              class="bg-exd-red-vermilion text-white text-exd-0910 px-1 py-[2px] rounded-sm"
+              class="bg-exd-red-coral text-white text-exd-0910 px-1 py-[2px] rounded-sm"
               >{{ $t('required') }}</span
             >
           </label>
@@ -115,7 +115,7 @@
             class="text-exd-gray-scorpion text-exd-1424 flex items-center gap-2"
             >{{ $t('residence') }}
             <span
-              class="bg-exd-red-vermilion text-white text-exd-0910 px-1 py-[2px] rounded-sm"
+              class="bg-exd-red-coral text-white text-exd-0910 px-1 py-[2px] rounded-sm"
               >{{ $t('required') }}</span
             >
           </label>
@@ -185,7 +185,7 @@
               >
                 {{ $t('country') }}
                 <span
-                  class="bg-exd-red-vermilion text-white text-exd-0910 px-1 py-[2px] rounded-sm"
+                  class="bg-exd-red-coral text-white text-exd-0910 px-1 py-[2px] rounded-sm"
                   >{{ $t('required') }}</span
                 >
               </label>
@@ -359,6 +359,7 @@
       <SolidButton
         :label="$t('register')"
         :has-loading="isLoading"
+        variant="red-coral"
         :disabled="!form.checked || isLoading"
         :on-click="handleSubmit"
         has-bottom

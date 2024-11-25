@@ -10,11 +10,11 @@
         <p class="text-exd-gold text-exd-1624 font-bold">
           {{ data.amount }}<span class="text-exd-1224">pt</span>
         </p>
-        <p class="text-exd-gray-scorpion font-medium text-exd-1014">
-          {{ data.created_at }}
-        </p>
         <p class="text-exd-gray-scorpion font-semibold text-exd-1218">
           {{ data.location }}
+        </p>
+        <p class="text-exd-gray-scorpion font-medium text-exd-1014">
+          {{ data.created_at }}
         </p>
       </div>
     </template>

@@ -131,6 +131,18 @@ module.exports = {
         'exd-blue-link': {
           DEFAULT: '#1f76c2', //#1f76c2
         },
+        'exd-red-coral': {
+          DEFAULT: '#FF5331',
+        },
+        'exd-blue-green': {
+          DEFAULT: 'hsla(var(--blue))', //#2CC9B9
+        },
+        'exd-redeem': {
+          DEFAULT: '#D1A000',
+          silver: '#9B9B9B',
+          bronze: '#A65B04',
+          rose: '#C46A59'
+        }
       },
       height: {
         ...height,

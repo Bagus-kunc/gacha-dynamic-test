@@ -72,6 +72,10 @@ const props = defineProps({
 const variantClass = computed(() => {
   if (props.variant === 'skip') {
     return '!bg-exd-gray-scorpion !text-white text-start !text-[16px] !w-auto !font-normal !opacity-90  !rounded-xl'
+  } else if (props.variant === 'blue-green') {
+    return '!bg-exd-blue-green'
+  } else if (props.variant === 'red-coral') {
+    return '!bg-exd-red-coral'
   }
   return props.variant === 'gold' ? '!bg-exd-gold' : '!bg-exd-red-vermilion'
 })

@@ -50,12 +50,13 @@
         <SolidButton
           :label="$t('login')"
           :onClick="handleSubmit"
+          variant="red-coral"
           :disabled="!isValidInput || isLoading"
           :has-loading="isLoading"
         />
         <SolidButton
           :label="$t('newMemberRegistration')"
-          variant="red"
+          variant="blue-green"
           :onClick="handleToRegister"
         />
       </div>

@@ -2,7 +2,7 @@
   <HeaderBar hasBack withLogo />
   <div class="flex flex-col mt-20 grow">
     <p
-      class="text-exd-red-vermilion text-exd-1724 text-center font-extrabold max-w-[356px] mx-auto p-4 my-4"
+      class="text-exd-red-coral text-exd-1724 text-center font-extrabold max-w-[356px] mx-auto p-4 my-4"
     >
       {{ $t('pleaseShowThisScreen') }}
     </p>
@@ -33,7 +33,7 @@
             ></Skeleton>
             <p
               v-else
-              class="font-bold text-exd-1824.52 text-exd-orange-700 flex"
+              class="font-bold text-exd-1824.52 text-white flex bg-exd-redeem rounded-full items-center justify-center "
             >
               {{ prizeDetailData.point }}pt
             </p>
