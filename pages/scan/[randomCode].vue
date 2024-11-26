@@ -591,7 +591,7 @@ const checkingLocation = async () => {
   const handleSuccess = (position) => {
     latitude.value = position.coords.latitude
     longitude.value = position.coords.longitude
-    radiusCheck()
+    // radiusCheck()
     isRequestingLocation.value = false
   }
 

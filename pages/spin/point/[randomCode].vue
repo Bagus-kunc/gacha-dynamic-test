@@ -1,12 +1,14 @@
 <template>
   <div
-    class="grow bg-[url('/images/bg-green.webp')] bg-cover bg-center relative flex flex-col justify-center items-center"
+    class="grow bg-[url('/images/bg-rainbow.png')] bg-cover bg-center relative flex flex-col justify-center items-center"
     @touchmove="(e) => e.preventDefault()"
   >
+  <SparkleStart className="top-0 mr-10 -mt-10"  />
+
     <img
-      src="/images/gacha2.webp"
+      src="/images/gacha-blue-green.png"
       alt="gacha2"
-      class="absolute left-1/2 top-1 transform -translate-x-1/2 w-full h-auto max-h-[90vh] object-contain"
+      class="absolute left-1/2 top-1 transform -translate-x-1/2 w-full h-auto max-h-[100vh] object-contain"
       preload
     />
     <img
@@ -17,11 +19,15 @@
     />
     <div class="absolute inset-0 flex justify-center z-20">
       <CircleSpinPoint
-        class="relative top-1/2 -translate-y-[50%]"
-        :imageSrc="pointImageUrl"
+        class="relative top-1/2 -translate-y-[60%]"
+        imageSrc="/images/gift-card.png"
+        typeSrc="/images/rank-gold.png"
         width="100%"
         height="800"
       />
+      <div class="absolute text-exd-dark-grey bg-white flex justify-center bottom-[18%] lg:bottom-[20%] px-2 py-2 w-full max-w-[190px] h-auto rounded-lg">
+        <p class="text-[17px]">商品券</p>
+      </div>
     </div>
     <div class="absolute-10 top-1/2 translate-y-[80%]"></div>
     <div class="w-full absolute bottom-0">
@@ -29,6 +35,7 @@
         :label="$t('toTheNext')"
         :on-click="() => (playVideo = true)"
         has-bottom
+        variant="red-coral"
       />
     </div>
 

@@ -1,12 +1,17 @@
 <template>
   <div
-    class="grow bg-[url('/images/bg-green.webp')] bg-cover bg-center relative flex flex-col justify-center items-center"
+    class="grow bg-[url('/images/bg-rainbow.png')] bg-cover bg-center relative flex flex-col justify-center items-center"
     @touchmove="(e) => e.preventDefault()"
   >
+  <SparkleStart className="top-0 mr-10 -mt-10"  />
+    <div v-if="isVisible"  :class="{'notif': true, 'hide': isHiding}">
+      <img :src="iconGift" alt="icon gift" class="w-10 h-10" />
+      <p class="font-bold">コレクションに追加しました</p>
+    </div>
     <img
-      src="/images/gacha2.webp"
+      src="/images/gacha-blue-green.png"
       alt="gacha2"
-      class="absolute left-1/2 top-1 transform -translate-x-1/2 w-full h-auto max-h-[90vh] object-contain"
+      class="absolute left-1/2 top-1 transform -translate-x-1/2 w-full h-auto max-h-[100vh] object-contain"
       preload
     />
     <img
@@ -18,10 +23,18 @@
     <div class="absolute inset-0 flex justify-center z-20">
       <CircleSpinCharacter
         class="relative top-1/2 -translate-y-[50%]"
-        :imageSrc="characterImageUrl"
+        imageSrc="/images/character.png"
+        powerSrc="/images/power.png"
+        headSrc="/images/text-char.png"
         width="100%"
         height="100%"
       />
+
+      <div
+        class="absolute text-exd-dark-grey bg-white flex justify-center bottom-[17%] lg:bottom-[20%] ml-3 px-2 py-3 w-full max-w-[190px] h-auto rounded-lg"
+      >
+        <p class="text-[17px]">喫茶なごのや</p>
+      </div>
     </div>
 
     <div class="absolute bottom-0 w-full">
@@ -114,6 +127,7 @@
 
 <script setup>
 import useRegister from '~/composables/useRegister'
+import iconGift from '~/assets/images/icon-gift.svg'
 
 definePageMeta({
   middleware: 'valid-password',
@@ -126,6 +140,8 @@ const hasModal = ref(false)
 const errorMessages = ref('')
 const modalLogin = ref(false)
 const isNotAllowed = ref(false)
+const isVisible = ref(false)
+const isHiding = ref(false)
 
 const USER = useCookie('USER')
 const TOKEN = useCookie('TOKEN')
@@ -140,7 +156,21 @@ const handleButton = async () => {
   if (!TOKEN.value && !USER.value) {
     handleShowDialog()
   } else {
-    await navigateTo('/dashboard')
+    isVisible.value = true
+    console.log('berhasil')
+
+    setTimeout(() => {
+      isHiding.value = true;
+      setTimeout(() => {
+        isVisible.value = false;
+        isHiding.value = false;
+      }, 800);
+    }, 2000);
+
+    setTimeout(async () =>{
+      await navigateTo('/dashboard')
+    }, 3000)
+
   }
 }
 
@@ -193,6 +223,47 @@ onMounted(() => {
 <style scoped>
 ::v-deep(.p-dialog-header) {
   display: none;
+}
+
+@keyframes slideIn {
+  from {
+    opacity: 0;
+    transform: translateY(-100%);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes slideOut {
+  from {
+    opacity: 1;
+    transform: translateY(0);
+  }
+  to {
+    opacity: 0;
+    transform: translateY(-100%);
+  }
+}
+
+.notif {
+  position: absolute;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 14px;
+  border-bottom-left-radius: 10px;
+  border-bottom-right-radius: 10px;
+  top: 0;
+  z-index: 1000;
+  background: rgba(0, 0, 0, 0.638);
+
+  animation: slideIn 0.3s ease-out forwards;
+}
+
+.notif.hide {
+  animation: slideOut 0.3s ease-in forwards;
 }
 
 @keyframes sparkle {

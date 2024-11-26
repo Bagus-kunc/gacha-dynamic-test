@@ -141,8 +141,8 @@ module.exports = {
           DEFAULT: '#D1A000',
           silver: '#9B9B9B',
           bronze: '#A65B04',
-          rose: '#C46A59'
-        }
+          rose: '#C46A59',
+        },
       },
       height: {
         ...height,

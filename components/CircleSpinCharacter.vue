@@ -1,5 +1,5 @@
 <script setup>
-const props = defineProps(['imageSrc'])
+const props = defineProps(['imageSrc','powerSrc', 'headSrc'])
 onMounted(() => {
   nextTick(() => {
     function getRandom(min, max) {
@@ -80,16 +80,19 @@ onMounted(() => {
     />
     <g filter="url(#filter0_b_19_69)" class="relative p-8">
       <!-- <ellipse cx="200" cy="198" rx="200" ry="198" fill="white" /> -->
-      <image height="260" width="260" :href="props.imageSrc" x="70" y="40" />
+      <image height="330" width="300" :href="props.imageSrc" x="55" y="50" />
+      <image height="260" width="200" :href="props.powerSrc" x="105" y="290" />
+      <image height="260" width="260" :href="props.headSrc" x="70" y="-145" />
     </g>
-    <rect x="44" y="300" width="311" height="237" fill="url(#pattern0_19_69)" />
+    <!-- <rect x="44" y="300" width="311" height="237" fill="url(#pattern0_19_69)" /> -->
+
     <defs>
       <filter
         id="filter0_b_19_69"
         x="-30"
-        y="-30"
+        y="-40"
         width="460"
-        height="456"
+        height="1006"
         filterUnits="userSpaceOnUse"
         color-interpolation-filters="sRGB"
       >
