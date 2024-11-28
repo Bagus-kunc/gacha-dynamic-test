@@ -72,7 +72,7 @@
         <p
           class="text-exd-gray-scorpion grow inline-flex items-center gap-1 text-exd-1424 font-bold"
         >
-          {{ $t('helpAndInquiries') }}
+          {{ $t('shoppingStreet') }}
           <span>
             <img :src="exportIcon" alt="export" width="20" height="20" preload
           /></span>
@@ -86,15 +86,16 @@
           class="invert"
         />
       </div>
+
       <div
         class="bg-white w-full h-exd-50 px-5 inline-flex justify-between items-center border-b-2 border-b-exd-light-grey"
         style="box-shadow: 0px 3px 3px 0px rgba(0, 0, 0, 0.1608)"
-        @click="handleGoToDigitalMap()"
+        @click="handleGoToHelp()"
       >
         <p
           class="text-exd-gray-scorpion grow inline-flex items-center gap-1 cursor-pointer text-exd-1424 font-bold"
         >
-          {{ $t('toTheDigitalMap') }}
+          {{ $t('helpAndInquiries') }}
           <span>
             <img :src="exportIcon" alt="export" width="20" height="20" preload
           /></span>
