@@ -10,61 +10,9 @@
     </HeaderBar>
 
     <div
-      class="flex flex-col grow px-3 mt-24 pb-3 justify-between gap-6 w-full"
+      class="flex flex-col grow mt-24 pb-3 justify-between gap-6 w-full"
     >
-      <div class="flex flex-col grow">
-        <div
-          class="inline-flex gap-4 border-b border-b-exd-light-grey pb-5 px-4"
-        >
-          <InputText
-            :model="form.nickName"
-            :label="$t('nickName')"
-            required
-            :is-nick-name="true"
-            @update:model="updateModel('nickName', $event)"
-            @validate="validateInput('nickName', $event)"
-            :validate-on-submit="validateOnSubmit"
-            :error="
-              !form.nickName && validateOnSubmit ? $t('fieldRequired') : ''
-            "
-            :class="{
-              'input-error': !form.nickName && validateOnSubmit,
-            }"
-          />
-        </div>
-        <div
-          class="inline-flex flex-col border-b border-b-exd-light-grey py-5 px-4"
-        >
-          <label
-            :for="$t('age')"
-            class="text-exd-gray-scorpion text-exd-1424 flex items-center gap-2"
-            :class="{
-              'input-error': !form.age && validateOnSubmit,
-            }"
-          >
-            {{ $t('age') }}
-            <span
-              class="bg-exd-red-coral text-white text-exd-0910 px-1 py-[2px] rounded-sm"
-              >{{ $t('required') }}</span
-            >
-          </label>
-
-          <div class="inline-flex gap-4 w-7/12">
-            <Dropdown
-              :model="form.age"
-              @update:model="updateModel('age', $event)"
-              @validate="validateInput('age', $event)"
-              :options="getAgeOptions"
-              optionValue="value"
-              optionLabel="label"
-              :placeholder="t('choice')"
-              :hasHelper="true"
-              :validate-on-submit="validateOnSubmit"
-              :error="!form.age && validateOnSubmit ? t('fieldRequired') : ''"
-              :class="{ 'input-error': !form.age && validateOnSubmit }"
-            />
-          </div>
-        </div>
+      <div class="flex flex-col grow px-3">
         <div
           class="inline-flex flex-col border-b border-b-exd-light-grey py-5 px-4"
         >
@@ -107,47 +55,13 @@
             />
           </ButtonGroup>
         </div>
-        <div
-          class="inline-flex flex-col border-b border-b-exd-light-grey py-5 px-4"
-        >
-          <label
-            :for="$t('residence')"
-            class="text-exd-gray-scorpion text-exd-1424 flex items-center gap-2"
-            >{{ $t('residence') }}
-            <span
-              class="bg-exd-red-coral text-white text-exd-0910 px-1 py-[2px] rounded-sm"
-              >{{ $t('required') }}</span
-            >
-          </label>
-          <ButtonGroup
-            class="w-full h-10 rounded-none"
-            style="box-shadow: 0px 3px 3px 0px rgba(0, 0, 0, 0.1608)"
-          >
-            <Button
-              @click="updateModel('residenceType', 'domestic')"
-              :label="$t('domestic')"
-              :class="[
-                'bg-white w-1/2 h-full border border-exd-stone-300 rounded-none !text-exd-gray-scorpion',
-                form.residenceType === 'domestic' && '!bg-exd-banana',
-              ]"
-            />
-            <Button
-              @click="updateModel('residenceType', 'overseas')"
-              :label="$t('overseas')"
-              :class="[
-                'bg-white w-1/2 h-full border-t border-b border-r border-t-exd-stone-300 border-b-exd-stone-300 border-r-exd-stone-300 rounded-none !text-exd-gray-scorpion',
-                form.residenceType === 'overseas' && '!bg-exd-banana',
-              ]"
-            />
-          </ButtonGroup>
-        </div>
+
         <div
           class="inline-flex gap-4 border-b border-b-exd-light-grey py-5 px-4 flex-col"
         >
           <div class="">
             <InputText
               onlyNumeric
-              v-if="form.residenceType === 'domestic'"
               :model="form.postCode"
               :disabled="isLoading"
               required
@@ -175,37 +89,6 @@
                 'opacity-50': isLoading,
               }"
             />
-            <div v-else class="w-8/12">
-              <label
-                :for="$t('country')"
-                class="text-exd-gray-scorpion text-exd-1424 flex items-center gap-2"
-                :class="{
-                  'input-error': !form.countryCode && validateOnSubmit,
-                }"
-              >
-                {{ $t('country') }}
-                <span
-                  class="bg-exd-red-coral text-white text-exd-0910 px-1 py-[2px] rounded-sm"
-                  >{{ $t('required') }}</span
-                >
-              </label>
-              <Dropdown
-                :model="form.countryCode"
-                @update:model="updateModel('countryCode', $event)"
-                @validate="validateInput('countryCode', $event)"
-                :options="countries"
-                optionValue="code"
-                optionLabel="name"
-                :placeholder="t('choice')"
-                :error="
-                  !form.countryCode && validateOnSubmit
-                    ? $t('fieldRequired')
-                    : ''
-                "
-                :hasHelper="true"
-                :validate-on-submit="validateOnSubmit"
-              />
-            </div>
           </div>
         </div>
 
@@ -288,40 +171,6 @@
           />
         </div>
 
-        <div
-          class="flex flex-col gap-4 border-b border-b-exd-light-grey py-5 px-4"
-        >
-          <RadioButton
-            :label="$t('questionnaire1')"
-            required
-            v-model="form.questionnaire1"
-            :options="questionnaire1Options"
-            name="questionnaire1"
-            :error="
-              !form.questionnaire1 && validateOnSubmit
-                ? $t('fieldRequired')
-                : ''
-            "
-          />
-        </div>
-
-        <div
-          class="flex flex-col gap-4 border-b border-b-exd-light-grey py-5 px-4"
-        >
-          <RadioButton
-            required
-            :label="$t('questionnaire2')"
-            v-model="form.questionnaire2"
-            :options="questionnaire2Options"
-            name="questionnaire2"
-            :error="
-              !form.questionnaire2 && validateOnSubmit
-                ? $t('fieldRequired')
-                : ''
-            "
-          />
-        </div>
-
         <div class="w-full inline-flex gap-2 items-center justify-center mt-7">
           <Checkbox v-model="form.checked" :binary="true" />
           <p class="text-exd-gray-scorpion font-bold text-exd-1424">
@@ -354,18 +203,18 @@
           </div>
         </div>
       </div>
-      <div class="mt-1" />
-      <!-- <div class="fixed bottom-0 w-full max-w-md mx-auto mb-5 z-50"> -->
-      <SolidButton
-        :label="$t('register')"
-        :has-loading="isLoading"
-        variant="red-coral"
-        :disabled="!form.checked || isLoading"
-        :on-click="handleSubmit"
-        has-bottom
-      />
-      <!-- class="!-inset-x-1/4 !-translate-x-3" -->
-      <!-- </div> -->
+      <div class="mt-16" />
+      <div class="fixed bottom-0 w-full max-w-md mx-auto  mb-2 z-50">
+        <SolidButton
+          :label="$t('register')"
+          :has-loading="isLoading"
+          variant="red-coral"
+          :disabled="!form.checked || isLoading"
+          :on-click="handleSubmit"
+          has-bottom
+        />
+        <!-- class="!-inset-x-1/4 !-translate-x-3" -->
+      </div>
     </div>
   </div>
 
@@ -416,9 +265,6 @@ import InputTextArea from '~/components/InputTextArea.vue'
 import RadioButton from '~/components/RadioButton.vue'
 
 const form = ref({
-  nickName: '',
-  age: '',
-  countryCode: '',
   gender: 'Male',
   postCode: '',
   prefecture: '',
@@ -426,12 +272,8 @@ const form = ref({
   city: '',
   area: '',
   email: '',
-  residenceType: 'domestic',
-  // residence: '',
   password: '',
   confPassword: '',
-  questionnaire1: '',
-  questionnaire2: '',
   checked: false,
 })
 const { t } = useI18n()
@@ -472,10 +314,9 @@ const updateModel = (field, value) => {
 }
 
 const filterPostalCodeInput = (event) => {
-  event.target.value = event.target.value.replace(/[^0-9]/g, '');
-  form.value.postCode = event.target.value;
-};
-
+  event.target.value = event.target.value.replace(/[^0-9]/g, '')
+  form.value.postCode = event.target.value
+}
 
 const validateInput = (field, value) => {
   //console.log(`Validated ${field}:`, value)
@@ -596,26 +437,15 @@ const handleApiError = (error) => {
 
 const buildPayload = () => {
   const payload = {
-    nickname: form.value.nickName,
-    age: form.value.age,
     gender: form.value.gender,
     email: form.value.email,
     password: form.value.password,
     password_confirmation: form.value.confPassword,
-    residence: form.value.residenceType,
-    residence_type: form.value.residenceType,
-    questionnaire_1: form.value.questionnaire1,
-    questionnaire_2: form.value.questionnaire2,
-  }
-
-  if (form.value.residenceType === 'overseas') {
-    payload.country_code = form.value.countryCode
-  } else {
-    payload.postal_code = form.value.postCode
-    payload.prefecture = form.value.prefecture
-    payload.city = form.value.city
-    payload.area = form.value.area
-    payload.address = form.value.area
+    postal_code: form.value.postCode,
+    prefecture: form.value.prefecture,
+    city: form.value.city,
+    area: form.value.area,
+    address: form.value.area,
   }
 
   return payload

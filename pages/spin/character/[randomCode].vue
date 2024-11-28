@@ -127,7 +127,7 @@
 
 <script setup>
 import useRegister from '~/composables/useRegister'
-import iconGift from '~/assets/images/icon-gift.svg'
+import iconGift from '/icons/icon-gift.svg'
 
 definePageMeta({
   middleware: 'valid-password',

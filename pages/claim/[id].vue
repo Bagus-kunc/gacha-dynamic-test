@@ -33,7 +33,7 @@
             ></Skeleton>
             <p
               v-else
-              class="font-bold text-exd-1824.52 min-w-10 min-h-10 text-white flex bg-exd-redeem rounded-full items-center justify-center "
+              class="font-bold text-exd-1824.52 text-white bg-exd-redeem p-1 min-h-10 min-w-12 flex items-center justify-center rounded-full"
             >
               <!-- {{ prizeDetailData.point }}pt -->
               1等

@@ -26,31 +26,7 @@
         />
       </div>
       <div class="grow w-full flex flex-col gap-5 small:gap-2">
-        <!-- <div
-          class="password-inform bg-exd-banana mx-3 font-bold text-exd-gray-scorpion text-exd-1424 p-5"
-        >
-          <span>{{ $t('passwordInputInformationIntro') }}</span>
-          {{ ' ' }}
-          <span>
-            <a
-              href="https://nospot.new-ordinary.co.jp/maps/nagoya"
-              target="_blank"
-              class="cursor-pointer items-center relative after:content-[''] after:absolute after:inset-x-0 after:ml-3 after:bottom-1 after:border-b after:border-b-gray-500"
-              style="display: inline-flex"
-            >
-              <span class="">{{ $t('passwordInputInformation') }}</span>
-              <span class="">
-                <img
-                  :src="exportIcon"
-                  alt="export"
-                  width="20"
-                  height="20"
-                  preload
-              /></span>
-            </a>
-          </span>
-          <span>{{ $t('passwordInputInformationOutro') }}</span>
-        </div> -->
+
         <div
           class="password-inform bg-exd-banana mx-3 font-bold text-exd-orange-700 text-exd-1424 p-5 flex justify-center"
         >

@@ -28,7 +28,7 @@
 </template>
 
 <script setup>
-import iconPin from '~/assets/images/icon-pin.svg'
+import iconGift from '~/assets/images/icon-gift.svg'
 import iconStar from '~/assets/images/icon-star.svg'
 import iconPerson from '~/assets/images/icon-person.png'
 import { store } from '~/stores/dashboard.js'
@@ -37,15 +37,16 @@ import { useRouter } from 'vue-router'
 const router = useRouter()
 
 const menuItems = ref([
-  {
-    icon: iconPin,
-    label: 'digitalMap',
-    onClick: () => window.open('https://www.nagoya-info.jp/#dmap', '_blank'),
-  },
+
   {
     icon: iconStar,
     label: 'listOfPrizesAndExchanges',
     onClick: () => router.push('/prize'),
+  },
+  {
+    icon: iconGift,
+    label: 'collection',
+    onClick: () => router.push('/history'),
   },
   {
     icon: iconPerson,

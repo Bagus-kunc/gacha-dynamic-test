@@ -15,10 +15,10 @@
     </div>
   </div>
   <div class="flex flex-col w-full relative gap-1">
-    <SolidButton
+    <!-- <SolidButton
       :on-click="() => goTo('external')"
       :label="$t('digitalMapTop')"
-    />
+    /> -->
     <div class="h-5 w-full" />
     <SolidButton
       variant="red-coral"

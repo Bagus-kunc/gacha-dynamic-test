@@ -22,7 +22,8 @@
     </div>
     <div
       :class="[
-        'inline-flex rounded-xl bg-gray-100 text-exd-gray-scorpion px-4 h-10 items-center w-full',
+        'inline-flex rounded-xl bg-gray-100 text-exd-gray-scorpion px-4 h-10 items-center',
+          w230Px ? `!w-[230px]` : 'w-full',
         error !== '' ? '!border-2 !border-exd-red-vermilion' : '!border-none',
       ]"
     >
@@ -45,7 +46,6 @@
         :class="[
           'grow w-full bg-gray-100 focus:!border-none focus:!outline-none selection:!rounded-none rounded-none selection:!bg-gray-300 !border-none font-normal',
           disabled && '!text-gray-400',
-          w230Px && `!w-[230px]`,
         ]"
       />
       <span v-if="suffix !== ''" class="ml-2 text-exd-1424 font-bold">{{

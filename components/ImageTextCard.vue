@@ -7,11 +7,14 @@
       ]"
       @click="handleClick"
     >
-      <div class="w-full max-w-20 max-h-20">
+      <div v-if="!history" class="w-full max-w-20 max-h-20 bg-[#e9f9f8]">
         <CharacterCard :image="imageCard" variant="without-background" />
       </div>
       <slot name="text"></slot>
-      <div class="!absolute !right-3 !top-1/2 !transform !-translate-y-1/2">
+      <div
+        v-if="!history"
+        class="!absolute !right-3 !top-1/2 !transform !-translate-y-1/2"
+      >
         <img
           :src="arrow"
           alt="arrow"
@@ -20,6 +23,9 @@
           preload
           class="invert"
         />
+      </div>
+      <div v-if="history" class="w-full mt-1 max-w-20 max-h-20">
+        <CharacterCard :image="imageCard" variant="without-background" />
       </div>
     </div>
   </template>
@@ -77,6 +83,10 @@ const props = defineProps({
   onClick: {
     type: Function,
     default: null,
+  },
+  history: {
+    type: Boolean,
+    default: false,
   },
 })
 

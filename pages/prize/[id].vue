@@ -12,9 +12,9 @@
     <div
       class="max-w-sm bg-white border border-gray-200 rounded-lg shadow overflow-hidden"
     >
-      <div class="w-full overflow-hidden">
+      <div class="w-full overflow-hidden bg-[#E8FFF3]">
         <Skeleton v-if="isFetching" class="!w-full !h-full"></Skeleton>
-        <CharacterCard v-else :image="prizeDetailData.image" />
+        <CharacterCard v-else :image="prizeDetailData.image" variant="without-background" />
       </div>
       <div class="p-5 flex flex-col justify-between w-full">
         <div class="flex flex-col gap-4">
@@ -30,9 +30,10 @@
             ></Skeleton>
             <p
               v-else
-              class="font-bold text-exd-1824.52 text-exd-orange-700 right-0 top-5"
+              class="font-bold text-exd-1824.52 text-white bg-exd-redeem p-1 min-h-10 min-w-12 flex items-center justify-center rounded-full right-0 top-5"
             >
-              {{ prizeDetailData.point }}pt
+              <!-- {{ prizeDetailData.point }}pt -->
+              1等
             </p>
           </div>
 
@@ -87,11 +88,11 @@
           </div>
         </div>
       </div>
-        <!-- :disabled="disableRedeem || isFetching" -->
       <SolidButton
+        :disabled="disableRedeem || isFetching"
         :label="disableRedeem ? $t('cannotBeExchanged') : $t('exchange')"
         :on-click="handleToggleModal"
-        variant="red-coral"
+        :variant="!disableRedeem ? 'red-coral' : 'disabled'"
         has-bottom
       />
     </div>
@@ -154,15 +155,15 @@
         @click="handleToggleModal"
       />
       <div
-        class="w-full flex flex-col justify-center items-center gap-4 px-5 py-8 mt-2"
+        class="w-full flex flex-col justify-center items-center gap-4 px-5 py-8 my-2"
       >
         <p
-          class="text-exd-gray-scorpion font-bold text-center text-exd-1424 small:w-[105%] w-[80%] max-w-w-[93%]"
+          class="text-exd-gray-scorpion text-center text-[14px] small:w-[105%] w-[83%] max-w-[93%]"
           style="text-shadow: 0 3px 3px rgba(0, 0, 0, 0.16)"
+           v-html="formattedMessage"
         >
-          {{ $t('exchanged_message') }}
         </p>
-        <div class="flex flex-col items-center w-full">
+        <!-- <div class="flex flex-col items-center w-full">
           <p
             class="text-exd-gray-scorpion font-bold text-center text-exd-1424 w-[70%]"
           >
@@ -183,21 +184,25 @@
               />
             </p>
           </div>
-        </div>
+        </div> -->
       </div>
-      <SolidButton
+      <div class="mt-3 mb-7">
+        <SolidButton
         :label="$t('arrived')"
         :on-click="handleGoToClaim"
+        variant="red-coral"
         has-bottom
       />
+      </div>
     </template>
   </Dialog>
 </template>
 
 <script setup>
-import close from '~/assets/images/close.svg'
-import { useRouter } from 'vue-router'
+import { useI18n } from 'vue-i18n'
 import { useRoute } from 'vue-router'
+import { useRouter } from 'vue-router'
+import close from '~/assets/images/close.svg'
 import { store } from '~/stores/dashboard.js'
 
 definePageMeta({
@@ -215,10 +220,16 @@ const isFetching = ref(true)
 const prizeDetailData = ref({})
 const disableRedeem = ref(false)
 const config = useRuntimeConfig()
+const { t } = useI18n()
 const LOCALE = useCookie('LOCALE')
 const handleToggleModal = () => (hasModal.value = !hasModal.value)
 const handleGoToClaim = () => router.push(`/claim/${route.params.id}`)
 const handleGoToRedeem = () => router.push(`/redeem/${route.params.id}`)
+
+const imgTag = '<img src="/images/export.svg" alt="export" width="23" height="23" class="inline ml-1" />';
+
+// Mendapatkan pesan terjemahan dan mengganti placeholder {img} dengan elemen gambar
+const formattedMessage = t('exchange_prize', { img: imgTag });
 
 const loadGoogleMaps = () => {
   return new Promise((resolve, reject) => {
