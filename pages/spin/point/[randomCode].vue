@@ -3,7 +3,7 @@
     class="grow bg-[url('/images/bg-rainbow.png')] bg-cover bg-center relative flex flex-col justify-center items-center"
     @touchmove="(e) => e.preventDefault()"
   >
-  <SparkleStart className="top-0 mr-10 -mt-10"  />
+    <SparkleStart className="top-0 mr-10 -mt-10" />
 
     <img
       src="/images/gacha-blue-green.png"
@@ -20,13 +20,15 @@
     <div class="absolute inset-0 flex justify-center z-20">
       <CircleSpinPoint
         class="relative top-1/2 -translate-y-[60%]"
-        imageSrc="/images/gift-card.png"
-        typeSrc="/images/rank-gold.png"
+        :imageSrc="typeImageUrl"
+        :typeSrc="pointImageUrl"
         width="100%"
         height="800"
       />
-      <div class="absolute text-exd-dark-grey bg-white flex justify-center bottom-[18%] lg:bottom-[20%] px-2 py-2 w-full max-w-[190px] h-auto rounded-lg">
-        <p class="text-[17px]">商品券</p>
+      <div
+        class="absolute text-exd-dark-grey bg-white flex justify-center bottom-[18%] lg:bottom-[20%] px-2 py-2 w-full max-w-[190px] h-auto rounded-lg"
+      >
+        <p class="text-[17px]">{{ voucherName }}</p>
       </div>
     </div>
     <div class="absolute-10 top-1/2 translate-y-[80%]"></div>
@@ -53,10 +55,13 @@ const route = useRoute()
 
 const apiPoint = ref(null)
 const USER = useCookie('USER')
-const pointImageUrl = ref(null)
 const TOKEN = useCookie('TOKEN')
 const playVideo = ref(false)
 const { encryptData, decryptData } = useEncryption()
+
+const pointImageUrl = ref(null)
+const typeImageUrl = ref(null)
+const voucherName = ref(null)
 
 definePageMeta({
   middleware: 'valid-password',
@@ -75,12 +80,14 @@ const fetchImageFromApi = async () => {
     let parsedData
     try {
       parsedData = decryptData(storedData.value)
+      console.log('parsedData', parsedData)
     } catch (e) {
       console.error('Error parsing stored data:', e)
       return
     }
 
     const slug = parsedData?.slug?.toUpperCase()
+    console.log(parsedData?.name)
     const slugStorageName = `${slug}_GACHA`
     if (TOKEN.value && USER.value) {
       const payload = decryptData(storedData.value) || {}
@@ -97,17 +104,29 @@ const fetchImageFromApi = async () => {
         point_image: data.userPoint.point.image,
         character_id: data.userCollection.gacha_character.id,
         character_image: data.userCollection.gacha_character.image,
+        character_category: data.userCollection.gacha_character.category,
+        character_rarity: data.userCollection.gacha_character.rarity,
+        character_star1: data.userCollection.gacha_character.star1,
+        character_star2: data.userCollection.gacha_character.star2,
+        character_star3: data.userCollection.gacha_character.star3,
         point: data.userPoint.point.point.value,
+        voucher_name: data.userPoint.point.name,
+        point_type_image: data.userPoint.point.typeImage,
       }
 
       localStorage.setItem(slugStorageName, encryptData(storage))
-      pointImageUrl.value = data.userPoint.point.image
+      pointImageUrl.value = data.userPoint.gift.image
+      voucherName.value = data.userPoint.gift.name
+      typeImageUrl.value = data.userPoint.gift.typeImage
     } else {
       const slugData = localStorage.getItem(slugStorageName)
 
       if (slugData) {
         const parse = decryptData(slugData)
         pointImageUrl.value = parse.point_image
+        voucherName.value = parse.point.name
+        typeImageUrl.value = parse.point.typeImage
+
         localStorage.setItem(
           slugStorageName,
           encryptData({ ...parse, is_already_spin: true })
@@ -129,13 +148,23 @@ const fetchImageFromApi = async () => {
         point_image: data.point.image,
         character_id: data.character.id,
         character_image: data.character.image,
+        character_category: data.character.category,
+        character_rarity: data.character.rarity,
+        character_star1: data.character.star1,
+        character_star2: data.character.star2,
+        character_star3: data.character.star3,
         point: apiPoint.value,
         log_id: data.log_id,
+        voucher_name: data.gift.name,
+        point_type_image: data.gift.typeImage,
       }
 
       localStorage.setItem(slugStorageName, encryptData(storage))
-      pointImageUrl.value = data.point.image
+      pointImageUrl.value = data.gift.image
+      voucherName.value = data.gift.name
+      typeImageUrl.value = data.gift.typeImage
     }
+
 
     if (error) {
       console.error('Error fetching image:', error)
@@ -165,6 +194,8 @@ const reportMultipleSpin = async ({ point_id, character_id, location_id }) => {
 const handleGoToCharacter = async () => {
   await navigateTo(`/spin/character/${route.params.randomCode}`)
 }
+
+console.log('type', typeImageUrl.value)
 
 onMounted(() => {
   fetchImageFromApi()

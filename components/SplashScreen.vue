@@ -66,9 +66,11 @@ const checkCaches = () => {
     '/images/intl-icon.svg',
     '/images/back-button.svg',
     '/images/character.png',
-    '/images/power.png',
+    '/images/ssr.png',
+    '/images/sr.png',
+    '/images/r.png',
     '/images/text-char.png',
-    '/icons/icon-gift.svg'
+    '/icons/icon-gift.svg',
   ]
   caches
     .open('gacharary-v2')

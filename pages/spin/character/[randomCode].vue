@@ -23,9 +23,9 @@
     <div class="absolute inset-0 flex justify-center z-20">
       <CircleSpinCharacter
         class="relative top-1/2 -translate-y-[50%]"
-        imageSrc="/images/character.png"
-        powerSrc="/images/power.png"
-        headSrc="/images/text-char.png"
+        :imageSrc="characterImageUrl"
+        :raritySrc="raritySrc"
+        :headSrc="headSrc"
         width="100%"
         height="100%"
       />
@@ -33,7 +33,7 @@
       <div
         class="absolute text-exd-dark-grey bg-white flex justify-center bottom-[17%] lg:bottom-[20%] ml-3 px-2 py-3 w-full max-w-[190px] h-auto rounded-lg"
       >
-        <p class="text-[17px]">喫茶なごのや</p>
+        <p class="text-[17px]">{{charName}}</p>
       </div>
     </div>
 
@@ -145,7 +145,11 @@ const isHiding = ref(false)
 
 const USER = useCookie('USER')
 const TOKEN = useCookie('TOKEN')
+
 const characterImageUrl = ref(null)
+const charName = ref(null)
+const raritySrc = ref(null)
+const headSrc = ref(null)
 
 const handleClose = () => (isNotAllowed.value = false)
 const handleShowDialog = () => (hasModal.value = true)
@@ -194,7 +198,10 @@ const fetchImage = async () => {
     const slug = parsedData.slug.toUpperCase()
 
     const slugData = decryptData(localStorage.getItem(`${slug}_GACHA`))
+    console.log('data char', slugData)
     characterImageUrl.value = slugData?.character_image
+    charName.value = slugData?.character_category
+    raritySrc.value = slugData?.character_rarity
   } catch (e) {
     console.error('Unexpected error:', e)
   }

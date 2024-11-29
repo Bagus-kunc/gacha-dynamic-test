@@ -435,7 +435,7 @@ const config = useRuntimeConfig()
 const handleCloseDialog = () => {
   isNotAllowed.value = false
   if (locationBlocked.value) {
-    checkingLocation()
+    // await checkingLocation()
   }
 }
 
@@ -452,6 +452,17 @@ const latitude = ref('')
 const isJa = computed(() => locale.value === 'ja')
 
 const { encryptData } = useEncryption()
+
+definePageMeta({
+  middleware: async (to, from) => {
+    const location = to.params.randomCode
+    const { data } = await useFetchApi('GET', '/location/password/' + location)
+    console.log(data.not_required_pin)
+    if (data && data.not_required_pin === 1) {
+      return navigateTo(`/spin/${location}`)
+    }
+  },
+})
 
 const checkPassword = async (params) => {
   isLoading.value = true

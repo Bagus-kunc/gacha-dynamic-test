@@ -62,12 +62,39 @@ const playVideo = ref(false)
 const handleOpenDialog = () => (isNotAllowed.value = true)
 const handleCloseDialog = () => (isNotAllowed.value = false)
 
+const { encryptData, decryptData } = useEncryption()
+
 definePageMeta({
-  middleware: 'valid-password',
   layout: 'gacha-machine',
+  middleware: async (to, from) => {
+    const { decryptData } = useEncryption()
+
+    const location = to.params.randomCode
+    const validPassword = useCookie('VALID_PASSWORD')
+
+    const { data } = await useFetchApi('GET', '/location/password/' + location)
+
+    if (data) {
+      const notRequiredPin = useState('not_required_pin', () => 0)
+      notRequiredPin.value = data.not_required_pin
+    }
+
+    const validSlug = decryptData(validPassword.value || '{}')
+
+    if (data && data.not_required_pin === 0 && validSlug?.slug !== location) {
+      return navigateTo(`/scan/${location}`)
+    }
+  },
 })
 
 const goToSpinPoint = async () => {
+  const notRequiredPin = useState('not_required_pin')
+
+  if (notRequiredPin.value) {
+    const validPassword = useCookie('VALID_PASSWORD')
+    validPassword.value = encryptData({ slug: route.params.randomCode })
+  }
+
   await navigateTo(`/spin/point/${route.params.randomCode}`)
 }
 </script>
