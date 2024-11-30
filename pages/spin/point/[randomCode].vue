@@ -3,7 +3,7 @@
     class="grow bg-[url('/images/bg-rainbow.png')] bg-cover bg-center relative flex flex-col justify-center items-center"
     @touchmove="(e) => e.preventDefault()"
   >
-    <SparkleStart className="top-0 mr-10 -mt-10" />
+    <SparkleStart className="top-3" />
 
     <img
       src="/images/gacha-blue-green.png"
@@ -12,7 +12,7 @@
       preload
     />
     <img
-      src="/images/sparkling.webp"
+      src="/images/sparkling.png"
       alt="sparkling"
       class="absolute left-1/2 top-1/2 transform -translate-x-1/2 -translate-y-1/2 w-full h-full object-cover z-10 animate-sparkling"
       preload
@@ -87,8 +87,8 @@ const fetchImageFromApi = async () => {
     }
 
     const slug = parsedData?.slug?.toUpperCase()
-    console.log(parsedData?.name)
     const slugStorageName = `${slug}_GACHA`
+
     if (TOKEN.value && USER.value) {
       const payload = decryptData(storedData.value) || {}
 
@@ -97,6 +97,8 @@ const fetchImageFromApi = async () => {
       })
 
       sessionStorage.setItem('IS_ALREADY_SPIN', data.is_already_spin)
+
+      console.log('userGift', data)
 
       const storage = {
         location_id: data.userPoint.location.id,
@@ -115,6 +117,7 @@ const fetchImageFromApi = async () => {
       }
 
       localStorage.setItem(slugStorageName, encryptData(storage))
+
       pointImageUrl.value = data.userPoint.gift.image
       voucherName.value = data.userPoint.gift.name
       typeImageUrl.value = data.userPoint.gift.typeImage
@@ -124,14 +127,15 @@ const fetchImageFromApi = async () => {
       if (slugData) {
         const parse = decryptData(slugData)
         pointImageUrl.value = parse.point_image
-        voucherName.value = parse.point.name
-        typeImageUrl.value = parse.point.typeImage
+        voucherName.value = parse.voucher_name
+        typeImageUrl.value = parse.point_type_image
 
         localStorage.setItem(
           slugStorageName,
-          encryptData({ ...parse, is_already_spin: true })
+          encryptData({ ...parse })
+          // encryptData({ ...parse, is_already_spin: true })
         )
-        reportMultipleSpin({ ...parse })
+        // reportMultipleSpin({ ...parse })
         return
       }
 
@@ -141,6 +145,8 @@ const fetchImageFromApi = async () => {
           password: parsedData.password,
         },
       })
+
+      console.log(data)
 
       const storage = {
         location_id: data.location.id,
@@ -165,7 +171,6 @@ const fetchImageFromApi = async () => {
       typeImageUrl.value = data.gift.typeImage
     }
 
-
     if (error) {
       console.error('Error fetching image:', error)
       return
@@ -185,7 +190,7 @@ const reportMultipleSpin = async ({ point_id, character_id, location_id }) => {
       body: { point_id, character_id, location_id },
     })
 
-    console.log(response)
+    console.log('multiple', response)
   } catch (error) {
     console.log('Error report multiple spin', error)
   }

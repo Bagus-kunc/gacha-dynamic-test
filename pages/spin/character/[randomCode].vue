@@ -3,8 +3,8 @@
     class="grow bg-[url('/images/bg-rainbow.png')] bg-cover bg-center relative flex flex-col justify-center items-center"
     @touchmove="(e) => e.preventDefault()"
   >
-  <SparkleStart className="top-0 mr-10 -mt-10"  />
-    <div v-if="isVisible"  :class="{'notif': true, 'hide': isHiding}">
+    <SparkleStart className="top-3" />
+    <div v-if="isVisible" :class="{ notif: true, hide: isHiding }">
       <img :src="iconGift" alt="icon gift" class="w-10 h-10" />
       <p class="font-bold">コレクションに追加しました</p>
     </div>
@@ -15,7 +15,7 @@
       preload
     />
     <img
-      src="/images/sparkling.webp"
+      src="/images/sparkling.png"
       alt="sparkling"
       class="absolute left-1/2 top-1/2 transform -translate-x-1/2 -translate-y-1/2 w-full h-full object-cover z-10 animate-sparkling"
       preload
@@ -33,7 +33,7 @@
       <div
         class="absolute text-exd-dark-grey bg-white flex justify-center bottom-[17%] lg:bottom-[20%] ml-3 px-2 py-3 w-full max-w-[190px] h-auto rounded-lg"
       >
-        <p class="text-[17px]">{{charName}}</p>
+        <p class="text-[17px]">{{ charName }}</p>
       </div>
     </div>
 
@@ -164,17 +164,16 @@ const handleButton = async () => {
     console.log('berhasil')
 
     setTimeout(() => {
-      isHiding.value = true;
+      isHiding.value = true
       setTimeout(() => {
-        isVisible.value = false;
-        isHiding.value = false;
-      }, 800);
-    }, 2000);
+        isVisible.value = false
+        isHiding.value = false
+      }, 800)
+    }, 2000)
 
-    setTimeout(async () =>{
+    setTimeout(async () => {
       await navigateTo('/dashboard')
     }, 3000)
-
   }
 }
 

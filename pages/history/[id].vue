@@ -40,7 +40,8 @@
           />
           <p
             v-else
-            class="font-bold text-exd-1824.52 text-white bg-exd-redeem p-1 min-h-10 min-w-12 flex items-center justify-center rounded-full pr-2"
+            class="font-bold text-exd-1824.52 text-white p-1 min-h-10 min-w-12 flex items-center justify-center rounded-full pr-2 bg-no-repeat bg-cover bg-center"
+            :style="colorBg ? { backgroundImage: `url(${colorBg})` } : {}"
           >
             <!-- {{ historyDetailData.point_amount }}pt -->
             1等
@@ -76,15 +77,15 @@
           class="flex flex-col gap-2 py-4 text-exd-gray-scorpion text-exd-1218 justify-between"
         >
           <!-- <div> -->
-          <p class="flex justify-between items-center">
+          <p class="flex justify-between items-center max-w-full">
             ダミーダミーダミーダミー
             <StarRating :value="value1" :show-value="false" />
           </p>
-          <p class="flex justify-between items-center">
+          <p class="flex justify-between items-center max-w-full">
             ダミーダミーダミー
             <StarRating :value="value2" :show-value="false" />
           </p>
-          <p class="flex justify-between items-center">
+          <p class="flex justify-between items-center max-w-full">
             ダミーダミー
             <StarRating :value="value3" :show-value="false" />
           </p>
@@ -187,6 +188,11 @@ import check from '~/assets/images/check.svg'
 import line from '~/assets/images/line.svg'
 import x from '~/assets/images/x.svg'
 import { useRoute } from 'nuxt/app'
+import rainbow from '~/assets/images/rainbow-circle.png'
+import gold from '~/assets/images/gold-circle.png'
+import silver from '~/assets/images/silver-circle.png'
+import brown from '~/assets/images/brown-circle.png'
+import bronze from '~/assets/images/bronze-circle.png'
 
 definePageMeta({
   layout: 'with-bottom-bar',
@@ -210,6 +216,7 @@ const showSuccessPopup = ref(false)
 const value1 = ref(3.5)
 const value2 = ref(3.5)
 const value3 = ref(1)
+const colorBg = ref('')
 
 const loadGoogleMaps = () => {
   return new Promise((resolve, reject) => {
@@ -415,6 +422,28 @@ const downloadImage = async () => {
     console.error('Error downloading the image:', error)
   }
 }
+
+const handleRankColor = () => {
+  const rank = 'gold'
+  if (rank === 'rainbow') {
+    colorBg.value = rainbow
+    return colorBg.value
+  } else if (rank === 'gold') {
+    colorBg.value = gold
+    return colorBg.value
+  } else if (rank === 'silver') {
+    colorBg.value = silver
+    return colorBg.value
+  } else if (rank === 'bronze') {
+    colorBg.value = bronze
+    return colorBg.value
+  } else if (rank === 'brown') {
+    colorBg.value = brown
+    return colorBg.value
+  }
+}
+
+handleRankColor()
 
 onBeforeMount(async () => {
   await loadGoogleMaps()

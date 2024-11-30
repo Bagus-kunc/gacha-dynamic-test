@@ -87,7 +87,7 @@ onMounted(() => {
     </g>
 
     <image x="30" y="-10" width="350" height="400" :href="props.imageSrc" />
-    <image x="110" y="200" width="180" height="350" :href="props.typeSrc" />
+    <image x="110" y="200" width="180" height="400" :href="props.typeSrc" />
     <!-- <rect x="74" y="60" width="238" height="215" fill="url(#pattern0_12_49)" /> -->
     <!-- <rect x="263" y="192" width="98" height="89" fill="url(#pattern1_12_49)" /> -->
 

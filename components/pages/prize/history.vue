@@ -8,9 +8,16 @@
       :image-card="item.image"
     >
       <template v-slot:text>
-        <div class="text-exd-gray-scorpion inline-flex justify-between w-100 pr-4">
+        <div
+          class="text-exd-gray-scorpion inline-flex justify-between w-100 pr-4"
+        >
           <div class="flex flex-col justify-center gap-1">
-            <p class="text-exd-1218 rounded-md text-white px-1 w-8 max-w-10 text-center" :class="[color ]" >1等</p>
+            <p
+              class="text-exd-1218 rounded-md text-white px-1 w-8 max-w-10 text-center bg-no-repeat bg-cover bg-center"
+              :style="color ? { backgroundImage: `url(${color})` } : {}"
+            >
+              1等
+            </p>
             <p class="font-semibold text-[15px]">
               {{ item.name }}
             </p>
@@ -26,6 +33,12 @@
 </template>
 
 <script setup>
+import rainbow from '~/assets/images/rainbow-tag.png'
+import gold from '~/assets/images/gold-tag.png'
+import silver from '~/assets/images/silver-tag.png'
+import brown from '~/assets/images/brown-tag.png'
+import bronze from '~/assets/images/bronze-tag.png'
+
 const props = defineProps({
   isFetching: { type: Boolean, default: false },
   body: {
@@ -51,22 +64,28 @@ const props = defineProps({
 const color = ref(props.rankColor)
 
 const handleRankColor = () => {
-    const rank = props.rankColor
-    if (rank === 'gold') {
-        color.value = 'bg-exd-redeem'
-        return color.value
-    } else if ( rank === 'silver') {
-        color.value = 'bg-exd-redeem-silver'
-        return color.value
-    } else if (rank === 'bronze') {
-        color.value = 'bg-exd-redeem-bronze'
-        return color.value
-    }
+  const rank = props.rankColor
+  if (rank === 'rainbow') {
+    color.value = rainbow
+    return color.value
+  } else if (rank === 'gold') {
+    color.value = gold
+    return color.value
+  } else if (rank === 'silver') {
+    color.value = silver
+    return color.value
+  } else if (rank === 'bronze') {
+    color.value = bronze
+    return color.value
+  } else if (rank === 'brown') {
+    color.value = brown
+    return color.value
+  }
 }
 
 handleRankColor()
 
 const handleGoToDetailRedeem = (id) => {
-    console.log('klik id', id)
+  console.log('klik id', id)
 }
 </script>

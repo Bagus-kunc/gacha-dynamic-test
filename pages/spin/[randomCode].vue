@@ -64,6 +64,11 @@ const handleCloseDialog = () => (isNotAllowed.value = false)
 
 const { encryptData, decryptData } = useEncryption()
 
+const dataLocation = ref({})
+const isLoading = ref(false)
+const radiusCheckResult = ref(null)
+const useMock = process.env.NODE_ENV === 'development'
+
 definePageMeta({
   layout: 'gacha-machine',
   middleware: async (to, from) => {
@@ -87,6 +92,41 @@ definePageMeta({
   },
 })
 
+const mockRadiusCheck = async () => {
+  return new Promise((resolve) => {
+    setTimeout(() => {
+      resolve({ success: true })
+    }, 1000)
+  })
+}
+
+const radiusCheck = async () => {
+  isLoading.value = true
+  try {
+    const data = useMock
+      ? await mockRadiusCheck()
+      : await useFetchApi('POST', 'radius-check', {
+          body: {
+            lat: latitude.value,
+            long: longitude.value,
+            slug: route.params.randomCode,
+          },
+        })
+
+    if (data.success) {
+      console.log('Radius valid')
+    } else {
+      errorMessages.value = 'Anda berada di luar radius yang diizinkan'
+      isNotAllowed.value = true
+    }
+  } catch (error) {
+    errorMessages.value = 'Terjadi kesalahan saat memuat radius'
+    isNotAllowed.value = true
+  } finally {
+    isLoading.value = false
+  }
+}
+
 const goToSpinPoint = async () => {
   const notRequiredPin = useState('not_required_pin')
 
@@ -97,4 +137,8 @@ const goToSpinPoint = async () => {
 
   await navigateTo(`/spin/point/${route.params.randomCode}`)
 }
+
+onMounted(() => {
+  radiusCheck()
+})
 </script>

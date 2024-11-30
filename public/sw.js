@@ -6,7 +6,7 @@ const urlsToCache = [
   '/video/spin-character.mp4',
   '/images/gacha-blue-green.png',
   '/images/bg-red2.webp',
-  '/images/sparkling.webp',
+  '/images/sparkling.png',
   '/images/bg-green.webp',
   '/images/logo.png',
   '/images/warning.svg',

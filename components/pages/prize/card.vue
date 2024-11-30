@@ -1,18 +1,20 @@
 <template>
   <div class="rounded-xl max-w-sm overflow-hidden cursor-pointer">
-    <div class="inline-flex justify-between w-full py-2 px-4" :class="[color ]">
+    <div
+      class="flex justify-between bg-center w-full p-2 bg-no-repeat bg-cover"
+      :style="color ? { backgroundImage: `url(${color})` } : {}"
+    >
       <template v-if="!isFetching">
         <p class="text-white font-bold text-exd-1824">
-          <!-- {{ keyBody }}<span class="text-exd-1424">pt</span> -->
-          1等
+          <!-- {{ keyBody }}-->
+          1<span class="text-exd-1424">等</span>
         </p>
 
         <p
-          class="text-white font-medium text-exd-1224"
           v-if="currentPoint >= keyBody"
-        >
-          {{ $t('canBeReplaced') }}
-        </p>
+          class="text-white font-medium text-exd-1224"
+          v-html="limit"
+        ></p>
       </template>
       <template v-else>
         <Skeleton width="10rem" class="bg-white"></Skeleton>
@@ -48,7 +50,15 @@
 </template>
 
 <script setup>
+import { useI18n } from 'vue-i18n'
 import { useRouter } from 'vue-router'
+import rainbow from '~/assets/images/rainbow.png'
+import gold from '~/assets/images/gold.png'
+import silver from '~/assets/images/silver.png'
+import brown from '~/assets/images/brown.png'
+import bronze from '~/assets/images/bronze.png'
+
+const { t } = useI18n()
 
 const props = defineProps({
   isFetching: { type: Boolean, default: false },
@@ -74,27 +84,35 @@ const props = defineProps({
 
 const color = ref(props.rankColor)
 
+const redeemLimit = 3
+
+const limit = t('canBeReplaced', { limit: redeemLimit })
+
 const router = useRouter()
 const handleGoToDetailRedeem = (id) => router.push(`/prize/${id}`)
 
 const handleRankColor = () => {
-    const rank = props.rankColor
-    if (rank === 'gold') {
-        color.value = 'bg-exd-redeem'
-        return color.value
-    } else if ( rank === 'silver') {
-        color.value = 'bg-exd-redeem-silver'
-        return color.value
-    } else if (rank === 'bronze') {
-        color.value = 'bg-exd-redeem-bronze'
-        return color.value
-    }
+  const rank = props.rankColor
+  if (rank === 'rainbow') {
+    color.value = rainbow
+    return color.value
+  } else if (rank === 'gold') {
+    color.value = gold
+    return color.value
+  } else if (rank === 'silver') {
+    color.value = silver
+    return color.value
+  } else if (rank === 'bronze') {
+    color.value = bronze
+    return color.value
+  } else if (rank === 'brown') {
+    color.value = brown
+    return color.value
+  }
 }
 
 handleRankColor()
 
-
 console.log('keyBody', props.keyBody)
 console.log('rankColor', props.rankColor)
-
 </script>

@@ -26,7 +26,6 @@
         />
       </div>
       <div class="grow w-full flex flex-col gap-5 small:gap-2">
-
         <div
           class="password-inform bg-exd-banana mx-3 font-bold text-exd-orange-700 text-exd-1424 p-5 flex justify-center"
         >
@@ -435,7 +434,7 @@ const config = useRuntimeConfig()
 const handleCloseDialog = () => {
   isNotAllowed.value = false
   if (locationBlocked.value) {
-    // await checkingLocation()
+    checkingLocation()
   }
 }
 
@@ -457,7 +456,7 @@ definePageMeta({
   middleware: async (to, from) => {
     const location = to.params.randomCode
     const { data } = await useFetchApi('GET', '/location/password/' + location)
-    console.log(data.not_required_pin)
+
     if (data && data.not_required_pin === 1) {
       return navigateTo(`/spin/${location}`)
     }
@@ -533,7 +532,7 @@ const getPassword = async (id) => {
 
     if (data) {
       description.value = data.description
-      await checkingLocation()
+      // await checkingLocation()
     }
 
     isLoading.value = false
@@ -578,7 +577,7 @@ const checkingLocation = async () => {
   const handleSuccess = (position) => {
     latitude.value = position.coords.latitude
     longitude.value = position.coords.longitude
-    // radiusCheck()
+    radiusCheck()
     isRequestingLocation.value = false
   }
 

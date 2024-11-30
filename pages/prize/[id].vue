@@ -14,7 +14,11 @@
     >
       <div class="w-full overflow-hidden bg-[#E8FFF3]">
         <Skeleton v-if="isFetching" class="!w-full !h-full"></Skeleton>
-        <CharacterCard v-else :image="prizeDetailData.image" variant="without-background" />
+        <CharacterCard
+          v-else
+          :image="prizeDetailData.image"
+          variant="without-background"
+        />
       </div>
       <div class="p-5 flex flex-col justify-between w-full">
         <div class="flex flex-col gap-4">
@@ -30,9 +34,9 @@
             ></Skeleton>
             <p
               v-else
-              class="font-bold text-exd-1824.52 text-white bg-exd-redeem p-1 min-h-10 min-w-12 flex items-center justify-center rounded-full right-0 top-5"
+              class="font-bold text-exd-1824.52 text-white p-1 flex items-center justify-center rounded-full right-0 top-5 bg-no-repeat bg-cover bg-center min-h-10 min-w-12"
+              :style="colorBg ? { backgroundImage: `url(${colorBg})` } : {}"
             >
-              <!-- {{ prizeDetailData.point }}pt -->
               1等
             </p>
           </div>
@@ -56,9 +60,7 @@
             :body="prizeDetailData.location_description"
           />
 
-          <div
-          v-if="popupType != 'a' && popupType != 'b'"
-          class="w-full mb-5">
+          <div v-if="popupType != 'a' && popupType != 'b'" class="w-full mb-5">
             <Skeleton v-if="isFetching" class="!w-full !h-72" />
             <div
               v-show="!isFetching"
@@ -72,11 +74,11 @@
                 class="absolute bg-white inset-x-0 bottom-0 h-8 flex items-center z-20"
               >
                 <span
-                  class="text-exd-red-vermilion text-sm flex items-center cursor-pointer border-b border-b-exd-red-vermilion"
+                  class="text-exd-gray-scorpion text-sm flex items-center cursor-pointer border-b border-b-exd-gray-scorpion"
                   @click="openGoogleMaps"
                   >{{ $t('openGoogleMaps') }}
                   <img
-                    src="~/assets/images/export-red.svg"
+                    src="~/assets/images/export.svg"
                     alt="export"
                     width="15"
                     height="15"
@@ -158,41 +160,18 @@
         class="w-full flex flex-col justify-center items-center gap-4 px-5 py-8 my-2"
       >
         <p
-          class="text-exd-gray-scorpion text-center text-[14px] small:w-[105%] w-[83%] max-w-[93%]"
+          class="text-exd-gray-scorpion text-center text-[14px] small:w-[105%] w-[80%]"
           style="text-shadow: 0 3px 3px rgba(0, 0, 0, 0.16)"
-           v-html="formattedMessage"
-        >
-        </p>
-        <!-- <div class="flex flex-col items-center w-full">
-          <p
-            class="text-exd-gray-scorpion font-bold text-center text-exd-1424 w-[70%]"
-          >
-            {{ $t('1026') }}
-          </p>
-          <div class="w-8/12 flex flex-col items-center">
-            <p
-              class="text-exd-blue-link text-center text-exd-1424 border-b border-b-exd-blue-link w-fit cursor-pointer"
-              @click="openMapC"
-            >
-              {{ $t('shibafuHiroba') }}
-              <img
-                src="~/assets/images/export-blue.svg"
-                alt="export"
-                width="15"
-                height="15"
-                class="inline ml-1"
-              />
-            </p>
-          </div>
-        </div> -->
+          v-html="formattedMessage"
+        ></p>
       </div>
       <div class="mt-3 mb-7">
         <SolidButton
-        :label="$t('arrived')"
-        :on-click="handleGoToClaim"
-        variant="red-coral"
-        has-bottom
-      />
+          :label="$t('arrived')"
+          :on-click="handleGoToClaim"
+          variant="red-coral"
+          has-bottom
+        />
       </div>
     </template>
   </Dialog>
@@ -204,6 +183,11 @@ import { useRoute } from 'vue-router'
 import { useRouter } from 'vue-router'
 import close from '~/assets/images/close.svg'
 import { store } from '~/stores/dashboard.js'
+import rainbow from '~/assets/images/rainbow-circle.png'
+import gold from '~/assets/images/gold-circle.png'
+import silver from '~/assets/images/silver-circle.png'
+import brown from '~/assets/images/brown-circle.png'
+import bronze from '~/assets/images/bronze-circle.png'
 
 definePageMeta({
   middleware: 'auth',
@@ -212,7 +196,7 @@ definePageMeta({
 
 const map = ref(null)
 const route = useRoute()
-const popupType = ref('')
+const popupType = ref('c')
 const router = useRouter()
 const id = route.params.id
 const hasModal = ref(false)
@@ -226,10 +210,12 @@ const handleToggleModal = () => (hasModal.value = !hasModal.value)
 const handleGoToClaim = () => router.push(`/claim/${route.params.id}`)
 const handleGoToRedeem = () => router.push(`/redeem/${route.params.id}`)
 
-const imgTag = '<img src="/images/export.svg" alt="export" width="23" height="23" class="inline ml-1" />';
+const colorBg = ref('')
 
-// Mendapatkan pesan terjemahan dan mengganti placeholder {img} dengan elemen gambar
-const formattedMessage = t('exchange_prize', { img: imgTag });
+const imgTag =
+  '<img src="/images/export.svg" alt="export" width="23" height="23" class="inline ml-1" />'
+
+const formattedMessage = t('exchange_prize', { img: imgTag })
 
 const loadGoogleMaps = () => {
   return new Promise((resolve, reject) => {
@@ -255,7 +241,7 @@ const fetchingPrizeData = async () => {
     if (data.lat !== null && data.long !== null) {
       initializeMap(data.lat, data.long)
     }
-    popupType.value = data.type
+    // popupType.value = data.type
   } catch (error) {
     console.log(error)
   } finally {
@@ -318,6 +304,28 @@ const openGoogleMaps = () => {
   }
 }
 
+const handleRankColor = () => {
+  const rank = 'gold'
+  if (rank === 'rainbow') {
+    colorBg.value = rainbow
+    return colorBg.value
+  } else if (rank === 'gold') {
+    colorBg.value = gold
+    return colorBg.value
+  } else if (rank === 'silver') {
+    colorBg.value = silver
+    return colorBg.value
+  } else if (rank === 'bronze') {
+    colorBg.value = bronze
+    return colorBg.value
+  } else if (rank === 'brown') {
+    colorBg.value = brown
+    return colorBg.value
+  }
+}
+
+handleRankColor()
+
 onMounted(async () => {
   await loadGoogleMaps()
   fetchingPrizeData()
@@ -347,3 +355,5 @@ watch(LOCALE, async (val) => {
   }
 })
 </script>
+
+<style scoped></style>

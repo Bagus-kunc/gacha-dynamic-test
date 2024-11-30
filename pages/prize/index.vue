@@ -7,17 +7,13 @@
       {{ $t('listOfPrizesAndExchanges') }}
     </p>
   </HeaderBar>
-  <div ref="prizeCards" class="scroll-container relative flex flex-col bg-center w-full">
-    <div class="flex flex-col mt-[24%] items-center mb-4">
-      <p class="text-white text-exd-1530 font-bold">
-        {{ $t('currentPoints') }}
-      </p>
-      <p class="text-white text-exd-56112 font-bold relative -top-10">
-        {{ store.point }}<span class="text-exd-1530 ml-1">pt</span>
-      </p>
-    </div>
+  <div
+    ref="prizeCards"
+    class="scroll-container relative flex flex-col bg-center w-full"
+  >
+    <div class="flex flex-col mt-[42%] items-center mb-4"></div>
 
-    <div class="flex flex-col gap-8 px-8 relative -top-14">
+    <div class="flex flex-col gap-3 px-8 relative -top-14">
       <template v-if="isFetching">
         <PagesPrizeCard
           v-for="n in 1"
@@ -42,7 +38,10 @@
       </template>
     </div>
 
-    <div class="flex flex-col px-8 relative -bottom-14">
+    <div ref="prizeHistory" class="flex flex-col px-8 relative -bottom-5">
+      <div class="bg-exd-gray-44 px-2 py-1 text-exd-1422">
+        <p>交換履歴</p>
+      </div>
       <template v-if="isFetching">
         <PagesPrizeHistory
           v-for="n in 1"
@@ -55,6 +54,15 @@
         />
       </template>
       <template v-else>
+        <PagesPrizeHistory
+          v-for="(prize, key) in prizes"
+          :key="key"
+          :keyBody="key"
+          :body="prize"
+          :currentPoint="store.point"
+          :rankColor="rankColor"
+          :is-fetching="false"
+        />
         <PagesPrizeHistory
           v-for="(prize, key) in prizes"
           :key="key"
@@ -68,13 +76,13 @@
     </div>
 
     <div class="vertical-menu bottom-10">
-        <div class="menu-item">
-          <p class="btn-click" @click="handleScrollUp">景 品 一 覧</p>
-        </div>
-        <div class="menu-item">
-          <p class="btn-click" @click="handleScrollDown">交 換 履 歴</p>
-        </div>
+      <div class="menu-item">
+        <p class="btn-click" @click="handleScrollUp">景 品 一 覧</p>
       </div>
+      <div class="menu-item">
+        <p class="btn-click" @click="handleScrollDown">交 換 履 歴</p>
+      </div>
+    </div>
   </div>
 </template>
 
@@ -87,9 +95,11 @@ definePageMeta({
 })
 
 const prizes = ref([])
-const prizeCards = ref(null);
+const prizeCards = ref(null)
 const isFetching = ref(false)
-const rankColor = ref('gold')
+const rankColor = ref('rainbow')
+
+const prizeHistory = ref(null)
 
 const fetchingPrizesData = async () => {
   try {
@@ -97,6 +107,7 @@ const fetchingPrizesData = async () => {
     const { data } = await useFetchApi('GET', 'prizes')
 
     prizes.value = dataArrays(data)
+    console.log(prizes.value)
   } catch (error) {
     console.log(error)
   } finally {
@@ -120,20 +131,23 @@ const handleScrollUp = () => {
   if (prizeCards.value) {
     prizeCards.value.scrollTo({
       top: 0,
-      behavior: 'smooth'
-    });
+      behavior: 'smooth',
+    })
   }
-  console.log('scroll up clicked')
-};
+}
 
 const handleScrollDown = () => {
-  if (prizeCards.value) {
-    prizeCards.value.scrollTo({
-      top: prizeCards.value.scrollHeight,
-      behavior: 'smooth'
-    });
+  if (prizeHistory.value) {
+    prizeHistory.value.style.paddingTop = '140px'
+    prizeHistory.value.style.marginTop = '-140px'
+
+    prizeHistory.value.scrollIntoView({ behavior: 'smooth' })
+
+    setTimeout(() => {
+      prizeHistory.value.style.paddingTop = ''
+      prizeHistory.value.style.marginTop = ''
+    }, 3000)
   }
-  console.log('scroll down clicked')
 }
 
 onMounted(() => {

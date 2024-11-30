@@ -6,11 +6,13 @@
       <div
         class="absolute -top-10 bg-[url('assets/images/point-navbar.png')] bg-cover bg-center w-[104px] h-[104px] flex flex-col justify-center items-center"
       >
-        <p class="text-white text-exd-1020 font-bold mt-10 -ml-4">
+        <p
+          class="text-white text-[10px] font-bold mt-10 -ml-4 max-w-14 text-center"
+        >
           {{ $t('currentPoints') }}
         </p>
         <p class="text-white text-exd-2856 font-bold relative -top-2 -ml-4">
-          {{ store.point }}<span class="text-exd-1020">pt</span>
+          {{ store.point }}<span class="text-exd-1020">個</span>
         </p>
       </div>
 
@@ -37,7 +39,6 @@ import { useRouter } from 'vue-router'
 const router = useRouter()
 
 const menuItems = ref([
-
   {
     icon: iconStar,
     label: 'listOfPrizesAndExchanges',
