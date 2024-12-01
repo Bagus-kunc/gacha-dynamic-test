@@ -40,11 +40,11 @@
           />
           <p
             v-else
-            class="font-bold text-exd-1824.52 text-white p-1 min-h-10 min-w-12 flex items-center justify-center rounded-full pr-2 bg-no-repeat bg-cover bg-center"
-            :style="colorBg ? { backgroundImage: `url(${colorBg})` } : {}"
+            class="font-bold text-exd-1824.52 text-white p-1 min-h-10 min-w-12 flex items-center justify-center rounded-full pr-2 bg-no-repeat bg-contain bg-center"
+            :style="rarityImg ? { backgroundImage: `url(${rarityImg})` } : {}"
           >
             <!-- {{ historyDetailData.point_amount }}pt -->
-            1等
+            <!-- 1等 -->
           </p>
         </div>
         <div v-if="isFetching" class="flex items-center gap-5 text-exd-1218">
@@ -74,20 +74,20 @@
         />
 
         <div
-          class="flex flex-col gap-2 py-4 text-exd-gray-scorpion text-exd-1218 justify-between"
+          class="flex flex-col gap-2 py-4 text-exd-gray-scorpion text-exd-1218"
         >
           <!-- <div> -->
-          <p class="flex justify-between items-center max-w-full">
-            ダミーダミーダミーダミー
-            <StarRating :value="value1" :show-value="false" />
+          <p class="inline-flex justify-between items-center max-w-full">
+            {{ star1Name
+            }}<StarRating :value="star1" :show-value="false" :maxStars="10" />
           </p>
-          <p class="flex justify-between items-center max-w-full">
-            ダミーダミーダミー
-            <StarRating :value="value2" :show-value="false" />
+          <p class="inline-flex justify-between items-center max-w-full">
+            {{ star2Name
+            }}<StarRating :value="star2" :show-value="false" :maxStars="10" />
           </p>
-          <p class="flex justify-between items-center max-w-full">
-            ダミーダミー
-            <StarRating :value="value3" :show-value="false" />
+          <p class="inline-flex justify-between items-center max-w-full">
+            {{ star3Name
+            }}<StarRating :value="star3" :show-value="false" :maxStars="10" />
           </p>
         </div>
 
@@ -213,10 +213,14 @@ const isFetching = ref(true)
 const LOCALE = useCookie('LOCALE')
 
 const showSuccessPopup = ref(false)
-const value1 = ref(3.5)
-const value2 = ref(3.5)
-const value3 = ref(1)
+const star1Name = ref('')
+const star2Name = ref('')
+const star3Name = ref('')
+const star1 = ref(3.5)
+const star2 = ref(3.5)
+const star3 = ref(1)
 const colorBg = ref('')
+const rarityImg = ref('')
 
 const loadGoogleMaps = () => {
   return new Promise((resolve, reject) => {
@@ -251,6 +255,17 @@ const fetchingHistoryData = async () => {
     if (lat != undefined && long != undefined) {
       initializeMap(lat, long)
     }
+
+    star1.value = data.character_star1
+    star2.value = data.character_star2
+    star3.value = data.character_star3
+
+    star1Name.value = data.character_star_name1
+    star2Name.value = data.character_star_name2
+    star3Name.value = data.character_star_name3
+
+    handleRarity(data.character_rarity)
+    console.log('history', data)
   } catch (error) {
     console.log(error)
   } finally {
@@ -423,27 +438,16 @@ const downloadImage = async () => {
   }
 }
 
-const handleRankColor = () => {
-  const rank = 'gold'
-  if (rank === 'rainbow') {
-    colorBg.value = rainbow
-    return colorBg.value
-  } else if (rank === 'gold') {
-    colorBg.value = gold
-    return colorBg.value
-  } else if (rank === 'silver') {
-    colorBg.value = silver
-    return colorBg.value
-  } else if (rank === 'bronze') {
-    colorBg.value = bronze
-    return colorBg.value
-  } else if (rank === 'brown') {
-    colorBg.value = brown
-    return colorBg.value
+const handleRarity = (rarityChar) => {
+  const rarity = rarityChar
+  if (rarity === '1') {
+    rarityImg.value = '/images/ssr-bg.png'
+  } else if (rarity === '2') {
+    rarityImg.value = '/images/sr-bg.png'
+  } else if (rarity === '3') {
+    rarityImg.value = '/images/r-bg.png'
   }
 }
-
-handleRankColor()
 
 onBeforeMount(async () => {
   await loadGoogleMaps()

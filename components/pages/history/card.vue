@@ -9,7 +9,7 @@
       <div class="flex gap-3 flex-col justify-between">
         <p class="text-exd-gold text-exd-1624 font-bold">
           <!-- {{ data.amount }}<span class="text-exd-1224">pt</span> -->
-          <img src="/images/power-char.png" alt="power char" width="30" height="30" />
+          <img :src="raritySrc" alt="power char" width="30" height="30" />
         </p>
         <p class="text-exd-gray-scorpion font-semibold text-exd-1416">
           {{ data.location }}
@@ -45,5 +45,21 @@ const props = defineProps({
 const characterImage = props.data.character?.image || noImage
 
 const router = useRouter()
+const raritySrc = ref('')
+
 const handleGoToDetailHistory = () => router.push(`/history/${props.data.id}`)
+
+const handleRarity = () => {
+  const rarity = props.data.character?.rarity
+  console.log(props.data.character?.rarity)
+  if (rarity === '1') {
+    raritySrc.value = '/images/ssr-bg.png'
+  } else if (rarity === '2') {
+    raritySrc.value = '/images/sr-bg.png'
+  } else if (rarity === '3') {
+    raritySrc.value = '/images/r-bg.png'
+  }
+}
+
+handleRarity()
 </script>
