@@ -1,16 +1,21 @@
 <template>
   <div
-    class="grow bg-[url('/images/bg-green.webp')] bg-cover bg-center relative flex flex-col justify-center items-center"
+    class="grow bg-[url('/images/bg-rainbow.png')] bg-cover bg-center relative flex flex-col justify-center items-center"
     @touchmove="(e) => e.preventDefault()"
   >
+    <SparkleStart className="top-3" />
+    <div v-if="isVisible" :class="{ notif: true, hide: isHiding }">
+      <img :src="iconGift" alt="icon gift" class="w-10 h-10" />
+      <p class="font-bold">コレクションに追加しました</p>
+    </div>
     <img
-      src="/images/gacha2.webp"
+      src="/images/gacha-blue-green.png"
       alt="gacha2"
-      class="absolute left-1/2 top-1 transform -translate-x-1/2 w-full h-auto max-h-[90vh] object-contain"
+      class="absolute left-1/2 top-1 transform -translate-x-1/2 w-full h-auto max-h-[100vh] object-contain"
       preload
     />
     <img
-      src="/images/sparkling.webp"
+      src="/images/sparkling.png"
       alt="sparkling"
       class="absolute left-1/2 top-1/2 transform -translate-x-1/2 -translate-y-1/2 w-full h-full object-cover z-10 animate-sparkling"
       preload
@@ -19,15 +24,24 @@
       <CircleSpinCharacter
         class="relative top-1/2 -translate-y-[50%]"
         :imageSrc="characterImageUrl"
+        :raritySrc="raritySrc"
+        :headSrc="headSrc"
         width="100%"
         height="100%"
       />
+
+      <div
+        class="absolute text-exd-dark-grey bg-white flex justify-center bottom-[17%] lg:bottom-[20%] ml-3 px-2 py-3 w-full max-w-[190px] h-auto rounded-lg"
+      >
+        <p class="text-[17px]">{{ charName }}</p>
+      </div>
     </div>
 
     <div class="absolute bottom-0 w-full">
       <SolidButton
         :label="$t('toTheNext')"
         :on-click="handleButton"
+        variant="red-coral"
         has-bottom
       />
     </div>
@@ -62,11 +76,12 @@
         <SolidButton
           :label="$t('newMemberRegistration')"
           :on-click="handleToRegister"
+          variant="red-coral"
         />
         <SolidButton
           :label="$t('loginToMyPage')"
           :on-click="handleToLogin"
-          variant="red"
+          variant="blue-green"
         />
       </div>
     </template>
@@ -112,6 +127,7 @@
 
 <script setup>
 import useRegister from '~/composables/useRegister'
+import iconGift from '/icons/icon-gift.svg'
 
 definePageMeta({
   middleware: 'valid-password',
@@ -124,10 +140,16 @@ const hasModal = ref(false)
 const errorMessages = ref('')
 const modalLogin = ref(false)
 const isNotAllowed = ref(false)
+const isVisible = ref(false)
+const isHiding = ref(false)
 
 const USER = useCookie('USER')
 const TOKEN = useCookie('TOKEN')
+
 const characterImageUrl = ref(null)
+const charName = ref(null)
+const raritySrc = ref(null)
+const headSrc = ref(null)
 
 const handleClose = () => (isNotAllowed.value = false)
 const handleShowDialog = () => (hasModal.value = true)
@@ -138,7 +160,20 @@ const handleButton = async () => {
   if (!TOKEN.value && !USER.value) {
     handleShowDialog()
   } else {
-    await navigateTo('/dashboard')
+    isVisible.value = true
+    console.log('berhasil')
+
+    setTimeout(() => {
+      isHiding.value = true
+      setTimeout(() => {
+        isVisible.value = false
+        isHiding.value = false
+      }, 800)
+    }, 2000)
+
+    setTimeout(async () => {
+      await navigateTo('/dashboard')
+    }, 3000)
   }
 }
 
@@ -162,7 +197,10 @@ const fetchImage = async () => {
     const slug = parsedData.slug.toUpperCase()
 
     const slugData = decryptData(localStorage.getItem(`${slug}_GACHA`))
+    console.log('data char', slugData)
     characterImageUrl.value = slugData?.character_image
+    charName.value = slugData?.character_category
+    raritySrc.value = slugData?.character_rarity
   } catch (e) {
     console.error('Unexpected error:', e)
   }
@@ -191,6 +229,47 @@ onMounted(() => {
 <style scoped>
 ::v-deep(.p-dialog-header) {
   display: none;
+}
+
+@keyframes slideIn {
+  from {
+    opacity: 0;
+    transform: translateY(-100%);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes slideOut {
+  from {
+    opacity: 1;
+    transform: translateY(0);
+  }
+  to {
+    opacity: 0;
+    transform: translateY(-100%);
+  }
+}
+
+.notif {
+  position: absolute;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 14px;
+  border-bottom-left-radius: 10px;
+  border-bottom-right-radius: 10px;
+  top: 0;
+  z-index: 1000;
+  background: rgba(0, 0, 0, 0.638);
+
+  animation: slideIn 0.3s ease-out forwards;
+}
+
+.notif.hide {
+  animation: slideOut 0.3s ease-in forwards;
 }
 
 @keyframes sparkle {

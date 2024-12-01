@@ -14,6 +14,7 @@
           <SolidButton
             v-if="hasButton"
             :label="labelButton"
+            variant="red-coral"
             :on-click="() => handleClick()"
           />
         </div>

@@ -38,10 +38,30 @@
             class="!h-3 !bg-exd-gold !rounded-full"
             width="2rem "
           />
-          <p v-else class="font-bold text-exd-1824.52 text-exd-gold pr-2">
-            {{ historyDetailData.point_amount }}pt
+          <p
+            v-else
+            class="font-bold text-exd-1824.52 text-white p-1 min-h-10 min-w-12 flex items-center justify-center rounded-full pr-2 bg-no-repeat bg-cover bg-center"
+            :style="colorBg ? { backgroundImage: `url(${colorBg})` } : {}"
+          >
+            <!-- {{ historyDetailData.point_amount }}pt -->
+            1等
           </p>
         </div>
+        <div v-if="isFetching" class="flex items-center gap-5 text-exd-1218">
+          <Skeleton
+            class="border-[1px] border-exd-blue-green text-exd-blue-green rounded-[5px] px-2"
+          />
+          <Skeleton class="text-exd-gray-scorpion bg-exd-gray-scorpion" />
+        </div>
+        <div v-else class="flex items-center gap-5 text-exd-1218">
+          <p
+            class="border-[1px] border-exd-blue-green text-exd-blue-green rounded-[5px] px-2"
+          >
+            カテゴリ
+          </p>
+          <p class="text-exd-gray-scorpion">{{ historyDetailData.character_category }}</p>
+        </div>
+
         <Skeleton
           v-if="isFetching"
           class="!h-3 !bg-exd-gray-scorpion !rounded-full"
@@ -49,38 +69,26 @@
         />
         <p
           v-else
-          class="font-medium text-exd-1218 text-exd-gray-scorpion mb-4 text-word-wrap vhtml-desc"
+          class="font-medium text-exd-1218 text-exd-gray-scorpion text-word-wrap vhtml-desc"
           v-html="historyDetailData.character_description"
         />
-        <div class="inline-flex gap-3 w-full justify-center my-2">
-          <img
-            :src="download"
-            alt="download"
-            class="size-8 cursor-pointer"
-            @click="share('image')"
-            preload
-          />
-          <img
-            :src="line"
-            alt="line"
-            class="size-8 cursor-pointer"
-            @click="share('line')"
-            preload
-          />
-          <img
-            :src="x"
-            alt="x"
-            class="size-8 cursor-pointer"
-            @click="share('x')"
-            preload
-          />
-          <img
-            :src="facebook"
-            alt="facebook"
-            class="size-8 cursor-pointer"
-            @click="share('facebook')"
-            preload
-          />
+
+        <div
+          class="flex flex-col gap-2 py-4 text-exd-gray-scorpion text-exd-1218 justify-between"
+        >
+          <!-- <div> -->
+          <p class="flex justify-between items-center max-w-full">
+            {{ historyDetailData.character_star_name1 }}
+            <StarRating :value="value1" :show-value="false" />
+          </p>
+          <p class="flex justify-between items-center max-w-full">
+            {{ historyDetailData.character_star_name2 }}
+            <StarRating :value="value2" :show-value="false" />
+          </p>
+          <p class="flex justify-between items-center max-w-full">
+            {{ historyDetailData.character_star_name3 }}
+            <StarRating :value="value3" :show-value="false" />
+          </p>
         </div>
 
         <HeadingSection
@@ -103,11 +111,11 @@
               class="absolute bg-white inset-x-0 bottom-0 h-8 flex items-center z-20"
             >
               <span
-                class="text-exd-red-vermilion text-sm flex items-center cursor-pointer border-b border-b-exd-red-vermilion"
+                class="text-exd-blue-green text-sm flex items-center cursor-pointer border-b border-b-exd-blue-green"
                 @click="openGoogleMaps"
                 >{{ $t('openGoogleMaps') }}
                 <img
-                  src="~/assets/images/export-red.svg"
+                  src="~/assets/images/export-blue-green.png"
                   alt="export"
                   width="15"
                   height="15"
@@ -117,6 +125,42 @@
             </div>
           </div>
         </div>
+      </div>
+
+      <div class="inline-flex gap-3 w-full justify-center items-center mb-6">
+        <div class="speech-bubble text-[10pt]">
+          {{ $t('share') }}
+          <div class="triangle-border"></div>
+          <div class="triangle-inner"></div>
+        </div>
+        <img
+          :src="download"
+          alt="download"
+          class="size-5 cursor-pointer"
+          @click="share('image')"
+          preload
+        />
+        <img
+          :src="line"
+          alt="line"
+          class="size-5 cursor-pointer"
+          @click="share('line')"
+          preload
+        />
+        <img
+          :src="x"
+          alt="x"
+          class="size-5 cursor-pointer"
+          @click="share('x')"
+          preload
+        />
+        <img
+          :src="facebook"
+          alt="facebook"
+          class="size-5 cursor-pointer"
+          @click="share('facebook')"
+          preload
+        />
       </div>
     </div>
   </div>
@@ -144,6 +188,11 @@ import check from '~/assets/images/check.svg'
 import line from '~/assets/images/line.svg'
 import x from '~/assets/images/x.svg'
 import { useRoute } from 'nuxt/app'
+import rainbow from '~/assets/images/rainbow-circle.png'
+import gold from '~/assets/images/gold-circle.png'
+import silver from '~/assets/images/silver-circle.png'
+import brown from '~/assets/images/brown-circle.png'
+import bronze from '~/assets/images/bronze-circle.png'
 
 definePageMeta({
   layout: 'with-bottom-bar',
@@ -164,6 +213,10 @@ const isFetching = ref(true)
 const LOCALE = useCookie('LOCALE')
 
 const showSuccessPopup = ref(false)
+const value1 = ref(3.5)
+const value2 = ref(3.5)
+const value3 = ref(1)
+const colorBg = ref('')
 
 const loadGoogleMaps = () => {
   return new Promise((resolve, reject) => {
@@ -370,6 +423,28 @@ const downloadImage = async () => {
   }
 }
 
+const handleRankColor = () => {
+  const rank = 'gold'
+  if (rank === 'rainbow') {
+    colorBg.value = rainbow
+    return colorBg.value
+  } else if (rank === 'gold') {
+    colorBg.value = gold
+    return colorBg.value
+  } else if (rank === 'silver') {
+    colorBg.value = silver
+    return colorBg.value
+  } else if (rank === 'bronze') {
+    colorBg.value = bronze
+    return colorBg.value
+  } else if (rank === 'brown') {
+    colorBg.value = brown
+    return colorBg.value
+  }
+}
+
+handleRankColor()
+
 onBeforeMount(async () => {
   await loadGoogleMaps()
   fetchingHistoryData()
@@ -411,6 +486,41 @@ watch(LOCALE, async (val) => {
   box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
   animation: slide-in 0.5s forwards, slide-out 0.5s 1.5s forwards;
   z-index: 1000;
+}
+
+.speech-bubble {
+  position: relative;
+  background-color: #ffffff;
+  border: 1px solid #555555;
+  border-radius: 6px;
+  padding: 2px 10px;
+  display: inline-block;
+  color: #000;
+  max-width: 300px;
+}
+
+.triangle-border {
+  position: absolute;
+  top: 50%;
+  right: -9px;
+  width: 0;
+  height: 0;
+  border-style: solid;
+  border-width: 4px 0 4px 9px;
+  border-color: transparent transparent transparent #606060;
+  transform: translateY(-50%);
+}
+
+.triangle-inner {
+  position: absolute;
+  top: 50%;
+  right: -8px;
+  width: 0;
+  height: 0;
+  border-style: solid;
+  border-width: 4px 0 4px 14px;
+  border-color: transparent transparent transparent white;
+  transform: translateY(-50%);
 }
 
 @keyframes slide-in {

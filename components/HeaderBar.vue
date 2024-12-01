@@ -28,13 +28,13 @@
       ]"
       v-else
     >
-      <img src="/images/logo.png" alt="intl" width="130" height="48" preload />
+      <img src="/images/title-blue-green.png" alt="intl" width="71" height="52" preload />
     </div>
     <div class="pr-5 shrink-0">
       <div class="relative">
         <button type="button" aria-haspopup="true" @click="langPanelToggle">
           <img
-            src="/images/intl-icon.svg"
+            src="/assets/images/intl-icon.png"
             alt="intl"
             width="40"
             height="40"

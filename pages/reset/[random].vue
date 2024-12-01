@@ -51,6 +51,7 @@
         :label="!isSuccessSendResetPassword ? $t('send') : $t('myPage')"
         :has-loading="isLoading"
         :disabled="isLoading"
+        variant="red-coral"
         :on-click="handleSubmit"
         has-bottom
       />

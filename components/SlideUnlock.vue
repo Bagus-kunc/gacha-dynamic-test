@@ -301,13 +301,13 @@ export default defineComponent({
 .slideunlock {
   --su-size-text: 18px;
   --su-size-padding: 5px;
-  --su-color-bg: #d7a237;
-  --su-color-progress-normal-bg: #ffe9bc;
-  --su-color-progress-complete-bg: #ffe9bc;
+  --su-color-bg: #FF5331;
+  --su-color-progress-normal-bg: #ffc0b4;
+  --su-color-progress-complete-bg: #ffc0b4;
   --su-color-text-normal: #4f4f4f;
-  --su-color-text-complete: #d7a237;
+  --su-color-text-complete: #FF5331;
   --su-color-handler-bg: #ffffff;
-  --su-icon-handler: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' fill='none' stroke='%23d7a237' viewBox='0 0 13 22'%3E%3Cpath stroke-linecap='round' stroke-linejoin='round' stroke-width='3' d='M1.50049 2.00153L10.5 11.0005L1.50049 19.9996'/%3E%3C/svg%3E");
+  --su-icon-handler: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' fill='none' stroke='%23FF5331' viewBox='0 0 13 22'%3E%3Cpath stroke-linecap='round' stroke-linejoin='round' stroke-width='3' d='M1.50049 2.00153L10.5 11.0005L1.50049 19.9996'/%3E%3C/svg%3E");
 
   display: flex;
   position: relative;

@@ -2,7 +2,7 @@
   <HeaderBar hasBack withLogo />
   <div class="flex flex-col mt-20 grow">
     <p
-      class="text-exd-red-vermilion text-exd-1724 text-center font-extrabold max-w-[356px] mx-auto p-4 my-4"
+      class="text-exd-red-coral text-exd-1724 text-center font-extrabold max-w-[356px] mx-auto p-4 my-4"
     >
       {{ $t('pleaseShowThisScreen') }}
     </p>
@@ -15,7 +15,7 @@
 
           <CharacterCard
             v-else
-            :image="prizeDetailData.image"
+            :image="prizeDetailData.gift.image"
             variant="without-background"
           />
         </div>
@@ -33,16 +33,21 @@
             ></Skeleton>
             <p
               v-else
-              class="font-bold text-exd-1824.52 text-exd-orange-700 flex"
+              class="font-bold text-exd-1824.52 text-white bg-exd-redeem p-1 min-h-10 min-w-12 flex items-center justify-center rounded-full"
             >
-              {{ prizeDetailData.point }}pt
+              <!-- {{ prizeDetailData.point }}pt -->
+              1等
             </p>
           </div>
 
+          <Skeleton v-if="isFetching" class="!w-full !h-full" />
+
+
           <HeadingSection
+          v-else
             :is-fetching="isFetching"
             :title="$t('conditionsOfUse')"
-            :body="prizeDetailData.terms_of_use"
+            :body="prizeDetailData.gift.term_of_use"
           />
         </div>
       </div>
@@ -150,9 +155,9 @@ const fetchRedeem = async () => {
   try {
     errorMessage.value = null
     disableSwipe.value = true
-    const { message, status } = await useFetchApi('POST', 'prizes/redeem', {
+    const { message, status } = await useFetchApi('POST', 'prizes/redeem-point', {
       params: {
-        prize_id: id,
+        user_point_id: id,
       },
     })
 
@@ -197,7 +202,7 @@ const id = route.params.id
 const fetchingPrizeData = async () => {
   isFetching.value = true
   try {
-    const { data } = await useFetchApi('GET', 'prizes/' + id)
+    const { data } = await useFetchApi('GET', 'prize-by-poin/' + id)
     prizeDetailData.value = data
   } catch (error) {
     console.log(error)

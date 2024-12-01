@@ -1,36 +1,39 @@
 <template>
   <div class="rounded-xl max-w-sm overflow-hidden cursor-pointer">
-    <div class="bg-exd-red-900 inline-flex justify-between w-full py-2 px-4">
+    <div
+      class="flex justify-between bg-center w-full p-2 bg-no-repeat bg-cover"
+      :style="color ? { backgroundImage: `url(${color})` } : {}"
+    >
       <template v-if="!isFetching">
         <p class="text-white font-bold text-exd-1824">
-          {{ keyBody }}<span class="text-exd-1424">pt</span>
+          <span class="text-[16px]"> {{ t(classType) }} </span>
         </p>
+
         <p
-          class="text-exd-yellow-300 font-medium text-exd-1224"
-          v-if="currentPoint >= keyBody"
-        >
-          {{ $t('canBeExchanged') }}
-        </p>
+          v-if="currentPoint >= redeemLimit"
+          class="text-white font-medium text-exd-1224"
+          v-html="totalData"
+        ></p>
       </template>
       <template v-else>
         <Skeleton width="10rem" class="bg-white"></Skeleton>
-        <Skeleton width="5rem" class="bg-exd-yellow-300"></Skeleton>
+        <Skeleton width="5rem" class="bg-white"></Skeleton>
       </template>
     </div>
     <template v-if="!isFetching">
       <ImageTextCard
-        v-for="item in body"
-        :key="item.id"
-        :on-click="() => handleGoToDetailRedeem(item.id)"
+        v-for="item in prizesData"
+        :key="item.user_point_id"
+        :on-click="() => handleGoToDetailRedeem(item.user_point_id)"
         :image-card="item.image"
       >
         <template v-slot:text>
           <div class="inline-flex justify-between w-100 pr-4">
             <div class="flex flex-col justify-center gap-1">
-              <p class="text-exd-gray-scorpion font-semibold text-exd-1218">
+              <p class="text-exd-gray-scorpion font-semibold text-[15px]">
                 {{ item.name }}
               </p>
-              <p class="text-exd-red-500 text-exd-1014 font-medium">
+              <p class="text-exd-red-500 text-exd-1218 font-medium">
                 {{ $t('availablePeriod') }}：{{ item.started_at }}〜
                 {{ item.expired_at }}
               </p>
@@ -46,14 +49,19 @@
 </template>
 
 <script setup>
+import { useI18n } from 'vue-i18n'
 import { useRouter } from 'vue-router'
+import rainbow from '~/assets/images/rainbow.png'
+import gold from '~/assets/images/gold.png'
+import silver from '~/assets/images/silver.png'
+import brown from '~/assets/images/brown.png'
+import bronze from '~/assets/images/bronze.png'
+
+const { t } = useI18n()
 
 const props = defineProps({
   isFetching: { type: Boolean, default: false },
-  body: {
-    type: Object,
-    default: () => {},
-  },
+
   body: {
     type: Object,
     default: () => {},
@@ -67,6 +75,54 @@ const props = defineProps({
   },
 })
 
+const color = ref('')
+const totalData = ref('')
+const classType = ref('')
+
+const redeemLimit = ref(null)
+const prizesData = ref({})
+
 const router = useRouter()
 const handleGoToDetailRedeem = (id) => router.push(`/prize/${id}`)
+
+const handleRankClass = () => {
+  const rank = props.keyBody
+  if (rank === 'rainbow') {
+    color.value = rainbow
+    classType.value = 'specialPrize'
+    return color.value
+  } else if (rank === 'gold') {
+    color.value = gold
+    classType.value = '1stClass'
+    return color.value
+  } else if (rank === 'silver') {
+    color.value = silver
+    classType.value = '2ndClass'
+    return color.value
+  } else if (rank === 'bronze') {
+    color.value = bronze
+    classType.value = '3rdClass'
+    return color.value
+  } else if (rank === 'brown') {
+    color.value = brown
+    classType.value = '4thClass'
+    return color.value
+  }
+}
+
+const mapBody = () => {
+  props.body.map((item) => {
+    redeemLimit.value = item.totalData
+    prizesData.value = item.data
+
+    totalData.value = t('canBeReplaced', { limit: redeemLimit.value })
+
+    console.log('item body', item.data)
+  })
+}
+
+handleRankClass()
+mapBody()
+
+console.log('keyBody', props.keyBody)
 </script>

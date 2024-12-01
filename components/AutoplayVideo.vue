@@ -22,7 +22,7 @@
 
 <script setup>
 const props = defineProps(['src'])
-const emit = defineEmits('ended')
+const emit = defineEmits(['ended'])
 
 const showButton = ref(false)
 let buttonDelayTimeout = null
@@ -44,8 +44,4 @@ const resetButton = () => {
 const handleButtonClick = () => {
   resetButton()
 }
-
-definePageMeta({
-  layout: 'gacha-machine',
-})
 </script>

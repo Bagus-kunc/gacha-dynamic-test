@@ -56,6 +56,7 @@
         :label="!isSuccessSendLinkResetPassword ? $t('send') : 'TOP'"
         :has-loading="isLoading"
         :on-click="handleSubmit"
+        variant="red-coral"
         has-bottom
         :disabled="emailError !== '' || isLoading"
       />

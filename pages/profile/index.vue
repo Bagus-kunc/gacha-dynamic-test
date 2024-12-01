@@ -10,7 +10,7 @@
     </HeaderBar>
 
     <div
-      class="flex flex-col grow px-3 mt-32 pb-3 justify-between gap-6 w-full"
+      class="flex flex-col grow mt-32 pb-3 justify-between gap-6 w-full font-bold"
     >
       <h1
         class="text-center flex flex-col text-1416 text-exd-gray-scorpion pt-6 pb-10 w-full max-w-[360px] mx-auto"
@@ -19,60 +19,14 @@
         <span> {{ $t('memberInformation2') }}</span>
       </h1>
       <div
-        class="inline-flex gap-4 border-b border-b-exd-light-grey pb-5 px-4 text-exd-gray-scorpion justify-between items-center text-1416"
+        class="inline-flex gap-4 border-b border-b-exd-light-grey pb-5 px-7 text-exd-gray-scorpion justify-between items-center text-1416"
       >
         <h1>{{ $t('member') }} <span class="font-bold">ID</span></h1>
         <p class="font-bold w-48 text-right overflow-hidden whitespace-nowrap">
           {{ userId }}
         </p>
       </div>
-      <div class="flex flex-col grow">
-        <div
-          class="inline-flex gap-4 border-b border-b-exd-light-grey pb-5 px-4"
-        >
-          <InputText
-            :model="form.nickName"
-            :label="$t('nickName')"
-            required
-            :is-nick-name="true"
-            @update:model="updateModel('nickName', $event)"
-            @validate="validateInput('nickName', $event)"
-            :validate-on-submit="validateOnSubmit"
-            :error="
-              !form.nickName && validateOnSubmit ? $t('fieldRequired') : ''
-            "
-            :class="{
-              'input-error': !form.nickName && validateOnSubmit,
-            }"
-          />
-        </div>
-        <div
-          class="inline-flex flex-col border-b border-b-exd-light-grey py-5 px-4"
-        >
-          <label
-            :for="$t('age')"
-            class="text-exd-gray-scorpion text-exd-1424 flex items-center gap-2"
-          >
-            {{ $t('age') }}
-            <span
-              class="bg-exd-red-vermilion text-white text-exd-0910 px-1 py-[2px] rounded-sm"
-              >{{ $t('required') }}</span
-            >
-          </label>
-
-          <div class="inline-flex gap-4 w-7/12">
-            <Dropdown
-              :model="form.age"
-              @update:model="updateModel('age', $event)"
-              @validate="validateInput('age', $event)"
-              :options="getAgeOptions()"
-              optionValue="value"
-              optionLabel="label"
-              :placeholder="t('choice')"
-              :hasHelper="true"
-            />
-          </div>
-        </div>
+      <div class="flex flex-col px-3 grow">
         <div
           class="inline-flex flex-col border-b border-b-exd-light-grey py-5 px-4"
         >
@@ -115,115 +69,40 @@
             />
           </ButtonGroup>
         </div>
-        <div
-          class="inline-flex flex-col border-b border-b-exd-light-grey py-5 px-4"
-        >
-          <label
-            :for="$t('residence')"
-            class="text-exd-gray-scorpion text-exd-1424 flex items-center gap-2"
-            >{{ $t('residence') }}
-            <span
-              class="bg-exd-red-vermilion text-white text-exd-0910 px-1 py-[2px] rounded-sm"
-              >{{ $t('required') }}</span
-            >
-          </label>
-          <ButtonGroup
-            class="w-full h-10 rounded-none"
-            style="box-shadow: 0px 3px 3px 0px rgba(0, 0, 0, 0.1608)"
-          >
-            <Button
-              @click="updateModel('residenceType', 'domestic')"
-              :label="$t('domestic')"
-              :class="[
-                'bg-white w-1/2 h-full border border-exd-stone-300 rounded-none !text-exd-gray-scorpion',
-                form.residenceType === 'domestic' && '!bg-exd-banana',
-              ]"
-            />
-            <Button
-              @click="updateModel('residenceType', 'overseas')"
-              :label="$t('overseas')"
-              :class="[
-                'bg-white w-1/2 h-full border-t border-b border-r border-t-exd-stone-300 border-b-exd-stone-300 border-r-exd-stone-300 rounded-none !text-exd-gray-scorpion',
-                form.residenceType === 'overseas' && '!bg-exd-banana',
-              ]"
-            />
-          </ButtonGroup>
-        </div>
+
         <div
           class="inline-flex gap-4 border-b border-b-exd-light-grey py-5 px-4 flex-col"
         >
-          <div class="flex flex-col gap-4">
-            <div
-              class="flex flex-col gap-4"
-              v-if="form.residenceType === 'domestic'"
-            >
-              <InputText
-                onlyNumeric
-                :model="form.postCode"
-                required
-                :label="$t('postalCodeNoHyphens')"
-                @update:model="
-                  ($event) => {
-                    updateModel('postCode', $event)
-                    checkPostalCode($event)
-                  }
-                "
-                @validate="validateInput('postCode', $event)"
-                :disabled="isLoading"
-                :validate-on-submit="validateOnSubmit"
-                :error="
-                  !form.postCode && validateOnSubmit
-                    ? $t('fieldRequired')
-                    : '' ||
-                      (form.postCode.length > 0 && form.postCode.length < 7)
-                    ? $t('minLengthPostalCode')
-                    : '' || errorPostCodeMessage
-                "
-                :class="{
-                  'input-error':
-                    (!form.postCode && validateOnSubmit) ||
-                    (form.postCode.length > 0 && form.postCode.length < 7) ||
-                    errorPostCodeMessage,
-                  'opacity-50': isLoading,
-                }"
-              />
-            </div>
-
-            <div v-if="form.residenceType === 'overseas'">
-              <label
-                :for="$t('country')"
-                class="text-exd-gray-scorpion text-exd-1424 flex items-center gap-2"
-                :class="{
-                  'input-error': !form.countryCode && validateOnSubmit,
-                }"
-              >
-                {{ $t('country') }}
-                <span
-                  class="bg-exd-red-vermilion text-white text-exd-0910 px-1 py-[2px] rounded-sm"
-                  >{{ $t('required') }}</span
-                >
-              </label>
-              <Dropdown
-                :model="form.countryCode"
-                @update:model="updateModel('countryCode', $event)"
-                @validate="validateInput('countryCode', $event)"
-                :options="countries"
-                optionValue="code"
-                optionLabel="name"
-                :placeholder="t('choice')"
-                :hasHelper="true"
-                :validate-on-submit="validateOnSubmit"
-                :error="
-                  !form.countryCode && validateOnSubmit
-                    ? $t('fieldRequired')
-                    : ''
-                "
-                :class="{
-                  'input-error': !form.countryCode && validateOnSubmit,
-                }"
-              />
-            </div>
-          </div>
+          <InputText
+            onlyNumeric
+            :model="form.postCode"
+            required
+            :label="$t('postalCodeNoHyphens')"
+            @update:model="
+              ($event) => {
+                updateModel('postCode', $event)
+                checkPostalCode($event)
+              }
+            "
+            @validate="validateInput('postCode', $event)"
+            :disabled="isLoading"
+            :validate-on-submit="validateOnSubmit"
+            w230Px
+            :error="
+              !form.postCode && validateOnSubmit
+                ? $t('fieldRequired')
+                : '' || (form.postCode.length > 0 && form.postCode.length < 7)
+                ? $t('minLengthPostalCode')
+                : '' || errorPostCodeMessage
+            "
+            :class="{
+              'input-error':
+                (!form.postCode && validateOnSubmit) ||
+                (form.postCode.length > 0 && form.postCode.length < 7) ||
+                errorPostCodeMessage,
+              'opacity-50': isLoading,
+            }"
+          />
         </div>
 
         <div
@@ -279,15 +158,50 @@
             "
           />
         </div>
+
+        <div class="w-full inline-flex gap-2 items-center justify-center mt-7">
+          <Checkbox v-model="form.checked" :binary="true" />
+          <p class="text-exd-gray-scorpion font-bold text-exd-1424">
+            {{ $t('acceptTerm') }}
+          </p>
+        </div>
+        <div
+          class="w-full mt-5 border border-exd-gray-44 rounded-xl bg-white h-[98px] max-w-xs mx-auto text-exd-gray-scorpion pr-2"
+          style="box-shadow: 0px 3px 3px 0px rgba(0, 0, 0, 0.1608)"
+        >
+          <div
+            class="max-h-[85px] mt-[5.5px] scrollable-content overflow-y-auto pl-6 pr-4"
+          >
+            <p class="text-exd-1424 font-bold text-center">
+              {{ $t('termOfService') }}
+            </p>
+
+            <div
+              class="text-exd-1220 font-medium leading-relaxed h-[84px] flex flex-col gap-1"
+            >
+              <p
+                v-for="i in 20"
+                :key="i"
+                class="flex flex-col gap-1 text-justify"
+              >
+                <span>{{ t(`dummyDummy.subTitle.term${i}`) }}</span>
+                {{ t(`dummyDummy.detail.term${i}`) }}
+              </p>
+            </div>
+          </div>
+        </div>
       </div>
-      <div class="mt-1" />
-      <SolidButton
-        :label="$t('change')"
-        :has-loading="isLoading"
-        :disabled="!isButtonEnabled"
-        :on-click="handleSubmit"
-        has-bottom
-      />
+      <div class="mt-16" />
+      <div class="fixed bottom-0 w-full max-w-md mx-auto  mb-2 z-50">
+        <SolidButton
+          :label="$t('change')"
+          :has-loading="isLoading"
+          :disabled="!isButtonEnabled"
+          :on-click="handleSubmit"
+          variant="red-coral"
+          has-bottom
+        />
+      </div>
     </div>
   </div>
 
@@ -344,21 +258,14 @@ const errorKeyPostCode = ref('')
 const errorPostCodeMessage = computed(() => t(errorKeyPostCode.value))
 
 const form = reactive({
-  nickName: '',
-  age: null,
   gender: '',
-  phoneNumber: '',
-  address: '',
   email: '',
   postCode: '',
   prefecture: '',
   city: '',
   area: '',
-  residenceType: '',
-  countryCode: '',
   password: '',
-  questionnaire1: '',
-  questionnaire2: '',
+  checked: false,
 })
 
 const errorMessages = ref([])
@@ -451,24 +358,14 @@ const validateForm = () => {
 }
 
 const populateForm = (data) => {
-  form.nickName = data.nickname || ''
-  form.age = data.age || null
   form.gender = data.gender || ''
   form.email = data.email || ''
-  form.residenceType = data.residence_type || 'overseas'
   form.password = ''
-  form.questionnaire1 = data.questionnaire_1 || ''
-  form.questionnaire2 = data.questionnaire_2 || ''
-
-  if (data.residence_type === 'domestic') {
-    form.postCode = data.postal_code.name || ''
-    form.prefecture = data.prefecture.name || ''
-    form.city = data.city.name || ''
-    form.area = data.area.name || ''
-    form.address = data.area.name || ''
-  } else {
-    form.countryCode = data.country_code || ''
-  }
+  form.postCode = data.postal_code.name || ''
+  form.prefecture = data.prefecture.name || ''
+  form.city = data.city.name || ''
+  form.area = data.area.name || ''
+  form.address = data.area.name || ''
 }
 
 const fetchGetUserData = async () => {
@@ -539,25 +436,14 @@ const handleApiError = (error) => {
 
 const buildPayload = () => {
   const payload = {
-    nickname: form.nickName,
-    age: form.age,
     gender: form.gender,
     email: form.email,
     password: form.password,
-    residence: form.residenceType,
-    residence_type: form.residenceType,
-    questionnaire_1: form.questionnaire1,
-    questionnaire_2: form.questionnaire2,
-  }
-
-  if (form.residenceType === 'overseas') {
-    payload.country_code = form.countryCode
-  } else {
-    payload.postal_code = form.postCode
-    payload.prefecture = form.prefecture
-    payload.city = form.city
-    payload.area = form.area
-    payload.address = form.address
+    postal_code: form.postCode,
+    prefecture: form.prefecture,
+    city: form.city,
+    area: form.area,
+    address: form.address,
   }
 
   return payload

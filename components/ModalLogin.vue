@@ -50,12 +50,13 @@
         <SolidButton
           :label="$t('login')"
           :onClick="handleSubmit"
+          variant="red-coral"
           :disabled="!isValidInput || isLoading"
           :has-loading="isLoading"
         />
         <SolidButton
           :label="$t('newMemberRegistration')"
-          variant="red"
+          variant="blue-green"
           :onClick="handleToRegister"
         />
       </div>
@@ -229,6 +230,7 @@ const saveSpin = async () => {
   const slug = parseData?.slug?.toUpperCase()
   const slugStorageName = `${slug}_GACHA`
   const slugStorage = decryptData(localStorage.getItem(slugStorageName))
+
   try {
     const { data } = await useFetchApi('POST', 'gacha/save', {
       body: {
@@ -236,13 +238,16 @@ const saveSpin = async () => {
         location_id: slugStorage?.location_id,
         character_id: slugStorage?.character_id,
         log_id: slugStorage?.log_id,
+        gift_image: slugStorage?.gift_image,
+        gift_name: slugStorage?.voucher_name,
+        gift_type: slugStorage?.gift_type,
       },
     })
 
     storedData.value = null
     localStorage.removeItem(slugStorageName)
 
-    sessionStorage.setItem('IS_ALREADY_SPIN', data.is_already_spin)
+    // sessionStorage.setItem('IS_ALREADY_SPIN', data.is_already_spin)
   } catch (error) {
     console.log("Error: Can't save spin result")
 

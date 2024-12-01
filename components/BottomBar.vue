@@ -4,13 +4,15 @@
   >
     <div class="inline-flex gap-3 w-full pt-3">
       <div
-        class="absolute -top-10 bg-[url('assets/images/point_navbar.svg')] bg-cover bg-center w-[104px] h-[104px] flex flex-col justify-center items-center"
+        class="absolute -top-10 bg-[url('assets/images/point-navbar.png')] bg-cover bg-center w-[104px] h-[104px] flex flex-col justify-center items-center"
       >
-        <p class="text-white text-exd-1020 font-bold mt-10 -ml-4">
+        <p
+          class="text-white text-[10px] font-bold mt-10 -ml-4 max-w-14 text-center"
+        >
           {{ $t('currentPoints') }}
         </p>
         <p class="text-white text-exd-2856 font-bold relative -top-2 -ml-4">
-          {{ store.point }}<span class="text-exd-1020">pt</span>
+          {{ store.point }}<span class="text-exd-1020">個</span>
         </p>
       </div>
 
@@ -28,7 +30,7 @@
 </template>
 
 <script setup>
-import iconPin from '~/assets/images/icon-pin.svg'
+import iconGift from '~/assets/images/icon-gift.svg'
 import iconStar from '~/assets/images/icon-star.svg'
 import iconPerson from '~/assets/images/icon-person.png'
 import { store } from '~/stores/dashboard.js'
@@ -38,14 +40,14 @@ const router = useRouter()
 
 const menuItems = ref([
   {
-    icon: iconPin,
-    label: 'digitalMap',
-    onClick: () => window.open('https://www.nagoya-info.jp/#dmap', '_blank'),
-  },
-  {
     icon: iconStar,
     label: 'listOfPrizesAndExchanges',
     onClick: () => router.push('/prize'),
+  },
+  {
+    icon: iconGift,
+    label: 'collection',
+    onClick: () => router.push('/history'),
   },
   {
     icon: iconPerson,

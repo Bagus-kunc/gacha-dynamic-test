@@ -8,20 +8,20 @@
     </p>
     <div class="flex-1 w-full relative">
       <div
-        class="border-4 border-exd-red-vermilion flex-1 w-5/6 text-center absolute top-8 left-1/2 transform -translate-x-1/2 px-6 py-2 text-exd-red-vermilion !font-extrabold rounded-lg text-[38px]"
+        class="border-4 border-exd-red-coral flex-1 w-5/6 text-center absolute top-8 left-1/2 transform -translate-x-1/2 px-6 py-2 text-exd-red-coral !font-extrabold rounded-lg text-[38px]"
       >
         {{ $t('replaced') }}
       </div>
     </div>
   </div>
   <div class="flex flex-col w-full relative gap-1">
-    <SolidButton
+    <!-- <SolidButton
       :on-click="() => goTo('external')"
       :label="$t('digitalMapTop')"
-    />
+    /> -->
     <div class="h-5 w-full" />
     <SolidButton
-      variant="red"
+      variant="red-coral"
       :on-click="() => goTo('top')"
       :has-loading="isLoading"
       :label="$t('gachaTop')"

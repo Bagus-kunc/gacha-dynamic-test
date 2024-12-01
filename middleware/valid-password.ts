@@ -1,11 +1,24 @@
-export default defineNuxtRouteMiddleware((to, from) => {
+export default defineNuxtRouteMiddleware(async (to, from) => {
   const validPassword = useCookie('VALID_PASSWORD')
+  const { decryptData } = useEncryption()
 
-  if (!validPassword.value) {
-    const randomCode = to.params?.randomCode || from.params?.randomCode
+  const randomCode = to.params?.randomCode || from.params?.randomCode
+  const { data }: any = await useFetchApi(
+    'GET',
+    '/location/password/' + randomCode
+  )
 
+  const validSlug = decryptData(validPassword.value || '{}')
+
+  if (data && data.not_required_pin === 0 && validSlug?.slug !== randomCode) {
     return navigateTo({
       path: `/scan/${randomCode}`,
+    })
+  }
+
+  if (data && data.not_required_pin === 1 && validSlug?.slug !== randomCode) {
+    return navigateTo({
+      path: `/spin/${randomCode}`,
     })
   }
 })

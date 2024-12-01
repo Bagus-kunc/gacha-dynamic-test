@@ -55,9 +55,9 @@ const checkCaches = () => {
     '/logo-icon.ico',
     '/video/spin-point.mp4',
     '/video/spin-character.mp4',
-    '/images/gacha2.webp',
+    '/images/gacha-blue-green.png',
     '/images/bg-red2.webp',
-    '/images/sparkling.webp',
+    '/images/sparkling.png',
     '/images/bg-green.webp',
     '/images/logo.png',
     '/images/warning.svg',
@@ -65,6 +65,12 @@ const checkCaches = () => {
     '/images/export.svg',
     '/images/intl-icon.svg',
     '/images/back-button.svg',
+    '/images/character.png',
+    '/images/ssr.png',
+    '/images/sr.png',
+    '/images/r.png',
+    '/images/text-char.png',
+    '/icons/icon-gift.svg',
   ]
   caches
     .open('gacharary-v2')
@@ -88,7 +94,7 @@ const checkCaches = () => {
 <template>
   <div
     v-if="loading"
-    class="w-full max-w-md mx-auto h-screen overflow-hidden bg-[url('~/assets/images/bg-loading.webp')] bg-cover bg-center flex flex-col fixed z-[1000]"
+    class="w-full max-w-md mx-auto h-screen overflow-hidden bg-[url('~/assets/images/bg-blue-green.png')] bg-cover bg-center flex flex-col fixed z-[1000]"
   >
     <div
       class="h-full w-full flex flex-col justify-center items-center text-exd-red"

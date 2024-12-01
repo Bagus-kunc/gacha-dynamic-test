@@ -7,19 +7,12 @@
       {{ $t('myPage') }}
     </p>
   </HeaderBar>
-  <div class="flex flex-col bg-center">
-    <div class="flex flex-col mt-[25%] items-center">
-      <p class="text-white text-exd-1530 font-bold">
-        {{ $t('currentPoints') }}
-      </p>
-      <p class="text-white text-exd-56112 font-bold relative -top-10">
-        {{ store.point }}<span class="text-exd-1530 ml-1">pt</span>
-      </p>
-    </div>
+  <div class="flex flex-col bg-center px-12">
+    <div class="flex flex-col mt-[35%] items-center"></div>
 
-    <div class="inline-flex gap-4 items-center justify-center relative -top-12">
+    <div class="inline-flex flex-col gap-4 items-center justify-center relative -top-12 mt-16">
       <div
-        class="bg-white rounded-xl p-6 w-exd-148 h-exd-130 flex flex-col justify-center items-center cursor-pointer"
+        class="bg-white rounded-xl p-6 w-full h-exd-130 flex justify-center items-center cursor-pointer"
         style="box-shadow: 0px 3px 3px 0px rgba(0, 0, 0, 0.1608)"
         @click="handleGoToPrize"
       >
@@ -36,7 +29,7 @@
         </p>
       </div>
       <div
-        class="bg-white rounded-xl p-6 w-exd-148 h-exd-130 flex flex-col justify-center items-center"
+        class="bg-white rounded-xl p-6 w-full h-exd-130 flex justify-center items-center cursor-pointer"
         style="box-shadow: 0px 3px 3px 0px rgba(0, 0, 0, 0.1608)"
         @click="handleGoToHistory"
       >
@@ -53,9 +46,9 @@
         </p>
       </div>
     </div>
-    <div class="w-exd-312 mx-auto relative -top-12">
+    <div class="w-full relative -top-12">
       <div
-        class="mt-5 bg-white w-exd-312 h-exd-50 mx-auto rounded-tl-xl rounded-tr-xl px-5 inline-flex justify-between items-center cursor-pointer border-b-2 border-b-exd-light-grey"
+        class="mt-5 bg-white h-exd-50 w-full rounded-tl-xl rounded-tr-xl px-5 inline-flex justify-between items-center cursor-pointer border-b-2 border-b-exd-light-grey"
         style="box-shadow: 0px 3px 3px 0px rgba(0, 0, 0, 0.1608)"
         @click="profile"
       >
@@ -72,7 +65,30 @@
         />
       </div>
       <div
-        class="bg-white w-exd-312 h-exd-50 mx-auto px-5 inline-flex justify-between items-center border-b-2 border-b-exd-light-grey"
+        class="bg-white w-full h-exd-50 px-5 inline-flex justify-between items-center border-b-2 border-b-exd-light-grey cursor-pointer"
+        style="box-shadow: 0px 3px 3px 0px rgba(0, 0, 0, 0.1608)"
+        @click="handleGoToHelp()"
+      >
+        <p
+          class="text-exd-gray-scorpion grow inline-flex items-center gap-1 text-exd-1424 font-bold"
+        >
+          {{ $t('shoppingStreet') }}
+          <span>
+            <img :src="exportIcon" alt="export" width="20" height="20" preload
+          /></span>
+        </p>
+        <img
+          :src="arrow"
+          alt="arrow"
+          width="12"
+          height="12"
+          preload
+          class="invert"
+        />
+      </div>
+
+      <div
+        class="bg-white w-full h-exd-50 px-5 inline-flex justify-between items-center border-b-2 border-b-exd-light-grey"
         style="box-shadow: 0px 3px 3px 0px rgba(0, 0, 0, 0.1608)"
         @click="handleGoToHelp()"
       >
@@ -94,29 +110,7 @@
         />
       </div>
       <div
-        class="bg-white w-exd-312 h-exd-50 mx-auto px-5 inline-flex justify-between items-center border-b-2 border-b-exd-light-grey"
-        style="box-shadow: 0px 3px 3px 0px rgba(0, 0, 0, 0.1608)"
-        @click="handleGoToDigitalMap()"
-      >
-        <p
-          class="text-exd-gray-scorpion grow inline-flex items-center gap-1 cursor-pointer text-exd-1424 font-bold"
-        >
-          {{ $t('toTheDigitalMap') }}
-          <span>
-            <img :src="exportIcon" alt="export" width="20" height="20" preload
-          /></span>
-        </p>
-        <img
-          :src="arrow"
-          alt="arrow"
-          width="12"
-          height="12"
-          preload
-          class="invert"
-        />
-      </div>
-      <div
-        class="bg-white w-exd-312 h-exd-50 mx-auto rounded-bl-xl rounded-br-xl px-5 inline-flex justify-between items-center cursor-pointer"
+        class="bg-white w-full h-exd-50 rounded-bl-xl rounded-br-xl px-5 inline-flex justify-between items-center cursor-pointer"
         style="box-shadow: 0px 3px 3px 0px rgba(0, 0, 0, 0.1608)"
         @click="logout"
       >
@@ -136,7 +130,7 @@
       </div>
     </div>
     <div
-      class="w-exd-312 h-exd-50 mx-auto inline-flex justify-between items-center mt-7 relative -top-12"
+      class="w-full h-exd-50 inline-flex justify-between items-center mt-7 relative -top-12"
     >
       <!-- <p
         class="text-white grow inline-flex items-center justify-center font-bold text-exd-1424"
@@ -224,7 +218,7 @@ const handleGoToHistory = () => router.push('/history')
 const handleGoToPrize = () => router.push('/prize')
 const profile = () => router.push('/profile')
 const handleGoToHelp = () => {
-  window.open('https://digital-gurutto.dela-kuji.jp/manual', '_blank')
+  window.open('https://endojishotengai.com/manual', '_blank')
 }
 const handleGoToDigitalMap = () => {
   window.open('https://nospot.new-ordinary.co.jp/maps/nagoya', '_blank')
