@@ -59,7 +59,7 @@
           >
             カテゴリ
           </p>
-          <p class="text-exd-gray-scorpion">所属ダミーダミーダミーダミー</p>
+          <p class="text-exd-gray-scorpion">{{ historyDetailData.character_category }}</p>
         </div>
 
         <Skeleton
@@ -78,15 +78,15 @@
         >
           <!-- <div> -->
           <p class="flex justify-between items-center max-w-full">
-            ダミーダミーダミーダミー
+            {{ historyDetailData.character_star_name1 }}
             <StarRating :value="value1" :show-value="false" />
           </p>
           <p class="flex justify-between items-center max-w-full">
-            ダミーダミーダミー
+            {{ historyDetailData.character_star_name2 }}
             <StarRating :value="value2" :show-value="false" />
           </p>
           <p class="flex justify-between items-center max-w-full">
-            ダミーダミー
+            {{ historyDetailData.character_star_name3 }}
             <StarRating :value="value3" :show-value="false" />
           </p>
         </div>

@@ -15,7 +15,7 @@
 
           <CharacterCard
             v-else
-            :image="prizeDetailData.image"
+            :image="prizeDetailData.gift.image"
             variant="without-background"
           />
         </div>
@@ -40,10 +40,14 @@
             </p>
           </div>
 
+          <Skeleton v-if="isFetching" class="!w-full !h-full" />
+
+
           <HeadingSection
+          v-else
             :is-fetching="isFetching"
             :title="$t('conditionsOfUse')"
-            :body="prizeDetailData.terms_of_use"
+            :body="prizeDetailData.gift.term_of_use"
           />
         </div>
       </div>
@@ -151,9 +155,9 @@ const fetchRedeem = async () => {
   try {
     errorMessage.value = null
     disableSwipe.value = true
-    const { message, status } = await useFetchApi('POST', 'prizes/redeem', {
+    const { message, status } = await useFetchApi('POST', 'prizes/redeem-point', {
       params: {
-        prize_id: id,
+        user_point_id: id,
       },
     })
 
@@ -198,7 +202,7 @@ const id = route.params.id
 const fetchingPrizeData = async () => {
   isFetching.value = true
   try {
-    const { data } = await useFetchApi('GET', 'prizes/' + id)
+    const { data } = await useFetchApi('GET', 'prize-by-poin/' + id)
     prizeDetailData.value = data
   } catch (error) {
     console.log(error)

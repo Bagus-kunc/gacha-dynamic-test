@@ -23,8 +23,8 @@
     <template v-if="!isFetching">
       <ImageTextCard
         v-for="item in prizesData"
-        :key="item.point_id"
-        :on-click="() => handleGoToDetailRedeem(item.point_id)"
+        :key="item.user_point_id"
+        :on-click="() => handleGoToDetailRedeem(item.user_point_id)"
         :image-card="item.image"
       >
         <template v-slot:text>

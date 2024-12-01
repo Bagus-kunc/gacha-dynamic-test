@@ -52,10 +52,10 @@
       </template>
       <template v-else>
         <PagesPrizeHistory
-          v-for="(prize, key) in prizes"
+          v-for="(redeem, key) in redeems"
           :key="key"
           :keyBody="key"
-          :body="prize"
+          :body="redeem"
           :currentPoint="store.point"
           :is-fetching="false"
         />
@@ -94,6 +94,7 @@ definePageMeta({
 })
 
 const prizes = ref([])
+const redeems = ref([])
 const prizeCards = ref(null)
 const isFetching = ref(false)
 const rankColor = ref('rainbow')
@@ -106,6 +107,19 @@ const fetchingPrizesData = async () => {
     const { data } = await useFetchApi('GET', 'prize-by-poin')
 
     prizes.value = dataArrays(data)
+  } catch (error) {
+    console.log(error)
+  } finally {
+    isFetching.value = false
+  }
+}
+
+const fetchingRedeemsData = async () => {
+  try {
+    isFetching.value = true
+    const { data } = await useFetchApi('GET', 'prize-redeemed')
+    redeems.value = data.data
+
   } catch (error) {
     console.log(error)
   } finally {
@@ -148,7 +162,8 @@ const handleScrollDown = () => {
 }
 
 onMounted(() => {
-  fetchingPrizesData()
+  fetchingPrizesData(),
+  fetchingRedeemsData()
 })
 </script>
 
