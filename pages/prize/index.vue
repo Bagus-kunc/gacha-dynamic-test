@@ -21,7 +21,6 @@
           :keyBody="n"
           :body="[]"
           :currentPoint="0"
-          :rankColor="n"
           :is-fetching="true"
         />
       </template>
@@ -32,15 +31,14 @@
           :keyBody="key"
           :body="prize"
           :currentPoint="store.point"
-          :rankColor="rankColor"
           :is-fetching="false"
         />
       </template>
     </div>
 
     <div ref="prizeHistory" class="flex flex-col px-8 relative -bottom-5">
-      <div class="bg-exd-gray-44 px-2 py-1 text-exd-1422">
-        <p>交換履歴</p>
+      <div class="bg-exd-gray-44 px-2 py-1 text-exd-1424">
+        <p>{{ $t('exchangeHistory') }}</p>
       </div>
       <template v-if="isFetching">
         <PagesPrizeHistory
@@ -49,7 +47,6 @@
           :keyBody="n"
           :body="[]"
           :currentPoint="0"
-          :rankColor="n"
           :is-fetching="true"
         />
       </template>
@@ -60,16 +57,6 @@
           :keyBody="key"
           :body="prize"
           :currentPoint="store.point"
-          :rankColor="rankColor"
-          :is-fetching="false"
-        />
-        <PagesPrizeHistory
-          v-for="(prize, key) in prizes"
-          :key="key"
-          :keyBody="key"
-          :body="prize"
-          :currentPoint="store.point"
-          :rankColor="rankColor"
           :is-fetching="false"
         />
       </template>
@@ -77,10 +64,22 @@
 
     <div class="vertical-menu bottom-10">
       <div class="menu-item">
-        <p class="btn-click" @click="handleScrollUp">景 品 一 覧</p>
+        <p
+          class="btn-click"
+          :class="{ 'reverse-mode': $i18n.locale === 'en' }"
+          @click="handleScrollUp"
+        >
+          {{ $t('listOfPrizes') }}
+        </p>
       </div>
       <div class="menu-item">
-        <p class="btn-click" @click="handleScrollDown">交 換 履 歴</p>
+        <p
+          class="btn-click"
+          :class="{ 'reverse-mode': $i18n.locale === 'en' }"
+          @click="handleScrollDown"
+        >
+          {{ $t('exchangeHistory') }}
+        </p>
       </div>
     </div>
   </div>
@@ -104,10 +103,9 @@ const prizeHistory = ref(null)
 const fetchingPrizesData = async () => {
   try {
     isFetching.value = true
-    const { data } = await useFetchApi('GET', 'prizes')
+    const { data } = await useFetchApi('GET', 'prize-by-poin')
 
     prizes.value = dataArrays(data)
-    console.log(prizes.value)
   } catch (error) {
     console.log(error)
   } finally {
@@ -122,7 +120,6 @@ const dataArrays = (data) => {
       acc[key] = []
     }
     acc[key] = acc[key].concat(obj[key])
-    console.log('data array', acc)
     return acc
   }, {})
 }
@@ -138,8 +135,8 @@ const handleScrollUp = () => {
 
 const handleScrollDown = () => {
   if (prizeHistory.value) {
-    prizeHistory.value.style.paddingTop = '140px'
-    prizeHistory.value.style.marginTop = '-140px'
+    prizeHistory.value.style.paddingTop = '120px'
+    prizeHistory.value.style.marginTop = '-120px'
 
     prizeHistory.value.scrollIntoView({ behavior: 'smooth' })
 
@@ -152,7 +149,6 @@ const handleScrollDown = () => {
 
 onMounted(() => {
   fetchingPrizesData()
-  console.log('prize', prizes.value)
 })
 </script>
 
@@ -175,9 +171,6 @@ onMounted(() => {
 .menu-item {
   margin: 5px 0;
   pointer-events: auto;
-}
-
-.btn-click {
   writing-mode: vertical-rl;
   font-size: 16px;
   font-weight: bold;
@@ -188,5 +181,13 @@ onMounted(() => {
   border-top-left-radius: 10px;
   transition: color 0.3s, background-color 0.3s;
   color: white;
+}
+
+.btn-click {
+}
+
+.reverse-mode {
+  writing-mode: vertical-lr;
+  transform: rotate(180deg);
 }
 </style>

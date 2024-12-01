@@ -1,7 +1,7 @@
 <template>
   <div class="bg-white">
     <ImageTextCard
-      v-for="item in body"
+      v-for="item in prizesData"
       :key="item.id"
       :on-click="() => handleGoToDetailRedeem(item.id)"
       :history="true"
@@ -61,10 +61,13 @@ const props = defineProps({
   },
 })
 
-const color = ref(props.rankColor)
+const color = ref('')
+
+const redeemLimit = ref(null)
+const prizesData = ref({})
 
 const handleRankColor = () => {
-  const rank = props.rankColor
+  const rank = props.keyBody
   if (rank === 'rainbow') {
     color.value = rainbow
     return color.value
@@ -83,7 +86,16 @@ const handleRankColor = () => {
   }
 }
 
+const mapBody = () => {
+  props.body.map((item) => {
+    redeemLimit.value = item.totalData
+    prizesData.value = item.data
+    console.log('item body', item.totalData)
+  })
+}
+
 handleRankColor()
+mapBody()
 
 const handleGoToDetailRedeem = (id) => {
   console.log('klik id', id)

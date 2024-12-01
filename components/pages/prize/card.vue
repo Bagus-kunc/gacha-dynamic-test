@@ -6,14 +6,13 @@
     >
       <template v-if="!isFetching">
         <p class="text-white font-bold text-exd-1824">
-          <!-- {{ keyBody }}-->
-          1<span class="text-exd-1424">等</span>
+          <span class="text-[16px]"> {{ t(classType) }} </span>
         </p>
 
         <p
-          v-if="currentPoint >= keyBody"
+          v-if="currentPoint >= redeemLimit"
           class="text-white font-medium text-exd-1224"
-          v-html="limit"
+          v-html="totalData"
         ></p>
       </template>
       <template v-else>
@@ -23,9 +22,9 @@
     </div>
     <template v-if="!isFetching">
       <ImageTextCard
-        v-for="item in body"
-        :key="item.id"
-        :on-click="() => handleGoToDetailRedeem(item.id)"
+        v-for="item in prizesData"
+        :key="item.point_id"
+        :on-click="() => handleGoToDetailRedeem(item.point_id)"
         :image-card="item.image"
       >
         <template v-slot:text>
@@ -62,18 +61,12 @@ const { t } = useI18n()
 
 const props = defineProps({
   isFetching: { type: Boolean, default: false },
-  body: {
-    type: Object,
-    default: () => {},
-  },
+
   body: {
     type: Object,
     default: () => {},
   },
   keyBody: {
-    type: [String, Number],
-  },
-  rankColor: {
     type: [String, Number],
   },
   currentPoint: {
@@ -82,37 +75,54 @@ const props = defineProps({
   },
 })
 
-const color = ref(props.rankColor)
+const color = ref('')
+const totalData = ref('')
+const classType = ref('')
 
-const redeemLimit = 3
-
-const limit = t('canBeReplaced', { limit: redeemLimit })
+const redeemLimit = ref(null)
+const prizesData = ref({})
 
 const router = useRouter()
 const handleGoToDetailRedeem = (id) => router.push(`/prize/${id}`)
 
-const handleRankColor = () => {
-  const rank = props.rankColor
+const handleRankClass = () => {
+  const rank = props.keyBody
   if (rank === 'rainbow') {
     color.value = rainbow
+    classType.value = 'specialPrize'
     return color.value
   } else if (rank === 'gold') {
     color.value = gold
+    classType.value = '1stClass'
     return color.value
   } else if (rank === 'silver') {
     color.value = silver
+    classType.value = '2ndClass'
     return color.value
   } else if (rank === 'bronze') {
     color.value = bronze
+    classType.value = '3rdClass'
     return color.value
   } else if (rank === 'brown') {
     color.value = brown
+    classType.value = '4thClass'
     return color.value
   }
 }
 
-handleRankColor()
+const mapBody = () => {
+  props.body.map((item) => {
+    redeemLimit.value = item.totalData
+    prizesData.value = item.data
+
+    totalData.value = t('canBeReplaced', { limit: redeemLimit.value })
+
+    console.log('item body', item.data)
+  })
+}
+
+handleRankClass()
+mapBody()
 
 console.log('keyBody', props.keyBody)
-console.log('rankColor', props.rankColor)
 </script>

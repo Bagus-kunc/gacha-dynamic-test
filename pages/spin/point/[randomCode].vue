@@ -21,7 +21,7 @@
       <CircleSpinPoint
         class="relative top-1/2 -translate-y-[60%]"
         :imageSrc="typeImageUrl"
-        :typeSrc="pointImageUrl"
+        :typeSrc="giftImageUrl"
         width="100%"
         height="800"
       />
@@ -59,9 +59,10 @@ const TOKEN = useCookie('TOKEN')
 const playVideo = ref(false)
 const { encryptData, decryptData } = useEncryption()
 
-const pointImageUrl = ref(null)
+const giftImageUrl = ref(null)
 const typeImageUrl = ref(null)
 const voucherName = ref(null)
+const giftType = ref(null)
 
 definePageMeta({
   middleware: 'valid-password',
@@ -96,14 +97,12 @@ const fetchImageFromApi = async () => {
         body: { ...payload },
       })
 
-      sessionStorage.setItem('IS_ALREADY_SPIN', data.is_already_spin)
+      // sessionStorage.setItem('IS_ALREADY_SPIN', data.is_already_spin)
 
       console.log('userGift', data)
 
       const storage = {
         location_id: data.userPoint.location.id,
-        point_id: data.userPoint.point.id,
-        point_image: data.userPoint.point.image,
         character_id: data.userCollection.gacha_character.id,
         character_image: data.userCollection.gacha_character.image,
         character_category: data.userCollection.gacha_character.category,
@@ -112,23 +111,28 @@ const fetchImageFromApi = async () => {
         character_star2: data.userCollection.gacha_character.star2,
         character_star3: data.userCollection.gacha_character.star3,
         point: data.userPoint.point.point.value,
-        voucher_name: data.userPoint.point.name,
-        point_type_image: data.userPoint.point.typeImage,
+        gift_id: data.userPoint.gift.point_id,
+        gift_image: data.userPoint.gift.image,
+        gift_type: data.userPoint.gift.type,
+        voucher_name: data.userPoint.gift.name,
+        gift_type_image: data.userPoint.gift.typeImage,
       }
 
       localStorage.setItem(slugStorageName, encryptData(storage))
 
-      pointImageUrl.value = data.userPoint.gift.image
+      giftImageUrl.value = data.userPoint.gift.image
       voucherName.value = data.userPoint.gift.name
       typeImageUrl.value = data.userPoint.gift.typeImage
+      giftType.value = data.userPoint.gift.type
     } else {
       const slugData = localStorage.getItem(slugStorageName)
 
       if (slugData) {
         const parse = decryptData(slugData)
-        pointImageUrl.value = parse.point_image
+        giftImageUrl.value = parse.gift_image
         voucherName.value = parse.voucher_name
-        typeImageUrl.value = parse.point_type_image
+        typeImageUrl.value = parse.gift_type_image
+        giftType.value = parse.gift_type
 
         localStorage.setItem(
           slugStorageName,
@@ -161,14 +165,18 @@ const fetchImageFromApi = async () => {
         character_star3: data.character.star3,
         point: apiPoint.value,
         log_id: data.log_id,
+        gift_id: data.gift.point_id,
+        gift_image: data.gift.image,
         voucher_name: data.gift.name,
-        point_type_image: data.gift.typeImage,
+        gift_type: data.gift.type,
+        gift_type_image: data.gift.typeImage,
       }
 
       localStorage.setItem(slugStorageName, encryptData(storage))
-      pointImageUrl.value = data.gift.image
+      giftImageUrl.value = data.gift.image
       voucherName.value = data.gift.name
       typeImageUrl.value = data.gift.typeImage
+      giftType.value = data.gift.type
     }
 
     if (error) {
@@ -184,10 +192,10 @@ const fetchImageFromApi = async () => {
     console.error('Unexpected error:', e)
   }
 }
-const reportMultipleSpin = async ({ point_id, character_id, location_id }) => {
+const reportMultipleSpin = async ({ gift_id, character_id, location_id }) => {
   try {
     const response = await useFetchApi('POST', 'gacha/report', {
-      body: { point_id, character_id, location_id },
+      body: { gift_id, character_id, location_id },
     })
 
     console.log('multiple', response)
@@ -199,8 +207,6 @@ const reportMultipleSpin = async ({ point_id, character_id, location_id }) => {
 const handleGoToCharacter = async () => {
   await navigateTo(`/spin/character/${route.params.randomCode}`)
 }
-
-console.log('type', typeImageUrl.value)
 
 onMounted(() => {
   fetchImageFromApi()

@@ -13,7 +13,7 @@
 
     <slot name="header"></slot>
 
-    <section class="min-h-dvh max-h-[calc(100dvh-30px)] overflow-y-auto">
+    <section class="min-h-dvh max-h-[calc(100dvh-30%)] overflow-y-auto">
       <slot />
     </section>
     <BottomBar />

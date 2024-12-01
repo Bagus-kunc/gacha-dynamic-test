@@ -7,7 +7,7 @@
       ]"
       @click="handleClick"
     >
-      <div v-if="!history" class="w-full max-w-20 max-h-20 bg-[#e9f9f8]">
+      <div v-if="!history" class="w-full max-w-20 max-h-20">
         <CharacterCard :image="imageCard" variant="without-background" />
       </div>
       <slot name="text"></slot>
