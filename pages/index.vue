@@ -3,7 +3,7 @@
     @touchmove="(e) => e.preventDefault()"
     class="flex flex-col grow bg-[url('/images/bg-blue-green.png')] bg-cover bg-center justify-between relative overflow-hidden cursor-pointer"
   >
-    <div class="background-gradient absolute inset-0"></div>
+    <div class="bg-[#2cc9b9] absolute inset-0"></div>
 
     <!-- container scrollable -->
     <div
@@ -11,7 +11,7 @@
       @touchmove="handleTouchMove"
       @click="handleShowModal"
     >
-      <img src="/assets/images/TOP.png" alt="top" class="h-screen w-full" />
+      <img src="/assets/images/TOP.png" alt="top" class="w-full" />
       <div class="">
         <!-- Tap screen -->
         <!-- <div class="absolute w-full pb-10 tap-screen">
