@@ -25,7 +25,7 @@
           <div class="relative inline-flex justify-between w-full gap-5">
             <Skeleton v-if="isFetching" class="!h-3" width="15rem"></Skeleton>
             <p v-else class="font-bold text-exd-1424 text-exd-gray-scorpion">
-              {{ prizeDetailData.name }}
+              {{ prizeDetailData.gift.name }}
             </p>
             <Skeleton
               v-if="isFetching"
@@ -34,30 +34,42 @@
             ></Skeleton>
             <p
               v-else
-              class="font-bold text-exd-1824.52 text-white p-1 flex items-center justify-center rounded-full right-0 top-5 bg-no-repeat bg-cover bg-center min-h-10 min-w-12"
+              class="font-bold text-exd-1824.52 text-white p-1 flex items-center justify-center rounded-full right-0 top-5 bg-no-repeat bg-cover bg-center w-12 h-12"
               :style="colorBg ? { backgroundImage: `url(${colorBg})` } : {}"
             >
-              1等
+              {{ prizeTypeText }}
             </p>
           </div>
 
           <HeadingSection
             :is-fetching="isFetching"
             :title="$t('howToGetPrizes')"
-            :body="prizeDetailData.how_to_win"
+            :body="
+              prizeDetailData.gift != null
+                ? prizeDetailData.gift.how_to_win
+                : null
+            "
           />
 
           <HeadingSection
             :is-fetching="isFetching"
             :title="$t('conditionsOfUse')"
-            :body="prizeDetailData.terms_of_use"
+            :body="
+              prizeDetailData.gift != null
+                ? prizeDetailData.gift.terms_of_use
+                : null
+            "
           />
 
           <HeadingSection
             v-if="popupType != 'a' && popupType != 'b'"
             :is-fetching="isFetching"
             :title="$t('redemptionLocation')"
-            :body="prizeDetailData.location_description"
+            :body="
+              prizeDetailData.location != null
+                ? prizeDetailData.location.description
+                : null
+            "
           />
 
           <div v-if="popupType != 'a' && popupType != 'b'" class="w-full mb-5">
@@ -201,6 +213,7 @@ const router = useRouter()
 const id = route.params.id
 const hasModal = ref(false)
 const isFetching = ref(true)
+const prizeTypeText = ref(null)
 const prizeDetailData = ref({})
 const disableRedeem = ref(false)
 const config = useRuntimeConfig()
@@ -239,7 +252,7 @@ const fetchingPrizeData = async () => {
     prizeDetailData.value = data
     checkPoint(data.point)
     if (data.lat !== null && data.long !== null) {
-      initializeMap(data.lat, data.long)
+      initializeMap(data.location.lat, data.location.long)
     }
     // popupType.value = data.type
   } catch (error) {
@@ -305,30 +318,34 @@ const openGoogleMaps = () => {
 }
 
 const handleRankColor = () => {
-  const rank = 'gold'
-  if (rank === 'rainbow') {
+  const rank = prizeDetailData.value.gift.type
+  if (rank == 6) {
     colorBg.value = rainbow
+    prizeTypeText.value = '特賞'
     return colorBg.value
-  } else if (rank === 'gold') {
+  } else if (rank == 1) {
     colorBg.value = gold
+    prizeTypeText.value = '1等'
     return colorBg.value
-  } else if (rank === 'silver') {
+  } else if (rank == 2) {
     colorBg.value = silver
+    prizeTypeText.value = '2等'
     return colorBg.value
-  } else if (rank === 'bronze') {
+  } else if (rank == 3) {
     colorBg.value = bronze
+    prizeTypeText.value = '3等'
     return colorBg.value
-  } else if (rank === 'brown') {
+  } else if (rank == 4) {
     colorBg.value = brown
+    prizeTypeText.value = '4等'
     return colorBg.value
   }
 }
 
-handleRankColor()
-
 onMounted(async () => {
   await loadGoogleMaps()
-  fetchingPrizeData()
+  await fetchingPrizeData()
+  handleRankColor()
 })
 
 watch(LOCALE, async (val) => {

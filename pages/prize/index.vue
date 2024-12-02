@@ -14,7 +14,7 @@
     <div class="flex flex-col mt-[42%] items-center mb-4"></div>
 
     <div class="flex flex-col gap-3 px-8 relative -top-14">
-      <template v-if="isFetching">
+       <template v-if="isFetching">
         <PagesPrizeCard
           v-for="n in 1"
           :key="n"
@@ -29,7 +29,8 @@
           v-for="(prize, key) in prizes"
           :key="key"
           :keyBody="key"
-          :body="prize"
+          :body="prize.data"
+          :totalData="prize.totalData"
           :currentPoint="store.point"
           :is-fetching="false"
         />
@@ -105,8 +106,9 @@ const fetchingPrizesData = async () => {
   try {
     isFetching.value = true
     const { data } = await useFetchApi('GET', 'prize-by-poin')
+    prizes.value = data
 
-    prizes.value = dataArrays(data)
+    // prizes.value = dataArrays(data)
   } catch (error) {
     console.log(error)
   } finally {
@@ -128,15 +130,23 @@ const fetchingRedeemsData = async () => {
 }
 
 const dataArrays = (data) => {
-  return data.reduce((acc, obj) => {
-    const key = Object.keys(obj)[0]
-    if (!acc[key]) {
-      acc[key] = []
-    }
-    acc[key] = acc[key].concat(obj[key])
-    return acc
-  }, {})
+  if (Array.isArray(data)) {
+    return data.reduce((acc, obj) => {
+      const key = Object.keys(obj)[0];
+      if (!acc[key]) {
+        acc[key] = [];
+      }
+      acc[key] = acc[key].concat(obj[key]);
+      return acc;
+    }, {});
+  } else if (typeof data === 'object') {
+    return data;
+  } else {
+    console.error('Data tidak valid:', data);
+    return [];
+  }
 }
+
 
 const handleScrollUp = () => {
   if (prizeCards.value) {

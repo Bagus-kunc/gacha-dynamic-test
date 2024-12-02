@@ -46,7 +46,7 @@ const fetchingHistoryData = async () => {
     const data = await useFetchApi('GET', 'history')
 
     histories.value = data.data
-    console.log(histories.value)
+
     character_count.value = data.character_count
     master_count.value = data.master_count
   } catch (error) {

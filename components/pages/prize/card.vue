@@ -6,7 +6,7 @@
     >
       <template v-if="!isFetching">
         <p class="text-white font-bold text-exd-1824">
-          <span class="text-[16px]"> {{ t(classType) }} </span>
+          <span class="text-[16px]" v-html="t(classType)"></span>
         </p>
 
         <p
@@ -33,9 +33,9 @@
               <p class="text-exd-gray-scorpion font-semibold text-[15px]">
                 {{ item.name }}
               </p>
-              <p class="text-exd-red-500 text-exd-1218 font-medium">
-                {{ $t('availablePeriod') }}：{{ item.started_at }}〜
-                {{ item.expired_at }}
+              <p class="text-exd-red-500 text-exd-1320 font-medium">
+                {{ $t('availablePeriod') }}：{{ formatDate(item.started_at) }}〜
+                {{ formatDate(item.expired_at) }}
               </p>
             </div>
           </div>
@@ -110,19 +110,22 @@ const handleRankClass = () => {
   }
 }
 
+const formatDate = (datetime) => {
+  const date = new Date(datetime);
+  return date.toISOString().split('T')[0]; // Mengambil tanggal dari format ISO
+};
+
 const mapBody = () => {
   props.body.map((item) => {
     redeemLimit.value = item.totalData
-    prizesData.value = item.data
 
     totalData.value = t('canBeReplaced', { limit: redeemLimit.value })
 
-    console.log('item body', item.data)
   })
 }
+    prizesData.value = props.body
+
+    console.log(prizesData.value)
 
 handleRankClass()
-mapBody()
-
-console.log('keyBody', props.keyBody)
 </script>

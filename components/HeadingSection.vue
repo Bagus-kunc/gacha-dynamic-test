@@ -32,4 +32,6 @@ const props = defineProps({
     required: true,
   },
 })
+
+console.log('body', props.body)
 </script>

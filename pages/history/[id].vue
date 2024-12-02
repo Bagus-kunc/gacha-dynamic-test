@@ -366,8 +366,6 @@ const fetchingHistoryData = async () => {
     star2.value = calculateStar(data.character_star2)
     star3.value = calculateStar(data.character_star3)
 
-    console.log('detail', data)
-
     star1Name.value = data.character_star_name1
     star2Name.value = data.character_star_name2
     star3Name.value = data.character_star_name3
