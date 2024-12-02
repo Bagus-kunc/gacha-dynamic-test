@@ -12,10 +12,10 @@
         >
           <div class="flex flex-col justify-center gap-1">
             <p
-              class="text-exd-1218 rounded-md text-white px-1 w-8 max-w-10 text-center bg-no-repeat bg-cover bg-center"
+              class="text-exd-1218 rounded-md text-white px-1 w-[30px] text-center bg-no-repeat bg-cover bg-center"
               :style="color ? { backgroundImage: `url(${color})` } : {}"
             >
-              <span class="text-[16px]" v-html="$t(classType)"></span>
+              <span class="text-[10px]">{{ prizeTypeText }}</span>
             </p>
             <p class="font-semibold text-[15px]">
               {{ body.name }}
@@ -64,27 +64,22 @@ const prizesData = ref({})
 const prizeTypeText = ref(null)
 
 const handleRankColor = () => {
-  const rank = props.keyBody
-  if (rank === 'special_prize') {
+  const rank = props.body.type
+  if (rank == 6) {
     color.value = rainbow
-    classType.value = 'specialPrize'
-    return color.value
-  } else if (rank === 'gold') {
+    prizeTypeText.value = "特賞"
+  } else if (rank == 1) {
     color.value = gold
-    classType.value = '1stClass'
-    return color.value
-  } else if (rank === 'silver') {
+    prizeTypeText.value = "1等"
+  } else if (rank == 2) {
     color.value = silver
-    classType.value = '2ndClass'
-    return color.value
-  } else if (rank === 'bronze') {
+    prizeTypeText.value = "2等"
+  } else if (rank == 3) {
     color.value = bronze
-    classType.value = '3rdClass'
-    return color.value
-  } else if (rank === 'iron') {
-    color.value = iron
-    classType.value = '4thClass'
-    return color.value
+    prizeTypeText.value = "3等"
+  } else if (rank == 4) {
+    color.value = brown
+    prizeTypeText.value = "4等"
   }
 }
 
