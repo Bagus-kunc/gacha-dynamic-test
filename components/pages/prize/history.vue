@@ -57,7 +57,6 @@ const props = defineProps({
 })
 
 const color = ref('')
-const classType = ref('')
 
 const redeemLimit = ref(null)
 const prizesData = ref({})
@@ -67,25 +66,25 @@ const handleRankColor = () => {
   const rank = props.body.type
   if (rank == 6) {
     color.value = rainbow
-    prizeTypeText.value = "特賞"
+    prizeTypeText.value = '特賞'
   } else if (rank == 1) {
     color.value = gold
-    prizeTypeText.value = "1等"
+    prizeTypeText.value = '1等'
   } else if (rank == 2) {
     color.value = silver
-    prizeTypeText.value = "2等"
+    prizeTypeText.value = '2等'
   } else if (rank == 3) {
     color.value = bronze
-    prizeTypeText.value = "3等"
+    prizeTypeText.value = '3等'
   } else if (rank == 4) {
     color.value = brown
-    prizeTypeText.value = "4等"
+    prizeTypeText.value = '4等'
   }
 }
 
 handleRankColor()
 
 const handleGoToDetailRedeem = (id) => {
-  // console.log('klik id', id)
+  console.log('klik id', id)
 }
 </script>

@@ -15,14 +15,7 @@
 
     <div class="flex flex-col gap-3 px-8 relative -top-14">
       <template v-if="isFetching">
-        <PagesPrizeCard
-          v-for="n in 1"
-          :key="n"
-          :keyBody="n"
-          :body="[]"
-          :currentPoint="0"
-          :is-fetching="true"
-        />
+        <Skeleton v-if="isFetching" class="!w-full !h-full"></Skeleton>
       </template>
       <template v-else>
         <PagesPrizeCard

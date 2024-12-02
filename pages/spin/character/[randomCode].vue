@@ -6,7 +6,7 @@
     <SparkleStart className="top-3" />
     <div v-if="isVisible" :class="{ notif: true, hide: isHiding }">
       <img :src="iconGift" alt="icon gift" class="w-8 h-8" />
-      <p class="font-bold text-[12px]">{{$t('addToCollection')}}</p>
+      <p class="font-bold text-[12px]">{{ $t('addToCollection') }}</p>
     </div>
     <img
       src="/images/gacha-blue-green.png"
@@ -160,7 +160,6 @@ const handleButton = async () => {
   if (!TOKEN.value && !USER.value) {
     handleShowDialog()
   } else {
-    isVisible.value = true
     console.log('berhasil')
 
     setTimeout(() => {
@@ -169,11 +168,13 @@ const handleButton = async () => {
         isVisible.value = false
         isHiding.value = false
       }, 800)
-    }, 2000)
+    }, 1000)
+
+    isVisible.value = true
 
     setTimeout(async () => {
       await navigateTo('/dashboard')
-    }, 3000)
+    }, 1000)
   }
 }
 
