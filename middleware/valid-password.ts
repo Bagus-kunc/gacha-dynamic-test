@@ -10,6 +10,11 @@ export default defineNuxtRouteMiddleware(async (to, from) => {
 
   const validSlug = decryptData(validPassword.value || '{}')
 
+  if (data) {
+    const multipleSpin = useState('multiple_spin', () => 0)
+    multipleSpin.value = data.multiple_spin
+  }
+
   if (data && data.not_required_pin === 0 && validSlug?.slug !== randomCode) {
     return navigateTo({
       path: `/scan/${randomCode}`,

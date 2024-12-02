@@ -43,7 +43,7 @@
 
     <AutoplayVideo
       v-if="playVideo"
-      src="/video/spin-character.mp4"
+      src="/video/new-spin-character.mp4"
       @ended="handleGoToCharacter"
     />
   </div>
@@ -81,7 +81,6 @@ const fetchImageFromApi = async () => {
     let parsedData
     try {
       parsedData = decryptData(storedData.value)
-      console.log('parsedData', parsedData)
     } catch (e) {
       console.error('Error parsing stored data:', e)
       return
@@ -122,22 +121,25 @@ const fetchImageFromApi = async () => {
       typeImageUrl.value = data.userPoint.gift.typeImage
       giftType.value = data.userPoint.gift.type
     } else {
-      const slugData = localStorage.getItem(slugStorageName)
+      const multipleSpin = useState('multiple_spin')
+      if (!multipleSpin.value) {
+        const slugData = localStorage.getItem(slugStorageName)
 
-      if (slugData) {
-        const parse = decryptData(slugData)
-        giftImageUrl.value = parse.gift_image
-        voucherName.value = parse.voucher_name
-        typeImageUrl.value = parse.gift_type_image
-        giftType.value = parse.gift_type
+        if (slugData) {
+          const parse = decryptData(slugData)
+          giftImageUrl.value = parse.gift_image
+          voucherName.value = parse.voucher_name
+          typeImageUrl.value = parse.gift_type_image
+          giftType.value = parse.gift_type
 
-        localStorage.setItem(
-          slugStorageName,
-          encryptData({ ...parse })
-          // encryptData({ ...parse, is_already_spin: true })
-        )
-        // reportMultipleSpin({ ...parse })
-        return
+          localStorage.setItem(
+            slugStorageName,
+            encryptData({ ...parse })
+            // encryptData({ ...parse, is_already_spin: true })
+          )
+          // reportMultipleSpin({ ...parse })
+          return
+        }
       }
 
       const { data, error } = await useFetchApi('GET', 'gacha/spin', {
