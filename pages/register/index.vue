@@ -334,6 +334,7 @@ const passwordValidate = () => {
 }
 
 const validateForm = () => {
+
   const requiredFields = []
   const firstErrorElement = document.querySelector('.input-error')
 
@@ -351,12 +352,12 @@ const validateForm = () => {
     return false
   }
 
-  for (const field of requiredFields) {
-    if (!form.value[field]) {
-      console.log('Field must be filled:', field)
-      return false
-    }
-  }
+  // for (const field of requiredFields) {
+  //   if (!form.value[field]) {
+  //     console.log('Field must be filled:', field)
+  //     return false
+  //   }
+  // }
 
   return true
 }

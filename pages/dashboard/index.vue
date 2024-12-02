@@ -10,7 +10,9 @@
   <div class="flex flex-col bg-center px-12">
     <div class="flex flex-col mt-[35%] items-center"></div>
 
-    <div class="inline-flex flex-col gap-4 items-center justify-center relative -top-12 mt-16">
+    <div
+      class="inline-flex flex-col gap-4 items-center justify-center relative -top-12 mt-16"
+    >
       <div
         class="bg-white rounded-xl p-6 w-full h-exd-130 flex justify-center items-center cursor-pointer"
         style="box-shadow: 0px 3px 3px 0px rgba(0, 0, 0, 0.1608)"
