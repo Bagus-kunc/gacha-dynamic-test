@@ -99,8 +99,6 @@ const fetchImageFromApi = async () => {
 
       // sessionStorage.setItem('IS_ALREADY_SPIN', data.is_already_spin)
 
-      console.log('userGift', data)
-
       const storage = {
         location_id: data.userPoint.location.id,
         character_id: data.userCollection.gacha_character.id,
@@ -110,7 +108,6 @@ const fetchImageFromApi = async () => {
         character_star1: data.userCollection.gacha_character.star1,
         character_star2: data.userCollection.gacha_character.star2,
         character_star3: data.userCollection.gacha_character.star3,
-        point: data.userPoint.point.point.value,
         gift_id: data.userPoint.gift.point_id,
         gift_image: data.userPoint.gift.image,
         gift_type: data.userPoint.gift.type,
@@ -149,8 +146,6 @@ const fetchImageFromApi = async () => {
           password: parsedData.password,
         },
       })
-
-      console.log(data)
 
       const storage = {
         location_id: data.location.id,
