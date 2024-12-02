@@ -58,6 +58,9 @@ const handleRarity = () => {
     raritySrc.value = '/images/sr-bg.png'
   } else if (rarity === '3') {
     raritySrc.value = '/images/r-bg.png'
+  } else {
+    raritySrc.value = '/images/r-bg.png'
+
   }
 }
 

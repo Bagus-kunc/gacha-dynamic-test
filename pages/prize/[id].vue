@@ -32,32 +32,44 @@
               class="!h-3 !rounded-full !bg-exd-orange-700"
               width="2rem"
             ></Skeleton>
-            <div
+            <p
               v-else
-              class="items-center justify-center rounded-full bg-no-repeat bg-cover bg-center min-h-12 min-w-12"
+              class="font-bold text-exd-1824.52 text-white p-1 flex items-center justify-center rounded-full right-0 top-5 bg-no-repeat bg-cover bg-center w-12 h-12"
               :style="colorBg ? { backgroundImage: `url(${colorBg})` } : {}"
             >
-              <p class="font-bold text-exd-1416 text-white flex items-center justify-center min-h-12 min-w-12 right-0 top-5">{{ prizeTypeText }}</p>
-            </div>
+              {{ prizeTypeText }}
+            </p>
           </div>
 
           <HeadingSection
             :is-fetching="isFetching"
             :title="$t('howToGetPrizes')"
-            :body="prizeDetailData.gift != null ? prizeDetailData.gift.how_to_win : null"
+            :body="
+              prizeDetailData.gift != null
+                ? prizeDetailData.gift.how_to_win
+                : null
+            "
           />
 
           <HeadingSection
             :is-fetching="isFetching"
             :title="$t('conditionsOfUse')"
-            :body="prizeDetailData.gift != null ? prizeDetailData.gift.terms_of_use : null"
+            :body="
+              prizeDetailData.gift != null
+                ? prizeDetailData.gift.terms_of_use
+                : null
+            "
           />
 
           <HeadingSection
             v-if="popupType != 'a' && popupType != 'b'"
             :is-fetching="isFetching"
             :title="$t('redemptionLocation')"
-            :body="prizeDetailData.location != null ? prizeDetailData.location.description : null"
+            :body="
+              prizeDetailData.location != null
+                ? prizeDetailData.location.description
+                : null
+            "
           />
 
           <div v-if="popupType != 'a' && popupType != 'b'" class="w-full mb-5">
@@ -309,27 +321,26 @@ const handleRankColor = () => {
   const rank = prizeDetailData.value.gift.type
   if (rank == 6) {
     colorBg.value = rainbow
-    prizeTypeText.value = "特賞"
+    prizeTypeText.value = '特賞'
     return colorBg.value
   } else if (rank == 1) {
     colorBg.value = gold
-    prizeTypeText.value = "1等"
+    prizeTypeText.value = '1等'
     return colorBg.value
   } else if (rank == 2) {
     colorBg.value = silver
-    prizeTypeText.value = "2等"
+    prizeTypeText.value = '2等'
     return colorBg.value
   } else if (rank == 3) {
     colorBg.value = bronze
-    prizeTypeText.value = "3等"
+    prizeTypeText.value = '3等'
     return colorBg.value
   } else if (rank == 4) {
     colorBg.value = brown
-    prizeTypeText.value = "4等"
+    prizeTypeText.value = '4等'
     return colorBg.value
   }
 }
-
 
 onMounted(async () => {
   await loadGoogleMaps()

@@ -5,8 +5,8 @@
   >
     <SparkleStart className="top-3" />
     <div v-if="isVisible" :class="{ notif: true, hide: isHiding }">
-      <img :src="iconGift" alt="icon gift" class="w-10 h-10" />
-      <p class="font-bold">コレクションに追加しました</p>
+      <img :src="iconGift" alt="icon gift" class="w-8 h-8" />
+      <p class="font-bold text-[12px]">{{$t('addToCollection')}}</p>
     </div>
     <img
       src="/images/gacha-blue-green.png"
@@ -31,7 +31,7 @@
       />
 
       <div
-        class="absolute text-exd-dark-grey bg-white flex justify-center bottom-[17%] lg:bottom-[20%] ml-3 px-2 py-3 w-full max-w-[190px] h-auto rounded-lg"
+        class="absolute text-exd-dark-grey bg-white flex justify-center bottom-[15%] lg:bottom-[15%] ml-3 px-2 py-3 w-full max-w-[230px] h-[50px] rounded-lg"
       >
         <p class="text-[17px]">{{ charName }}</p>
       </div>
@@ -258,7 +258,7 @@ onMounted(() => {
   display: flex;
   justify-content: center;
   align-items: center;
-  padding: 14px;
+  padding: 5px 14px;
   border-bottom-left-radius: 10px;
   border-bottom-right-radius: 10px;
   top: 0;

@@ -12,10 +12,10 @@
         >
           <div class="flex flex-col justify-center gap-1">
             <p
-              class="text-exd-1218 rounded-md text-white px-1 w-8 max-w-10 text-center bg-no-repeat bg-cover bg-center"
+              class="text-exd-1218 rounded-md text-white px-1 w-[30px] text-center bg-no-repeat bg-cover bg-center"
               :style="color ? { backgroundImage: `url(${color})` } : {}"
             >
-            {{ prizeTypeText }}
+              <span class="text-[10px]">{{ prizeTypeText }}</span>
             </p>
             <p class="font-semibold text-[15px]">
               {{ body.name }}
@@ -57,6 +57,7 @@ const props = defineProps({
 })
 
 const color = ref('')
+const classType = ref('')
 
 const redeemLimit = ref(null)
 const prizesData = ref({})
@@ -85,6 +86,6 @@ const handleRankColor = () => {
 handleRankColor()
 
 const handleGoToDetailRedeem = (id) => {
-  console.log('klik id', id)
+  // console.log('klik id', id)
 }
 </script>

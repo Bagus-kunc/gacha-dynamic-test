@@ -23,20 +23,20 @@
           <div class="inline-flex justify-between w-full gap-5">
             <Skeleton v-if="isFetching" class="!h-3" width="15rem"></Skeleton>
             <p v-else class="font-bold text-exd-1424 text-exd-gray-scorpion">
-              {{ prizeDetailData.name }}
+              {{ prizeDetailData.gift.name }}
             </p>
 
             <Skeleton
               v-if="isFetching"
-              class="!h-3 !bg-exd-orange-700 !rounded-full"
+              class="!h-3 !rounded-full !bg-exd-orange-700"
               width="2rem"
             ></Skeleton>
             <p
               v-else
-              class="font-bold text-exd-1824.52 text-white bg-exd-redeem p-1 min-h-10 min-w-12 flex items-center justify-center rounded-full"
+              class="font-bold text-exd-1824.52 text-white p-1 flex items-center justify-center rounded-full right-0 top-5 bg-no-repeat bg-cover bg-center w-12 h-12"
+              :style="colorBg ? { backgroundImage: `url(${colorBg})` } : {}"
             >
-              <!-- {{ prizeDetailData.point }}pt -->
-              1等
+              {{ prizeTypeText }}
             </p>
           </div>
 
@@ -132,6 +132,11 @@
 import { useRouter } from 'vue-router'
 import warning from '~/assets/images/warning.svg'
 import close from '~/assets/images/close.svg'
+import rainbow from '~/assets/images/rainbow-circle.png'
+import gold from '~/assets/images/gold-circle.png'
+import silver from '~/assets/images/silver-circle.png'
+import brown from '~/assets/images/brown-circle.png'
+import bronze from '~/assets/images/bronze-circle.png'
 
 definePageMeta({
   middleware: 'auth',
@@ -150,6 +155,8 @@ const redeemMessage = ref('')
 const isLoading = ref(false)
 const disableSwipe = ref(false)
 const vueslideunlock = ref(null)
+const prizeTypeText = ref(null)
+const colorBg = ref('')
 
 const fetchRedeem = async () => {
   try {
@@ -211,7 +218,33 @@ const fetchingPrizeData = async () => {
   }
 }
 
-onMounted(() => {
-  fetchingPrizeData()
+const handleRankColor = () => {
+  const rank = prizeDetailData.value.gift.type
+  if (rank == 6) {
+    colorBg.value = rainbow
+    prizeTypeText.value = '特賞'
+    return colorBg.value
+  } else if (rank == 1) {
+    colorBg.value = gold
+    prizeTypeText.value = '1等'
+    return colorBg.value
+  } else if (rank == 2) {
+    colorBg.value = silver
+    prizeTypeText.value = '2等'
+    return colorBg.value
+  } else if (rank == 3) {
+    colorBg.value = bronze
+    prizeTypeText.value = '3等'
+    return colorBg.value
+  } else if (rank == 4) {
+    colorBg.value = brown
+    prizeTypeText.value = '4等'
+    return colorBg.value
+  }
+}
+
+onMounted(async () => {
+  await fetchingPrizeData()
+  handleRankColor();
 })
 </script>

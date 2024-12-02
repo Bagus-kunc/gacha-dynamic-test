@@ -20,13 +20,13 @@
     <div class="absolute inset-0 flex justify-center z-20">
       <CircleSpinPoint
         class="relative top-1/2 -translate-y-[60%]"
-        :imageSrc="typeImageUrl"
-        :typeSrc="giftImageUrl"
+        :imageSrc="giftImageUrl"
+        :typeSrc="typeImageUrl"
         width="100%"
         height="800"
       />
       <div
-        class="absolute text-exd-dark-grey bg-white flex justify-center bottom-[18%] lg:bottom-[20%] px-2 py-2 w-full max-w-[190px] h-auto rounded-lg"
+        class="absolute text-exd-dark-grey bg-white flex justify-center bottom-[15%] lg:bottom-[15%] p-3 w-full max-w-[230px] h-[50px] rounded-xl"
       >
         <p class="text-[17px]">{{ voucherName }}</p>
       </div>

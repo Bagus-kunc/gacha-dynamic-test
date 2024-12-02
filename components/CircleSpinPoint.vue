@@ -21,8 +21,8 @@ onMounted(() => {
 <template>
   <svg
     width="400"
-    height="616"
-    viewBox="0 0 400 400"
+    height="716"
+    viewBox="0 -60 400 400"
     fill="none"
     xmlns="http://www.w3.org/2000/svg"
     xmlns:xlink="http://www.w3.org/1999/xlink"
@@ -86,8 +86,8 @@ onMounted(() => {
       <!-- <ellipse cx="200" cy="198" rx="200" ry="198" fill="white" /> -->
     </g>
 
-    <image x="30" y="-40" width="350" height="400" :href="props.typeSrc" />
-    <image x="110" y="280" width="180" height="180" :href="props.imageSrc" />
+    <image x="-8" y="-130" width="410" height="500" :href="props.imageSrc" />
+    <image x="110" y="130" width="180" height="400" :href="props.typeSrc" />
     <!-- <rect x="74" y="60" width="238" height="215" fill="url(#pattern0_12_49)" /> -->
     <!-- <rect x="263" y="192" width="98" height="89" fill="url(#pattern1_12_49)" /> -->
 

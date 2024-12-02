@@ -59,7 +59,9 @@
           >
             カテゴリ
           </p>
-          <p class="text-exd-gray-scorpion">{{ historyDetailData.character_category }}</p>
+          <p class="text-exd-gray-scorpion">
+            {{ historyDetailData.character_category }}
+          </p>
         </div>
 
         <Skeleton
@@ -76,19 +78,18 @@
         <div
           class="flex flex-col gap-2 py-4 text-exd-gray-scorpion text-exd-1218"
         >
-          <!-- <div> -->
-          <p class="inline-flex justify-between items-center max-w-full">
-            {{ star1Name
-            }}<StarRating :value="star1" :show-value="false" />
-          </p>
-          <p class="inline-flex justify-between items-center max-w-full">
-            {{ star2Name
-            }}<StarRating :value="star2" :show-value="false" />
-          </p>
-          <p class="inline-flex justify-between items-center max-w-full">
-            {{ star3Name
-            }}<StarRating :value="star3" :show-value="false" />
-          </p>
+          <div class="max-w-full">
+            <p class="flex flex-row justify-between w-full">
+              {{ star1Name }}<StarRating :value="star1" :show-value="false" />
+            </p>
+            <p class="flex flex-row justify-between w-full">
+              {{ star2Name }}<StarRating :value="star2" :show-value="false" />
+            </p>
+            <p class="flex justify-between w-full">
+              {{ star3Name }}
+              <StarRating :value="star3" :show-value="false" />
+            </p>
+          </div>
         </div>
 
         <HeadingSection
@@ -96,6 +97,85 @@
           :title="historyDetailData.location_name"
           :body="historyDetailData.location_description"
         />
+
+        <div
+          v-if="
+            web1Link ||
+            web2Link ||
+            web3Link ||
+            lineLink ||
+            xLink ||
+            fbLink ||
+            igLink ||
+            ttLink
+          "
+          class="inline-flex gap-3 w-full justify-center items-center mb-6 bg-exd-zinc-100 p-5 rounded-lg"
+        >
+          <img
+            v-if="web1Link"
+            :src="web1"
+            alt="web1"
+            class="size-5 cursor-pointer"
+            @click="web1Link"
+            preload
+          />
+          <img
+            v-if="web2Link"
+            :src="web2"
+            alt="web2"
+            class="size-5 cursor-pointer"
+            @click="web2Link"
+            preload
+          />
+          <img
+            v-if="web3Link"
+            :src="web3"
+            alt="web3"
+            class="size-5 cursor-pointer"
+            @click="web3Link"
+            preload
+          />
+          <img
+            v-if="lineLink"
+            :src="line"
+            alt="line"
+            class="size-5 cursor-pointer"
+            @click="lineLink"
+            preload
+          />
+          <img
+            v-if="xLink"
+            :src="x"
+            alt="x"
+            class="size-5 cursor-pointer"
+            @click="xLink"
+            preload
+          />
+          <img
+            v-if="fbLink"
+            :src="facebook"
+            alt="facebook"
+            class="size-5 cursor-pointer"
+            @click="fbLink"
+            preload
+          />
+          <img
+            v-if="igLink"
+            :src="instagram"
+            alt="instagram"
+            class="size-5 cursor-pointer"
+            @click="igLink"
+            preload
+          />
+          <img
+            v-if="ttLink"
+            :src="tiktok"
+            alt="tiktok"
+            class="size-5 cursor-pointer"
+            @click="ttLink"
+            preload
+          />
+        </div>
 
         <div class="w-full">
           <Skeleton v-if="isFetching" class="!w-full !h-72" />
@@ -187,20 +267,25 @@ import facebook from '~/assets/images/facebook.svg'
 import check from '~/assets/images/check.svg'
 import line from '~/assets/images/line.svg'
 import x from '~/assets/images/x.svg'
+import instagram from '~/assets/images/instagram.png'
+import tiktok from '~/assets/images/tiktok.png'
 import { useRoute } from 'nuxt/app'
 import rainbow from '~/assets/images/rainbow-circle.png'
 import gold from '~/assets/images/gold-circle.png'
 import silver from '~/assets/images/silver-circle.png'
 import brown from '~/assets/images/brown-circle.png'
 import bronze from '~/assets/images/bronze-circle.png'
+import web1 from '~/assets/icons/web1.png'
+import web2 from '~/assets/icons/web2.png'
+import web3 from '~/assets/icons/web3.png'
 
 definePageMeta({
   layout: 'with-bottom-bar',
   middleware: 'auth',
 })
 
-const config = useRuntimeConfig()
 const route = useRoute()
+const config = useRuntimeConfig()
 const id = route.params.id
 const title = config.public.META_TITLE
 const description = config.public.META_DESCRIPTION
@@ -221,6 +306,15 @@ const star2 = ref(0)
 const star3 = ref(0)
 const colorBg = ref('')
 const rarityImg = ref('')
+
+const xLink = ref('')
+const igLink = ref('')
+const fbLink = ref('')
+const lineLink = ref('')
+const ttLink = ref('')
+const web1Link = ref('')
+const web2Link = ref('')
+const web3Link = ref('')
 
 const loadGoogleMaps = () => {
   return new Promise((resolve, reject) => {
@@ -245,52 +339,59 @@ const loadGoogleMaps = () => {
 }
 
 const calculateStar = (characterStar) => {
-    const starMapping = {
-      1: 0,
-      2: 0.5,
-      3: 1,
-      4: 1.5,
-      5: 2,
-      6: 2.5,
-      7: 3,
-      8: 3.5,
-      9: 4,
-      10: 4.5,
-      11: 5
-    }
+  const starMapping = {
+    1: 0,
+    2: 0.5,
+    3: 1,
+    4: 1.5,
+    5: 2,
+    6: 2.5,
+    7: 3,
+    8: 3.5,
+    9: 4,
+    10: 4.5,
+    11: 5,
+  }
 
-    return starMapping[characterStar] || 0;
+  return starMapping[characterStar] ?? 0
 }
 
 const fetchingHistoryData = async () => {
   try {
-    isFetching.value = true;
-    const { data } = await useFetchApi('GET', 'history/' + id);
-    historyDetailData.value = data;
+    isFetching.value = true
+    const { data } = await useFetchApi('GET', 'history/' + id)
+    historyDetailData.value = data
 
-    star1.value = calculateStar(data.character_star1);
-    star2.value = calculateStar(data.character_star2);
-    star3.value = calculateStar(data.character_star3);
+    star1.value = calculateStar(data.character_star1)
+    star2.value = calculateStar(data.character_star2)
+    star3.value = calculateStar(data.character_star3)
 
-    console.log(data)
+    star1Name.value = data.character_star_name1
+    star2Name.value = data.character_star_name2
+    star3Name.value = data.character_star_name3
 
-    star1Name.value = data.character_star_name1;
-    star2Name.value = data.character_star_name2;
-    star3Name.value = data.character_star_name3;
+    xLink.value = data.character_x_url
+    igLink.value = data.character_ig_url
+    lineLink.value = data.character_line_url
+    fbLink.value = data.character_fb_url
+    ttLink.value = data.character_tt_url
+
+    web1Link.value = data.character_web1_url
+    web2Link.value = data.character_web2_url
+    web3Link.value = data.character_web3_url
 
     // Memuat peta jika ada koordinat
     if (data.lat && data.long) {
-      initializeMap(data.lat, data.long);
+      initializeMap(data.lat, data.long)
     }
 
-    handleRarity(data.character_rarity);
+    handleRarity(data.character_rarity)
   } catch (error) {
-    console.log(error);
+    console.log(error)
   } finally {
-    isFetching.value = false;
+    isFetching.value = false
   }
-};
-
+}
 
 const initializeMap = async (lat, long) => {
   const mapOptions = {
@@ -345,7 +446,6 @@ const share = (type) => {
   switch (type) {
     case 'image':
       downloadImage()
-
       break
     case 'facebook':
       shareToFacebook()

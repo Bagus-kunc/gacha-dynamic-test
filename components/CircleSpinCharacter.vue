@@ -6,11 +6,11 @@ const rarityImg = ref('')
 const handleRarity = () => {
   const rarity = props.raritySrc
   if (rarity === '1') {
-    rarityImg.value = '/images/ssr.png'
+    rarityImg.value = '/images/r.png'
   } else if (rarity === '2') {
     rarityImg.value = '/images/sr.png'
   } else if (rarity === '3') {
-    rarityImg.value = '/images/r.png'
+    rarityImg.value = '/images/ssr.png'
   }
 }
 
@@ -99,7 +99,7 @@ onMounted(() => {
     <g filter="url(#filter0_b_19_69)" class="relative p-8">
       <!-- <ellipse cx="200" cy="198" rx="200" ry="198" fill="white" /> -->
       <image height="330" width="300" :href="props.imageSrc" x="55" y="50" />
-      <image height="260" width="200" :href="rarityImg" x="105" y="290" />
+      <image height="260" width="200" :href="rarityImg" x="105" y="310" />
       <image height="260" width="260" :href="props.headSrc" x="70" y="-145" />
     </g>
     <!-- <rect x="44" y="300" width="311" height="237" fill="url(#pattern0_19_69)" /> -->

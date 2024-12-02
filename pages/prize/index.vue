@@ -15,7 +15,14 @@
 
     <div class="flex flex-col gap-3 px-8 relative -top-14">
       <template v-if="isFetching">
-        <Skeleton v-if="isFetching" class="!w-full !h-full"></Skeleton>
+        <PagesPrizeCard
+          v-for="n in 1"
+          :key="n"
+          :keyBody="n"
+          :body="[]"
+          :currentPoint="0"
+          :is-fetching="true"
+        />
       </template>
       <template v-else>
         <PagesPrizeCard
@@ -35,14 +42,15 @@
         <p>{{ $t('exchangeHistory') }}</p>
       </div>
       <template v-if="isFetching">
-        <PagesPrizeHistory
+        <Skeleton width="10rem" class="!h-full !w-full"></Skeleton>
+        <!-- <PagesPrizeHistory
           v-for="n in 1"
           :key="n"
           :keyBody="n"
           :body="[]"
           :currentPoint="0"
           :is-fetching="true"
-        />
+        /> -->
       </template>
       <template v-else>
         <PagesPrizeHistory
@@ -114,7 +122,6 @@ const fetchingRedeemsData = async () => {
     isFetching.value = true
     const { data } = await useFetchApi('GET', 'prize-redeemed')
     redeems.value = data.data
-
   } catch (error) {
     console.log(error)
   } finally {
@@ -123,14 +130,21 @@ const fetchingRedeemsData = async () => {
 }
 
 const dataArrays = (data) => {
-  return data.reduce((acc, obj) => {
-    const key = Object.keys(obj)[0]
-    if (!acc[key]) {
-      acc[key] = []
-    }
-    acc[key] = acc[key].concat(obj[key])
-    return acc
-  }, {})
+  if (Array.isArray(data)) {
+    return data.reduce((acc, obj) => {
+      const key = Object.keys(obj)[0]
+      if (!acc[key]) {
+        acc[key] = []
+      }
+      acc[key] = acc[key].concat(obj[key])
+      return acc
+    }, {})
+  } else if (typeof data === 'object') {
+    return data
+  } else {
+    console.error('Data tidak valid:', data)
+    return []
+  }
 }
 
 const handleScrollUp = () => {
@@ -157,8 +171,7 @@ const handleScrollDown = () => {
 }
 
 onMounted(() => {
-  fetchingPrizesData(),
-  fetchingRedeemsData()
+  fetchingPrizesData(), fetchingRedeemsData()
 })
 </script>
 
