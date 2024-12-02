@@ -15,7 +15,7 @@
               class="text-exd-1218 rounded-md text-white px-1 w-8 max-w-10 text-center bg-no-repeat bg-cover bg-center"
               :style="color ? { backgroundImage: `url(${color})` } : {}"
             >
-              1等
+              <span class="text-[16px]" v-html="$t(classType)"></span>
             </p>
             <p class="font-semibold text-[15px]">
               {{ body.name }}
@@ -57,26 +57,32 @@ const props = defineProps({
 })
 
 const color = ref('')
+const classType = ref('')
 
 const redeemLimit = ref(null)
 const prizesData = ref({})
 
 const handleRankColor = () => {
   const rank = props.keyBody
-  if (rank === 'rainbow') {
+  if (rank === 'special_prize') {
     color.value = rainbow
+    classType.value = 'specialPrize'
     return color.value
   } else if (rank === 'gold') {
     color.value = gold
+    classType.value = '1stClass'
     return color.value
   } else if (rank === 'silver') {
     color.value = silver
+    classType.value = '2ndClass'
     return color.value
   } else if (rank === 'bronze') {
     color.value = bronze
+    classType.value = '3rdClass'
     return color.value
-  } else if (rank === 'brown') {
-    color.value = brown
+  } else if (rank === 'iron') {
+    color.value = iron
+    classType.value = '4thClass'
     return color.value
   }
 }
@@ -84,6 +90,6 @@ const handleRankColor = () => {
 handleRankColor()
 
 const handleGoToDetailRedeem = (id) => {
-  console.log('klik id', id)
+  // console.log('klik id', id)
 }
 </script>

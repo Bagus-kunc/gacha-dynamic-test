@@ -25,7 +25,7 @@
           <div class="relative inline-flex justify-between w-full gap-5">
             <Skeleton v-if="isFetching" class="!h-3" width="15rem"></Skeleton>
             <p v-else class="font-bold text-exd-1424 text-exd-gray-scorpion">
-              {{ prizeDetailData.gift.name }}
+              {{ prizeDetailData.name }}
             </p>
             <Skeleton
               v-if="isFetching"
@@ -44,32 +44,20 @@
           <HeadingSection
             :is-fetching="isFetching"
             :title="$t('howToGetPrizes')"
-            :body="
-              prizeDetailData.gift != null
-                ? prizeDetailData.gift.how_to_win
-                : null
-            "
+            :body="prizeDetailData.gift != null ? prizeDetailData.gift.how_to_win : null"
           />
 
           <HeadingSection
             :is-fetching="isFetching"
             :title="$t('conditionsOfUse')"
-            :body="
-              prizeDetailData.gift != null
-                ? prizeDetailData.gift.terms_of_use
-                : null
-            "
+            :body="prizeDetailData.gift != null ? prizeDetailData.gift.terms_of_use : null"
           />
 
           <HeadingSection
             v-if="popupType != 'a' && popupType != 'b'"
             :is-fetching="isFetching"
             :title="$t('redemptionLocation')"
-            :body="
-              prizeDetailData.location != null
-                ? prizeDetailData.location.description
-                : null
-            "
+            :body="prizeDetailData.location != null ? prizeDetailData.location.description : null"
           />
 
           <div v-if="popupType != 'a' && popupType != 'b'" class="w-full mb-5">
@@ -319,28 +307,30 @@ const openGoogleMaps = () => {
 
 const handleRankColor = () => {
   const rank = prizeDetailData.value.gift.type
+  console.log(rank)
   if (rank == 6) {
     colorBg.value = rainbow
-    prizeTypeText.value = '特賞'
+    prizeTypeText.value = "特賞"
     return colorBg.value
   } else if (rank == 1) {
     colorBg.value = gold
-    prizeTypeText.value = '1等'
+    prizeTypeText.value = "1等"
     return colorBg.value
   } else if (rank == 2) {
     colorBg.value = silver
-    prizeTypeText.value = '2等'
+    prizeTypeText.value = "2等"
     return colorBg.value
   } else if (rank == 3) {
     colorBg.value = bronze
-    prizeTypeText.value = '3等'
+    prizeTypeText.value = "3等"
     return colorBg.value
   } else if (rank == 4) {
     colorBg.value = brown
-    prizeTypeText.value = '4等'
+    prizeTypeText.value = "4等"
     return colorBg.value
   }
 }
+
 
 onMounted(async () => {
   await loadGoogleMaps()
