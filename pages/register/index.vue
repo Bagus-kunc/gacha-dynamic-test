@@ -288,6 +288,7 @@ const errorPasswordMessage = ref('')
 const errorConfPasswordMessage = ref('')
 const register = useRegister()
 const { isSpin } = storeToRefs(register)
+const { decryptData } = useEncryption()
 
 const errorKeyPostCode = ref('')
 const errorPostCodeMessage = computed(() => t(errorKeyPostCode.value))
@@ -334,7 +335,6 @@ const passwordValidate = () => {
 }
 
 const validateForm = () => {
-
   const requiredFields = []
   const firstErrorElement = document.querySelector('.input-error')
 
@@ -389,12 +389,13 @@ const fetchRegister = async (payload) => {
 
     if (validateForm() && status) {
       localStorage.setItem('USER_ID', data.user.id)
+      await saveSpin()
 
       navigateTo('/#registration-complete')
+      isLoading.value = false
     }
   } catch (error) {
     handleApiError(error)
-  } finally {
     isLoading.value = false
   }
 }
@@ -534,6 +535,31 @@ const checkPostalCode = async (code) => {
     isLoading.value = false
   }
 }
+
+const saveSpin = async () => {
+  if (!isSpin.value) return
+  const storedData = useCookie('VALID_PASSWORD')
+
+  const parseData = decryptData(storedData.value)
+  const slug = parseData?.slug?.toUpperCase()
+  const slugStorageName = `${slug}_GACHA`
+  const slugStorage = decryptData(localStorage.getItem(slugStorageName))
+  try {
+    const response = await useFetchApi('POST', 'gacha/save/registered', {
+      body: {
+        point_id: slugStorage?.point_id,
+        location_id: slugStorage?.location_id,
+        user_id: localStorage.getItem('USER_ID'),
+        character_id: slugStorage?.character_id,
+        log_id: slugStorage?.log_id,
+      },
+    })
+  } catch (error) {
+    console.log("Error: Can't save spin result")
+  }
+}
+
+console.log(isSpin.value)
 </script>
 
 <style scoped>
