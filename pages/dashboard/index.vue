@@ -220,7 +220,7 @@ const handleGoToHistory = () => router.push('/history')
 const handleGoToPrize = () => router.push('/prize')
 const profile = () => router.push('/profile')
 const handleGoToHelp = () => {
-  window.open('https://endojishotengai.com/', '_blank')
+  window.open('https://endojishotengai.com/manual', '_blank')
 }
 const handleGoToDigitalMap = () => {
   window.open('https://nospot.new-ordinary.co.jp/maps/nagoya', '_blank')

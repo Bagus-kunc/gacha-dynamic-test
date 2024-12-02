@@ -16,7 +16,7 @@
         <Skeleton v-if="isFetching" class="!w-full !h-full"></Skeleton>
         <CharacterCard
           v-else
-          :image="prizeDetailData.image"
+          :image="prizeDetailData.gift.image"
           variant="without-background"
         />
       </div>
@@ -235,9 +235,7 @@ const loadGoogleMaps = () => {
 const fetchingPrizeData = async () => {
   try {
     isFetching.value = true
-    const { data } = await useFetchApi('GET', 'prizes/' + id)
-
-    console.log('data id', data)
+    const { data } = await useFetchApi('GET', 'prize-by-poin/' + id)
     prizeDetailData.value = data
     checkPoint(data.point)
     if (data.lat !== null && data.long !== null) {

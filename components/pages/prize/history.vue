@@ -1,11 +1,10 @@
 <template>
   <div class="bg-white">
     <ImageTextCard
-      v-for="item in prizesData"
-      :key="item.id"
-      :on-click="() => handleGoToDetailRedeem(item.id)"
+      :key="body.user_point_id"
+      :on-click="() => handleGoToDetailRedeem(body.user_point_id)"
       :history="true"
-      :image-card="item.image"
+      :image-card="body.image"
     >
       <template v-slot:text>
         <div
@@ -19,11 +18,11 @@
               1等
             </p>
             <p class="font-semibold text-[15px]">
-              {{ item.name }}
+              {{ body.name }}
             </p>
             <p class="text-exd-1218 font-medium">
-              {{ $t('availablePeriod') }}：{{ item.started_at }}〜
-              {{ item.expired_at }}
+              {{ $t('availablePeriod') }}：{{ body.started_at }}〜
+              {{ body.expired_at }}
             </p>
           </div>
         </div>
@@ -41,10 +40,6 @@ import bronze from '~/assets/images/bronze-tag.png'
 
 const props = defineProps({
   isFetching: { type: Boolean, default: false },
-  body: {
-    type: Object,
-    default: () => {},
-  },
   body: {
     type: Object,
     default: () => {},
@@ -86,16 +81,7 @@ const handleRankColor = () => {
   }
 }
 
-const mapBody = () => {
-  props.body.map((item) => {
-    redeemLimit.value = item.totalData
-    prizesData.value = item.data
-    console.log('item body', item.totalData)
-  })
-}
-
 handleRankColor()
-mapBody()
 
 const handleGoToDetailRedeem = (id) => {
   console.log('klik id', id)

@@ -59,7 +59,7 @@
           >
             カテゴリ
           </p>
-          <p class="text-exd-gray-scorpion">所属ダミーダミーダミーダミー</p>
+          <p class="text-exd-gray-scorpion">{{ historyDetailData.character_category }}</p>
         </div>
 
         <Skeleton
