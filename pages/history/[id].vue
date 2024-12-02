@@ -40,7 +40,7 @@
           />
           <p
             v-else
-            class="font-bold text-exd-1824.52 text-white p-1 min-h-10 min-w-12 flex items-center justify-center rounded-full pr-2 bg-no-repeat bg-contain bg-center"
+            class="font-bold text-exd-1824.52 text-white p-1 min-h-10 min-w-12 h-10 w-12 flex items-center justify-center rounded-full pr-2 bg-no-repeat bg-contain bg-center"
             :style="rarityImg ? { backgroundImage: `url(${rarityImg})` } : {}"
           >
             <!-- {{ historyDetailData.point_amount }}pt -->
@@ -79,15 +79,15 @@
           <!-- <div> -->
           <p class="inline-flex justify-between items-center max-w-full">
             {{ star1Name
-            }}<StarRating :value="star1" :show-value="false" :maxStars="10" />
+            }}<StarRating :value="star1" :show-value="false" />
           </p>
           <p class="inline-flex justify-between items-center max-w-full">
             {{ star2Name
-            }}<StarRating :value="star2" :show-value="false" :maxStars="10" />
+            }}<StarRating :value="star2" :show-value="false" />
           </p>
           <p class="inline-flex justify-between items-center max-w-full">
             {{ star3Name
-            }}<StarRating :value="star3" :show-value="false" :maxStars="10" />
+            }}<StarRating :value="star3" :show-value="false" />
           </p>
         </div>
 
@@ -216,9 +216,9 @@ const showSuccessPopup = ref(false)
 const star1Name = ref('')
 const star2Name = ref('')
 const star3Name = ref('')
-const star1 = ref(3.5)
-const star2 = ref(3.5)
-const star3 = ref(1)
+const star1 = ref(0)
+const star2 = ref(0)
+const star3 = ref(0)
 const colorBg = ref('')
 const rarityImg = ref('')
 
@@ -244,34 +244,53 @@ const loadGoogleMaps = () => {
   })
 }
 
-const fetchingHistoryData = async () => {
-  try {
-    isFetching.value = true
-    const { data } = await useFetchApi('GET', 'history/' + id)
-    historyDetailData.value = data
-    let lat = historyDetailData.value.lat
-    let long = historyDetailData.value.long
-
-    if (lat != undefined && long != undefined) {
-      initializeMap(lat, long)
+const calculateStar = (characterStar) => {
+    const starMapping = {
+      1: 0,
+      2: 0.5,
+      3: 1,
+      4: 1.5,
+      5: 2,
+      6: 2.5,
+      7: 3,
+      8: 3.5,
+      9: 4,
+      10: 4.5,
+      11: 5
     }
 
-    star1.value = data.character_star1
-    star2.value = data.character_star2
-    star3.value = data.character_star3
-
-    star1Name.value = data.character_star_name1
-    star2Name.value = data.character_star_name2
-    star3Name.value = data.character_star_name3
-
-    handleRarity(data.character_rarity)
-    console.log('history', data)
-  } catch (error) {
-    console.log(error)
-  } finally {
-    isFetching.value = false
-  }
+    return starMapping[characterStar] || 0;
 }
+
+const fetchingHistoryData = async () => {
+  try {
+    isFetching.value = true;
+    const { data } = await useFetchApi('GET', 'history/' + id);
+    historyDetailData.value = data;
+
+    star1.value = calculateStar(data.character_star1);
+    star2.value = calculateStar(data.character_star2);
+    star3.value = calculateStar(data.character_star3);
+
+    console.log(data)
+
+    star1Name.value = data.character_star_name1;
+    star2Name.value = data.character_star_name2;
+    star3Name.value = data.character_star_name3;
+
+    // Memuat peta jika ada koordinat
+    if (data.lat && data.long) {
+      initializeMap(data.lat, data.long);
+    }
+
+    handleRarity(data.character_rarity);
+  } catch (error) {
+    console.log(error);
+  } finally {
+    isFetching.value = false;
+  }
+};
+
 
 const initializeMap = async (lat, long) => {
   const mapOptions = {

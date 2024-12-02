@@ -336,7 +336,7 @@ const passwordValidate = () => {
 }
 
 const validateForm = () => {
-  const requiredFields = ['questionnaire1', 'questionnaire2']
+  //const requiredFields = ['questionnaire1', 'questionnaire2']
   const firstErrorElement = document.querySelector('.input-error')
 
   if (errorEmailMessage.value) {
@@ -353,12 +353,12 @@ const validateForm = () => {
     return false
   }
 
-  for (const field of requiredFields) {
-    if (!form.value[field]) {
-      console.log('Field must be filled:', field)
-      return false
-    }
-  }
+  // for (const field of requiredFields) {
+  //   if (!form.value[field]) {
+  //     console.log('Field must be filled:', field)
+  //     return false
+  //   }
+  // }
 
   return true
 }
