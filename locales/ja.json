@@ -33,7 +33,7 @@
   "cannotBeExchanged": "交換できません",
   "arrived": "到着しました",
   "exchanged_message": "名古屋ハロウィンラリー「ヒサヤオオドオリパーク シバフヒロバ」Perのブースでの交換となります。",
-  "exchange_prize": "<a href='#' target='_blank' rel='noopener noreferrer'>「喫茶なごのや{img}」</a> または <br/> <a href='#' target='_blank' rel='noopener noreferrer'>「那古野商店{img}」</a>で交換となります。",
+  "exchange_prize": "<a href='{link1}' target='_blank' rel='noopener noreferrer'><u>「喫茶なごのや{img}」</u></a> または <br/> <a href='{link2}' target='_blank' rel='noopener noreferrer'><u>「那古野商店{img}」</u></a>で交換となります。",
   "pleaseShowThisScreen": "スタッフにこの画面を見せてください。 スタッフがスワイプしてチェックします。",
   "swipe": "スワイプ",
   "done": "完了しました",

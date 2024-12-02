@@ -30,13 +30,12 @@
           <div class="inline-flex justify-between w-100 pr-4">
             <div class="flex flex-col justify-center gap-1">
               <p
-                class="text-exd-gray-scorpion font-semibold text-[15px] h-[35px] truncate"
+                class="text-exd-gray-scorpion font-semibold text-[15px] truncate"
               >
                 {{ item.name }}
               </p>
               <p class="text-exd-red-500 text-exd-1320 font-medium">
-                {{ $t('availablePeriod') }}：{{ formatDate(item.started_at) }}〜
-                {{ formatDate(item.expired_at) }}
+                {{ $t('availablePeriod') }}：{{ formatDate(item.started_at) }}〜{{ formatDate(item.expired_at) }}
               </p>
             </div>
           </div>

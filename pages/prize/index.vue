@@ -35,14 +35,15 @@
         <p>{{ $t('exchangeHistory') }}</p>
       </div>
       <template v-if="isFetching">
-        <PagesPrizeHistory
+        <Skeleton width="10rem" class="!h-full !w-full"></Skeleton>
+        <!-- <PagesPrizeHistory
           v-for="n in 1"
           :key="n"
           :keyBody="n"
           :body="[]"
           :currentPoint="0"
           :is-fetching="true"
-        />
+        /> -->
       </template>
       <template v-else>
         <PagesPrizeHistory
