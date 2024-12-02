@@ -228,7 +228,7 @@ const colorBg = ref('')
 const imgTag =
   '<img src="/images/export.svg" alt="export" width="23" height="23" class="inline ml-1" />'
 
-const formattedMessage = t('exchange_prize', { img: imgTag })
+const formattedMessage = t('exchange_prize', { img: imgTag, link1: 'https://maps.app.goo.gl/JBjhtuEiDRWySEjKA', link2: 'https://maps.app.goo.gl/hSwAQSMUTHNW8qbW7' })
 
 const loadGoogleMaps = () => {
   return new Promise((resolve, reject) => {
