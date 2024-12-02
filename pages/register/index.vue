@@ -9,9 +9,7 @@
       </p>
     </HeaderBar>
 
-    <div
-      class="flex flex-col grow mt-24 pb-3 justify-between gap-6 w-full"
-    >
+    <div class="flex flex-col grow mt-24 pb-3 justify-between gap-6 w-full">
       <div class="flex flex-col grow px-3">
         <div
           class="inline-flex flex-col border-b border-b-exd-light-grey py-5 px-4"
@@ -204,7 +202,7 @@
         </div>
       </div>
       <div class="mt-16" />
-      <div class="fixed bottom-0 w-full max-w-md mx-auto  mb-2 z-50">
+      <div class="fixed bottom-0 w-full max-w-md mx-auto mb-2 z-50">
         <SolidButton
           :label="$t('register')"
           :has-loading="isLoading"
@@ -336,7 +334,7 @@ const passwordValidate = () => {
 }
 
 const validateForm = () => {
-  const requiredFields = ['questionnaire1', 'questionnaire2']
+  const requiredFields = []
   const firstErrorElement = document.querySelector('.input-error')
 
   if (errorEmailMessage.value) {
@@ -391,7 +389,7 @@ const fetchRegister = async (payload) => {
     if (validateForm() && status) {
       localStorage.setItem('USER_ID', data.user.id)
 
-      navigateTo('/register/complete')
+      navigateTo('/#registration-complete')
     }
   } catch (error) {
     handleApiError(error)

@@ -161,6 +161,10 @@ onMounted(async () => {
   } else if (TOKEN.value) {
     navigateTo('/dashboard')
   }
+
+  if (hash === '#registration-complete') {
+    isComplete.value = true
+  }
 })
 </script>
 
