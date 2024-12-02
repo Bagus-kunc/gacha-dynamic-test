@@ -94,8 +94,8 @@
 
         <HeadingSection
           :is-fetching="isFetching"
-          :title="historyDetailData.location_name"
-          :body="historyDetailData.location_description"
+          :title="historyDetailData.character != null ? historyDetailData.character.store_name : null"
+          :body="historyDetailData.character != null ? historyDetailData.character.store_description : null"
         />
 
         <div
