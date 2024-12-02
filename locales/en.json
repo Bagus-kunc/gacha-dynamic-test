@@ -32,7 +32,7 @@
   "cannotBeExchanged": "Cannot Be Exchanged",
   "arrived": "Arrived",
   "exchanged_message": "Nagoya Halloween Rally \"Hisaya Odori Park Shibafu Hiroba\" Exchange will be at Per's booth.",
-  "exchange_prize": "Exchanges can be made at <br/> <a href='#' target='_blank' rel='noopener noreferrer'>\"Cafe Nagonoya{img}\" </a> or <br/> <a href='#' target='_blank' rel='noopener noreferrer'> \"Nagono Shoten{img}\"</a>.",
+  "exchange_prize": "Exchanges can be made at <br/> <a href='{link1}' target='_blank' rel='noopener noreferrer'>\"Cafe Nagonoya{img}\" </a> or <br/> <a href='{link2}' target='_blank' rel='noopener noreferrer'> \"Nagono Shoten{img}\"</a>.",
   "pleaseShowThisScreen": "Please show this screen to the staff and swipe.",
   "swipe": "Swipe",
   "done": "Done",
