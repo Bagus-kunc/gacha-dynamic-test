@@ -53,8 +53,8 @@ function completeLoading() {
 const checkCaches = () => {
   const urlsToCache = [
     '/logo-icon.ico',
-    '/video/spin-point.mp4',
-    '/video/spin-character.mp4',
+    '/video/spin-voucher.mp4',
+    '/video/new-spin-character.mp4',
     '/images/gacha-blue-green.png',
     '/images/bg-red2.webp',
     '/images/sparkling.png',
@@ -73,7 +73,7 @@ const checkCaches = () => {
     '/icons/icon-gift.svg',
   ]
   caches
-    .open('gacharary-v2')
+    .open(`gacharary-endo-ji-v2 - ${self.location.origin}`)
     .then(function (cache) {
       return cache.keys()
     })

@@ -1,9 +1,9 @@
 // Tentukan nama cache dan file yang ingin di-cache
-const CACHE_NAME = 'gacharary-v2'
+const CACHE_NAME = `gacharary-endo-ji-v2 - ${self.location.origin}`
 const urlsToCache = [
   '/logo-icon.ico',
-  '/video/spin-point.mp4',
-  '/video/spin-character.mp4',
+  '/video/spin-voucher.mp4',
+  '/video/new-spin-character.mp4',
   '/images/gacha-blue-green.png',
   '/images/bg-red2.webp',
   '/images/sparkling.png',

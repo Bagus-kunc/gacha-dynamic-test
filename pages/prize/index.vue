@@ -14,7 +14,7 @@
     <div class="flex flex-col mt-[42%] items-center mb-4"></div>
 
     <div class="flex flex-col gap-3 px-8 relative -top-14">
-       <template v-if="isFetching">
+      <template v-if="isFetching">
         <PagesPrizeCard
           v-for="n in 1"
           :key="n"
@@ -121,7 +121,6 @@ const fetchingRedeemsData = async () => {
     isFetching.value = true
     const { data } = await useFetchApi('GET', 'prize-redeemed')
     redeems.value = data.data
-
   } catch (error) {
     console.log(error)
   } finally {
@@ -132,21 +131,20 @@ const fetchingRedeemsData = async () => {
 const dataArrays = (data) => {
   if (Array.isArray(data)) {
     return data.reduce((acc, obj) => {
-      const key = Object.keys(obj)[0];
+      const key = Object.keys(obj)[0]
       if (!acc[key]) {
-        acc[key] = [];
+        acc[key] = []
       }
-      acc[key] = acc[key].concat(obj[key]);
-      return acc;
-    }, {});
+      acc[key] = acc[key].concat(obj[key])
+      return acc
+    }, {})
   } else if (typeof data === 'object') {
-    return data;
+    return data
   } else {
-    console.error('Data tidak valid:', data);
-    return [];
+    console.error('Data tidak valid:', data)
+    return []
   }
 }
-
 
 const handleScrollUp = () => {
   if (prizeCards.value) {
@@ -172,8 +170,7 @@ const handleScrollDown = () => {
 }
 
 onMounted(() => {
-  fetchingPrizesData(),
-  fetchingRedeemsData()
+  fetchingPrizesData(), fetchingRedeemsData()
 })
 </script>
 

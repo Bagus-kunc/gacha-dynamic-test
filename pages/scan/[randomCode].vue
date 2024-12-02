@@ -532,7 +532,9 @@ const getPassword = async (id) => {
 
     if (data) {
       description.value = data.description
-      // await checkingLocation()
+      if (!data.not_required_radius) {
+        await checkingLocation()
+      }
     }
 
     isLoading.value = false

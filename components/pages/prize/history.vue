@@ -61,6 +61,7 @@ const classType = ref('')
 
 const redeemLimit = ref(null)
 const prizesData = ref({})
+const prizeTypeText = ref(null)
 
 const handleRankColor = () => {
   const rank = props.keyBody

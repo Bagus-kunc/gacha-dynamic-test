@@ -1,5 +1,8 @@
 <template>
-  <div class="rounded-xl max-w-sm overflow-hidden cursor-pointer" v-if="body.length > 0">
+  <div
+    class="rounded-xl max-w-sm overflow-hidden cursor-pointer"
+    v-if="body.length > 0"
+  >
     <div
       class="flex justify-between bg-center w-full p-2 bg-no-repeat bg-cover"
       :style="color ? { backgroundImage: `url(${color})` } : {}"
@@ -9,10 +12,7 @@
           <span class="text-[16px]" v-html="t(classType)"></span>
         </p>
 
-        <p
-          class="text-white font-medium text-exd-1224"
-          v-html="totalGift"
-        ></p>
+        <p class="text-white font-medium text-exd-1224" v-html="totalGift"></p>
       </template>
       <template v-else>
         <Skeleton width="10rem" class="bg-white"></Skeleton>
@@ -29,10 +29,12 @@
         <template v-slot:text>
           <div class="inline-flex justify-between w-100 pr-4">
             <div class="flex flex-col justify-center gap-1">
-              <p class="text-exd-gray-scorpion font-semibold text-[15px] h-[35px] truncate">
+              <p
+                class="text-exd-gray-scorpion font-semibold text-[15px] h-[35px] truncate"
+              >
                 {{ item.name }}
               </p>
-             <p class="text-exd-red-500 text-exd-1320 font-medium">
+              <p class="text-exd-red-500 text-exd-1320 font-medium">
                 {{ $t('availablePeriod') }}：{{ formatDate(item.started_at) }}〜
                 {{ formatDate(item.expired_at) }}
               </p>
@@ -81,7 +83,6 @@ const color = ref('')
 const classType = ref('')
 
 const totalGift = ref(null)
-const prizesData = ref({})
 
 const router = useRouter()
 const handleGoToDetailRedeem = (id) => router.push(`/prize/${id}`)
@@ -112,16 +113,14 @@ const handleRankClass = () => {
 }
 
 const formatDate = (datetime) => {
-  const date = new Date(datetime);
-  return date.toISOString().split('T')[0];
-};
+  const date = new Date(datetime)
+  return date.toISOString().split('T')[0]
+}
 
 const handleTotalData = () => {
   totalGift.value = t('canBeReplaced', { limit: props.totalData })
 }
 
 handleRankClass()
-handleTotalData();
-
-
+handleTotalData()
 </script>
