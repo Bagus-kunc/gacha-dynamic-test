@@ -25,20 +25,20 @@
           <div class="relative inline-flex justify-between w-full gap-5">
             <Skeleton v-if="isFetching" class="!h-3" width="15rem"></Skeleton>
             <p v-else class="font-bold text-exd-1424 text-exd-gray-scorpion">
-              {{ prizeDetailData.name }}
+              {{ prizeDetailData.gift.name }}
             </p>
             <Skeleton
               v-if="isFetching"
               class="!h-3 !rounded-full !bg-exd-orange-700"
               width="2rem"
             ></Skeleton>
-            <p
+            <div
               v-else
-              class="font-bold text-exd-1824.52 text-white p-1 flex items-center justify-center rounded-full right-0 top-5 bg-no-repeat bg-cover bg-center min-h-10 min-w-12"
+              class="items-center justify-center rounded-full bg-no-repeat bg-cover bg-center min-h-12 min-w-12"
               :style="colorBg ? { backgroundImage: `url(${colorBg})` } : {}"
             >
-              {{ prizeTypeText }}
-            </p>
+              <p class="font-bold text-exd-1416 text-white flex items-center justify-center min-h-12 min-w-12 right-0 top-5">{{ prizeTypeText }}</p>
+            </div>
           </div>
 
           <HeadingSection
@@ -307,7 +307,6 @@ const openGoogleMaps = () => {
 
 const handleRankColor = () => {
   const rank = prizeDetailData.value.gift.type
-  console.log(rank)
   if (rank == 6) {
     colorBg.value = rainbow
     prizeTypeText.value = "特賞"

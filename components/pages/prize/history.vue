@@ -15,7 +15,7 @@
               class="text-exd-1218 rounded-md text-white px-1 w-8 max-w-10 text-center bg-no-repeat bg-cover bg-center"
               :style="color ? { backgroundImage: `url(${color})` } : {}"
             >
-              1等
+            {{ prizeTypeText }}
             </p>
             <p class="font-semibold text-[15px]">
               {{ body.name }}
@@ -60,24 +60,25 @@ const color = ref('')
 
 const redeemLimit = ref(null)
 const prizesData = ref({})
+const prizeTypeText = ref(null)
 
 const handleRankColor = () => {
-  const rank = props.keyBody
-  if (rank === 'rainbow') {
+  const rank = props.body.type
+  if (rank == 6) {
     color.value = rainbow
-    return color.value
-  } else if (rank === 'gold') {
+    prizeTypeText.value = "特賞"
+  } else if (rank == 1) {
     color.value = gold
-    return color.value
-  } else if (rank === 'silver') {
+    prizeTypeText.value = "1等"
+  } else if (rank == 2) {
     color.value = silver
-    return color.value
-  } else if (rank === 'bronze') {
+    prizeTypeText.value = "2等"
+  } else if (rank == 3) {
     color.value = bronze
-    return color.value
-  } else if (rank === 'brown') {
+    prizeTypeText.value = "3等"
+  } else if (rank == 4) {
     color.value = brown
-    return color.value
+    prizeTypeText.value = "4等"
   }
 }
 
