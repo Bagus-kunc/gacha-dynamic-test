@@ -101,19 +101,19 @@ onMounted(() => {
       <image height="330" width="300" :href="props.imageSrc" x="55" y="50" />
       <image
         v-if="raritySrc !== '3'"
-        height="260"
-        width="200"
-        :href="rarityImg"
-        x="105"
-        y="310"
-      />
-      <image
-        v-else
-        height="210"
-        width="120"
+        height="200"
+        width="110"
         :href="rarityImg"
         x="150"
         y="330"
+      />
+      <image
+        v-else
+        height="230"
+        width="150"
+        :href="rarityImg"
+        x="130"
+        y="310"
       />
       <image height="260" width="260" :href="props.headSrc" x="70" y="-145" />
     </g>
