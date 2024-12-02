@@ -1,5 +1,5 @@
 <template>
-  <div class="rounded-xl max-w-sm overflow-hidden cursor-pointer">
+  <div class="rounded-xl max-w-sm overflow-hidden cursor-pointer" v-if="body.length > 0">
     <div
       class="flex justify-between bg-center w-full p-2 bg-no-repeat bg-cover"
       :style="color ? { backgroundImage: `url(${color})` } : {}"
@@ -10,9 +10,8 @@
         </p>
 
         <p
-          v-if="currentPoint >= redeemLimit"
           class="text-white font-medium text-exd-1224"
-          v-html="totalData"
+          v-html="totalGift"
         ></p>
       </template>
       <template v-else>
@@ -22,7 +21,7 @@
     </div>
     <template v-if="!isFetching">
       <ImageTextCard
-        v-for="item in prizesData"
+        v-for="item in body"
         :key="item.user_point_id"
         :on-click="() => handleGoToDetailRedeem(item.user_point_id)"
         :image-card="item.image"
@@ -34,8 +33,7 @@
                 {{ item.name }}
               </p>
               <p class="text-exd-red-500 text-exd-1218 font-medium">
-                {{ $t('availablePeriod') }}：{{ item.started_at }}〜
-                {{ item.expired_at }}
+                {{ $t('availablePeriod') }}：{{ item.started_at }}〜{{ item.expired_at }}
               </p>
             </div>
           </div>
@@ -54,8 +52,8 @@ import { useRouter } from 'vue-router'
 import rainbow from '~/assets/images/rainbow.png'
 import gold from '~/assets/images/gold.png'
 import silver from '~/assets/images/silver.png'
-import brown from '~/assets/images/brown.png'
 import bronze from '~/assets/images/bronze.png'
+import iron from '~/assets/images/brown.png'
 
 const { t } = useI18n()
 
@@ -69,6 +67,9 @@ const props = defineProps({
   keyBody: {
     type: [String, Number],
   },
+  totalData: {
+    type: [String, Number],
+  },
   currentPoint: {
     type: Number,
     default: 0,
@@ -76,10 +77,9 @@ const props = defineProps({
 })
 
 const color = ref('')
-const totalData = ref('')
 const classType = ref('')
 
-const redeemLimit = ref(null)
+const totalGift = ref(null)
 const prizesData = ref({})
 
 const router = useRouter()
@@ -87,7 +87,7 @@ const handleGoToDetailRedeem = (id) => router.push(`/prize/${id}`)
 
 const handleRankClass = () => {
   const rank = props.keyBody
-  if (rank === 'rainbow') {
+  if (rank === 'special_prize') {
     color.value = rainbow
     classType.value = 'specialPrize'
     return color.value
@@ -103,26 +103,19 @@ const handleRankClass = () => {
     color.value = bronze
     classType.value = '3rdClass'
     return color.value
-  } else if (rank === 'brown') {
-    color.value = brown
+  } else if (rank === 'iron') {
+    color.value = iron
     classType.value = '4thClass'
     return color.value
   }
 }
 
-const mapBody = () => {
-  props.body.map((item) => {
-    redeemLimit.value = item.totalData
-    prizesData.value = item.data
-
-    totalData.value = t('canBeReplaced', { limit: redeemLimit.value })
-
-    console.log('item body', item.data)
-  })
+const handleTotalData = () => {
+  totalGift.value = t('canBeReplaced', { limit: props.totalData })
 }
 
 handleRankClass()
-mapBody()
+handleTotalData();
 
-console.log('keyBody', props.keyBody)
+
 </script>

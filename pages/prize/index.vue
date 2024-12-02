@@ -29,7 +29,8 @@
           v-for="(prize, key) in prizes"
           :key="key"
           :keyBody="key"
-          :body="prize"
+          :body="prize.data"
+          :totalData="prize.totalData"
           :currentPoint="store.point"
           :is-fetching="false"
         />
@@ -105,8 +106,9 @@ const fetchingPrizesData = async () => {
   try {
     isFetching.value = true
     const { data } = await useFetchApi('GET', 'prize-by-poin')
+    prizes.value = data
 
-    prizes.value = dataArrays(data)
+    // prizes.value = dataArrays(data)
   } catch (error) {
     console.log(error)
   } finally {
