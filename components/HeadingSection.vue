@@ -11,7 +11,7 @@
     </div>
     <div
       v-else
-      class="text-exd-gray-scorpion font-medium text-exd-1218 vhtml-desc"
+      class="width-text text-exd-gray-scorpion font-medium text-exd-1218 vhtml-desc"
       v-html="body"
     />
   </div>
@@ -33,3 +33,16 @@ const props = defineProps({
   },
 })
 </script>
+
+<style scoped>
+.width-text {
+  max-width: 100%;
+  overflow-wrap: break-word;
+  word-wrap: break-word;
+  white-space: pre-wrap;
+}
+.vhtml-desc {
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+</style>

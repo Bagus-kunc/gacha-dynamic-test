@@ -31,7 +31,7 @@
     </div>
 
     <div ref="prizeHistory" class="flex flex-col px-8 relative -bottom-5">
-      <div class="bg-exd-gray-44 px-2 py-1 text-exd-1424">
+      <div v-if="!isFetching" class="bg-exd-gray-44 px-2 py-1 text-exd-1424">
         <p>{{ $t('exchangeHistory') }}</p>
       </div>
       <template v-if="isFetching">
@@ -58,21 +58,13 @@
     </div>
 
     <div class="vertical-menu bottom-10">
-      <div class="menu-item">
-        <p
-          class="btn-click"
-          :class="{ 'reverse-mode': $i18n.locale === 'en' }"
-          @click="handleScrollUp"
-        >
+      <div class="menu-item" @click="handleScrollUp">
+        <p class="btn-click" :class="{ 'reverse-mode': $i18n.locale === 'en' }">
           {{ $t('listOfPrizes') }}
         </p>
       </div>
-      <div class="menu-item">
-        <p
-          class="btn-click"
-          :class="{ 'reverse-mode': $i18n.locale === 'en' }"
-          @click="handleScrollDown"
-        >
+      <div class="menu-item" @click="handleScrollDown">
+        <p class="btn-click" :class="{ 'reverse-mode': $i18n.locale === 'en' }">
           {{ $t('exchangeHistory') }}
         </p>
       </div>
@@ -163,8 +155,9 @@ const handleScrollDown = () => {
   }
 }
 
-onMounted(() => {
-  fetchingPrizesData(), fetchingRedeemsData()
+onMounted(async () => {
+  await fetchingPrizesData()
+  fetchingRedeemsData()
 })
 </script>
 

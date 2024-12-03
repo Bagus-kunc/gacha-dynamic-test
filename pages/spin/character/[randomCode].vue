@@ -4,7 +4,7 @@
     @touchmove="(e) => e.preventDefault()"
   >
     <SparkleStart className="top-3" />
-    <div v-if="isVisible" :class="{ notif: true, hide: isHiding }">
+    <div :class="{ notif: true, hide: isHiding }">
       <img :src="iconGift" alt="icon gift" class="w-8 h-8" />
       <p class="font-bold text-[12px]">{{ $t('addToCollection') }}</p>
     </div>
@@ -25,13 +25,13 @@
         class="relative top-1/2 -translate-y-[50%]"
         :imageSrc="characterImageUrl"
         :raritySrc="raritySrc"
-        :headSrc="headSrc"
+        headSrc="/images/text-char.png"
         width="100%"
         height="100%"
       />
 
       <div
-        class="absolute text-exd-dark-grey bg-white flex justify-center bottom-[15%] lg:bottom-[15%] ml-3 px-2 py-3 w-full max-w-[230px] h-[50px] rounded-lg"
+        class="absolute text-exd-dark-grey bg-white flex justify-center bottom-[15%]  px-2 py-3 w-full max-w-[190px] h-[50px] rounded-lg"
       >
         <p class="text-[17px]">{{ charName }}</p>
       </div>
@@ -149,7 +149,6 @@ const TOKEN = useCookie('TOKEN')
 const characterImageUrl = ref(null)
 const charName = ref(null)
 const raritySrc = ref(null)
-const headSrc = ref(null)
 
 const handleClose = () => (isNotAllowed.value = false)
 const handleShowDialog = () => (hasModal.value = true)
@@ -160,21 +159,19 @@ const handleButton = async () => {
   if (!TOKEN.value && !USER.value) {
     handleShowDialog()
   } else {
-    console.log('berhasil')
+    // setTimeout(() => {
+    //   isHiding.value = true
+    //   setTimeout(() => {
+    //     isVisible.value = false
+    //     isHiding.value = false
+    //   }, 800)
+    // }, 1000)
 
-    setTimeout(() => {
-      isHiding.value = true
-      setTimeout(() => {
-        isVisible.value = false
-        isHiding.value = false
-      }, 800)
-    }, 1000)
+    // isVisible.value = true
 
-    isVisible.value = true
-
-    setTimeout(async () => {
+    // setTimeout(async () => {
       await navigateTo('/dashboard')
-    }, 1000)
+    // }, 1000)
   }
 }
 
@@ -201,7 +198,8 @@ const fetchImage = async () => {
     console.log('data char', slugData)
     characterImageUrl.value = slugData?.character_image
     charName.value = slugData?.character_category
-    raritySrc.value = slugData?.character_rarity
+    raritySrc.value = '2'
+    // raritySrc.value = slugData?.character_rarity
   } catch (e) {
     console.error('Unexpected error:', e)
   }
@@ -259,7 +257,7 @@ onMounted(() => {
   display: flex;
   justify-content: center;
   align-items: center;
-  padding: 5px 14px;
+  padding: 5px 30px;
   border-bottom-left-radius: 10px;
   border-bottom-right-radius: 10px;
   top: 0;
