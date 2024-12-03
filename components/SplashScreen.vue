@@ -4,6 +4,8 @@ const isSupportSerWroker = ref(false)
 let checkCachesInterval
 let firstCount = 1
 
+const emit = defineEmits(['finish'])
+
 // Init service worker
 if (process.client && 'serviceWorker' in navigator) {
   isSupportSerWroker.value = true
@@ -48,6 +50,7 @@ onMounted(() => {
 
 function completeLoading() {
   loading.value = false
+  emit('finish')
 }
 
 const checkCaches = () => {

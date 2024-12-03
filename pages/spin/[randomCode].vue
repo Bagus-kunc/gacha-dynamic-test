@@ -1,7 +1,7 @@
 <template>
-  <SplashScreen />
+  <SplashScreen @finish="isSplashComplete = true" />
 
-  <div class="grow flex flex-col">
+  <div v-show="isSplashComplete" class="grow flex flex-col">
     <HeaderBar withLogo />
 
     <div
@@ -292,6 +292,8 @@ const description = ref(null)
 const refsNotes = ref(null)
 const locationBlocked = ref(false)
 
+const isSplashComplete = ref(false)
+
 definePageMeta({
   layout: 'gacha-machine',
   middleware: async (to, from) => {
@@ -522,6 +524,11 @@ watch(isNotAllowed, (newValue) => {
   } else {
     document.body.classList.remove('modal-open')
   }
+})
+
+watchEffect(() => {
+console.log(isSplashComplete.value)
+
 })
 
 onMounted(() => {
