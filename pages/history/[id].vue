@@ -105,7 +105,7 @@
 
         <div
           v-if="socialMediaLinks.length"
-          class="inline-flex md:gap-3 gap-2 w-full justify-center items-center mb-6 bg-exd-zinc-100 p-5 rounded-lg"
+          class="inline-flex md:gap-3 gap-[6px] w-full justify-center items-center mb-6 bg-exd-zinc-100 p-5 rounded-lg"
         >
           <img
             v-for="(link, index) in socialMediaLinks"
@@ -212,11 +212,6 @@ import x from '~/assets/images/x.svg'
 import instagram from '~/assets/images/instagram.png'
 import tiktok from '~/assets/images/tiktok.png'
 import { useRoute } from 'nuxt/app'
-import rainbow from '~/assets/images/rainbow-circle.png'
-import gold from '~/assets/images/gold-circle.png'
-import silver from '~/assets/images/silver-circle.png'
-import brown from '~/assets/images/brown-circle.png'
-import bronze from '~/assets/images/bronze-circle.png'
 import web1 from '~/assets/icons/web1.png'
 import web2 from '~/assets/icons/web2.png'
 import web3 from '~/assets/icons/web3.png'
@@ -312,7 +307,7 @@ const fetchingHistoryData = async () => {
     socialMediaLinks.value = [
       { url: data.character.web1_link, src: web1, alt: 'Web 1' },
       { url: data.character.web2_link, src: web2, alt: 'Web 2' },
-      { url: data.character.web3_link, src: web2, alt: 'Web 3' },
+      { url: data.character.web3_link, src: web3, alt: 'Web 3' },
       { url: data.character.line_link, src: line, alt: 'Line' },
       { url: data.character.x_link, src: x, alt: 'X (Twitter)' },
       { url: data.character.fb_link, src: facebook, alt: 'Facebook' },
