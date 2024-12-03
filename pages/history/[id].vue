@@ -42,8 +42,7 @@
             v-else
             class="font-bold text-exd-1824.52 text-white p-1 min-h-10 min-w-12 h-10 w-12 flex items-center justify-center rounded-full pr-2 bg-no-repeat bg-contain bg-center"
             :style="rarityImg ? { backgroundImage: `url(${rarityImg})` } : {}"
-          >
-          </p>
+          ></p>
         </div>
         <div v-if="isFetching" class="flex items-center gap-5 text-exd-1218">
           <Skeleton
@@ -106,7 +105,7 @@
 
         <div
           v-if="socialMediaLinks.length"
-          class="inline-flex gap-3 w-full justify-center items-center mb-6 bg-exd-zinc-100 p-5 rounded-lg"
+          class="inline-flex md:gap-3 gap-[6px] w-full justify-center items-center mb-6 bg-exd-zinc-100 p-5 rounded-lg"
         >
           <img
             v-for="(link, index) in socialMediaLinks"
@@ -114,7 +113,7 @@
             :src="link.src"
             :alt="link.alt"
             :aria-label="link.alt"
-            class="size-7 cursor-pointer"
+            class="md:size-7 size-6 cursor-pointer"
             @click="openLink(link.url)"
             preload
           />
@@ -213,11 +212,6 @@ import x from '~/assets/images/x.svg'
 import instagram from '~/assets/images/instagram.png'
 import tiktok from '~/assets/images/tiktok.png'
 import { useRoute } from 'nuxt/app'
-import rainbow from '~/assets/images/rainbow-circle.png'
-import gold from '~/assets/images/gold-circle.png'
-import silver from '~/assets/images/silver-circle.png'
-import brown from '~/assets/images/brown-circle.png'
-import bronze from '~/assets/images/bronze-circle.png'
 import web1 from '~/assets/icons/web1.png'
 import web2 from '~/assets/icons/web2.png'
 import web3 from '~/assets/icons/web3.png'
@@ -250,11 +244,11 @@ const star3 = ref(0)
 const colorBg = ref('')
 const rarityImg = ref('')
 
-const socialMediaLinks = ref([]);
+const socialMediaLinks = ref([])
 
 const openLink = (url) => {
-  window.open(url, '_blank');
-};
+  window.open(url, '_blank')
+}
 
 const loadGoogleMaps = () => {
   return new Promise((resolve, reject) => {
@@ -311,15 +305,15 @@ const fetchingHistoryData = async () => {
     star3Name.value = data.character_star_name3
 
     socialMediaLinks.value = [
-  { url: data.character.web1_link, src: web1, alt: 'Web 1' },
-  { url: data.character.web2_link, src: web2, alt: 'Web 2' },
-  { url: data.character.web3_link, src: web2, alt: 'Web 3' },
-  { url: data.character.line_link, src: line, alt: 'Line' },
-  { url: data.character.x_link, src: x, alt: 'X (Twitter)' },
-  { url: data.character.fb_link, src: facebook, alt: 'Facebook' },
-  { url: data.character.ig_link, src: instagram, alt: 'Instagram' },
-  { url: data.character.tt_link, src: tiktok, alt: 'TikTok' },
-].filter(link => link.url);
+      { url: data.character.web1_link, src: web1, alt: 'Web 1' },
+      { url: data.character.web2_link, src: web2, alt: 'Web 2' },
+      { url: data.character.web3_link, src: web3, alt: 'Web 3' },
+      { url: data.character.line_link, src: line, alt: 'Line' },
+      { url: data.character.x_link, src: x, alt: 'X (Twitter)' },
+      { url: data.character.fb_link, src: facebook, alt: 'Facebook' },
+      { url: data.character.ig_link, src: instagram, alt: 'Instagram' },
+      { url: data.character.tt_link, src: tiktok, alt: 'TikTok' },
+    ].filter((link) => link.url)
 
     // Memuat peta jika ada koordinat
     if (data.lat && data.long) {
