@@ -526,11 +526,6 @@ watch(isNotAllowed, (newValue) => {
   }
 })
 
-watchEffect(() => {
-console.log(isSplashComplete.value)
-
-})
-
 onMounted(() => {
   const location = route.params.randomCode
   getPassword(location)

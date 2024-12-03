@@ -17,10 +17,10 @@
             >
               <span class="text-[10px]">{{ prizeTypeText }}</span>
             </p>
-            <p class="font-semibold text-[15px]">
+            <p class="font-semibold md:text-[16px] sm:text-[15px] text-[12.5px]">
               {{ body.name }}
             </p>
-            <p class="text-exd-1218 font-medium">
+            <p class="text-exd-1218  md:text-[13px] sm:text-[11px] text-[9px] font-medium">
               {{ $t('availablePeriod') }}：{{ body.started_at }}〜
               {{ body.expired_at }}
             </p>
