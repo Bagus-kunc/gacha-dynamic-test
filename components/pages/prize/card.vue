@@ -30,7 +30,7 @@
           <div class="inline-flex justify-between w-100 pr-4">
             <div class="flex flex-col justify-center gap-1">
               <p
-                class="text-exd-gray-scorpion font-semibold text-sm md:text-[13px] truncate"
+                class="text-exd-gray-scorpion font-semibold md:text-[15px] sm:text-[14px] text-[11.5px] truncate"
               >
                 {{ item.name }}
               </p>
