@@ -74,15 +74,6 @@
       <div
         class="w-full flex flex-col justify-center items-center gap-1.5 py-6 px-6 overflow-hidden relative"
       >
-        <!-- <img
-          :src="close"
-          alt="close"
-          width="30"
-          height="30"
-          preload
-          class="absolute right-2 top-3 cursor-pointer z-50"
-          @click="() => closeStepAllowLocation()"
-        /> -->
         <h3
           class="text-center max-w-[14rem] text-lg font-medium mt-2 flex-none"
         >

@@ -94,7 +94,7 @@ const checkCaches = () => {
 <template>
   <div
     v-if="loading"
-    class="w-full max-w-md mx-auto h-screen overflow-hidden bg-[url('~/assets/images/bg-blue-green.png')] bg-cover bg-center flex flex-col fixed z-[1000]"
+    class="w-full max-w-md mx-auto h-screen overflow-hidden bg-[url('~/assets/images/bg-blue-green.png')] bg-cover bg-center flex flex-col fixed z-[2000]"
   >
     <div
       class="h-full w-full flex flex-col justify-center items-center text-exd-red"
