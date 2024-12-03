@@ -43,8 +43,6 @@
             class="font-bold text-exd-1824.52 text-white p-1 min-h-10 min-w-12 h-10 w-12 flex items-center justify-center rounded-full pr-2 bg-no-repeat bg-contain bg-center"
             :style="rarityImg ? { backgroundImage: `url(${rarityImg})` } : {}"
           >
-            <!-- {{ historyDetailData.point_amount }}pt -->
-            <!-- 1等 -->
           </p>
         </div>
         <div v-if="isFetching" class="flex items-center gap-5 text-exd-1218">
@@ -94,85 +92,30 @@
 
         <HeadingSection
           :is-fetching="isFetching"
-          :title="historyDetailData.character != null ? historyDetailData.character.store_name : null"
-          :body="historyDetailData.character != null ? historyDetailData.character.store_description : null"
+          :title="
+            historyDetailData.character != null
+              ? historyDetailData.character.store_name
+              : null
+          "
+          :body="
+            historyDetailData.character != null
+              ? historyDetailData.character.store_description
+              : null
+          "
         />
 
         <div
-          v-if="
-            web1Link ||
-            web2Link ||
-            web3Link ||
-            lineLink ||
-            xLink ||
-            fbLink ||
-            igLink ||
-            ttLink
-          "
+          v-if="socialMediaLinks.length"
           class="inline-flex gap-3 w-full justify-center items-center mb-6 bg-exd-zinc-100 p-5 rounded-lg"
         >
           <img
-            v-if="web1Link"
-            :src="web1"
-            alt="web1"
-            class="size-5 cursor-pointer"
-            @click="web1Link"
-            preload
-          />
-          <img
-            v-if="web2Link"
-            :src="web2"
-            alt="web2"
-            class="size-5 cursor-pointer"
-            @click="web2Link"
-            preload
-          />
-          <img
-            v-if="web3Link"
-            :src="web3"
-            alt="web3"
-            class="size-5 cursor-pointer"
-            @click="web3Link"
-            preload
-          />
-          <img
-            v-if="lineLink"
-            :src="line"
-            alt="line"
-            class="size-5 cursor-pointer"
-            @click="lineLink"
-            preload
-          />
-          <img
-            v-if="xLink"
-            :src="x"
-            alt="x"
-            class="size-5 cursor-pointer"
-            @click="xLink"
-            preload
-          />
-          <img
-            v-if="fbLink"
-            :src="facebook"
-            alt="facebook"
-            class="size-5 cursor-pointer"
-            @click="fbLink"
-            preload
-          />
-          <img
-            v-if="igLink"
-            :src="instagram"
-            alt="instagram"
-            class="size-5 cursor-pointer"
-            @click="igLink"
-            preload
-          />
-          <img
-            v-if="ttLink"
-            :src="tiktok"
-            alt="tiktok"
-            class="size-5 cursor-pointer"
-            @click="ttLink"
+            v-for="(link, index) in socialMediaLinks"
+            :key="index"
+            :src="link.src"
+            :alt="link.alt"
+            :aria-label="link.alt"
+            class="size-7 cursor-pointer"
+            @click="openLink(link.url)"
             preload
           />
         </div>
@@ -307,14 +250,11 @@ const star3 = ref(0)
 const colorBg = ref('')
 const rarityImg = ref('')
 
-const xLink = ref('')
-const igLink = ref('')
-const fbLink = ref('')
-const lineLink = ref('')
-const ttLink = ref('')
-const web1Link = ref('')
-const web2Link = ref('')
-const web3Link = ref('')
+const socialMediaLinks = ref([]);
+
+const openLink = (url) => {
+  window.open(url, '_blank');
+};
 
 const loadGoogleMaps = () => {
   return new Promise((resolve, reject) => {
@@ -370,15 +310,16 @@ const fetchingHistoryData = async () => {
     star2Name.value = data.character_star_name2
     star3Name.value = data.character_star_name3
 
-    xLink.value = data.character_x_url
-    igLink.value = data.character_ig_url
-    lineLink.value = data.character_line_url
-    fbLink.value = data.character_fb_url
-    ttLink.value = data.character_tt_url
-
-    web1Link.value = data.character_web1_url
-    web2Link.value = data.character_web2_url
-    web3Link.value = data.character_web3_url
+    socialMediaLinks.value = [
+  { url: data.character.web1_link, src: web1, alt: 'Web 1' },
+  { url: data.character.web2_link, src: web2, alt: 'Web 2' },
+  { url: data.character.web3_link, src: web2, alt: 'Web 3' },
+  { url: data.character.line_link, src: line, alt: 'Line' },
+  { url: data.character.x_link, src: x, alt: 'X (Twitter)' },
+  { url: data.character.fb_link, src: facebook, alt: 'Facebook' },
+  { url: data.character.ig_link, src: instagram, alt: 'Instagram' },
+  { url: data.character.tt_link, src: tiktok, alt: 'TikTok' },
+].filter(link => link.url);
 
     // Memuat peta jika ada koordinat
     if (data.lat && data.long) {

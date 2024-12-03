@@ -100,22 +100,22 @@ onMounted(() => {
       <!-- <ellipse cx="200" cy="198" rx="200" ry="198" fill="white" /> -->
       <image height="330" width="300" :href="props.imageSrc" x="55" y="50" />
       <image
-        v-if="raritySrc !== '3'"
+        v-if="raritySrc !== '1'"
         height="200"
-        width="110"
+        width="190"
         :href="rarityImg"
-        x="150"
+        x="105"
         y="330"
       />
       <image
         v-else
-        height="230"
-        width="150"
+        height="220"
+        width="120"
         :href="rarityImg"
-        x="130"
+        x="150"
         y="310"
       />
-      <image height="260" width="260" :href="props.headSrc" x="70" y="-145" />
+      <image height="260" width="300" :href="props.headSrc" x="50" y="-95" />
     </g>
     <!-- <rect x="44" y="300" width="311" height="237" fill="url(#pattern0_19_69)" /> -->
 

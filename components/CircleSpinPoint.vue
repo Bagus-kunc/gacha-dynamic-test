@@ -77,7 +77,7 @@ onMounted(() => {
 
     <image
       x="-105"
-      y="-95"
+      y="-175"
       width="610"
       height="590"
       href="~/assets/images/circle-blur.png"
@@ -86,7 +86,7 @@ onMounted(() => {
       <!-- <ellipse cx="200" cy="198" rx="200" ry="198" fill="white" /> -->
     </g>
 
-    <image x="-8" y="-130" width="410" height="500" :href="props.imageSrc" />
+    <image x="40" y="-130" width="320" height="500" :href="props.imageSrc" />
     <image x="110" y="130" width="180" height="400" :href="props.typeSrc" />
     <!-- <rect x="74" y="60" width="238" height="215" fill="url(#pattern0_12_49)" /> -->
     <!-- <rect x="263" y="192" width="98" height="89" fill="url(#pattern1_12_49)" /> -->
