@@ -7,7 +7,7 @@
       ]"
       @click="handleClick"
     >
-      <div v-if="!history" class="w-full max-w-20 max-h-20">
+      <div v-if="!history" class="w-full max-w-16 max-h-16">
         <CharacterCard :image="imageCard" variant="without-background" />
       </div>
       <slot name="text"></slot>
@@ -18,13 +18,13 @@
         <img
           :src="arrow"
           alt="arrow"
-          width="12"
-          height="12"
+          width="10"
+          height="10"
           preload
           class="invert"
         />
       </div>
-      <div v-if="history" class="w-full mt-1 max-w-20 max-h-20">
+      <div v-if="history" class="w-full mt-1 max-w-16 max-h-16">
         <CharacterCard :image="imageCard" variant="without-background" />
       </div>
     </div>
