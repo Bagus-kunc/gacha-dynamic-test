@@ -56,7 +56,7 @@
             :title="$t('conditionsOfUse')"
             :body="
               prizeDetailData.gift != null
-                ? prizeDetailData.gift.terms_of_use
+                ? prizeDetailData.gift.term_of_use
                 : null
             "
           />

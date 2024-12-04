@@ -4,7 +4,7 @@
     v-if="body.length > 0"
   >
     <div
-      class="flex justify-between bg-center w-full p-2 bg-no-repeat bg-cover"
+      class="flex justify-between bg-center w-full px-2 py-1 bg-no-repeat bg-cover"
       :style="color ? { backgroundImage: `url(${color})` } : {}"
     >
       <template v-if="!isFetching">
@@ -30,14 +30,12 @@
           <div class="inline-flex justify-between w-100 pr-4">
             <div class="flex flex-col justify-center gap-1">
               <p
-                class="text-exd-gray-scorpion font-semibold md:text-[15px] sm:text-[14px] text-[11.5px] truncate"
+                class="text-exd-gray-scorpion font-semibold md:text-[15px] sm:text-[14px] text-[13px] truncate"
               >
                 {{ item.name }}
               </p>
-              <p class="text-exd-red-500 md:text-[13px] sm:text-[12px] text-[9.5px] font-medium">
-                {{ $t('availablePeriod') }}：{{
-                  formatDate(item.started_at)
-                }}〜{{ formatDate(item.expired_at) }}
+              <p class="text-exd-red-500 md:text-[13px] sm:text-[12px] text-[10px] font-medium">
+                {{ $t('availablePeriod') }}：{{formatDate(item.started_at)}}〜{{ formatDate(item.expired_at) }}
               </p>
             </div>
           </div>

@@ -31,8 +31,8 @@
     </div>
 
     <div ref="prizeHistory" class="flex flex-col px-8 relative -bottom-5">
-      <div v-if="!isFetching" class="bg-exd-gray-44 px-2 py-1 text-exd-1424">
-        <p>{{ $t('exchangeHistory') }}</p>
+      <div v-if="!isFetching" class="bg-exd-gray-44 px-2 py-1">
+        <p class="font-semibold md:text-[15px] sm:text-[14px] text-[13px]">{{ $t('exchangeHistory') }}</p>
       </div>
       <template v-if="isFetching">
         <Skeleton width="10rem" class="!h-full !w-full"></Skeleton>
