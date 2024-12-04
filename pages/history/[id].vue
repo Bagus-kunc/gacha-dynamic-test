@@ -113,7 +113,7 @@
             :src="link.src"
             :alt="link.alt"
             :aria-label="link.alt"
-            class="md:size-7 size-6 cursor-pointer"
+            class="md:size-7 size-7 cursor-pointer"
             @click="openLink(link.url)"
             preload
           />
