@@ -113,7 +113,7 @@
   </div>
 
   <Dialog
-    v-if="popupType === 'a' || popupType === 'b'"
+    v-if="false"
     v-model:visible="hasModal"
     modal
     class="!bg-white w-11/12 md:!w-5/12 !max-w-sm border border-exd-gray-44"
@@ -153,7 +153,7 @@
   </Dialog>
 
   <Dialog
-    v-else
+    v-if="popupType === 1"
     v-model:visible="hasModal"
     modal
     class="!bg-white w-11/12 md:!w-5/12 !max-w-sm border border-exd-gray-44"
@@ -228,7 +228,11 @@ const colorBg = ref('')
 const imgTag =
   '<img src="/images/export.svg" alt="export" width="23" height="23" class="inline ml-1" />'
 
-const formattedMessage = t('exchange_prize', { img: imgTag, link1: 'https://maps.app.goo.gl/JBjhtuEiDRWySEjKA', link2: 'https://maps.app.goo.gl/hSwAQSMUTHNW8qbW7' })
+const formattedMessage = t('exchange_prize', {
+  img: imgTag,
+  link1: 'https://maps.app.goo.gl/JBjhtuEiDRWySEjKA',
+  link2: 'https://maps.app.goo.gl/hSwAQSMUTHNW8qbW7',
+})
 
 const loadGoogleMaps = () => {
   return new Promise((resolve, reject) => {
@@ -248,17 +252,25 @@ const loadGoogleMaps = () => {
 const fetchingPrizeData = async () => {
   try {
     isFetching.value = true
-    const { data } = await useFetchApi('GET', 'prize-by-poin/' + id)
+    const { data } = await useFetchApi('GET', 'prize-list/' + id)
     prizeDetailData.value = data
-    checkPoint(data.point)
+    checkType(data.type)
     if (data.lat !== null && data.long !== null) {
       initializeMap(data.location.lat, data.location.long)
     }
-    // popupType.value = data.type
+    popupType.value = data.type
   } catch (error) {
     console.log(error)
   } finally {
     isFetching.value = false
+  }
+}
+
+const checkType = (type) => {
+  if (type === 1) {
+    disableRedeem.value = false
+  } else {
+    disableRedeem.value = true
   }
 }
 

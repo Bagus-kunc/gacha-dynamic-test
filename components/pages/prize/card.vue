@@ -23,7 +23,7 @@
       <ImageTextCard
         v-for="item in body"
         :key="item.user_point_id"
-        :on-click="() => handleGoToDetailRedeem(item.user_point_id)"
+        :on-click="() => handleGoToDetailRedeem(item.point_id)"
         :image-card="item.image"
       >
         <template v-slot:text>
@@ -34,8 +34,12 @@
               >
                 {{ item.name }}
               </p>
-              <p class="text-exd-red-500 md:text-[13px] sm:text-[12px] text-[10px] font-medium">
-                {{ $t('availablePeriod') }}：{{formatDate(item.started_at)}}〜{{ formatDate(item.expired_at) }}
+              <p
+                class="text-exd-red-500 md:text-[13px] sm:text-[12px] text-[10px] font-medium"
+              >
+                {{ $t('availablePeriod') }}：{{
+                  formatDate(item.started_at)
+                }}〜{{ formatDate(item.expired_at) }}
               </p>
             </div>
           </div>

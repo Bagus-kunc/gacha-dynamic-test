@@ -42,9 +42,8 @@
 
           <Skeleton v-if="isFetching" class="!w-full !h-full" />
 
-
           <HeadingSection
-          v-else
+            v-else
             :is-fetching="isFetching"
             :title="$t('conditionsOfUse')"
             :body="prizeDetailData.gift.term_of_use"
@@ -162,11 +161,15 @@ const fetchRedeem = async () => {
   try {
     errorMessage.value = null
     disableSwipe.value = true
-    const { message, status } = await useFetchApi('POST', 'prizes/redeem-point', {
-      params: {
-        user_point_id: id,
-      },
-    })
+    const { message, status } = await useFetchApi(
+      'POST',
+      'prizes/redeem-point',
+      {
+        params: {
+          user_point_id: id,
+        },
+      }
+    )
 
     // Periksa apakah response memiliki properti _data
     if (status) {
@@ -209,7 +212,7 @@ const id = route.params.id
 const fetchingPrizeData = async () => {
   isFetching.value = true
   try {
-    const { data } = await useFetchApi('GET', 'prize-by-poin/' + id)
+    const { data } = await useFetchApi('GET', 'prize-list/' + id)
     prizeDetailData.value = data
   } catch (error) {
     console.log(error)
@@ -245,6 +248,6 @@ const handleRankColor = () => {
 
 onMounted(async () => {
   await fetchingPrizeData()
-  handleRankColor();
+  handleRankColor()
 })
 </script>
