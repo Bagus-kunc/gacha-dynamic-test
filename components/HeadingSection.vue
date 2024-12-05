@@ -30,6 +30,7 @@ const props = defineProps({
   body: {
     type: String,
     required: true,
+    default: '',
   },
 })
 </script>

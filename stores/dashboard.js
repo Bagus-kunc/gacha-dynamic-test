@@ -4,10 +4,10 @@ export const store = reactive({
   point: 0,
   async fetchingDashboardData() {
     try {
-      const { data } = await useFetchApi('GET', 'prize-by-poin')
+      const { data } = await useFetchApi('GET', 'prize-list')
 
       const sumTotal = Object.values(data).reduce(
-        (acc, cur) => acc + cur.totalData,
+        (acc, cur) => acc + cur.totalVoucher,
         0
       )
 

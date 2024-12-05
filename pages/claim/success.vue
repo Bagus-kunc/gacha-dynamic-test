@@ -23,7 +23,6 @@
     <SolidButton
       variant="red-coral"
       :on-click="() => goTo('top')"
-      :has-loading="isLoading"
       :label="$t('gachaTop')"
       has-bottom
     />
