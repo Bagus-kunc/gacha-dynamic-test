@@ -67,8 +67,8 @@ const props = defineProps({
   isFetching: { type: Boolean, default: false },
 
   body: {
-    type: Object,
-    default: () => {},
+    type: Array,
+    default: () => [],
   },
   keyBody: {
     type: [String, Number],

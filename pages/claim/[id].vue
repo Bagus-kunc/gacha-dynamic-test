@@ -166,7 +166,7 @@ const fetchRedeem = async () => {
       'prizes/redeem-point',
       {
         params: {
-          user_point_id: id,
+          user_point_id: prizeDetailData.value?.user_point_id,
         },
       }
     )

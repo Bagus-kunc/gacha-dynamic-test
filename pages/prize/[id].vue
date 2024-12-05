@@ -46,8 +46,8 @@
             :title="$t('howToGetPrizes')"
             :body="
               prizeDetailData.gift != null
-                ? prizeDetailData.gift.how_to_win
-                : null
+                ? prizeDetailData.gift?.how_to_win
+                : ''
             "
           />
 
@@ -56,8 +56,8 @@
             :title="$t('conditionsOfUse')"
             :body="
               prizeDetailData.gift != null
-                ? prizeDetailData.gift.term_of_use
-                : null
+                ? prizeDetailData.gift?.term_of_use
+                : ''
             "
           />
 
@@ -67,8 +67,8 @@
             :title="$t('redemptionLocation')"
             :body="
               prizeDetailData.location != null
-                ? prizeDetailData.location.description
-                : null
+                ? prizeDetailData.location?.description
+                : ''
             "
           />
 
