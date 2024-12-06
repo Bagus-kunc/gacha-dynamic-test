@@ -12,7 +12,7 @@ export default defineNuxtConfig({
           rel: 'stylesheet',
           href: 'https://fonts.googleapis.com/css2?family=Noto+Sans+JP:ital,wght@0,100..900;1,100..900&display=swap',
         },
-        { rel: 'icon', type: 'image/x-icon', href: '/logo-icon.ico' },
+        { rel: 'icon', type: 'image/x-icon', href: '/favicon.ico' },
       ],
       meta: [
         {
