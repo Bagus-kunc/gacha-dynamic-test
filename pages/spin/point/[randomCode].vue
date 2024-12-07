@@ -28,7 +28,7 @@
       <div
         class="absolute text-exd-dark-grey bg-white flex justify-center bottom-[15%] px-4 py-3 min-h-[50px] rounded-xl"
       >
-        <p class="text-[17px] max-w-[320px]">
+        <p class="text-[17px] max-w-[320px] text-center">
           {{ voucherName }}
         </p>
       </div>
@@ -104,6 +104,7 @@ const fetchImageFromApi = async () => {
         location_id: data.userPoint.location.id,
         character_id: data.userCollection.gacha_character.id,
         character_image: data.userCollection.gacha_character.image,
+        character_name: data.userCollection.gacha_character.name,
         character_category: data.userCollection.gacha_character.category,
         character_rarity: data.userCollection.gacha_character.rarity,
         character_star1: data.userCollection.gacha_character.star1,
@@ -157,6 +158,7 @@ const fetchImageFromApi = async () => {
         point_image: data.point.image,
         character_id: data.character.id,
         character_image: data.character.image,
+        character_name: data.character.name,
         character_category: data.character.category,
         character_rarity: data.character.rarity,
         character_star1: data.character.star1,
