@@ -162,27 +162,6 @@
           @click="share('image')"
           preload
         />
-        <img
-          :src="line"
-          alt="line"
-          class="size-5 cursor-pointer"
-          @click="share('line')"
-          preload
-        />
-        <img
-          :src="x"
-          alt="x"
-          class="size-5 cursor-pointer"
-          @click="share('x')"
-          preload
-        />
-        <img
-          :src="facebook"
-          alt="facebook"
-          class="size-5 cursor-pointer"
-          @click="share('facebook')"
-          preload
-        />
       </div>
     </div>
   </div>

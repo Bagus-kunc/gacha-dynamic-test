@@ -302,5 +302,6 @@
   "tapBrowserRefresh": "Tap the browser refresh button",
   "validPhoneNumber": "Please enter a valid phone number.",
   "skip": "Skip",
-  "share": "Share"
+  "share": "Share",
+  "giftExchangeComplete": "The gift exchange is complete!"
 }

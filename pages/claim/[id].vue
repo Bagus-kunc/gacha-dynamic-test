@@ -136,6 +136,7 @@ import gold from '~/assets/images/gold-circle.png'
 import silver from '~/assets/images/silver-circle.png'
 import brown from '~/assets/images/brown-circle.png'
 import bronze from '~/assets/images/bronze-circle.png'
+import { useI18n } from 'vue-i18n'
 
 definePageMeta({
   middleware: 'auth',
@@ -145,6 +146,8 @@ definePageMeta({
 const isFetching = ref(true)
 const route = useRoute()
 const router = useRouter()
+
+const { t } = useI18n()
 
 const isClicked = ref(false)
 const isRedeemDialogVisible = ref(false)
@@ -174,7 +177,7 @@ const fetchRedeem = async () => {
     // Periksa apakah response memiliki properti _data
     if (status) {
       // Ekstrak pesan dari _data
-      redeemMessage.value = message
+      redeemMessage.value = t('giftExchangeComplete')
       isRedeemDialogVisible.value = true
       setTimeout(() => {
         router.push('/claim/success') // Redirect ke halaman yang diinginkan
