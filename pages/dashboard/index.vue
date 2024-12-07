@@ -69,7 +69,7 @@
       <div
         class="bg-white w-full h-exd-50 px-5 inline-flex justify-between items-center border-b-2 border-b-exd-light-grey cursor-pointer"
         style="box-shadow: 0px 3px 3px 0px rgba(0, 0, 0, 0.1608)"
-        @click="handleGoToHelp()"
+        @click="handleGoToDigitalMap()"
       >
         <p
           class="text-exd-gray-scorpion grow inline-flex items-center gap-1 text-exd-1424 font-bold"
@@ -193,7 +193,7 @@ const handleGoToHelp = () => {
   window.open('https://endo-ji-shotengai.dela-kuji.jp/manual', '_blank')
 }
 const handleGoToDigitalMap = () => {
-  window.open('https://nospot.new-ordinary.co.jp/maps/nagoya', '_blank')
+  window.open('https://endojishotengai.com/', '_blank')
 }
 
 const TOKEN = useCookie('TOKEN')
