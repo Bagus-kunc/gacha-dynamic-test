@@ -16,7 +16,7 @@
       </p>
     </div>
     <template v-if="isFetching">
-      <PagesHistoryCard v-for="n in 3" :key="n" :data="n" :is-fetching="true" />
+      <PagesHistoryCard v-for="n in 3" :key="n" :is-fetching="true" />
     </template>
     <template v-else>
       <PagesHistoryCard

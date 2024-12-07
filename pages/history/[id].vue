@@ -94,12 +94,12 @@
           :title="
             historyDetailData.character != null
               ? historyDetailData.character.store_name
-              : null
+              : ''
           "
           :body="
             historyDetailData.character != null
               ? historyDetailData.character.store_description
-              : null
+              : ''
           "
         />
 
@@ -495,11 +495,11 @@ const downloadImage = async () => {
 const handleRarity = (rarityChar) => {
   const rarity = rarityChar
   if (rarity === '1') {
-    rarityImg.value = '/images/ssr-bg.png'
+    rarityImg.value = '/images/r-bg.png'
   } else if (rarity === '2') {
     rarityImg.value = '/images/sr-bg.png'
   } else if (rarity === '3') {
-    rarityImg.value = '/images/r-bg.png'
+    rarityImg.value = '/images/ssr-bg.png'
   }
 }
 

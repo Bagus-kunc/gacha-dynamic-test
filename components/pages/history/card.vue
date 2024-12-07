@@ -30,7 +30,7 @@ const props = defineProps({
   isFetching: { type: Boolean, default: false },
   data: {
     type: Object,
-    default: () => {},
+    default: {},
   },
   id: {
     type: String,
@@ -51,16 +51,12 @@ const handleGoToDetailHistory = () => router.push(`/history/${props.data.id}`)
 
 const handleRarity = () => {
   const rarity = props.data.character?.rarity
-  console.log(props.data.character?.rarity)
   if (rarity === '1') {
-    raritySrc.value = '/images/ssr-bg.png'
+    raritySrc.value = '/images/r-bg.png'
   } else if (rarity === '2') {
     raritySrc.value = '/images/sr-bg.png'
   } else if (rarity === '3') {
-    raritySrc.value = '/images/r-bg.png'
-  } else {
-    raritySrc.value = '/images/r-bg.png'
-
+    raritySrc.value = '/images/ssr-bg.png'
   }
 }
 
