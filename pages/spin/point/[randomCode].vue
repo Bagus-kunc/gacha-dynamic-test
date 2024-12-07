@@ -26,9 +26,11 @@
         height="800"
       />
       <div
-        class="absolute text-exd-dark-grey bg-white flex justify-center bottom-[15%] px-2 py-3 w-full max-w-[190px] h-[50px] rounded-xl"
+        class="absolute text-exd-dark-grey bg-white flex justify-center bottom-[15%] px-4 py-3 min-h-[50px] rounded-xl"
       >
-        <p class="text-[17px]">{{ voucherName }}</p>
+        <p class="text-[17px] max-w-[320px]">
+          {{ voucherName }}
+        </p>
       </div>
     </div>
     <div class="absolute-10 top-1/2 translate-y-[80%]"></div>
