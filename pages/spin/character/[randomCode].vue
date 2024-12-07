@@ -31,7 +31,7 @@
       />
 
       <div
-        class="absolute text-exd-dark-grey bg-white flex justify-center bottom-[15%]  px-2 py-3 w-full max-w-[190px] h-[50px] rounded-lg"
+        class="absolute text-exd-dark-grey bg-white flex justify-center bottom-[15%] px-2 py-3 w-full max-w-[190px] h-[50px] rounded-lg"
       >
         <p class="text-[17px]">{{ charName }}</p>
       </div>
@@ -170,7 +170,7 @@ const handleButton = async () => {
     // isVisible.value = true
 
     // setTimeout(async () => {
-      await navigateTo('/dashboard')
+    await navigateTo('/dashboard')
     // }, 1000)
   }
 }
@@ -195,11 +195,9 @@ const fetchImage = async () => {
     const slug = parsedData.slug.toUpperCase()
 
     const slugData = decryptData(localStorage.getItem(`${slug}_GACHA`))
-    console.log('data char', slugData)
     characterImageUrl.value = slugData?.character_image
     charName.value = slugData?.character_category
-    raritySrc.value = '2'
-    // raritySrc.value = slugData?.character_rarity
+    raritySrc.value = slugData?.character_rarity
   } catch (e) {
     console.error('Unexpected error:', e)
   }
