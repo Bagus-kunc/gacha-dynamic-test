@@ -303,5 +303,6 @@
   "validPhoneNumber": "Please enter a valid phone number.",
   "skip": "Skip",
   "share": "Share",
-  "giftExchangeComplete": "The gift exchange is complete!"
+  "giftExchangeComplete": "The gift exchange is complete!",
+  "exchangeCompleted": "Exchange completed"
 }

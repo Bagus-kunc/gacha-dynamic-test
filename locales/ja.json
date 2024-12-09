@@ -304,5 +304,6 @@
   "validPhoneNumber": "正しい電話番号を入力してください。",
   "skip": "スキップ",
   "share": "シェアする",
-  "giftExchangeComplete": "景品交換が完了しました！"
+  "giftExchangeComplete": "景品交換が完了しました！",
+  "exchangeCompleted": "交換完了"
 }
