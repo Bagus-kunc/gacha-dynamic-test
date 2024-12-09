@@ -21,7 +21,7 @@
               {{ body.name }}
             </p>
             <p class="md:text-[13px] sm:text-[12px] text-[10px] font-medium">
-              {{ $t('availablePeriod') }}：{{ body.started_at }}〜{{ body.expired_at }}
+              {{ $t('exchangeCompleted') }}：{{ body.reedem_at }}
             </p>
           </div>
         </div>
