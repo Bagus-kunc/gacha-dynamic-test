@@ -7,7 +7,7 @@
         class="absolute -top-10 bg-[url('assets/images/point-navbar.png')] bg-cover bg-center w-[104px] h-[104px] flex flex-col justify-center items-center"
       >
         <p
-          class="text-white text-[10px] font-bold mt-10 -ml-4 max-w-14 text-center"
+          class="text-white text-[10px] font-bold mt-10 -ml-4 max-w-14 text-center whitespace-pre-line"
         >
           {{ $t('currentPoints') }}
         </p>

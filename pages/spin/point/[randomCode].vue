@@ -28,7 +28,7 @@
       <div
         class="absolute text-exd-dark-grey bg-white flex justify-center bottom-[15%] px-4 py-3 min-h-[50px] rounded-xl"
       >
-        <p class="text-[17px] max-w-[320px] text-center">
+        <p class="text-[17px] max-w-[278px] text-center">
           {{ voucherName }}
         </p>
       </div>
