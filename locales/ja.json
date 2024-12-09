@@ -105,7 +105,7 @@
   "60": "60代",
   "70": "70代以上",
   "choice": "選択",
-  "postalCodeNoHyphens": "郵便番号(ハイフンは自動で入力されます)",
+  "postalCodeNoHyphens": "郵便番号（ハイフンなし）",
   "postalCodeInformation": "郵便番号を入力すると住所の一部が自動的に表示されます",
   "prefectures": "都道府県",
   "municipalities": "市区町村",

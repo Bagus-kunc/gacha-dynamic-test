@@ -106,7 +106,7 @@
   "address1": "Honmachi-dori Takisada Nagoya Building south side",
   "address2": "oasis 21 i center",
   "choice": "Choice",
-  "postalCodeNoHyphens": "Postal code (hyphen will be entered automatically)",
+  "postalCodeNoHyphens": "Postal code (no hyphen)",
   "postalCodeInformation": "Enter your postal code and the address will automatically appear",
   "prefectures": "Prefectures",
   "municipalities": "Municipalities",
