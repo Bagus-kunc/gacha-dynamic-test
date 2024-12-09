@@ -12,7 +12,7 @@
           <img :src="raritySrc" alt="power char" width="30" height="30" />
         </p>
         <p class="text-exd-gray-scorpion font-semibold text-exd-1416">
-          {{ data.location }}
+          {{ data?.character?.name }}
         </p>
         <p class="text-exd-gray-scorpion font-medium text-exd-1014">
           {{ data.created_at }}
