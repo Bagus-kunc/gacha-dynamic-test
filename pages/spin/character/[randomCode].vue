@@ -6,7 +6,12 @@
     <SparkleStart className="top-3" />
     <div :class="{ notif: true, hide: isHiding }">
       <img :src="iconGift" alt="icon gift" class="w-8 h-8" />
-      <p class="font-bold text-[12px]">{{ $t('addToCollection') }}</p>
+      <p
+        class="font-bold text-[12px] text-white"
+        style="-webkit-text-fill-color: #ffffff"
+      >
+        {{ $t('addToCollection') }}
+      </p>
     </div>
     <img
       src="/images/gacha-blue-green.png"
@@ -33,7 +38,7 @@
       <div
         class="absolute text-exd-dark-grey bg-white flex justify-center bottom-[15%] px-4 py-3 min-h-[50px] rounded-lg"
       >
-        <p class="text-[17px] max-w-[320px] text-center">{{ charName }}</p>
+        <p class="text-[17px] max-w-[278px] text-center">{{ charName }}</p>
       </div>
     </div>
 
