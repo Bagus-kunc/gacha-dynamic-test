@@ -11,8 +11,8 @@ export default defineNuxtRouteMiddleware(async (to, from) => {
   const validSlug = decryptData(validPassword.value || '{}')
 
   if (data) {
-    const multipleSpin = useState('multiple_spin', () => 0)
-    multipleSpin.value = data.multiple_spin
+    const spinType = useState('spin_type', () => 0)
+    spinType.value = data.spin_type
   }
 
   if (data && data.not_required_pin === 0 && validSlug?.slug !== randomCode) {

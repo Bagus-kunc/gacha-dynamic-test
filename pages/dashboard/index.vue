@@ -206,6 +206,7 @@ const errorMessages = ref('')
 const handleClose = () => {
   isNotAllowed.value = false
   sessionStorage.removeItem('IS_ALREADY_SPIN')
+  sessionStorage.removeItem('SPIN_TYPE')
 }
 
 const logout = async () => {
@@ -242,10 +243,23 @@ const checkSpinEligibility = async () => {
   await new Promise((resolve) => setTimeout(resolve, 0))
 
   const isAlreadySpin = sessionStorage.getItem('IS_ALREADY_SPIN')
-  const message =
-    '1日に2回以上ガチャがプレイされました。同じスポットでは1日に1回しかポイントが貯まりません。'
+  const spinType = sessionStorage.getItem('SPIN_TYPE')
 
-  if (isAlreadySpin == 'true') {
+  if (isAlreadySpin == 'true' && spinType === '1') {
+    const message =
+      '1日に2回以上ガチャがプレイされました。同じスポットでは1日に1回しかポイントが貯まりません。'
+    errorMessages.value = message
+    isNotAllowed.value = true
+  }
+
+  if (isAlreadySpin == 'true' && spinType === '3') {
+    const message = 'You can only gacha at this location for 1 time only'
+    errorMessages.value = message
+    isNotAllowed.value = true
+  }
+
+  if (isAlreadySpin == 'true' && spinType === '4') {
+    const message = 'Please wait after 15 minutes to play gacha again'
     errorMessages.value = message
     isNotAllowed.value = true
   }
