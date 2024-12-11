@@ -37,7 +37,7 @@
 
   <div
     v-if="isValidPath"
-    class="w-full max-w-md mx-auto min-h-dvh max-h-full overflow-hidden bg-white flex flex-col relative bg-[url('/images/bg-red2.webp')] bg-cover bg-center"
+    class="w-full max-w-md mx-auto min-h-dvh max-h-full overflow-hidden bg-white flex flex-col relative bg-[url('/images/bg-blue-green.png')] bg-cover bg-center"
   >
     <HeaderBar>
       <p
@@ -64,6 +64,7 @@
               :label="$t('back_to_top')"
               :on-click="backToTop"
               has-bottom
+              variant="red-coral"
             />
           </div>
         </div>
@@ -131,11 +132,11 @@
                     class="absolute bg-white inset-x-0 bottom-0 h-8 flex items-center z-20"
                   >
                     <span
-                      class="text-exd-red-vermilion text-sm flex items-center cursor-pointer relative after:content-[''] after:absolute after:inset-x-0 after:bottom-0 after:border-b after:border-b-exd-red-vermilion"
+                      class="text-exd-blue-green text-sm flex items-center cursor-pointer relative after:content-[''] after:absolute after:inset-x-0 after:bottom-0 after:border-b after:border-b-exd-blue-green"
                       @click="openGoogleMaps"
                       >{{ $t('openGoogleMaps') }}
                       <img
-                        src="~/assets/images/export-red.svg"
+                        src="~/assets/images/export-blue-green.png"
                         alt="export"
                         width="15"
                         height="15"
@@ -149,25 +150,24 @@
           </div>
         </div>
       </div>
+      <div class="fixed bottom-0 w-full max-w-md mx-auto px-8 mb-3 z-50">
+        <Button
+          class="!bg-exd-red-coral !py-4 !w-full !uppercase !font-bold !text-exd-1424 !rounded-full !text-white !flex !flex-row !justify-between !px-5"
+          raised
+          @click="
+            () =>
+              navigateTo('https://endo-ji-shotengai.dela-kuji.jp/', {
+                external: true,
+                open: {
+                  target: '_blank',
+                },
+              })
+          "
+        >
+          <span class="grow text-center">{{ $t('shareClickHere') }}</span>
+        </Button>
+      </div>
     </section>
-
-    <div class="fixed bottom-0 w-full max-w-md mx-auto px-8 mb-3 z-50">
-      <Button
-        class="!bg-exd-gold !py-4 !w-full !uppercase !font-bold !text-exd-1424 !rounded-full !text-white !flex !flex-row !justify-between !px-5"
-        raised
-        @click="
-          () =>
-            navigateTo('http://digital-gurutto.nagoya-info.jp/', {
-              external: true,
-              open: {
-                target: '_blank',
-              },
-            })
-        "
-      >
-        <span class="grow text-center">{{ $t('shareClickHere') }}</span>
-      </Button>
-    </div>
   </div>
 </template>
 
