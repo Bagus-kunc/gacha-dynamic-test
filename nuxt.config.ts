@@ -69,7 +69,6 @@ export default defineNuxtConfig({
 
   runtimeConfig: {
     public: {
-      BASE_API: process.env.NUXT_BASE_API,
       API_URL: process.env.API_URL,
       GOOGLE_API: process.env.GOOGLE_API,
       APP_NAME: process.env.APP_NAME,
