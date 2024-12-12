@@ -18,8 +18,8 @@
       name="og:image:secure_url"
       :content="shareDetailData?.character_image"
     />
-    <Meta name="og:image:width" :content="200" />
-    <Meta name="og:image:height" :content="200" />
+    <Meta name="og:image:width" content="200" />
+    <Meta name="og:image:height" content="200" />
     <Meta name="twitter:card" content="summary_large_image" />
     <Meta name="twitter:title" :content="shareDetailData?.character_name" />
     <Meta
@@ -31,8 +31,8 @@
       name="twitter:image:secure_url"
       :content="shareDetailData?.character_image"
     />
-    <Meta name="twitter:image:width" :content="900" />
-    <Meta name="twitter:image:height" :content="900" />
+    <Meta name="twitter:image:width" content="900" />
+    <Meta name="twitter:image:height" content="900" />
   </Head>
 
   <div
@@ -70,12 +70,9 @@
         </div>
       </div>
     </section>
-    <section
-      class="min-h-dvh max-h-[calc(100dvh-30px)] overflow-y-auto pb-6"
-      v-else
-    >
+    <section class="h-[calc(100dvh-35px)] overflow-y-auto pb-6" v-else>
       <div
-        class="flex flex-col bg-center text-black mt-[105px] px-8 gap-3 mb-20"
+        class="flex flex-col bg-center text-black mt-[105px] px-8 gap-3 mb-10"
       >
         <div class="max-w-sm bg-white rounded-lg shadow">
           <div class="w-full overflow-hidden rounded-t-lg">
@@ -86,7 +83,7 @@
             />
           </div>
           <div class="p-5 flex flex-col gap-2">
-            <div class="inline-flex justify-between w-full gap-2">
+            <div class="inline-flex justify-between items-center w-full gap-5">
               <Skeleton v-if="isFetching" class="!h-3" width="15rem"></Skeleton>
 
               <p
@@ -95,26 +92,95 @@
               >
                 {{ shareDetailData.character_name }}
               </p>
+
+              <Skeleton
+                v-if="isFetching"
+                class="!h-3 !bg-exd-gold !rounded-full"
+                width="2rem "
+              />
+              <p
+                v-else
+                class="font-bold text-exd-1824.52 text-white p-1 min-h-10 min-w-12 h-10 w-12 flex items-center justify-center rounded-full pr-2 bg-no-repeat bg-contain bg-center"
+                :style="
+                  rarityImg ? { backgroundImage: `url(${rarityImg})` } : {}
+                "
+              ></p>
+            </div>
+
+            <div
+              v-if="isFetching"
+              class="flex items-center gap-5 text-exd-1218"
+            >
+              <Skeleton
+                class="border-[1px] border-exd-blue-green text-exd-blue-green rounded-[5px] px-2"
+              />
+              <Skeleton class="text-exd-gray-scorpion bg-exd-gray-scorpion" />
+            </div>
+            <div v-else class="flex items-center gap-5 text-exd-1218">
+              <p
+                class="border-[1px] border-exd-blue-green text-exd-blue-green rounded-[5px] px-2"
+              >
+                {{ $t('category') }}
+              </p>
+              <p class="text-exd-gray-scorpion">
+                {{ shareDetailData.character_category }}
+              </p>
             </div>
 
             <Skeleton v-if="isFetching" class="!h-3" width="15rem"></Skeleton>
             <p
               v-else-if="shareDetailData.is_valid_char"
-              class="font-medium text-exd-1218 text-exd-gray-scorpion mb-4 text-word-wrap vhtml-desc"
+              class="font-medium text-exd-1218 text-exd-gray-scorpion text-word-wrap vhtml-desc"
               v-html="shareDetailData.character_description"
             />
+
+            <div
+              class="flex flex-col gap-2 py-4 text-exd-gray-scorpion text-exd-1218"
+            >
+              <div class="max-w-full">
+                <p class="flex flex-row justify-between w-full">
+                  {{ star1Name
+                  }}<StarRating :value="star1" :show-value="false" />
+                </p>
+                <p class="flex flex-row justify-between w-full">
+                  {{ star2Name
+                  }}<StarRating :value="star2" :show-value="false" />
+                </p>
+                <p class="flex justify-between w-full">
+                  {{ star3Name }}
+                  <StarRating :value="star3" :show-value="false" />
+                </p>
+              </div>
+            </div>
 
             <!-- Check if has location data -->
             <div v-if="shareDetailData.is_valid_spot">
               <Skeleton v-if="isFetching" class="!w-full !h-72" />
               <HeadingSection
                 v-else
+                class="!mb-3"
                 :is-fetching="isFetching"
-                :title="shareDetailData.location_name"
-                :body="shareDetailData.location_description"
+                :title="shareDetailData.character_store_name"
+                :body="shareDetailData.character_store_description"
               />
 
-              <div class="w-full mt-2">
+              <div
+                v-if="socialMediaLinks.length"
+                class="inline-flex md:gap-3 gap-[6px] w-full justify-center items-center mb-3 bg-exd-zinc-100 p-5 rounded-lg"
+              >
+                <img
+                  v-for="(link, index) in socialMediaLinks"
+                  :key="index"
+                  :src="link.src"
+                  :alt="link.alt"
+                  :aria-label="link.alt"
+                  class="md:size-7 size-7 cursor-pointer"
+                  @click="openLink(link.url)"
+                  preload
+                />
+              </div>
+
+              <div class="w-full">
                 <Skeleton v-if="isFetching" class="!w-full !h-72" />
                 <div
                   class="relative"
@@ -172,6 +238,17 @@
 </template>
 
 <script setup>
+import duck from '~/assets/images/duck.svg'
+import download from '~/assets/images/download.svg'
+import facebook from '~/assets/images/facebook.svg'
+import check from '~/assets/images/check.svg'
+import line from '~/assets/images/line.svg'
+import x from '~/assets/images/x.svg'
+import instagram from '~/assets/images/instagram.png'
+import tiktok from '~/assets/images/tiktok.png'
+import web1 from '~/assets/icons/web1.png'
+import web2 from '~/assets/icons/web2.png'
+import web3 from '~/assets/icons/web3.png'
 import { useI18n } from 'vue-i18n'
 
 definePageMeta({
@@ -191,6 +268,15 @@ const quote = config.public.META_QUOTE
 const props = defineProps(['id'])
 const isFetching = ref(true)
 const shareDetailData = ref(null)
+const rarityImg = ref('')
+const star1Name = ref('')
+const star2Name = ref('')
+const star3Name = ref('')
+const star1 = ref(0)
+const star2 = ref(0)
+const star3 = ref(0)
+const socialMediaLinks = ref([])
+
 const LOCALE = useCookie('LOCALE')
 const backToTop = () => {
   return navigateTo('/')
@@ -216,6 +302,34 @@ const fetchingShareData = async () => {
 
     if (data.value) {
       shareDetailData.value = data.value.data
+      handleRarity(data.value.data.character_rarity)
+
+      star1.value = calculateStar(data.value.data.character_star1)
+      star2.value = calculateStar(data.value.data.character_star2)
+      star3.value = calculateStar(data.value.data.character_star3)
+
+      star1Name.value = data.value.data.character_star_name1
+      star2Name.value = data.value.data.character_star_name2
+      star3Name.value = data.value.data.character_star_name3
+
+      socialMediaLinks.value = [
+        { url: data.value.data.character_web1_url, src: web1, alt: 'Web 1' },
+        { url: data.value.data.character_web2_url, src: web2, alt: 'Web 2' },
+        { url: data.value.data.character_web3_url, src: web3, alt: 'Web 3' },
+        { url: data.value.data.character_line_url, src: line, alt: 'Line' },
+        { url: data.value.data.character_x_url, src: x, alt: 'X (Twitter)' },
+        {
+          url: data.value.data.character_fb_url,
+          src: facebook,
+          alt: 'Facebook',
+        },
+        {
+          url: data.value.data.character_ig_url,
+          src: instagram,
+          alt: 'Instagram',
+        },
+        { url: data.value.data.character_tt_url, src: tiktok, alt: 'TikTok' },
+      ].filter((link) => link.url)
     }
 
     if (error.value) {
@@ -298,6 +412,39 @@ const openGoogleMaps = () => {
     const googleMapsUrl = `https://www.google.jp/maps?q=${lat},${long}`
     window.open(googleMapsUrl, '_blank')
   }
+}
+
+const handleRarity = (rarityChar) => {
+  const rarity = rarityChar
+  if (rarity === '1') {
+    rarityImg.value = '/images/r-bg.png'
+  } else if (rarity === '2') {
+    rarityImg.value = '/images/sr-bg.png'
+  } else if (rarity === '3') {
+    rarityImg.value = '/images/ssr-bg.png'
+  }
+}
+
+const calculateStar = (characterStar) => {
+  const starMapping = {
+    1: 0,
+    2: 0.5,
+    3: 1,
+    4: 1.5,
+    5: 2,
+    6: 2.5,
+    7: 3,
+    8: 3.5,
+    9: 4,
+    10: 4.5,
+    11: 5,
+  }
+
+  return starMapping[characterStar] ?? 0
+}
+
+const openLink = (url) => {
+  window.open(url, '_blank')
 }
 </script>
 
