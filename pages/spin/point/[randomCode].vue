@@ -97,8 +97,10 @@ const fetchImageFromApi = async () => {
       const { data, status } = await useFetchApi('POST', 'gacha/spin', {
         body: { ...payload },
       })
+      const spinType = useState('spin_type')
 
-      // sessionStorage.setItem('IS_ALREADY_SPIN', data.is_already_spin)
+      sessionStorage.setItem('IS_ALREADY_SPIN', data.is_already_spin)
+      sessionStorage.setItem('SPIN_TYPE', spinType.value)
 
       const storage = {
         location_id: data.userPoint.location.id,
@@ -124,8 +126,10 @@ const fetchImageFromApi = async () => {
       typeImageUrl.value = data.userPoint.gift.typeImage
       giftType.value = data.userPoint.gift.type
     } else {
-      const multipleSpin = useState('multiple_spin')
-      if (!multipleSpin.value) {
+      const spinType = useState('spin_type')
+      sessionStorage.setItem('SPIN_TYPE', spinType.value)
+
+      if (spinType.value !== 2) {
         const slugData = localStorage.getItem(slugStorageName)
 
         if (slugData) {

@@ -247,7 +247,7 @@ const saveSpin = async () => {
     storedData.value = null
     localStorage.removeItem(slugStorageName)
 
-    // sessionStorage.setItem('IS_ALREADY_SPIN', data.is_already_spin)
+    sessionStorage.setItem('IS_ALREADY_SPIN', data.is_already_spin)
   } catch (error) {
     console.log("Error: Can't save spin result")
 
