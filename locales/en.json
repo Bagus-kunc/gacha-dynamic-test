@@ -304,5 +304,6 @@
   "skip": "Skip",
   "share": "Share",
   "giftExchangeComplete": "The gift exchange is complete!",
-  "exchangeCompleted": "Exchange completed"
+  "exchangeCompleted": "Exchange completed",
+  "category": "Category"
 }
