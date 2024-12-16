@@ -65,6 +65,7 @@ const giftImageUrl = ref(null)
 const typeImageUrl = ref(null)
 const voucherName = ref(null)
 const giftType = ref(null)
+const spinInterval = useState('spin_interval')
 
 definePageMeta({
   middleware: 'valid-password',
@@ -101,6 +102,10 @@ const fetchImageFromApi = async () => {
 
       sessionStorage.setItem('IS_ALREADY_SPIN', data.is_already_spin)
       sessionStorage.setItem('SPIN_TYPE', spinType.value)
+      sessionStorage.setItem(
+        'READY_SPIN_AFTER_DATE',
+        data?.ready_spin_after_date
+      )
 
       const storage = {
         location_id: data.userPoint.location.id,
@@ -128,10 +133,9 @@ const fetchImageFromApi = async () => {
     } else {
       const spinType = useState('spin_type')
       sessionStorage.setItem('SPIN_TYPE', spinType.value)
+      const slugData = localStorage.getItem(slugStorageName)
 
-      if (spinType.value !== 2) {
-        const slugData = localStorage.getItem(slugStorageName)
-
+      if (spinType.value === 1 || spinType.value === 3) {
         if (slugData) {
           const parse = decryptData(slugData)
           giftImageUrl.value = parse.gift_image
@@ -145,6 +149,23 @@ const fetchImageFromApi = async () => {
             // encryptData({ ...parse, is_already_spin: true })
           )
           // reportMultipleSpin({ ...parse })
+
+          return
+        }
+      } else if (spinType.value === 4 && slugData) {
+        const now = new Date().getTime()
+
+        const parse = decryptData(slugData)
+        if (
+          parse?.spin_date_interval &&
+          new Date(parse.spin_date_interval).getTime() > now
+        ) {
+          giftImageUrl.value = parse.gift_image
+          voucherName.value = parse.voucher_name
+          typeImageUrl.value = parse.gift_type_image
+          giftType.value = parse.gift_type
+
+          localStorage.setItem(slugStorageName, encryptData({ ...parse }))
           return
         }
       }
@@ -175,6 +196,8 @@ const fetchImageFromApi = async () => {
         voucher_name: data.gift.name,
         gift_type: data.gift.type,
         gift_type_image: data.gift.typeImage,
+        spin_interval: spinInterval.value,
+        spin_date_interval: futureDateFromMinutes(spinInterval.value),
       }
 
       localStorage.setItem(slugStorageName, encryptData(storage))
@@ -211,6 +234,12 @@ const reportMultipleSpin = async ({ gift_id, character_id, location_id }) => {
 
 const handleGoToCharacter = async () => {
   await navigateTo(`/spin/character/${route.params.randomCode}`)
+}
+
+const futureDateFromMinutes = (minutes) => {
+  const now = new Date()
+  const date = new Date(now.getTime() + minutes * 60 * 1000)
+  return date.toLocaleString()
 }
 
 onMounted(() => {

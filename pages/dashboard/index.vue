@@ -207,6 +207,7 @@ const handleClose = () => {
   isNotAllowed.value = false
   sessionStorage.removeItem('IS_ALREADY_SPIN')
   sessionStorage.removeItem('SPIN_TYPE')
+  sessionStorage.removeItem('READY_SPIN_AFTER_DATE')
 }
 
 const logout = async () => {
@@ -244,6 +245,8 @@ const checkSpinEligibility = async () => {
 
   const isAlreadySpin = sessionStorage.getItem('IS_ALREADY_SPIN')
   const spinType = sessionStorage.getItem('SPIN_TYPE')
+  const readySpinAfterDate = sessionStorage.getItem('READY_SPIN_AFTER_DATE')
+  const now = new Date().toLocaleString('en-US', { timeZone: 'Asia/Tokyo' })
 
   if (isAlreadySpin == 'true' && spinType === '1') {
     const message =
@@ -258,11 +261,40 @@ const checkSpinEligibility = async () => {
     isNotAllowed.value = true
   }
 
-  if (isAlreadySpin == 'true' && spinType === '4') {
-    const message = 'Please wait after 15 minutes to play gacha again'
-    errorMessages.value = message
-    isNotAllowed.value = true
+  if (
+    isAlreadySpin == 'true' &&
+    spinType === '4' &&
+    readySpinAfterDate &&
+    new Date(readySpinAfterDate).getTime() > new Date(now).getTime()
+  ) {
+    await countdown(readySpinAfterDate)
   }
+}
+
+function countdown(targetDate) {
+  const remainingTime = () => {
+    const now = new Date().toLocaleString('en-US', { timeZone: 'Asia/Tokyo' })
+    const difference = new Date(targetDate).getTime() - new Date(now).getTime()
+
+    if (difference <= 0) {
+      clearInterval(intervals)
+      handleClose()
+      return
+    }
+
+    const minutes = Math.floor(difference / (1000 * 60))
+    const seconds = Math.floor((difference % (1000 * 60)) / 1000)
+
+    const message = `Please wait after ${
+      minutes ? `${minutes} minutes` : ''
+    } ${seconds} seconds to play gacha again`
+    errorMessages.value = message
+  }
+
+  remainingTime()
+  isNotAllowed.value = true
+
+  let intervals = setInterval(() => remainingTime(), 1000)
 }
 
 onMounted(() => {
