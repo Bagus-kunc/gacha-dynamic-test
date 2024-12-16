@@ -81,6 +81,7 @@ export default defineNuxtConfig({
       NUXT_PUBLIC_GTAG_ID: process.env.NUXT_PUBLIC_GTAG_ID,
       GOOGLE_SITE_VERIFICATION: process.env.GOOGLE_SITE_VERIFICATION,
       NODE_ENV: process.env.NODE_ENV,
+      TIME_ZONE: process.env.TIME_ZONE,
     },
   },
 
