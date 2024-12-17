@@ -13,6 +13,11 @@ export default defineNuxtRouteMiddleware(async (to, from) => {
   if (data) {
     const spinType = useState('spin_type', () => 0)
     spinType.value = data.spin_type
+
+    if (data.spin_type === 4) {
+      const spinInterval = useState('spin_interval', () => 0)
+      spinInterval.value = data.spin_interval
+    }
   }
 
   if (data && data.not_required_pin === 0 && validSlug?.slug !== randomCode) {

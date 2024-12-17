@@ -181,6 +181,8 @@ import 'swiper/css/navigation'
 
 const router = useRouter()
 
+const config = useRuntimeConfig()
+
 definePageMeta({
   middleware: 'auth',
   layout: 'with-bottom-bar',
@@ -207,6 +209,7 @@ const handleClose = () => {
   isNotAllowed.value = false
   sessionStorage.removeItem('IS_ALREADY_SPIN')
   sessionStorage.removeItem('SPIN_TYPE')
+  sessionStorage.removeItem('READY_SPIN_AFTER_DATE')
 }
 
 const logout = async () => {
@@ -244,6 +247,8 @@ const checkSpinEligibility = async () => {
 
   const isAlreadySpin = sessionStorage.getItem('IS_ALREADY_SPIN')
   const spinType = sessionStorage.getItem('SPIN_TYPE')
+  const readySpinAfterDate = sessionStorage.getItem('READY_SPIN_AFTER_DATE')
+  const now = formatDate(new Date())
 
   if (isAlreadySpin == 'true' && spinType === '1') {
     const message =
@@ -258,11 +263,55 @@ const checkSpinEligibility = async () => {
     isNotAllowed.value = true
   }
 
-  if (isAlreadySpin == 'true' && spinType === '4') {
-    const message = 'Please wait after 15 minutes to play gacha again'
-    errorMessages.value = message
-    isNotAllowed.value = true
+  if (
+    isAlreadySpin == 'true' &&
+    spinType === '4' &&
+    readySpinAfterDate &&
+    new Date(readySpinAfterDate).getTime() > new Date(now).getTime()
+  ) {
+    await countdown(readySpinAfterDate)
   }
+}
+
+function countdown(targetDate) {
+  const remainingTime = () => {
+    const now = formatDate(new Date())
+    const difference = new Date(targetDate).getTime() - new Date(now).getTime()
+
+    if (difference <= 0) {
+      clearInterval(intervals)
+      handleClose()
+      return
+    }
+
+    const minutes = Math.floor(difference / (1000 * 60))
+    const seconds = Math.floor((difference % (1000 * 60)) / 1000)
+
+    const message = `Please wait after ${
+      minutes ? `${minutes} minutes` : ''
+    } ${seconds} seconds to play gacha again`
+    errorMessages.value = message
+  }
+
+  remainingTime()
+  isNotAllowed.value = true
+
+  let intervals = setInterval(() => remainingTime(), 1000)
+}
+
+const formatDate = (date) => {
+  return new Date(date)
+    .toLocaleString('en-CA', {
+      year: 'numeric',
+      month: '2-digit',
+      day: '2-digit',
+      hour: '2-digit',
+      minute: '2-digit',
+      second: '2-digit',
+      hour12: false,
+      timeZone: config.public.TIME_ZONE,
+    })
+    .replace(',', '')
 }
 
 onMounted(() => {
