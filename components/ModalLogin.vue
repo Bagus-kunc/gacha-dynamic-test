@@ -244,11 +244,18 @@ const saveSpin = async () => {
       },
     })
 
+    console.log(data)
+
     storedData.value = null
     localStorage.removeItem(slugStorageName)
 
     sessionStorage.setItem('IS_ALREADY_SPIN', data.is_already_spin)
-    sessionStorage.setItem('READY_SPIN_AFTER_DATE', data?.ready_spin_after_date)
+    sessionStorage.setItem(
+      'READY_SPIN_AFTER_DATE',
+      data?.ready_spin_after_date || ''
+    )
+    sessionStorage.setItem('IS_QUOTA_AVAILABLE', data?.is_quota_available)
+    sessionStorage.setItem('LOCATION_SLUG', data?.location_slug)
   } catch (error) {
     console.log("Error: Can't save spin result")
 

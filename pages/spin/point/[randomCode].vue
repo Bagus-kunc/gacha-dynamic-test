@@ -104,7 +104,7 @@ const fetchImageFromApi = async () => {
       sessionStorage.setItem('SPIN_TYPE', spinType.value)
       sessionStorage.setItem(
         'READY_SPIN_AFTER_DATE',
-        data?.ready_spin_after_date
+        data?.ready_spin_after_date || ''
       )
 
       const storage = {

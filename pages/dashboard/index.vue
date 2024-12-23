@@ -157,7 +157,12 @@
             {{ errorMessages }}
           </p>
         </div>
-        <!-- <SolidButton label="ガチャTOP" :on-click="() => goTo('/dashboard')" /> -->
+        <SolidButton
+          v-if="redirectLink"
+          label="ガチャTOP"
+          variant="red-coral"
+          :on-click="() => goToSpin(redirectLink)"
+        />
       </div>
     </template>
   </Dialog>
@@ -204,12 +209,15 @@ const VALID_PASSWORD = useCookie('VALID_PASSWORD')
 
 const isNotAllowed = ref(false)
 const errorMessages = ref('')
+const redirectLink = ref('')
 
 const handleClose = () => {
   isNotAllowed.value = false
   sessionStorage.removeItem('IS_ALREADY_SPIN')
   sessionStorage.removeItem('SPIN_TYPE')
   sessionStorage.removeItem('READY_SPIN_AFTER_DATE')
+  sessionStorage.removeItem('IS_QUOTA_AVAILABLE')
+  sessionStorage.removeItem('LOCATION_SLUG')
 }
 
 const logout = async () => {
@@ -249,6 +257,8 @@ const checkSpinEligibility = async () => {
   const spinType = sessionStorage.getItem('SPIN_TYPE')
   const readySpinAfterDate = sessionStorage.getItem('READY_SPIN_AFTER_DATE')
   const now = formatDate(new Date())
+  const isQuotaAvailable = sessionStorage.getItem('IS_QUOTA_AVAILABLE')
+  const locationSlug = sessionStorage.getItem('LOCATION_SLUG')
 
   if (isAlreadySpin == 'true' && spinType === '1') {
     const message =
@@ -270,6 +280,14 @@ const checkSpinEligibility = async () => {
     new Date(readySpinAfterDate).getTime() > new Date(now).getTime()
   ) {
     await countdown(readySpinAfterDate)
+  }
+
+  if (isQuotaAvailable === 'false' && locationSlug) {
+    const message =
+      'The point quota has reached maximum user , please play again to receive different prize'
+    errorMessages.value = message
+    isNotAllowed.value = true
+    redirectLink.value = `/scan/${locationSlug}`
   }
 }
 
@@ -312,6 +330,11 @@ const formatDate = (date) => {
       timeZone: config.public.TIME_ZONE,
     })
     .replace(',', '')
+}
+
+const goToSpin = async (url) => {
+  handleClose()
+  return await navigateTo(url)
 }
 
 onMounted(() => {
