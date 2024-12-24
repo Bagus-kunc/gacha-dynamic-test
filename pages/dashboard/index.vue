@@ -159,7 +159,7 @@
         </div>
         <SolidButton
           v-if="redirectLink"
-          label="ガチャTOP"
+          :label="$t('gacha')"
           variant="red-coral"
           :on-click="() => goToSpin(redirectLink)"
         />
@@ -183,6 +183,7 @@ import { Autoplay, Pagination, Navigation } from 'swiper/modules'
 import 'swiper/css'
 import 'swiper/css/pagination'
 import 'swiper/css/navigation'
+import { useI18n } from 'vue-i18n'
 
 const router = useRouter()
 
@@ -210,6 +211,7 @@ const VALID_PASSWORD = useCookie('VALID_PASSWORD')
 const isNotAllowed = ref(false)
 const errorMessages = ref('')
 const redirectLink = ref('')
+const { t } = useI18n()
 
 const handleClose = () => {
   isNotAllowed.value = false
@@ -261,15 +263,12 @@ const checkSpinEligibility = async () => {
   const locationSlug = sessionStorage.getItem('LOCATION_SLUG')
 
   if (isAlreadySpin == 'true' && spinType === '1') {
-    const message =
-      '1日に2回以上ガチャがプレイされました。同じスポットでは1日に1回しかポイントが貯まりません。'
-    errorMessages.value = message
+    errorMessages.value = t('eligibilityMessageType1')
     isNotAllowed.value = true
   }
 
   if (isAlreadySpin == 'true' && spinType === '3') {
-    const message = 'You can only gacha at this location for 1 time only'
-    errorMessages.value = message
+    errorMessages.value = t('eligibilityMessageType3')
     isNotAllowed.value = true
   }
 
@@ -283,9 +282,7 @@ const checkSpinEligibility = async () => {
   }
 
   if (isQuotaAvailable === 'false' && locationSlug) {
-    const message =
-      'The point quota has reached maximum user , please play again to receive different prize'
-    errorMessages.value = message
+    errorMessages.value = t('eligibilityMessageMaxQuota')
     isNotAllowed.value = true
     redirectLink.value = `/scan/${locationSlug}`
   }
@@ -305,10 +302,10 @@ function countdown(targetDate) {
     const minutes = Math.floor(difference / (1000 * 60))
     const seconds = Math.floor((difference % (1000 * 60)) / 1000)
 
-    const message = `Please wait after ${
-      minutes ? `${minutes} minutes` : ''
-    } ${seconds} seconds to play gacha again`
-    errorMessages.value = message
+    errorMessages.value = t('eligibilityMessageType4', {
+      minutes,
+      seconds,
+    })
   }
 
   remainingTime()

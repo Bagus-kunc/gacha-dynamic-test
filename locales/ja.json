@@ -306,5 +306,10 @@
   "share": "シェアする",
   "giftExchangeComplete": "景品交換が完了しました！",
   "exchangeCompleted": "交換完了",
-  "category": "カテゴリ"
+  "category": "カテゴリ",
+  "gacha": "ガチャ",
+  "eligibilityMessageType1": "1日に2回以上ガチャがプレイされました。同じスポットでは1日に1回しかポイントが貯まりません。",
+  "eligibilityMessageType3": "You can only gacha at this location for 1 time only",
+  "eligibilityMessageType4": "Please wait after {minutes} minutes {seconds} seconds to play gacha again",
+  "eligibilityMessageMaxQuota": "The point quota has reached maximum user , please play again to receive different prize"
 }
