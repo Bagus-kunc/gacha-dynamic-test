@@ -122,6 +122,9 @@ module.exports = {
         'exd-yellow-300': {
           DEFAULT: 'hsla(var(--yellow-300))', //#FFF958
         },
+        'exd-yellow-tom': {
+          DEFAULT: 'hsla(var(--yellow-tom))', //##DEE300
+        },
         'exd-red-500': {
           DEFAULT: 'hsla(var(--red-500))', //#D84F45
         },

@@ -115,7 +115,6 @@ onMounted(() => {
         x="150"
         y="310"
       />
-      <image height="260" width="300" :href="props.headSrc" x="50" y="-95" />
     </g>
     <!-- <rect x="44" y="300" width="311" height="237" fill="url(#pattern0_19_69)" /> -->
 

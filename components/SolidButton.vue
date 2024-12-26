@@ -18,7 +18,7 @@
         <LoadingIcon v-if="hasLoading && variant !== 'skip'" />
         <img
           v-if="hasIcon && !hasLoading && variant !== 'skip'"
-          :src="arrow"
+          :src="variant !== 'tom' ? arrow : arrowTom"
           alt="arrow"
           width="10"
           height="10"
@@ -35,6 +35,7 @@
 <script setup>
 import LoadingIcon from './LoadingIcon.vue'
 import arrow from '~/assets/images/arrow.svg'
+import arrowTom from '~/assets/images/arrow-gray.png'
 import arrowSkip from '~/assets/images/arrow-skip.svg'
 
 const props = defineProps({
@@ -61,7 +62,7 @@ const props = defineProps({
   variant: {
     type: String,
     default: 'gold',
-    validator: (value) => ['gold', 'red', 'skip', 'red-coral', 'blue-green', 'disabled'].includes(value),
+    validator: (value) => ['gold', "tom", 'red', 'skip', 'red-coral', 'blue-green', 'disabled', 'gray'].includes(value),
   },
   onClick: {
     type: Function,
@@ -78,8 +79,12 @@ const variantClass = computed(() => {
     return '!bg-exd-red-coral'
   } else if(props.variant === 'gold') {
     return '!bg-exd-gold'
+  } else if(props.variant === 'tom') {
+    return '!bg-exd-yellow-tom !text-exd-dark-grey'
   } else if(props.variant === 'disabled') {
     return '!bg-exd-stone-300'
+  } else if(props.variant === 'gray') {
+    return '!bg-exd-dark-grey'
   } else {
     return '!bg-exd-red-vermilion'
   }

@@ -3,7 +3,7 @@
     <video
       autoplay
       playsinline
-      class="absolute z-[100] inset-0 w-full h-full object-cover"
+      class="absolute z-[1200] inset-0 w-full h-full object-cover"
       @ended="$emit('ended')"
       @play="startButtonDelay"
     >
@@ -13,7 +13,7 @@
     <SolidButton
       v-if="showButton"
       :label="$t('skip')"
-      class="absolute bottom-5 -right-2 !max-w-48 z-[150]"
+      class="absolute bottom-5 -right-2 !max-w-48 z-[1200]"
       variant="skip"
       @click="handleButtonClick"
     />

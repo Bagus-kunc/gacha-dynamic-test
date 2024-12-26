@@ -1,20 +1,12 @@
 <template>
   <div
-    class="grow bg-[url('/images/bg-rainbow.png')] bg-cover bg-center relative flex flex-col justify-center items-center"
+    class="grow bg-[url('/images/bg-gacha-tom.png')] bg-cover bg-center relative flex flex-col justify-center items-center"
     @touchmove="(e) => e.preventDefault()"
   >
     <SparkleStart className="top-3" />
-    <div :class="{ notif: true, hide: isHiding }">
-      <img :src="iconGift" alt="icon gift" class="w-8 h-8" />
-      <p
-        class="font-bold text-[12px] text-white"
-        style="-webkit-text-fill-color: #ffffff"
-      >
-        {{ $t('addToCollection') }}
-      </p>
-    </div>
+
     <img
-      src="/images/gacha-blue-green.png"
+      src="/images/gacha-tom.png"
       alt="gacha2"
       class="absolute left-1/2 top-1 transform -translate-x-1/2 w-full h-auto max-h-[100vh] object-contain"
       preload
@@ -46,7 +38,7 @@
       <SolidButton
         :label="$t('toTheNext')"
         :on-click="handleButton"
-        variant="red-coral"
+        variant="gray"
         has-bottom
       />
     </div>
@@ -70,23 +62,15 @@
       <div
         class="w-full flex flex-col justify-center items-center gap-4 py-6 !pb-8 relative"
       >
-        <div class="font-bold text-exd-1424 text-center text-exd-gray-scorpion">
+        <div class="font-bold py-10 text-exd-1424 text-center text-exd-gray-scorpion">
           <p style="text-shadow: 0 3px 3px rgba(0, 0, 0, 0.16)">
-            {{ $t('toWinPrizes') }}
-          </p>
-          <p style="text-shadow: 0 3px 3px rgba(0, 0, 0, 0.16)">
-            {{ $t('membershipRegistrationRequired') }}
+            {{ $t('thankYou') }}
           </p>
         </div>
         <SolidButton
-          :label="$t('newMemberRegistration')"
-          :on-click="handleToRegister"
-          variant="red-coral"
-        />
-        <SolidButton
-          :label="$t('loginToMyPage')"
-          :on-click="handleToLogin"
-          variant="blue-green"
+          :label="$t('tomWeb')"
+          :on-click="handleTomWeb"
+          variant="tom"
         />
       </div>
     </template>
@@ -161,9 +145,9 @@ const handleCloseDialog = () => (hasModal.value = false)
 const { decryptData } = useEncryption()
 
 const handleButton = async () => {
-  if (!TOKEN.value && !USER.value) {
+  // if (!TOKEN.value && !USER.value) {
     handleShowDialog()
-  } else {
+  // } else {
     // setTimeout(() => {
     //   isHiding.value = true
     //   setTimeout(() => {
@@ -175,9 +159,9 @@ const handleButton = async () => {
     // isVisible.value = true
 
     // setTimeout(async () => {
-    await navigateTo('/dashboard')
+    // await navigateTo('/dashboard')
     // }, 1000)
-  }
+  // }
 }
 
 const fetchImage = async () => {
@@ -217,6 +201,10 @@ const handleToLogin = () => {
   setSourceFrom('spin')
   hasModal.value = false
   modalLogin.value = true
+}
+
+const handleTomWeb = async () => {
+  await navigateTo('tom.com')
 }
 
 const goTo = async (url) => {

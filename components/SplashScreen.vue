@@ -58,20 +58,25 @@ const checkCaches = () => {
     '/logo-icon.ico',
     '/video/spin-voucher.mp4',
     '/video/new-spin-character.mp4',
-    '/images/gacha-blue-green.png',
+    '/images/gacha-tom.png',
     '/images/bg-red2.webp',
     '/images/sparkling.png',
-    '/images/bg-green.webp',
+    '/images/bg-tom.png',
     '/images/logo.png',
     '/images/warning.svg',
+    '/images/logo-tom.png',
     '/images/close.svg',
     '/images/export.svg',
-    '/images/intl-icon.svg',
+    '/images/intl-tom.png',
     '/images/back-button.svg',
     '/images/character.png',
     '/images/ssr.png',
     '/images/sr.png',
     '/images/r.png',
+    '/images/tom-1.png',
+    '/images/tom-2.png',
+    '/images/tom-3.png',
+    '/images/bg-gacha-tom.png',
     '/images/text-char.png',
     '/icons/icon-gift.svg',
   ]
@@ -97,7 +102,7 @@ const checkCaches = () => {
 <template>
   <div
     v-if="loading"
-    class="w-full max-w-md mx-auto h-screen overflow-hidden bg-[url('~/assets/images/bg-blue-green.png')] bg-cover bg-center flex flex-col fixed z-[2000]"
+    class="w-full max-w-md mx-auto h-screen overflow-hidden bg-[url('~/assets/images/bg-tom.png')] bg-cover bg-center flex flex-col fixed z-[2000]"
   >
     <div
       class="h-full w-full flex flex-col justify-center items-center text-exd-red"
