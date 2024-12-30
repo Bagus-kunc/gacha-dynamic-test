@@ -49,7 +49,7 @@
     modal
     class="!bg-white !w-11/12 !max-w-sm border border-exd-gray-44"
   >
-    <template #container>
+    <template v-if="isRedirect" #container>
       <img
         src="/images/close.svg"
         alt="close"
@@ -62,7 +62,34 @@
       <div
         class="w-full flex flex-col justify-center items-center gap-4 py-6 !pb-8 relative"
       >
-        <div class="font-bold py-10 text-exd-1424 text-center text-exd-gray-scorpion">
+        <div
+          class="font-bold py-10 text-exd-1424 text-center text-exd-gray-scorpion"
+          style="text-shadow: 0 3px 3px rgba(0, 0, 0, 0.16)"
+          v-html="popupDescription"
+        ></div>
+        <SolidButton
+          :label="buttonName"
+          :on-click="() => navigateTo(redirectLink, { external: true })"
+          variant="tom"
+        />
+      </div>
+    </template>
+    <template v-else #container>
+      <img
+        src="/images/close.svg"
+        alt="close"
+        width="30"
+        height="30"
+        preload
+        class="absolute right-1 top-1 cursor-pointer z-50"
+        @click="handleCloseDialog"
+      />
+      <div
+        class="w-full flex flex-col justify-center items-center gap-4 py-6 !pb-8 relative"
+      >
+        <div
+          class="font-bold py-10 text-exd-1424 text-center text-exd-gray-scorpion"
+        >
           <p style="text-shadow: 0 3px 3px rgba(0, 0, 0, 0.16)">
             {{ $t('thankYou') }}
           </p>
@@ -139,6 +166,11 @@ const characterImageUrl = ref(null)
 const charName = ref(null)
 const raritySrc = ref(null)
 
+const isRedirect = ref(false)
+const buttonName = ref('')
+const redirectLink = ref('')
+const popupDescription = ref('')
+
 const handleClose = () => (isNotAllowed.value = false)
 const handleShowDialog = () => (hasModal.value = true)
 const handleCloseDialog = () => (hasModal.value = false)
@@ -146,21 +178,21 @@ const { decryptData } = useEncryption()
 
 const handleButton = async () => {
   // if (!TOKEN.value && !USER.value) {
-    handleShowDialog()
+  handleShowDialog()
   // } else {
-    // setTimeout(() => {
-    //   isHiding.value = true
-    //   setTimeout(() => {
-    //     isVisible.value = false
-    //     isHiding.value = false
-    //   }, 800)
-    // }, 1000)
+  // setTimeout(() => {
+  //   isHiding.value = true
+  //   setTimeout(() => {
+  //     isVisible.value = false
+  //     isHiding.value = false
+  //   }, 800)
+  // }, 1000)
 
-    // isVisible.value = true
+  // isVisible.value = true
 
-    // setTimeout(async () => {
-    // await navigateTo('/dashboard')
-    // }, 1000)
+  // setTimeout(async () => {
+  // await navigateTo('/dashboard')
+  // }, 1000)
   // }
 }
 
@@ -187,6 +219,11 @@ const fetchImage = async () => {
     characterImageUrl.value = slugData?.character_image
     charName.value = slugData?.character_name
     raritySrc.value = slugData?.character_rarity
+
+    isRedirect.value = slugData?.is_redirect
+    buttonName.value = slugData?.button_name
+    redirectLink.value = slugData?.redirect_link
+    popupDescription.value = slugData?.popup_description
   } catch (e) {
     console.error('Unexpected error:', e)
   }
@@ -204,7 +241,7 @@ const handleToLogin = () => {
 }
 
 const handleTomWeb = async () => {
-  await navigateTo('tom.com')
+  await navigateTo('https://tom.com', { external: true })
 }
 
 const goTo = async (url) => {

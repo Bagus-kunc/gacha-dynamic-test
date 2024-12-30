@@ -25,7 +25,6 @@
         width="100%"
         height="800"
       />
-
     </div>
     <div class="absolute-10 top-1/2 translate-y-[80%]"></div>
     <div class="w-full absolute bottom-0 z-[1100]">
@@ -116,6 +115,10 @@ const fetchImageFromApi = async () => {
         gift_type: data.userPoint.gift.type,
         voucher_name: data.userPoint.gift.name,
         gift_type_image: data.userPoint.gift.typeImage,
+        is_redirect: data.is_redirect,
+        button_name: data.button_name,
+        popup_description: data.popup_description,
+        redirect_link: data.redirect_link,
       }
 
       localStorage.setItem(slugStorageName, encryptData(storage))
@@ -191,7 +194,13 @@ const fetchImageFromApi = async () => {
         gift_type: data.gift.type,
         gift_type_image: data.gift.typeImage,
         spin_interval: spinInterval.value,
-        spin_date_interval: futureDateFromMinutes(spinInterval.value),
+        spin_date_interval: spinInterval.value
+          ? futureDateFromMinutes(spinInterval.value)
+          : null,
+        is_redirect: data.is_redirect,
+        button_name: data.button_name,
+        popup_description: data.popup_description,
+        redirect_link: data.redirect_link,
       }
 
       localStorage.setItem(slugStorageName, encryptData(storage))
