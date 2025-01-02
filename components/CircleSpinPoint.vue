@@ -1,11 +1,10 @@
 <script setup>
-import tom1 from "/public/images/tom-1.png"
-import gachaBall from "/public/images/gacha-ball.png"
+import gachaBall from '/public/images/gacha-ball.png'
 
-const props = defineProps(['imageSrc', 'typeSrc'])
+const props = defineProps(['imageSrc'])
 const giftType = reactive({
   x: 110,
-  y: 220,
+  y: 257,
   width: 180,
   height: 180,
 })
@@ -98,7 +97,7 @@ onMounted(() => {
 
     <image
       x="-65"
-      y="-105"
+      y="-100"
       width="550"
       height="600"
       href="~/assets/images/circle-blur.png"
@@ -106,16 +105,7 @@ onMounted(() => {
     <g filter="url(#filter0_b_12_49)">
       <!-- <ellipse cx="200" cy="198" rx="200" ry="198" fill="white" /> -->
     </g>
-
-    <!-- <image x="40" y="-60" width="320" height="320" :href="props.imageSrc" />
-    <image
-      :x="giftType.x"
-      :y="giftType.y"
-      :width="giftType.width"
-      :height="giftType.height"
-      :href="props.typeSrc"
-    /> -->
-    <image x="40" y="-10" width="320" height="320" :href="tom1" />
+    <image x="40" y="50" width="320" height="240" :href="props.imageSrc" />
     <image
       :x="giftType.x"
       :y="giftType.y"
