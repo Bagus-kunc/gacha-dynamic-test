@@ -60,13 +60,17 @@
         @click="handleCloseDialog"
       />
       <div
-        class="w-full flex flex-col justify-center items-center gap-4 py-6 !pb-8 relative"
+        class="w-full flex flex-col justify-center items-center py-6 !pb-8 relative"
       >
         <div
-          class="font-bold py-10 text-exd-1424 text-center text-exd-gray-scorpion"
+          class="font-bold py-10 px-4 text-exd-1424 text-center text-exd-gray-scorpion"
           style="text-shadow: 0 3px 3px rgba(0, 0, 0, 0.16)"
-          v-html="popupDescription"
-        ></div>
+        >
+          <div
+            class="max-h-[200px] overflow-auto"
+            v-html="popupDescription"
+          ></div>
+        </div>
         <SolidButton
           :label="buttonName"
           :on-click="() => navigateTo(redirectLink, { external: true })"
