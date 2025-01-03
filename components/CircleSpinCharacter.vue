@@ -98,14 +98,14 @@ onMounted(() => {
     />
     <g filter="url(#filter0_b_19_69)" class="relative p-8">
       <!-- <ellipse cx="200" cy="198" rx="200" ry="198" fill="white" /> -->
-      <image height="330" width="300" :href="props.imageSrc" x="55" y="50" />
+      <image height="230" width="230" :href="props.imageSrc" x="85" y="50" />
       <image
         v-if="raritySrc !== '1'"
         height="200"
         width="190"
         :href="rarityImg"
         x="105"
-        y="330"
+        y="295"
       />
       <image
         v-else
@@ -113,7 +113,7 @@ onMounted(() => {
         width="120"
         :href="rarityImg"
         x="150"
-        y="310"
+        y="275"
       />
     </g>
     <!-- <rect x="44" y="300" width="311" height="237" fill="url(#pattern0_19_69)" /> -->
