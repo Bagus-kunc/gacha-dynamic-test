@@ -28,7 +28,7 @@
       />
 
       <div
-        class="absolute text-exd-dark-grey bg-white flex justify-center bottom-[15%] px-4 py-3 min-h-[50px] rounded-lg"
+        class="absolute text-exd-dark-grey bg-white flex justify-center bottom-[20%] px-4 py-3 min-h-[50px] rounded-lg"
       >
         <p class="text-[17px] max-w-[278px] text-center">{{ charName }}</p>
       </div>
