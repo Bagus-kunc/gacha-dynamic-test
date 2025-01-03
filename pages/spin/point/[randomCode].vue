@@ -21,7 +21,6 @@
       <CircleSpinPoint
         class="relative top-1/2 -translate-y-[60%]"
         :imageSrc="giftImageUrl"
-        :typeSrc="typeImageUrl"
         width="100%"
         height="800"
       />
@@ -124,9 +123,9 @@ const fetchImageFromApi = async () => {
       localStorage.setItem(slugStorageName, encryptData(storage))
 
       giftImageUrl.value = data.userPoint.gift.image
-      voucherName.value = data.userPoint.gift.name
-      typeImageUrl.value = data.userPoint.gift.typeImage
-      giftType.value = data.userPoint.gift.type
+      // voucherName.value = data.userPoint.gift.name
+      // typeImageUrl.value = data.userPoint.gift.typeImage
+      // giftType.value = data.userPoint.gift.type
     } else {
       const spinType = useState('spin_type')
       sessionStorage.setItem('SPIN_TYPE', spinType.value)
@@ -136,9 +135,9 @@ const fetchImageFromApi = async () => {
         if (slugData) {
           const parse = decryptData(slugData)
           giftImageUrl.value = parse.gift_image
-          voucherName.value = parse.voucher_name
-          typeImageUrl.value = parse.gift_type_image
-          giftType.value = parse.gift_type
+          // voucherName.value = parse.voucher_name
+          // typeImageUrl.value = parse.gift_type_image
+          // giftType.value = parse.gift_type
 
           localStorage.setItem(
             slugStorageName,
@@ -158,9 +157,9 @@ const fetchImageFromApi = async () => {
           new Date(parse.spin_date_interval).getTime() > now
         ) {
           giftImageUrl.value = parse.gift_image
-          voucherName.value = parse.voucher_name
-          typeImageUrl.value = parse.gift_type_image
-          giftType.value = parse.gift_type
+          // voucherName.value = parse.voucher_name
+          // typeImageUrl.value = parse.gift_type_image
+          // giftType.value = parse.gift_type
 
           localStorage.setItem(slugStorageName, encryptData({ ...parse }))
           return
@@ -205,9 +204,9 @@ const fetchImageFromApi = async () => {
 
       localStorage.setItem(slugStorageName, encryptData(storage))
       giftImageUrl.value = data.gift.image
-      voucherName.value = data.gift.name
-      typeImageUrl.value = data.gift.typeImage
-      giftType.value = data.gift.type
+      // voucherName.value = data.gift.name
+      // typeImageUrl.value = data.gift.typeImage
+      // giftType.value = data.gift.type
     }
 
     if (error) {
