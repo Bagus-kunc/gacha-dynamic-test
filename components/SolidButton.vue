@@ -8,7 +8,7 @@
         variant === 'skip' ? '!p-2' : '!py-4 !px-6',
         bottomClass,
         disabled ? '!cursor-not-allowed' : '!cursor-pointer',
-        '!w-full !uppercase !font-bold !text-exd-1424 !rounded-full !text-white !relative',
+        '!w-full !uppercase !font-bold !text-exd-1424 !rounded-full text-white !relative',
       ]"
       raised
       @click="handleClick"
@@ -62,7 +62,17 @@ const props = defineProps({
   variant: {
     type: String,
     default: 'gold',
-    validator: (value) => ['gold', "tom", 'red', 'skip', 'red-coral', 'blue-green', 'disabled', 'gray'].includes(value),
+    validator: (value) =>
+      [
+        'gold',
+        'tom',
+        'red',
+        'skip',
+        'red-coral',
+        'blue-green',
+        'disabled',
+        'gray',
+      ].includes(value),
   },
   onClick: {
     type: Function,
@@ -77,13 +87,13 @@ const variantClass = computed(() => {
     return '!bg-exd-blue-green'
   } else if (props.variant === 'red-coral') {
     return '!bg-exd-red-coral'
-  } else if(props.variant === 'gold') {
+  } else if (props.variant === 'gold') {
     return '!bg-exd-gold'
-  } else if(props.variant === 'tom') {
+  } else if (props.variant === 'tom') {
     return '!bg-exd-yellow-tom !text-exd-dark-grey'
-  } else if(props.variant === 'disabled') {
+  } else if (props.variant === 'disabled') {
     return '!bg-exd-stone-300'
-  } else if(props.variant === 'gray') {
+  } else if (props.variant === 'gray') {
     return '!bg-exd-dark-grey'
   } else {
     return '!bg-exd-red-vermilion'
