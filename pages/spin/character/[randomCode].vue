@@ -63,7 +63,7 @@
         class="w-full flex flex-col justify-center items-center py-6 !pb-8 relative"
       >
         <div
-          class="font-bold py-10 px-4 text-exd-1424 text-center text-exd-gray-scorpion"
+          class="font-bold py-10 px-4 text-exd-1530 text-center text-exd-gray-scorpion"
           style="text-shadow: 0 3px 3px rgba(0, 0, 0, 0.16)"
         >
           <div
@@ -78,7 +78,41 @@
         />
       </div>
     </template>
+
     <template v-else #container>
+      <img
+        src="/images/close.svg"
+        alt="close"
+        width="30"
+        height="30"
+        preload
+        class="absolute right-1 top-1 cursor-pointer z-50"
+        @click="handleCloseDialog"
+      />
+      <div
+        class="w-full flex flex-col justify-center items-center gap-4 py-6 !pb-8 relative"
+      >
+        <div class="font-bold text-exd-1424 text-center text-exd-gray-scorpion">
+          <p style="text-shadow: 0 3px 3px rgba(0, 0, 0, 0.16)">
+            {{ $t('toWinPrizes') }}
+          </p>
+          <p style="text-shadow: 0 3px 3px rgba(0, 0, 0, 0.16)">
+            {{ $t('membershipRegistrationRequired') }}
+          </p>
+        </div>
+        <SolidButton
+          :label="$t('newMemberRegistration')"
+          :on-click="handleToRegister"
+          variant="tom"
+        />
+        <SolidButton
+          :label="$t('loginToMyPage')"
+          :on-click="handleToLogin"
+          variant="gray"
+        />
+      </div>
+    </template>
+    <!-- <template v-else #container>
       <img
         src="/images/close.svg"
         alt="close"
@@ -104,7 +138,7 @@
           variant="tom"
         />
       </div>
-    </template>
+    </template> -->
   </Dialog>
 
   <ModalLogin v-model="modalLogin" />
@@ -181,23 +215,15 @@ const handleCloseDialog = () => (hasModal.value = false)
 const { decryptData } = useEncryption()
 
 const handleButton = async () => {
-  // if (!TOKEN.value && !USER.value) {
-  handleShowDialog()
-  // } else {
-  // setTimeout(() => {
-  //   isHiding.value = true
-  //   setTimeout(() => {
-  //     isVisible.value = false
-  //     isHiding.value = false
-  //   }, 800)
-  // }, 1000)
+  if (isRedirect.value) {
+    return handleShowDialog()
+  }
 
-  // isVisible.value = true
-
-  // setTimeout(async () => {
-  // await navigateTo('/dashboard')
-  // }, 1000)
-  // }
+  if (!TOKEN.value && !USER.value) {
+    handleShowDialog()
+  } else {
+    await navigateTo('/dashboard')
+  }
 }
 
 const fetchImage = async () => {
@@ -242,10 +268,6 @@ const handleToLogin = () => {
   setSourceFrom('spin')
   hasModal.value = false
   modalLogin.value = true
-}
-
-const handleTomWeb = async () => {
-  await navigateTo('https://tom.com', { external: true })
 }
 
 const goTo = async (url) => {
