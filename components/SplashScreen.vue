@@ -56,7 +56,7 @@ function completeLoading() {
 const checkCaches = () => {
   const urlsToCache = [
     '/logo-icon.ico',
-    '/video/spin-voucher.mp4',
+    '/video/spin-point.mp4',
     '/video/new-spin-character.mp4',
     '/images/gacha-tom.png',
     '/images/bg-red2.webp',
@@ -81,7 +81,7 @@ const checkCaches = () => {
     '/icons/icon-gift.svg',
   ]
   caches
-    .open(`gacharary-endo-ji-v2 - ${self.location.origin}`)
+    .open(`gacharary-tom-ji-v2 - ${self.location.origin}`)
     .then(function (cache) {
       return cache.keys()
     })
