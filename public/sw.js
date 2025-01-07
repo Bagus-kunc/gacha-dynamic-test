@@ -3,7 +3,7 @@ const CACHE_NAME = `gacharary-tom-ji-v2 - ${self.location.origin}`
 const urlsToCache = [
   '/logo-icon.ico',
   '/video/spin-point.mp4',
-  '/video/new-spin-character.mp4',
+  '/video/spin-character.mp4',
   '/images/gacha-tom.png',
   '/images/bg-red2.webp',
   '/images/sparkling.png',

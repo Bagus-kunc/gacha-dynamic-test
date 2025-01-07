@@ -37,7 +37,7 @@
 
     <AutoplayVideo
       v-if="playVideo"
-      src="/video/new-spin-character.mp4"
+      src="/video/spin-character.mp4"
       @ended="handleGoToCharacter"
     />
   </div>
