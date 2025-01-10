@@ -1,14 +1,14 @@
 <template>
   <div
-    class="grow bg-[url('/images/bg-gacha-tom.png')] bg-cover bg-center relative flex flex-col justify-center items-center"
+    class="grow bg-[url('/images/bg-gacha-character.png')] bg-cover bg-center relative flex flex-col justify-center items-center"
     @touchmove="(e) => e.preventDefault()"
   >
-    <SparkleStart className="top-3 z-[1000]" />
+    <SparkleStart className="top-3 z-30" />
 
     <img
       src="/images/gacha-tom.png"
       alt="gacha2"
-      class="absolute left-1/2 top-1 transform -translate-x-1/2 w-full h-auto max-h-[100vh] object-contain"
+      class="absolute left-1/2 top-1/2 transform -translate-x-1/2 -translate-y-1/2 w-[120%] max-w-none h-auto max-h-[96svh] object-contain"
       preload
     />
     <img
@@ -21,9 +21,17 @@
       <CircleSpinPoint
         class="relative top-1/2 -translate-y-[60%]"
         :imageSrc="giftImageUrl"
+        :typeSrc="typeImageUrl"
         width="100%"
         height="800"
       />
+      <div
+        class="absolute text-exd-dark-grey bg-white flex justify-center bottom-[20%] px-4 py-3 min-h-[50px] rounded-lg"
+      >
+        <p class="text-[17px] max-w-[278px] text-center">
+          {{ voucherName || 'dummydummy' }}
+        </p>
+      </div>
     </div>
     <div class="absolute-10 top-1/2 translate-y-[80%]"></div>
     <div class="w-full absolute bottom-0 z-[1100]">
@@ -31,7 +39,7 @@
         :label="$t('toTheNext')"
         :on-click="() => (playVideo = true)"
         has-bottom
-        variant="gray"
+        variant="dark"
       />
     </div>
 
@@ -122,7 +130,9 @@ const fetchImageFromApi = async () => {
 
       localStorage.setItem(slugStorageName, encryptData(storage))
 
-      giftImageUrl.value = data.userPoint.gift.image
+      giftImageUrl.value = '/images/gift-image.png'
+      typeImageUrl.value = '/images/gift-type.png'
+      // giftImageUrl.value = data.userPoint.gift.image
       // voucherName.value = data.userPoint.gift.name
       // typeImageUrl.value = data.userPoint.gift.typeImage
       // giftType.value = data.userPoint.gift.type
@@ -134,7 +144,10 @@ const fetchImageFromApi = async () => {
       if (spinType.value === 1 || spinType.value === 3) {
         if (slugData) {
           const parse = decryptData(slugData)
-          giftImageUrl.value = parse.gift_image
+
+          giftImageUrl.value = '/images/gift-image.png'
+          typeImageUrl.value = '/images/gift-type.png'
+          // giftImageUrl.value = parse.gift_image
           // voucherName.value = parse.voucher_name
           // typeImageUrl.value = parse.gift_type_image
           // giftType.value = parse.gift_type
@@ -156,7 +169,9 @@ const fetchImageFromApi = async () => {
           parse?.spin_date_interval &&
           new Date(parse.spin_date_interval).getTime() > now
         ) {
-          giftImageUrl.value = parse.gift_image
+          giftImageUrl.value = '/images/gift-image.png'
+          typeImageUrl.value = '/images/gift-type.png'
+          // giftImageUrl.value = parse.gift_image
           // voucherName.value = parse.voucher_name
           // typeImageUrl.value = parse.gift_type_image
           // giftType.value = parse.gift_type
@@ -203,7 +218,10 @@ const fetchImageFromApi = async () => {
       }
 
       localStorage.setItem(slugStorageName, encryptData(storage))
-      giftImageUrl.value = data.gift.image
+
+      giftImageUrl.value = '/images/gift-image.png'
+      typeImageUrl.value = '/images/gift-type.png'
+      // giftImageUrl.value = data.gift.image
       // voucherName.value = data.gift.name
       // typeImageUrl.value = data.gift.typeImage
       // giftType.value = data.gift.type

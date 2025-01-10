@@ -146,6 +146,9 @@ module.exports = {
           bronze: '#A65B04',
           rose: '#C46A59',
         },
+        'exd-dark': {
+          DEFAULT: '#242B29',
+        },
       },
       height: {
         ...height,

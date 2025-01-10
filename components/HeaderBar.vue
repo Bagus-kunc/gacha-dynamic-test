@@ -1,6 +1,6 @@
 <template>
   <header
-    class="pt-exd-15 bg-white pb-exd-15 flex justify-between items-center top-0 left-0 right-0 z-40 fixed w-full max-w-md mx-auto"
+    class="pt-[39px] pb-3 flex justify-between items-center top-0 left-0 right-0 z-40 fixed w-full max-w-md mx-auto bg-white"
     style="box-shadow: 0px 3px 3px 0px rgba(0, 0, 0, 0.1608)"
     @touchmove="(e) => e.preventDefault()"
   >
@@ -28,7 +28,14 @@
       ]"
       v-else
     >
-      <img src="/images/logo-tom.png" alt="intl" width="140" height="44" preload />
+      <img
+        src="/images/header-logo.png"
+        alt="intl"
+        width="140"
+        height="44"
+        preload
+        class="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2"
+      />
     </div>
     <div class="pr-5 shrink-0">
       <div class="relative">

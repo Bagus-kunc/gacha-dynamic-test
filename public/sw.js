@@ -1,28 +1,22 @@
 // Tentukan nama cache dan file yang ingin di-cache
-const CACHE_NAME = `gacharary-tom-ji-v2 - ${self.location.origin}`
+const CACHE_NAME = `gacharary-500yen-v2 - ${self.location.origin}`
 const urlsToCache = [
   '/logo-icon.ico',
   '/video/spin-point.mp4',
   '/video/spin-character.mp4',
-  '/images/gacha-tom.png',
-  '/images/bg-red2.webp',
   '/images/sparkling.png',
-  '/images/bg-tom.png',
+  '/images/bg-gacha-spin.png',
+  '/images/bg-gacha-character.png',
   '/images/logo.png',
   '/images/warning.svg',
-  '/images/logo-tom.png',
+  '/images/header-logo.png',
   '/images/close.svg',
   '/images/export.svg',
   '/images/intl-tom.png',
   '/images/back-button.svg',
-  '/images/character.png',
   '/images/ssr.png',
   '/images/sr.png',
   '/images/r.png',
-  '/images/tom-1.png',
-  '/images/tom-2.png',
-  '/images/tom-3.png',
-  '/images/bg-gacha-tom.png',
   '/images/text-char.png',
   '/icons/icon-gift.svg',
 ]

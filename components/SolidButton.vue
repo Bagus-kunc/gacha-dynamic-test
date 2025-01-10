@@ -72,6 +72,7 @@ const props = defineProps({
         'blue-green',
         'disabled',
         'gray',
+        'dark',
       ].includes(value),
   },
   onClick: {
@@ -95,6 +96,8 @@ const variantClass = computed(() => {
     return '!bg-exd-stone-300'
   } else if (props.variant === 'gray') {
     return '!bg-exd-dark-grey'
+  } else if (props.variant === 'dark') {
+    return '!bg-exd-dark'
   } else {
     return '!bg-exd-red-vermilion'
   }

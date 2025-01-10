@@ -1,14 +1,14 @@
 <template>
   <div
-    class="grow bg-[url('/images/bg-gacha-tom.png')] bg-cover bg-center relative flex flex-col justify-center items-center"
+    class="grow bg-[url('/images/bg-gacha-character.png')] bg-cover bg-center relative flex flex-col justify-center items-center"
     @touchmove="(e) => e.preventDefault()"
   >
-    <SparkleStart className="top-3" />
+    <SparkleStart className="top-3 z-30" />
 
     <img
       src="/images/gacha-tom.png"
       alt="gacha2"
-      class="absolute left-1/2 top-1 transform -translate-x-1/2 w-full h-auto max-h-[100vh] object-contain"
+      class="absolute left-1/2 top-1/2 transform -translate-x-1/2 -translate-y-1/2 w-[120%] max-w-none h-auto max-h-[96svh] object-contain"
       preload
     />
     <img
@@ -38,7 +38,7 @@
       <SolidButton
         :label="$t('toTheNext')"
         :on-click="handleButton"
-        variant="gray"
+        variant="dark"
         has-bottom
       />
     </div>
@@ -62,19 +62,25 @@
       <div
         class="w-full flex flex-col justify-center items-center py-6 !pb-8 relative"
       >
+        <div v-if="popupImage" class="w-auto h-24 mt-4">
+          <img :src="popupImage" class="w-full h-full object-contain" />
+        </div>
         <div
-          class="font-bold py-10 px-4 text-exd-1530 text-center text-exd-gray-scorpion"
+          :class="[
+            'font-bold  px-4 text-exd-1530 text-center text-exd-gray-scorpion',
+            popupImage ? 'pt-3 pb-10' : 'py-10',
+          ]"
           style="text-shadow: 0 3px 3px rgba(0, 0, 0, 0.16)"
         >
           <div
-            class="max-h-[200px] overflow-auto"
+            class="max-h-[200px] overflow-auto leading-normal"
             v-html="popupDescription"
           ></div>
         </div>
         <SolidButton
-          :label="buttonName"
-          :on-click="() => navigateTo(redirectLink, { external: true })"
-          variant="tom"
+          :label="popupButton"
+          :on-click="() => navigateTo(popupLink, { external: true })"
+          variant="dark"
         />
       </div>
     </template>
@@ -205,9 +211,10 @@ const charName = ref(null)
 const raritySrc = ref(null)
 
 const isRedirect = ref(false)
-const buttonName = ref('')
-const redirectLink = ref('')
+const popupButton = ref('')
+const popupLink = ref('')
 const popupDescription = ref('')
+const popupImage = ref('')
 
 const handleClose = () => (isNotAllowed.value = false)
 const handleShowDialog = () => (hasModal.value = true)
@@ -247,13 +254,20 @@ const fetchImage = async () => {
 
     const slugData = decryptData(localStorage.getItem(`${slug}_GACHA`))
     characterImageUrl.value = slugData?.character_image
-    charName.value = slugData?.character_name
+    // charName.value = slugData?.character_name
+    // raritySrc.value = slugData?.character_rarity
+    // isRedirect.value = slugData?.is_redirect
+    // popupButton.value = slugData?.button_name
+    // popupLink.value = slugData?.redirect_link
+    // popupDescription.value = slugData?.popup_description
+    charName.value = 'damydamy'
     raritySrc.value = slugData?.character_rarity
-
-    isRedirect.value = slugData?.is_redirect
-    buttonName.value = slugData?.button_name
-    redirectLink.value = slugData?.redirect_link
-    popupDescription.value = slugData?.popup_description
+    isRedirect.value = true
+    popupButton.value = 'フォームはこちら'
+    popupLink.value = slugData?.redirect_link
+    popupDescription.value =
+      'おめでとうございます！<br/>当選者情報を入力してください'
+    popupImage.value = '/images/gift-type.png'
   } catch (e) {
     console.error('Unexpected error:', e)
   }
