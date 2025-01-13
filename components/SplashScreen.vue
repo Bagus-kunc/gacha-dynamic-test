@@ -75,7 +75,7 @@ const checkCaches = () => {
     '/icons/icon-gift.svg',
   ]
   caches
-    .open(`gacharary-500yen-v2 - ${self.location.origin}`)
+    .open(`gacharary-kaiyuu-v2 - ${self.location.origin}`)
     .then(function (cache) {
       return cache.keys()
     })
