@@ -1,5 +1,5 @@
 // Tentukan nama cache dan file yang ingin di-cache
-const CACHE_NAME = `gacharary-500yen-v2 - ${self.location.origin}`
+const CACHE_NAME = `gacharary-kaiyuu-v2 - ${self.location.origin}`
 const urlsToCache = [
   '/logo-icon.ico',
   '/video/spin-point.mp4',
