@@ -253,21 +253,15 @@ const fetchImage = async () => {
     const slug = parsedData.slug.toUpperCase()
 
     const slugData = decryptData(localStorage.getItem(`${slug}_GACHA`))
+
     characterImageUrl.value = slugData?.character_image
-    // charName.value = slugData?.character_name
-    // raritySrc.value = slugData?.character_rarity
-    // isRedirect.value = slugData?.is_redirect
-    // popupButton.value = slugData?.button_name
-    // popupLink.value = slugData?.redirect_link
-    // popupDescription.value = slugData?.popup_description
-    charName.value = 'damydamy'
+    charName.value = slugData?.character_name
     raritySrc.value = slugData?.character_rarity
     isRedirect.value = true
     popupButton.value = 'フォームはこちら'
     popupLink.value = slugData?.redirect_link
-    popupDescription.value =
-      'おめでとうございます！<br/>当選者情報を入力してください'
-    popupImage.value = '/images/gift-type.png'
+    popupDescription.value = slugData?.popup_description
+    popupImage.value = slugData?.popup_image
   } catch (e) {
     console.error('Unexpected error:', e)
   }
