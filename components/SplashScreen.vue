@@ -55,7 +55,7 @@ function completeLoading() {
 
 const checkCaches = () => {
   const urlsToCache = [
-    '/logo-icon.ico',
+    '/favicon.ico',
     '/video/spin-point.mp4',
     '/video/spin-character.mp4',
     '/images/sparkling.png',

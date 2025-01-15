@@ -105,7 +105,7 @@ onMounted(() => {
         y="-20"
       />
 
-      <foreignObject x="70" y="60" width="260" height="260">
+      <!-- <foreignObject x="70" y="60" width="260" height="260">
         <div
           xmlns="http://www.w3.org/1999/xhtml"
           class="text-3xl font-bold text-center overflow-wrap break-word bg-[#cccccc] rounded-full flex justify-center items-center text-[#242b29] p-3"
@@ -113,8 +113,8 @@ onMounted(() => {
         >
           damydamy
         </div>
-      </foreignObject>
-      <!-- <image height="230" width="230" :href="props.imageSrc" x="85" y="50" /> -->
+      </foreignObject> -->
+      <image height="260" width="260" :href="props.imageSrc" x="70" y="60" />
       <image height="90" width="240" :href="rarityImg" x="80" y="340" />
     </g>
     <!-- <rect x="44" y="300" width="311" height="237" fill="url(#pattern0_19_69)" /> -->
