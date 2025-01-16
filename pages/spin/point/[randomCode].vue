@@ -52,6 +52,7 @@
 </template>
 
 <script setup>
+import moment from 'moment'
 const router = useRouter()
 const route = useRoute()
 
@@ -141,22 +142,34 @@ const fetchImageFromApi = async () => {
       sessionStorage.setItem('SPIN_TYPE', spinType.value)
       const slugData = localStorage.getItem(slugStorageName)
 
-      if (spinType.value === 3 && slugData) {
+      if (spinType.value === 1 && slugData) {
+        const now = new Date().getTime()
+        const parse = decryptData(slugData)
+        const expired_date = moment(new Date(parse.spin_date))
+          .add(1, 'days')
+          .startOf('day')
+          .valueOf()
+
+        if (now < expired_date) {
+          pointImageUrl.value = parse.point_image
+          categoryImageUrl.value = parse.popup_image
+          pointName.value = parse.point_name
+
+          localStorage.setItem(slugStorageName, encryptData({ ...parse }))
+
+          return
+        }
+      } else if (spinType.value === 3 && slugData) {
         const parse = decryptData(slugData)
 
         pointImageUrl.value = parse.point_image
         categoryImageUrl.value = parse.popup_image
         pointName.value = parse.point_name
 
-        localStorage.setItem(
-          slugStorageName,
-          encryptData({ ...parse })
-          // encryptData({ ...parse, is_already_spin: true })
-        )
-        // reportMultipleSpin({ ...parse })
+        localStorage.setItem(slugStorageName, encryptData({ ...parse }))
 
         return
-      } else if ((spinType.value === 1 || spinType.value === 4) && slugData) {
+      } else if (spinType.value === 4 && slugData) {
         const now = new Date().getTime()
 
         const parse = decryptData(slugData)
@@ -209,6 +222,7 @@ const fetchImageFromApi = async () => {
         popup_description: data.point.point_category_description,
         redirect_link: data.point.point_category_link,
         point_category_is_fail: data.point.point_category_is_fail,
+        spin_date: new Date().toLocaleString(),
       }
 
       localStorage.setItem(slugStorageName, encryptData(storage))
