@@ -2,8 +2,8 @@
 const CACHE_NAME = `gacharary-kaiyuu-v2 - ${self.location.origin}`
 const urlsToCache = [
   '/favicon.ico',
-  '/video/spin-point.mp4',
-  '/video/spin-character.mp4',
+  '/video/new-spin-point.mp4',
+  '/video/new-spin-character.mp4',
   '/images/sparkling.png',
   '/images/bg-gacha-spin.png',
   '/images/bg-gacha-character.png',
