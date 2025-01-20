@@ -20,8 +20,8 @@
     <div class="absolute inset-0 flex justify-center z-20">
       <CircleSpinPoint
         class="relative top-1/2 -translate-y-[60%]"
-        :imageSrc="giftImageUrl"
-        :typeSrc="typeImageUrl"
+        :imageSrc="pointImageUrl"
+        :categorySrc="categoryImageUrl"
         width="100%"
         height="800"
       />
@@ -29,7 +29,7 @@
         class="absolute text-exd-dark-grey bg-white flex justify-center bottom-[20%] px-4 py-3 min-h-[50px] rounded-lg"
       >
         <p class="text-[17px] max-w-[278px] text-center">
-          {{ voucherName || 'dummydummy' }}
+          {{ pointName }}
         </p>
       </div>
     </div>
@@ -52,6 +52,7 @@
 </template>
 
 <script setup>
+import moment from 'moment'
 const router = useRouter()
 const route = useRoute()
 
@@ -61,9 +62,9 @@ const TOKEN = useCookie('TOKEN')
 const playVideo = ref(false)
 const { encryptData, decryptData } = useEncryption()
 
-const giftImageUrl = ref(null)
-const typeImageUrl = ref(null)
-const voucherName = ref(null)
+const pointImageUrl = ref(null)
+const categoryImageUrl = ref(null)
+const pointName = ref(null)
 const giftType = ref(null)
 const spinInterval = useState('spin_interval')
 
@@ -109,6 +110,9 @@ const fetchImageFromApi = async () => {
 
       const storage = {
         location_id: data.userPoint.location.id,
+        point_id: data.userCollection.point?.id,
+        point_image: data.userCollection.point?.image,
+        point_name: data.userCollection.point?.name,
         character_id: data.userCollection.gacha_character.id,
         character_image: data.userCollection.gacha_character.image,
         character_name: data.userCollection.gacha_character.name,
@@ -117,11 +121,11 @@ const fetchImageFromApi = async () => {
         character_star1: data.userCollection.gacha_character.star1,
         character_star2: data.userCollection.gacha_character.star2,
         character_star3: data.userCollection.gacha_character.star3,
-        gift_id: data.userPoint.gift.point_id,
-        gift_image: data.userPoint.gift.image,
-        gift_type: data.userPoint.gift.type,
-        voucher_name: data.userPoint.gift.name,
-        gift_type_image: data.userPoint.gift.typeImage,
+        // gift_id: data.userPoint.gift.point_id,
+        // gift_image: data.userPoint.gift.image,
+        // gift_type: data.userPoint.gift.type,
+        // voucher_name: data.userPoint.gift.name,
+        // gift_type_image: data.userPoint.gift.typeImage,
         is_redirect: data.is_redirect,
         button_name: data.button_name,
         popup_description: data.popup_description,
@@ -130,37 +134,41 @@ const fetchImageFromApi = async () => {
 
       localStorage.setItem(slugStorageName, encryptData(storage))
 
-      giftImageUrl.value = '/images/gift-image.png'
-      typeImageUrl.value = '/images/gift-type.png'
-      // giftImageUrl.value = data.userPoint.gift.image
-      // voucherName.value = data.userPoint.gift.name
-      // typeImageUrl.value = data.userPoint.gift.typeImage
-      // giftType.value = data.userPoint.gift.type
+      pointImageUrl.value = storage.point_image
+      categoryImageUrl.value = storage.popup_image
+      pointName.value = storage.point_name
     } else {
       const spinType = useState('spin_type')
       sessionStorage.setItem('SPIN_TYPE', spinType.value)
       const slugData = localStorage.getItem(slugStorageName)
 
-      if (spinType.value === 1 || spinType.value === 3) {
-        if (slugData) {
-          const parse = decryptData(slugData)
+      if (spinType.value === 1 && slugData) {
+        const now = new Date().getTime()
+        const parse = decryptData(slugData)
+        const expired_date = moment(new Date(parse.spin_date))
+          .add(1, 'days')
+          .startOf('day')
+          .valueOf()
 
-          giftImageUrl.value = '/images/gift-image.png'
-          typeImageUrl.value = '/images/gift-type.png'
-          // giftImageUrl.value = parse.gift_image
-          // voucherName.value = parse.voucher_name
-          // typeImageUrl.value = parse.gift_type_image
-          // giftType.value = parse.gift_type
+        if (now < expired_date) {
+          pointImageUrl.value = parse.point_image
+          categoryImageUrl.value = parse.popup_image
+          pointName.value = parse.point_name
 
-          localStorage.setItem(
-            slugStorageName,
-            encryptData({ ...parse })
-            // encryptData({ ...parse, is_already_spin: true })
-          )
-          // reportMultipleSpin({ ...parse })
+          localStorage.setItem(slugStorageName, encryptData({ ...parse }))
 
           return
         }
+      } else if (spinType.value === 3 && slugData) {
+        const parse = decryptData(slugData)
+
+        pointImageUrl.value = parse.point_image
+        categoryImageUrl.value = parse.popup_image
+        pointName.value = parse.point_name
+
+        localStorage.setItem(slugStorageName, encryptData({ ...parse }))
+
+        return
       } else if (spinType.value === 4 && slugData) {
         const now = new Date().getTime()
 
@@ -169,12 +177,9 @@ const fetchImageFromApi = async () => {
           parse?.spin_date_interval &&
           new Date(parse.spin_date_interval).getTime() > now
         ) {
-          giftImageUrl.value = '/images/gift-image.png'
-          typeImageUrl.value = '/images/gift-type.png'
-          // giftImageUrl.value = parse.gift_image
-          // voucherName.value = parse.voucher_name
-          // typeImageUrl.value = parse.gift_type_image
-          // giftType.value = parse.gift_type
+          pointImageUrl.value = parse.point_image
+          categoryImageUrl.value = parse.popup_image
+          pointName.value = parse.point_name
 
           localStorage.setItem(slugStorageName, encryptData({ ...parse }))
           return
@@ -189,42 +194,42 @@ const fetchImageFromApi = async () => {
       })
 
       const storage = {
-        location_id: data.location.id,
-        point_id: data.point.id,
-        point_image: data.point.image,
-        character_id: data.character.id,
-        character_image: data.character.image,
-        character_name: data.character.name,
-        character_category: data.character.category,
-        character_rarity: data.character.rarity,
-        character_star1: data.character.star1,
-        character_star2: data.character.star2,
-        character_star3: data.character.star3,
-        point: apiPoint.value,
+        location_id: data.location?.id,
+        point_id: data.point?.id,
+        point_image: data.point?.image,
+        point_name: data.point?.name,
+        character_id: data.character?.id,
+        character_image: data.character?.image,
+        character_name: data.character?.name,
+        character_category: data.character?.category,
+        character_rarity: data.character?.rarity,
+        character_star1: data.character?.star1,
+        character_star2: data.character?.star2,
+        character_star3: data.character?.star3,
         log_id: data.log_id,
-        gift_id: data.gift.point_id,
-        gift_image: data.gift.image,
-        voucher_name: data.gift.name,
-        gift_type: data.gift.type,
-        gift_type_image: data.gift.typeImage,
-        spin_interval: spinInterval.value,
-        spin_date_interval: spinInterval.value
+        // gift_id: data.gift.point_id,
+        // gift_image: data.gift.image,
+        // voucher_name: data.gift.name,
+        // gift_type: data.gift.type,
+        // gift_type_image: data.gift.typeImage,
+        spin_interval: spinInterval?.value,
+        spin_date_interval: spinInterval?.value
           ? futureDateFromMinutes(spinInterval.value)
           : null,
-        is_redirect: data.is_redirect,
+        is_redirect: true,
         button_name: data.button_name,
-        popup_description: data.popup_description,
-        redirect_link: data.redirect_link,
+        popup_image: data.point.point_category_image,
+        popup_description: data.point.point_category_description,
+        redirect_link: data.point.point_category_link,
+        point_category_is_fail: data.point.point_category_is_fail,
+        spin_date: new Date().toLocaleString(),
       }
 
       localStorage.setItem(slugStorageName, encryptData(storage))
 
-      giftImageUrl.value = '/images/gift-image.png'
-      typeImageUrl.value = '/images/gift-type.png'
-      // giftImageUrl.value = data.gift.image
-      // voucherName.value = data.gift.name
-      // typeImageUrl.value = data.gift.typeImage
-      // giftType.value = data.gift.type
+      pointImageUrl.value = storage.point_image
+      categoryImageUrl.value = storage.popup_image
+      pointName.value = storage.point_name
     }
 
     if (error) {

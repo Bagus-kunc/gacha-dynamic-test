@@ -79,7 +79,15 @@
         </div>
         <SolidButton
           :label="popupButton"
-          :on-click="() => navigateTo(popupLink, { external: true })"
+          :on-click="
+            () =>
+              navigateTo(popupLink, {
+                external: true,
+                open: {
+                  target: '_blank',
+                },
+              })
+          "
           variant="dark"
         />
       </div>
@@ -188,6 +196,7 @@
 <script setup>
 import useRegister from '~/composables/useRegister'
 import iconGift from '/icons/icon-gift.svg'
+import { useI18n } from 'vue-i18n'
 
 definePageMeta({
   middleware: 'valid-password',
@@ -220,6 +229,7 @@ const handleClose = () => (isNotAllowed.value = false)
 const handleShowDialog = () => (hasModal.value = true)
 const handleCloseDialog = () => (hasModal.value = false)
 const { decryptData } = useEncryption()
+const { t } = useI18n()
 
 const handleButton = async () => {
   if (isRedirect.value) {
@@ -253,21 +263,20 @@ const fetchImage = async () => {
     const slug = parsedData.slug.toUpperCase()
 
     const slugData = decryptData(localStorage.getItem(`${slug}_GACHA`))
+
     characterImageUrl.value = slugData?.character_image
-    // charName.value = slugData?.character_name
-    // raritySrc.value = slugData?.character_rarity
-    // isRedirect.value = slugData?.is_redirect
-    // popupButton.value = slugData?.button_name
-    // popupLink.value = slugData?.redirect_link
-    // popupDescription.value = slugData?.popup_description
-    charName.value = 'damydamy'
+    charName.value = slugData?.character_name
     raritySrc.value = slugData?.character_rarity
     isRedirect.value = true
-    popupButton.value = 'フォームはこちら'
     popupLink.value = slugData?.redirect_link
-    popupDescription.value =
-      'おめでとうございます！<br/>当選者情報を入力してください'
-    popupImage.value = '/images/gift-type.png'
+    popupDescription.value = slugData?.popup_description
+    popupImage.value = slugData?.popup_image
+
+    if (slugData?.point_category_is_fail) {
+      popupButton.value = t('playAgain')
+    } else {
+      popupButton.value = t('formHere')
+    }
   } catch (e) {
     console.error('Unexpected error:', e)
   }

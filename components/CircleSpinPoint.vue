@@ -1,5 +1,5 @@
 <script setup>
-const props = defineProps(['imageSrc', 'typeSrc'])
+const props = defineProps(['imageSrc', 'categorySrc'])
 const giftType = reactive({
   x: 50,
   y: 230,
@@ -109,7 +109,7 @@ onMounted(() => {
       :y="giftType.y"
       :width="giftType.width"
       :height="giftType.height"
-      :href="props.typeSrc"
+      :href="props.categorySrc"
     />
     <!-- <rect x="74" y="60" width="238" height="215" fill="url(#pattern0_12_49)" /> -->
     <!-- <rect x="263" y="192" width="98" height="89" fill="url(#pattern1_12_49)" /> -->

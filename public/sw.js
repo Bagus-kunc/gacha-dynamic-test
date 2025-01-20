@@ -1,7 +1,7 @@
 // Tentukan nama cache dan file yang ingin di-cache
 const CACHE_NAME = `gacharary-kaiyuu-v2 - ${self.location.origin}`
 const urlsToCache = [
-  '/logo-icon.ico',
+  '/favicon.ico',
   '/video/spin-point.mp4',
   '/video/spin-character.mp4',
   '/images/sparkling.png',

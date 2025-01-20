@@ -256,6 +256,40 @@
     </template>
   </Dialog>
 
+  <Dialog
+    v-model:visible="modalSpinWarning"
+    modal
+    class="!bg-white !w-11/12 !max-w-sm border border-exd-gray-44"
+  >
+    <template #container>
+      <img
+        :src="close"
+        alt="close"
+        width="30"
+        height="30"
+        preload
+        class="absolute right-1 top-1 cursor-pointer z-50"
+        @click="handleCloseModalSpinWarning"
+      />
+      <div
+        class="w-full flex flex-col justify-center items-center gap-4 py-6 px-6"
+      >
+        <img :src="warning" alt="warning" width="40" height="40" preload />
+        <div class="text-center w-10/12">
+          <p class="font-bold text-exd-1424 text-exd-gray-scorpion">
+            {{ errorMessages }}
+          </p>
+        </div>
+        <SolidButton
+          v-if="redirectLink"
+          :label="$t('gacha')"
+          variant="red-coral"
+          :on-click="() => continueToSpin(redirectLink)"
+        />
+      </div>
+    </template>
+  </Dialog>
+
   <div class="overlay" v-if="isRequestingLocation" />
 </template>
 
@@ -263,6 +297,8 @@
 import warning from '~/assets/images/warning.svg'
 import { useRouter } from 'vue-router'
 import { useI18n } from 'vue-i18n'
+import moment from 'moment'
+import close from '~/assets/images/close.svg'
 
 const router = useRouter()
 const route = useRoute()
@@ -274,6 +310,7 @@ const handleCloseDialog = () => (isNotAllowed.value = false)
 
 const { encryptData, decryptData } = useEncryption()
 const { t, locale } = useI18n()
+const config = useRuntimeConfig()
 
 const isLoading = ref(false)
 const errorLink = ref(false)
@@ -291,8 +328,13 @@ const isRequestingLocation = ref(false)
 const description = ref(null)
 const refsNotes = ref(null)
 const locationBlocked = ref(false)
-
 const isSplashComplete = ref(false)
+const modalSpinWarning = ref(false)
+const redirectLink = ref('')
+
+const handleCloseModalSpinWarning = () => {
+  modalSpinWarning.value = false
+}
 
 definePageMeta({
   layout: 'gacha-machine',
@@ -310,6 +352,14 @@ definePageMeta({
 
       const notRequiredRadius = useState('not_required_radius', () => 0)
       notRequiredRadius.value = data.not_required_radius
+
+      const spinType = useState('spin_type', () => 0)
+      spinType.value = data.spin_type
+
+      if (data.spin_type === 4) {
+        const spinInterval = useState('spin_interval', () => 0)
+        spinInterval.value = data.spin_interval
+      }
     }
 
     const validSlug = decryptData(validPassword.value || '{}')
@@ -324,6 +374,8 @@ const nextToSpin = async () => {
   const notRequiredPin = useState('not_required_pin')
   const notRequiredRadius = useState('not_required_radius')
 
+  await checkSpinEligibility()
+
   if (notRequiredPin.value) {
     const validPassword = useCookie('VALID_PASSWORD')
     validPassword.value = encryptData({ slug: route.params.randomCode })
@@ -333,7 +385,7 @@ const nextToSpin = async () => {
     await checkingLocation()
   }
 
-  if (stepAllowLocation.value || isNotAllowed.value) {
+  if (stepAllowLocation.value || isNotAllowed.value || modalSpinWarning.value) {
     return
   }
 
@@ -375,6 +427,8 @@ const getPassword = async (id) => {
       console.log('check radius')
       await checkingLocation()
     }
+
+    checkSpinEligibility()
 
     isLoading.value = false
   } catch (error) {
@@ -517,6 +571,75 @@ const getBrowserInfo = computed(() => {
     return 'Unknown'
   }
 })
+
+const checkSpinEligibility = async () => {
+  await new Promise((resolve) => setTimeout(resolve, 0))
+
+  const slug = route.params.randomCode.toLocaleUpperCase()
+  const slugStorageName = `${slug}_GACHA`
+  const slugData = localStorage.getItem(slugStorageName)
+  const parse = slugData && decryptData(slugData)
+
+  const spinType = useState('spin_type').value
+  const readySpinAfterDate = parse?.spin_date_interval
+  const now = new Date().getTime()
+
+  if (slugData && spinType === 1) {
+    const expired_date = moment(new Date(parse.spin_date))
+      .add(1, 'days')
+      .startOf('day')
+      .valueOf()
+
+    if (now < expired_date) {
+      errorMessages.value = t('eligibilityMessageType1')
+      modalSpinWarning.value = true
+    }
+  }
+
+  if (slugData && spinType === 3) {
+    errorMessages.value = t('eligibilityMessageType3')
+    modalSpinWarning.value = true
+  }
+
+  if (
+    slugData &&
+    spinType === 4 &&
+    readySpinAfterDate &&
+    new Date(readySpinAfterDate).getTime() > now
+  ) {
+    await countdown(readySpinAfterDate)
+  }
+}
+
+function countdown(targetDate) {
+  const remainingTime = () => {
+    const now = new Date().getTime()
+    const difference = new Date(targetDate).getTime() - now
+
+    if (difference <= 0) {
+      clearInterval(intervals)
+      handleCloseModalSpinWarning()
+      return
+    }
+
+    const minutes = Math.floor(difference / (1000 * 60))
+    const seconds = Math.floor((difference % (1000 * 60)) / 1000)
+
+    errorMessages.value = t('eligibilityMessageType4', {
+      minutes,
+      seconds,
+    })
+  }
+
+  remainingTime()
+  modalSpinWarning.value = true
+
+  let intervals = setInterval(() => remainingTime(), 1000)
+}
+
+const continueToSpin = async (url) => {
+  playVideo.value = true
+}
 
 watch(isNotAllowed, (newValue) => {
   if (newValue) {
