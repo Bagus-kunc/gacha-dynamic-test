@@ -31,7 +31,7 @@
 
   <AutoplayVideo
     v-if="playVideo"
-    src="/video/spin-point.mp4"
+    src="/video/new-spin-point.mp4"
     @ended="goToSpinPoint"
   />
 
