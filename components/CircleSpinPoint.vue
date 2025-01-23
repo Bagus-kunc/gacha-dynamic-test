@@ -24,8 +24,8 @@ onMounted(() => {
     function logViewportHeight() {
       if (window.innerHeight < 667) {
         const difference = 667 - window.innerHeight
-        giftType.width = Math.max(315 - difference / 2, 121.5)
-        giftType.height = Math.max(180 - difference / 2, 121.5)
+        giftType.width = Math.max(300 - difference / 2, 121.5)
+        giftType.height = Math.max(150 - difference / 2, 121.5)
       }
       giftType.x = (400 - giftType.width) / 2
     }
@@ -111,8 +111,6 @@ onMounted(() => {
       :height="giftType.height"
       :href="props.categorySrc"
     />
-    <!-- <rect x="74" y="60" width="238" height="215" fill="url(#pattern0_12_49)" /> -->
-    <!-- <rect x="263" y="192" width="98" height="89" fill="url(#pattern1_12_49)" /> -->
 
     <defs>
       <filter
