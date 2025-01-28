@@ -79,15 +79,7 @@
         </div>
         <SolidButton
           :label="popupButton"
-          :on-click="
-            () =>
-              navigateTo(popupLink, {
-                external: true,
-                open: {
-                  target: '_blank',
-                },
-              })
-          "
+          :on-click="() => handleToRedirect()"
           variant="dark"
         />
       </div>
@@ -224,6 +216,7 @@ const popupButton = ref('')
 const popupLink = ref('')
 const popupDescription = ref('')
 const popupImage = ref('')
+const pointCategoryIsFail = ref(false)
 
 const handleClose = () => (isNotAllowed.value = false)
 const handleShowDialog = () => (hasModal.value = true)
@@ -271,6 +264,7 @@ const fetchImage = async () => {
     popupLink.value = slugData?.redirect_link
     popupDescription.value = slugData?.popup_description
     popupImage.value = slugData?.popup_image
+    pointCategoryIsFail.value = slugData?.point_category_is_fail
 
     if (slugData?.point_category_is_fail) {
       popupButton.value = t('playAgain')
@@ -295,6 +289,24 @@ const handleToLogin = () => {
 
 const goTo = async (url) => {
   await navigateTo(url)
+}
+
+const handleToRedirect = async () => {
+  if (pointCategoryIsFail.value) {
+    const storedData = useCookie('VALID_PASSWORD')
+    let parsedData = decryptData(storedData.value)
+
+    const slug = parsedData.slug
+
+    await navigateTo(`/spin/${slug}`)
+  } else {
+    await navigateTo(popupLink.value, {
+      external: true,
+      open: {
+        target: '_blank',
+      },
+    })
+  }
 }
 
 onMounted(() => {
