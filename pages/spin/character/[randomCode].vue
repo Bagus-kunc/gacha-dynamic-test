@@ -44,108 +44,16 @@
     </div>
   </div>
 
-  <Dialog
+  <ModalAfterSpin
     v-model:visible="hasModal"
-    modal
-    class="!bg-white !w-11/12 !max-w-sm border border-exd-gray-44"
-  >
-    <template v-if="isRedirect" #container>
-      <img
-        src="/images/close.svg"
-        alt="close"
-        width="30"
-        height="30"
-        preload
-        class="absolute right-1 top-1 cursor-pointer z-50"
-        @click="handleCloseDialog"
-      />
-      <div
-        class="w-full flex flex-col justify-center items-center py-6 !pb-8 relative"
-      >
-        <div v-if="popupImage" class="w-auto h-24 mt-4">
-          <img :src="popupImage" class="w-full h-full object-contain" />
-        </div>
-        <div
-          :class="[
-            'font-bold  px-4 text-exd-1530 text-center text-exd-gray-scorpion',
-            popupImage ? 'pt-3 pb-10' : 'py-10',
-          ]"
-          style="text-shadow: 0 3px 3px rgba(0, 0, 0, 0.16)"
-        >
-          <div
-            class="max-h-[200px] overflow-auto leading-normal"
-            v-html="popupDescription"
-          ></div>
-        </div>
-        <SolidButton
-          :label="popupButton"
-          :on-click="() => handleToRedirect()"
-          variant="dark"
-        />
-      </div>
-    </template>
-
-    <template v-else #container>
-      <img
-        src="/images/close.svg"
-        alt="close"
-        width="30"
-        height="30"
-        preload
-        class="absolute right-1 top-1 cursor-pointer z-50"
-        @click="handleCloseDialog"
-      />
-      <div
-        class="w-full flex flex-col justify-center items-center gap-4 py-6 !pb-8 relative"
-      >
-        <div class="font-bold text-exd-1424 text-center text-exd-gray-scorpion">
-          <p style="text-shadow: 0 3px 3px rgba(0, 0, 0, 0.16)">
-            {{ $t('toWinPrizes') }}
-          </p>
-          <p style="text-shadow: 0 3px 3px rgba(0, 0, 0, 0.16)">
-            {{ $t('membershipRegistrationRequired') }}
-          </p>
-        </div>
-        <SolidButton
-          :label="$t('newMemberRegistration')"
-          :on-click="handleToRegister"
-          variant="tom"
-        />
-        <SolidButton
-          :label="$t('loginToMyPage')"
-          :on-click="handleToLogin"
-          variant="gray"
-        />
-      </div>
-    </template>
-    <!-- <template v-else #container>
-      <img
-        src="/images/close.svg"
-        alt="close"
-        width="30"
-        height="30"
-        preload
-        class="absolute right-1 top-1 cursor-pointer z-50"
-        @click="handleCloseDialog"
-      />
-      <div
-        class="w-full flex flex-col justify-center items-center gap-4 py-6 !pb-8 relative"
-      >
-        <div
-          class="font-bold py-10 text-exd-1424 text-center text-exd-gray-scorpion"
-        >
-          <p style="text-shadow: 0 3px 3px rgba(0, 0, 0, 0.16)">
-            {{ $t('thankYou') }}
-          </p>
-        </div>
-        <SolidButton
-          :label="$t('tomWeb')"
-          :on-click="handleTomWeb"
-          variant="tom"
-        />
-      </div>
-    </template> -->
-  </Dialog>
+    :is-redirect="isRedirect"
+    :popup-button="popupButton"
+    :popup-link="popupLink"
+    :popup-description="popupDescription"
+    :popup-image="popupImage"
+    :point-category-is-fail="pointCategoryIsFail"
+    @closeModalLogin="handleCloseModalLogin"
+  />
 
   <ModalLogin v-model="modalLogin" />
 
@@ -224,6 +132,8 @@ const handleCloseDialog = () => (hasModal.value = false)
 const { decryptData } = useEncryption()
 const { t } = useI18n()
 
+const handleCloseModalLogin = () => (modalLogin.value = false)
+
 const handleButton = async () => {
   if (isRedirect.value) {
     return handleShowDialog()
@@ -276,37 +186,8 @@ const fetchImage = async () => {
   }
 }
 
-const handleToRegister = async () => {
-  setSourceFrom('spin')
-  await navigateTo('/register')
-}
-
-const handleToLogin = () => {
-  setSourceFrom('spin')
-  hasModal.value = false
-  modalLogin.value = true
-}
-
 const goTo = async (url) => {
   await navigateTo(url)
-}
-
-const handleToRedirect = async () => {
-  if (pointCategoryIsFail.value) {
-    const storedData = useCookie('VALID_PASSWORD')
-    let parsedData = decryptData(storedData.value)
-
-    const slug = parsedData.slug
-
-    await navigateTo(`/spin/${slug}`)
-  } else {
-    await navigateTo(popupLink.value, {
-      external: true,
-      open: {
-        target: '_blank',
-      },
-    })
-  }
 }
 
 onMounted(() => {

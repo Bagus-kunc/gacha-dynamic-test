@@ -37,7 +37,7 @@
     <div class="w-full absolute bottom-0 z-[1100]">
       <SolidButton
         :label="$t('toTheNext')"
-        :on-click="() => (playVideo = true)"
+        :on-click="() => handleButton()"
         has-bottom
         variant="dark"
       />
@@ -48,11 +48,24 @@
       src="/video/new-spin-character.mp4"
       @ended="handleGoToCharacter"
     />
+
+    <ModalAfterSpin
+      v-model:visible="hasModal"
+      :is-redirect="isRedirect"
+      :popup-button="popupButton"
+      :popup-link="popupLink"
+      :popup-description="popupDescription"
+      :popup-image="popupImage"
+      :point-category-is-fail="pointCategoryIsFail"
+      @closeModalLogin="handleCloseModalLogin"
+    />
+    <ModalLogin v-model="modalLogin" />
   </div>
 </template>
 
 <script setup>
 import moment from 'moment'
+import { useI18n } from 'vue-i18n'
 const router = useRouter()
 const route = useRoute()
 
@@ -67,6 +80,23 @@ const categoryImageUrl = ref(null)
 const pointName = ref(null)
 const giftType = ref(null)
 const spinInterval = useState('spin_interval')
+
+const hideCharacter = ref(true)
+const hasModal = ref(false)
+const handleShowDialog = () => (hasModal.value = true)
+const handleCloseDialog = () => (hasModal.value = false)
+
+const isRedirect = ref(false)
+const popupButton = ref('')
+const popupLink = ref('')
+const popupDescription = ref('')
+const popupImage = ref('')
+const pointCategoryIsFail = ref(false)
+const modalLogin = ref(false)
+
+const { t } = useI18n()
+
+const handleCloseModalLogin = () => (modalLogin.value = false)
 
 definePageMeta({
   middleware: 'valid-password',
@@ -137,6 +167,12 @@ const fetchImageFromApi = async () => {
       pointImageUrl.value = storage.point_image
       categoryImageUrl.value = storage.popup_image
       pointName.value = storage.point_name
+      hideCharacter.value = storage.hide_character
+      isRedirect.value = storage.is_redirect
+      popupLink.value = storage.redirect_link
+      popupDescription.value = storage.popup_description
+      popupImage.value = storage.popup_image
+      pointCategoryIsFail.value = storage.point_category_is_fail
     } else {
       const spinType = useState('spin_type')
       sessionStorage.setItem('SPIN_TYPE', spinType.value)
@@ -165,6 +201,12 @@ const fetchImageFromApi = async () => {
         pointImageUrl.value = parse.point_image
         categoryImageUrl.value = parse.popup_image
         pointName.value = parse.point_name
+        hideCharacter.value = parse.hide_character
+        isRedirect.value = parse.is_redirect
+        popupLink.value = parse.redirect_link
+        popupDescription.value = parse.popup_description
+        popupImage.value = parse.popup_image
+        pointCategoryIsFail.value = parse.point_category_is_fail
 
         localStorage.setItem(slugStorageName, encryptData({ ...parse }))
 
@@ -180,6 +222,12 @@ const fetchImageFromApi = async () => {
           pointImageUrl.value = parse.point_image
           categoryImageUrl.value = parse.popup_image
           pointName.value = parse.point_name
+          hideCharacter.value = parse.hide_character
+          isRedirect.value = parse.is_redirect
+          popupLink.value = parse.redirect_link
+          popupDescription.value = parse.popup_description
+          popupImage.value = parse.popup_image
+          pointCategoryIsFail.value = parse.point_category_is_fail
 
           localStorage.setItem(slugStorageName, encryptData({ ...parse }))
           return
@@ -223,6 +271,8 @@ const fetchImageFromApi = async () => {
         redirect_link: data.point.point_category_link,
         point_category_is_fail: data.point.point_category_is_fail,
         spin_date: new Date().toLocaleString(),
+        point_category_is_fail: !!data.point.point_category_is_fail,
+        hide_character: data?.hide_character,
       }
 
       localStorage.setItem(slugStorageName, encryptData(storage))
@@ -230,6 +280,18 @@ const fetchImageFromApi = async () => {
       pointImageUrl.value = storage.point_image
       categoryImageUrl.value = storage.popup_image
       pointName.value = storage.point_name
+      hideCharacter.value = storage.hide_character
+      isRedirect.value = storage.is_redirect
+      popupLink.value = storage.redirect_link
+      popupDescription.value = storage.popup_description
+      popupImage.value = storage.popup_image
+      pointCategoryIsFail.value = storage.point_category_is_fail
+
+      if (slugData.point_category_is_fail) {
+        popupButton.value = t('playAgain')
+      } else {
+        popupButton.value = t('formHere')
+      }
     }
 
     if (error) {
@@ -254,6 +316,19 @@ const reportMultipleSpin = async ({ gift_id, character_id, location_id }) => {
     console.log('multiple', response)
   } catch (error) {
     console.log('Error report multiple spin', error)
+  }
+}
+
+const handleButton = async () => {
+  if (!hideCharacter.value) {
+    playVideo.value = true
+    return
+  }
+
+  if (!TOKEN.value && !USER.value) {
+    handleShowDialog()
+  } else {
+    await navigateTo('/dashboard')
   }
 }
 
