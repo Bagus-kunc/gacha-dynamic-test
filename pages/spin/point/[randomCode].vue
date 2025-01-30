@@ -269,9 +269,8 @@ const fetchImageFromApi = async () => {
         popup_image: data.point.point_category_image,
         popup_description: data.point.point_category_description,
         redirect_link: data.point.point_category_link,
-        point_category_is_fail: data.point.point_category_is_fail,
-        spin_date: new Date().toLocaleString(),
         point_category_is_fail: !!data.point.point_category_is_fail,
+        spin_date: new Date().toLocaleString(),
         hide_character: data?.hide_character,
       }
 
