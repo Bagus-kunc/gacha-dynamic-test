@@ -81,7 +81,7 @@ const pointName = ref(null)
 const giftType = ref(null)
 const spinInterval = useState('spin_interval')
 
-const hideCharacter = ref(true)
+const hideCharacter = ref(false)
 const hasModal = ref(false)
 const handleShowDialog = () => (hasModal.value = true)
 const handleCloseDialog = () => (hasModal.value = false)
@@ -173,6 +173,12 @@ const fetchImageFromApi = async () => {
       popupDescription.value = storage.popup_description
       popupImage.value = storage.popup_image
       pointCategoryIsFail.value = storage.point_category_is_fail
+
+      if (storage.point_category_is_fail) {
+        popupButton.value = t('playAgain')
+      } else {
+        popupButton.value = t('formHere')
+      }
     } else {
       const spinType = useState('spin_type')
       sessionStorage.setItem('SPIN_TYPE', spinType.value)
@@ -208,7 +214,18 @@ const fetchImageFromApi = async () => {
         popupImage.value = parse.popup_image
         pointCategoryIsFail.value = parse.point_category_is_fail
 
-        localStorage.setItem(slugStorageName, encryptData({ ...parse }))
+        if (parse.point_category_is_fail) {
+          popupButton.value = t('playAgain')
+        } else {
+          popupButton.value = t('formHere')
+        }
+
+        localStorage.setItem(
+          slugStorageName,
+          encryptData({ ...parse })
+          // encryptData({ ...parse, is_already_spin: true })
+        )
+        // reportMultipleSpin({ ...parse })
 
         return
       } else if (spinType.value === 4 && slugData) {
@@ -228,6 +245,12 @@ const fetchImageFromApi = async () => {
           popupDescription.value = parse.popup_description
           popupImage.value = parse.popup_image
           pointCategoryIsFail.value = parse.point_category_is_fail
+
+          if (parse.point_category_is_fail) {
+            popupButton.value = t('playAgain')
+          } else {
+            popupButton.value = t('formHere')
+          }
 
           localStorage.setItem(slugStorageName, encryptData({ ...parse }))
           return
@@ -286,7 +309,7 @@ const fetchImageFromApi = async () => {
       popupImage.value = storage.popup_image
       pointCategoryIsFail.value = storage.point_category_is_fail
 
-      if (slugData.point_category_is_fail) {
+      if (storage.point_category_is_fail) {
         popupButton.value = t('playAgain')
       } else {
         popupButton.value = t('formHere')
