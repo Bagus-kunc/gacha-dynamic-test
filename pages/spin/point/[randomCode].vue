@@ -167,12 +167,18 @@ const fetchImageFromApi = async () => {
       pointImageUrl.value = storage.point_image
       categoryImageUrl.value = storage.popup_image
       pointName.value = storage.point_name
-      hideCharacter.value = storage.hide_character
+      //hideCharacter.value = storage.hide_character
       isRedirect.value = storage.is_redirect
       popupLink.value = storage.redirect_link
       popupDescription.value = storage.popup_description
       popupImage.value = storage.popup_image
       pointCategoryIsFail.value = storage.point_category_is_fail
+
+      if (storage.point_category_is_fail) {
+        popupButton.value = t('playAgain')
+      } else {
+        popupButton.value = t('formHere')
+      }
     } else {
       const spinType = useState('spin_type')
       sessionStorage.setItem('SPIN_TYPE', spinType.value)
@@ -201,14 +207,25 @@ const fetchImageFromApi = async () => {
         pointImageUrl.value = parse.point_image
         categoryImageUrl.value = parse.popup_image
         pointName.value = parse.point_name
-        hideCharacter.value = parse.hide_character
+        //hideCharacter.value = parse.hide_character
         isRedirect.value = parse.is_redirect
         popupLink.value = parse.redirect_link
         popupDescription.value = parse.popup_description
         popupImage.value = parse.popup_image
         pointCategoryIsFail.value = parse.point_category_is_fail
 
-        localStorage.setItem(slugStorageName, encryptData({ ...parse }))
+        if (parse.point_category_is_fail) {
+          popupButton.value = t('playAgain')
+        } else {
+          popupButton.value = t('formHere')
+        }
+
+        localStorage.setItem(
+          slugStorageName,
+          encryptData({ ...parse })
+          // encryptData({ ...parse, is_already_spin: true })
+        )
+        // reportMultipleSpin({ ...parse })
 
         return
       } else if (spinType.value === 4 && slugData) {
@@ -222,12 +239,18 @@ const fetchImageFromApi = async () => {
           pointImageUrl.value = parse.point_image
           categoryImageUrl.value = parse.popup_image
           pointName.value = parse.point_name
-          hideCharacter.value = parse.hide_character
+          //hideCharacter.value = parse.hide_character
           isRedirect.value = parse.is_redirect
           popupLink.value = parse.redirect_link
           popupDescription.value = parse.popup_description
           popupImage.value = parse.popup_image
           pointCategoryIsFail.value = parse.point_category_is_fail
+
+          if (parse.point_category_is_fail) {
+            popupButton.value = t('playAgain')
+          } else {
+            popupButton.value = t('formHere')
+          }
 
           localStorage.setItem(slugStorageName, encryptData({ ...parse }))
           return
@@ -279,14 +302,14 @@ const fetchImageFromApi = async () => {
       pointImageUrl.value = storage.point_image
       categoryImageUrl.value = storage.popup_image
       pointName.value = storage.point_name
-      hideCharacter.value = storage.hide_character
+      //hideCharacter.value = storage.hide_character
       isRedirect.value = storage.is_redirect
       popupLink.value = storage.redirect_link
       popupDescription.value = storage.popup_description
       popupImage.value = storage.popup_image
       pointCategoryIsFail.value = storage.point_category_is_fail
 
-      if (slugData.point_category_is_fail) {
+      if (storage.point_category_is_fail) {
         popupButton.value = t('playAgain')
       } else {
         popupButton.value = t('formHere')
