@@ -81,7 +81,7 @@ const pointName = ref(null)
 const giftType = ref(null)
 const spinInterval = useState('spin_interval')
 
-const hideCharacter = ref(false)
+const hideCharacter = ref(true)
 const hasModal = ref(false)
 const handleShowDialog = () => (hasModal.value = true)
 const handleCloseDialog = () => (hasModal.value = false)
@@ -167,7 +167,7 @@ const fetchImageFromApi = async () => {
       pointImageUrl.value = storage.point_image
       categoryImageUrl.value = storage.popup_image
       pointName.value = storage.point_name
-      hideCharacter.value = storage.hide_character
+      //hideCharacter.value = storage.hide_character
       isRedirect.value = storage.is_redirect
       popupLink.value = storage.redirect_link
       popupDescription.value = storage.popup_description
@@ -207,7 +207,7 @@ const fetchImageFromApi = async () => {
         pointImageUrl.value = parse.point_image
         categoryImageUrl.value = parse.popup_image
         pointName.value = parse.point_name
-        hideCharacter.value = parse.hide_character
+        //hideCharacter.value = parse.hide_character
         isRedirect.value = parse.is_redirect
         popupLink.value = parse.redirect_link
         popupDescription.value = parse.popup_description
@@ -239,7 +239,7 @@ const fetchImageFromApi = async () => {
           pointImageUrl.value = parse.point_image
           categoryImageUrl.value = parse.popup_image
           pointName.value = parse.point_name
-          hideCharacter.value = parse.hide_character
+          //hideCharacter.value = parse.hide_character
           isRedirect.value = parse.is_redirect
           popupLink.value = parse.redirect_link
           popupDescription.value = parse.popup_description
@@ -302,7 +302,7 @@ const fetchImageFromApi = async () => {
       pointImageUrl.value = storage.point_image
       categoryImageUrl.value = storage.popup_image
       pointName.value = storage.point_name
-      hideCharacter.value = storage.hide_character
+      //hideCharacter.value = storage.hide_character
       isRedirect.value = storage.is_redirect
       popupLink.value = storage.redirect_link
       popupDescription.value = storage.popup_description
