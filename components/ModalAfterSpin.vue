@@ -108,12 +108,7 @@ const handleToRedirect = async () => {
 
     await navigateTo(`/spin/${slug}`)
   } else {
-    await navigateTo(props.popupLink, {
-      external: true,
-      open: {
-        target: '_blank',
-      },
-    })
+    window.location.href = props.popupLink; // Use self-navigation
   }
 }
 
