@@ -1,15 +1,15 @@
 <template>
-  <div class="flex flex-col items-center justify-center">
+  <div class="flex items-center justify-center gap-2">
     <img
       :src="icon"
       alt="icon"
-      width="30"
-      height="30"
+      width="40"
+      height="40"
       preload
       class="text-center cursor-pointer"
       @click="handleClick"
     />
-    <p class="text-exd-gray-scorpion text-exd-1020">{{ $t(label) }}</p>
+    <p class="text-exd-gray-scorpion text-exd-1424">{{ $t(label) }}</p>
   </div>
 </template>
 

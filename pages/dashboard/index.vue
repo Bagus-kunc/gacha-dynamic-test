@@ -7,31 +7,24 @@
       {{ $t('myPage') }}
     </p>
   </HeaderBar>
-  <div class="flex flex-col bg-center px-12">
-    <div class="flex flex-col mt-[35%] items-center"></div>
-
-    <div
-      class="inline-flex flex-col gap-4 items-center justify-center relative -top-12 mt-16"
-    >
-      <div
-        class="bg-white rounded-xl p-6 w-full h-exd-130 flex justify-center items-center cursor-pointer"
-        style="box-shadow: 0px 3px 3px 0px rgba(0, 0, 0, 0.1608)"
-        @click="handleGoToPrize"
-      >
-        <img
-          :src="iconStar"
-          alt="icon-star"
-          width="60"
-          height="60"
-          preload
-          class="text-center cursor-pointer"
-        />
-        <p class="text-exd-gray-scorpion text-exd-1424 font-bold text-center">
-          {{ $t('listOfPrizesAndExchanges') }}
+  <div class="flex flex-col px-12 bg-center">
+    <div class="flex flex-col mt-[35%] items-center">
+      <div class="flex flex-col mt-[5%] items-center">
+        <p class="font-bold text-white text-exd-1530">
+          {{ $t('currentPoints') }}
+        </p>
+        <p class="relative font-bold text-white text-exd-56112 -top-9">
+          <!-- {{ store.point }}<span class="ml-1 text-exd-1530">pt</span> -->
+          000000<span class="ml-1 text-exd-1530">pt</span>
         </p>
       </div>
+    </div>
+
+    <div
+      class="relative inline-flex flex-col items-center justify-center gap-4 mt-10 -top-12"
+    >
       <div
-        class="bg-white rounded-xl p-6 w-full h-exd-130 flex justify-center items-center cursor-pointer"
+        class="flex items-center justify-center w-full p-6 bg-white cursor-pointer rounded-xl h-exd-130"
         style="box-shadow: 0px 3px 3px 0px rgba(0, 0, 0, 0.1608)"
         @click="handleGoToHistory"
       >
@@ -43,18 +36,18 @@
           preload
           class="text-center cursor-pointer"
         />
-        <p class="text-exd-gray-scorpion text-exd-1424 font-bold text-center">
+        <p class="font-bold text-center text-exd-gray-scorpion text-exd-1424">
           {{ $t('collection') }}
         </p>
       </div>
     </div>
-    <div class="w-full relative -top-12">
+    <div class="relative w-full -top-12">
       <div
-        class="mt-5 bg-white h-exd-50 w-full rounded-tl-xl rounded-tr-xl px-5 inline-flex justify-between items-center cursor-pointer border-b-2 border-b-exd-light-grey"
+        class="inline-flex items-center justify-between w-full px-5 mt-5 bg-white border-b-2 cursor-pointer h-exd-50 rounded-tl-xl rounded-tr-xl border-b-exd-light-grey"
         style="box-shadow: 0px 3px 3px 0px rgba(0, 0, 0, 0.1608)"
         @click="profile"
       >
-        <p class="text-exd-gray-scorpion grow text-exd-1424 font-bold">
+        <p class="font-bold text-exd-gray-scorpion grow text-exd-1424">
           {{ $t('membershipInformation') }}
         </p>
         <img
@@ -67,35 +60,12 @@
         />
       </div>
       <div
-        class="bg-white w-full h-exd-50 px-5 inline-flex justify-between items-center border-b-2 border-b-exd-light-grey cursor-pointer"
-        style="box-shadow: 0px 3px 3px 0px rgba(0, 0, 0, 0.1608)"
-        @click="handleGoToDigitalMap()"
-      >
-        <p
-          class="text-exd-gray-scorpion grow inline-flex items-center gap-1 text-exd-1424 font-bold"
-        >
-          {{ $t('shoppingStreet') }}
-          <span>
-            <img :src="exportIcon" alt="export" width="20" height="20" preload
-          /></span>
-        </p>
-        <img
-          :src="arrow"
-          alt="arrow"
-          width="12"
-          height="12"
-          preload
-          class="invert"
-        />
-      </div>
-
-      <div
-        class="bg-white w-full h-exd-50 px-5 inline-flex justify-between items-center border-b-2 border-b-exd-light-grey"
+        class="inline-flex items-center justify-between w-full px-5 bg-white border-b-2 h-exd-50 border-b-exd-light-grey"
         style="box-shadow: 0px 3px 3px 0px rgba(0, 0, 0, 0.1608)"
         @click="handleGoToHelp()"
       >
         <p
-          class="text-exd-gray-scorpion grow inline-flex items-center gap-1 cursor-pointer text-exd-1424 font-bold"
+          class="inline-flex items-center gap-1 font-bold cursor-pointer text-exd-gray-scorpion grow text-exd-1424"
         >
           {{ $t('helpAndInquiries') }}
           <span>
@@ -111,13 +81,36 @@
           class="invert"
         />
       </div>
+
       <div
-        class="bg-white w-full h-exd-50 rounded-bl-xl rounded-br-xl px-5 inline-flex justify-between items-center cursor-pointer"
+        class="inline-flex items-center justify-between w-full px-5 bg-white border-b-2 cursor-pointer h-exd-50 border-b-exd-light-grey"
+        style="box-shadow: 0px 3px 3px 0px rgba(0, 0, 0, 0.1608)"
+        @click="handleGoToDigitalMap()"
+      >
+        <p
+          class="inline-flex items-center gap-1 font-bold text-exd-gray-scorpion grow text-exd-1424"
+        >
+          {{ $t('toHoriShoten') }}
+          <span>
+            <img :src="exportIcon" alt="export" width="20" height="20" preload
+          /></span>
+        </p>
+        <img
+          :src="arrow"
+          alt="arrow"
+          width="12"
+          height="12"
+          preload
+          class="invert"
+        />
+      </div>
+      <div
+        class="inline-flex items-center justify-between w-full px-5 bg-white cursor-pointer h-exd-50 rounded-bl-xl rounded-br-xl"
         style="box-shadow: 0px 3px 3px 0px rgba(0, 0, 0, 0.1608)"
         @click="logout"
       >
         <p
-          class="text-exd-gray-scorpion grow inline-flex items-center gap-1 text-exd-1424 font-bold"
+          class="inline-flex items-center gap-1 font-bold text-exd-gray-scorpion grow text-exd-1424"
         >
           {{ $t('logout') }}
         </p>
@@ -130,6 +123,37 @@
           class="invert"
         />
       </div>
+    </div>
+
+    <div
+      class="relative inline-flex flex-col items-center justify-between mx-auto md:w-[352px] w-[280px] mt-7 -top-12"
+    >
+      <p
+        class="inline-flex items-center justify-center font-bold text-white underline grow text-exd-1424"
+      >
+        {{ $t('addToHomeScreen') }}
+      </p>
+
+      <Swiper
+        :spaceBetween="30"
+        :centeredSlides="true"
+        :autoplay="{
+          delay: 5000,
+          disableOnInteraction: false,
+        }"
+        :pagination="{
+          clickable: true,
+        }"
+        :navigation="false"
+        :modules="[Autoplay, Pagination, Navigation]"
+        class="mySwiper"
+      >
+        <SwiperSlide v-for="(item, index) in bannerList" :key="index">
+          <a :href="item.link" target="_blank">
+            <img :src="item.image" />
+          </a>
+        </SwiperSlide>
+      </Swiper>
     </div>
   </div>
 
@@ -145,14 +169,14 @@
         width="30"
         height="30"
         preload
-        class="absolute right-1 top-1 cursor-pointer z-50"
+        class="absolute z-50 cursor-pointer right-1 top-1"
         @click="handleClose"
       />
       <div
-        class="w-full flex flex-col justify-center items-center gap-4 py-6 px-6"
+        class="flex flex-col items-center justify-center w-full gap-4 px-6 py-6"
       >
         <img :src="warning" alt="warning" width="40" height="40" preload />
-        <div class="text-center w-10/12">
+        <div class="w-10/12 text-center">
           <p class="font-bold text-exd-1424 text-exd-gray-scorpion">
             {{ errorMessages }}
           </p>
@@ -333,6 +357,26 @@ const goToSpin = async (url) => {
   handleClose()
   return await navigateTo(url)
 }
+
+const bannerList = ref([
+  { image: '/images/banner_01.jpg', link: 'https://www.yabaton.com/' },
+  { image: '/images/banner_02.jpg', link: 'https://www.koushoji.or.jp/' },
+  { image: '/images/banner_03.jpg', link: 'https://www.maruya-honten.com/' },
+  {
+    image: '/images/banner_04.jpg',
+    link: 'https://www.nagoya-tv-tower.co.jp/',
+  },
+  {
+    image: '/images/banner_05.jpg',
+    link: 'https://www.tokyuhotels.co.jp/nagoya-h/index.html',
+  },
+  { image: '/images/banner_06.jpg', link: 'https://www.kani-honke.co.jp/' },
+  { image: '/images/banner_07.jpg', link: 'https://nagoya.nikkostyle.jp/' },
+  {
+    image: '/images/banner_08.jpg',
+    link: 'https://www.nagoya-info.jp/accommodation/detail/115/',
+  },
+])
 
 onMounted(() => {
   checkSpinEligibility()
