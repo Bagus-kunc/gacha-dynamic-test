@@ -49,6 +49,7 @@
   "loginID": "Login ID（email address）",
   "emailIsAlreadyRegistered": "The email has already been taken",
   "loginPassword": "Login Password",
+  "rePassword": "Password (Re-enter)",
   "password": "Password",
   "forgotYourPassword": "Forgot your password?",
   "loginOrRegister": "Login/Register",

@@ -3,7 +3,7 @@
     <HeaderBar>
       <p
         style="text-shadow: 0 3px 3px rgba(0, 0, 0, 0.16)"
-        class="text-black font-bold text-exd-1824.52"
+        class="text-exd-gray-scorpion font-bold text-exd-1824.52"
       >
         {{ $t('resetPassword') }}
       </p>
@@ -27,14 +27,14 @@
             <InputText
               type="password"
               :model="form.password"
-              :label="$t('loginPassword')"
+              :label="$t('password')"
               @validate="validateInput('password', $event)"
               @update:model="updateModel('password', $event)"
             />
             <InputText
               type="password"
               :model="form.confirmPassword"
-              :label="$t('reenterPassword')"
+              :label="$t('rePassword')"
               @validate="validateInput('confPassword', $event)"
               @update:model="updateModel('confirmPassword', $event)"
             />

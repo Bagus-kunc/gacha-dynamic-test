@@ -117,6 +117,7 @@
   "phoneNumberNoHyphens": "電話番号（ハイフンなし)",
   "emailAddress": "メールアドレス",
   "reenterPassword": "ログインパスワード（再入力）",
+  "rePassword": "パスワード（再入力）",
   "questionnaire1": "このイベントを何で知りましたか？",
   "questionnaire2": "名古屋へ来た目的を教えてください",
   "acceptTerm": "会員規約に同意する",
