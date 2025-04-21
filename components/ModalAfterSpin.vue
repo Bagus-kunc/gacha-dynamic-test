@@ -12,14 +12,14 @@
         width="30"
         height="30"
         preload
-        class="absolute right-1 top-1 cursor-pointer z-50"
+        class="absolute z-50 cursor-pointer right-1 top-1"
         @click="handleCloseDialog"
       />
       <div
         class="w-full flex flex-col justify-center items-center py-6 !pb-8 relative"
       >
         <div v-if="popupImage" class="w-auto h-24 mt-4">
-          <img :src="popupImage" class="w-full h-full object-contain" />
+          <img :src="popupImage" class="object-contain w-full h-full" />
         </div>
         <div
           :class="[
@@ -48,33 +48,35 @@
         width="30"
         height="30"
         preload
-        class="absolute right-1 top-1 cursor-pointer z-50"
+        class="absolute z-50 cursor-pointer right-1 top-1"
         @click="handleCloseDialog"
       />
       <div
         class="w-full flex flex-col justify-center items-center gap-4 py-6 !pb-8 relative"
       >
-        <div class="font-bold text-exd-1424 text-center text-exd-gray-scorpion">
+        <div class="font-bold text-center text-exd-1624 text-exd-gray-scorpion">
           <p style="text-shadow: 0 3px 3px rgba(0, 0, 0, 0.16)">
-            {{ $t('toWinPrizes') }}
+            {{ $t('toExchangePrizes') }}
           </p>
           <p style="text-shadow: 0 3px 3px rgba(0, 0, 0, 0.16)">
-            {{ $t('membershipRegistrationRequired') }}
+            {{ $t('mustBeMember') }}
           </p>
         </div>
         <SolidButton
           :label="$t('newMemberRegistration')"
           :on-click="handleToRegister"
-          variant="tom"
+          variant="red-coral"
         />
         <SolidButton
           :label="$t('loginToMyPage')"
           :on-click="handleToLogin"
-          variant="gray"
+          variant="blue-green"
         />
       </div>
     </template>
   </Dialog>
+
+  <ModalLogin v-model="modalLogin" />
 </template>
 
 <script setup>
@@ -93,12 +95,13 @@ const props = defineProps({
 
 const emit = defineEmits(['update:visible', 'closeModalLogin'])
 
+const modalLogin = ref(false)
+
 const { decryptData } = useEncryption()
 const { setSourceFrom } = useRegister()
 
 const handleShowDialog = () => emit('update:visible', true)
 const handleCloseDialog = () => emit('update:visible', false)
-
 const handleToRedirect = async () => {
   if (props.pointCategoryIsFail) {
     const storedData = useCookie('VALID_PASSWORD')
@@ -108,7 +111,7 @@ const handleToRedirect = async () => {
 
     await navigateTo(`/spin/${slug}`)
   } else {
-    window.location.href = props.popupLink; // Use self-navigation
+    window.location.href = props.popupLink // Use self-navigation
   }
 }
 
@@ -120,6 +123,7 @@ const handleToRegister = async () => {
 const handleToLogin = () => {
   setSourceFrom('spin')
   handleCloseDialog()
+  modalLogin.value = true
   emit('closeModalLogin')
 }
 </script>

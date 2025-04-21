@@ -1,11 +1,11 @@
 <template>
   <SplashScreen @finish="isSplashComplete = true" />
 
-  <div v-show="isSplashComplete" class="grow flex flex-col">
+  <div v-show="isSplashComplete" class="flex flex-col grow">
     <HeaderBar withLogo />
 
     <div
-      class="flex flex-col grow bg-[url('/images/bg-gacha-spin.png')] bg-cover bg-center relative"
+      class="flex flex-col grow bg-[url('/images/red_base.png')] bg-cover bg-center relative"
     >
       <div
         class="grow w-full flex flex-col items-center justify-center relative mb-4 mt-[15%]"
@@ -20,7 +20,7 @@
 
       <SolidButton
         :label="$t('spinTheGacha')"
-        variant="dark"
+        variant="red-coral"
         :disabled="isLoading"
         :has-loading="isLoading"
         :on-click="() => nextToSpin()"
@@ -41,14 +41,14 @@
     :is-hidden-close="checkRadiusFailed || locationBlocked || isHiddenClose"
   >
     <template v-slot:body>
-      <div class="w-full flex flex-col justify-center items-center gap-4 py-6">
+      <div class="flex flex-col items-center justify-center w-full gap-4 py-6">
         <img :src="warning" alt="warning" width="40" height="40" preload />
-        <div v-if="errorLink || locationBlocked" class="text-center w-10/12">
+        <div v-if="errorLink || locationBlocked" class="w-10/12 text-center">
           <p class="font-bold text-exd-1424 text-exd-gray-scorpion">
             {{ errorMessages }}
           </p>
         </div>
-        <div v-else class="text-center w-10/12">
+        <div v-else class="w-10/12 text-center">
           <p
             class="font-bold text-exd-1424 text-exd-gray-scorpion vhtml-desc"
             v-html="checkRadiusMessage"
@@ -268,14 +268,14 @@
         width="30"
         height="30"
         preload
-        class="absolute right-1 top-1 cursor-pointer z-50"
+        class="absolute z-50 cursor-pointer right-1 top-1"
         @click="handleCloseModalSpinWarning"
       />
       <div
-        class="w-full flex flex-col justify-center items-center gap-4 py-6 px-6"
+        class="flex flex-col items-center justify-center w-full gap-4 px-6 py-6"
       >
         <img :src="warning" alt="warning" width="40" height="40" preload />
-        <div class="text-center w-10/12">
+        <div class="w-10/12 text-center">
           <p class="font-bold text-exd-1424 text-exd-gray-scorpion">
             {{ errorMessages }}
           </p>

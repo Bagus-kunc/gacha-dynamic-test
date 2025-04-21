@@ -59,6 +59,9 @@ const checkCaches = () => {
     '/video/new-spin-point.mp4',
     '/video/new-spin-character.mp4',
     '/images/sparkling.png',
+    '/images/red_base.png',
+    '/images/gacha-tom.png',
+    '/images/bg-rainbow.png',
     '/images/bg-gacha-spin.png',
     '/images/bg-gacha-character.png',
     '/images/logo.png',
@@ -96,10 +99,10 @@ const checkCaches = () => {
 <template>
   <div
     v-if="loading"
-    class="w-full max-w-md mx-auto h-screen overflow-hidden bg-[url('/images/bg-gacha-spin.png')] bg-cover bg-center flex flex-col fixed z-[2000]"
+    class="w-full max-w-md mx-auto h-screen overflow-hidden bg-[url('/images/red_base.png')] bg-cover bg-center flex flex-col fixed z-[2000]"
   >
     <div
-      class="h-full w-full flex flex-col justify-center items-center text-exd-red"
+      class="flex flex-col items-center justify-center w-full h-full text-exd-red"
     >
       <img
         src="~/assets/images/gacha-loading.gif"

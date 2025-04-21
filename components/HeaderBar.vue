@@ -29,19 +29,19 @@
       v-else
     >
       <img
-        src="/images/header-logo.png"
+        :src="headerLogo"
         alt="intl"
-        width="140"
+        width="95"
         height="44"
         preload
-        class="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2"
+        class="absolute transform -translate-x-1/2 -translate-y-1/2 top-1/2 left-1/2"
       />
     </div>
     <div class="pr-5 shrink-0">
       <div class="relative">
         <button type="button" aria-haspopup="true" @click="langPanelToggle">
           <img
-            src="/images/intl-tom.png"
+            src="/images/intl-icon.png"
             alt="intl"
             width="40"
             height="40"
@@ -57,6 +57,8 @@
 
 <script setup>
 import { useRouter, useRoute } from 'vue-router'
+import headerLogo from '~/public/images/header-logo.png'
+
 const router = useRouter()
 
 defineProps({

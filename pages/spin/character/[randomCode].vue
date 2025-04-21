@@ -1,9 +1,19 @@
 <template>
   <div
-    class="grow bg-[url('/images/bg-gacha-character.png')] bg-cover bg-center relative flex flex-col justify-center items-center"
+    class="grow bg-[url('/images/bg-rainbow.png')] bg-cover bg-center relative flex flex-col justify-center items-center"
     @touchmove="(e) => e.preventDefault()"
   >
     <SparkleStart className="top-3 z-30" />
+
+    <div :class="{ notif: true, hide: isHiding }">
+      <img :src="iconGift" alt="icon gift" class="w-8 h-8" />
+      <p
+        class="font-bold text-[12px] text-white"
+        style="-webkit-text-fill-color: #ffffff"
+      >
+        {{ $t('addToCollection') }}
+      </p>
+    </div>
 
     <img
       src="/images/gacha-tom.png"
@@ -14,15 +24,16 @@
     <img
       src="/images/sparkling.png"
       alt="sparkling"
-      class="absolute left-1/2 top-1/2 transform -translate-x-1/2 -translate-y-1/2 w-full h-full object-cover z-10 animate-sparkling"
+      class="absolute z-10 object-cover w-full h-full transform -translate-x-1/2 -translate-y-1/2 left-1/2 top-1/2 animate-sparkling"
       preload
     />
-    <div class="absolute inset-0 flex justify-center z-20">
+    <!-- :imageSrc="characterImageUrl"
+        :raritySrc="raritySrc" -->
+    <div class="absolute inset-0 z-20 flex justify-center">
       <CircleSpinCharacter
         class="relative top-1/2 -translate-y-[50%]"
-        :imageSrc="characterImageUrl"
+        :imageSrc="charImg"
         :raritySrc="raritySrc"
-        headSrc="/images/text-char.png"
         width="100%"
         height="100%"
       />
@@ -30,7 +41,8 @@
       <div
         class="absolute text-exd-dark-grey bg-white flex justify-center bottom-[17%] px-4 py-3 min-h-[50px] rounded-lg"
       >
-        <p class="text-[17px] max-w-[278px] text-center">{{ charName }}</p>
+        <p class="text-[17px] max-w-[278px] text-center">キャラクター名</p>
+        <!-- <p class="text-[17px] max-w-[278px] text-center">{{ charName }}</p> -->
       </div>
     </div>
 
@@ -38,15 +50,16 @@
       <SolidButton
         :label="$t('toTheNext')"
         :on-click="handleButton"
-        variant="dark"
+        variant="red-coral"
         has-bottom
       />
     </div>
   </div>
 
+  <!-- :is-redirect="isRedirect" -->
   <ModalAfterSpin
     v-model:visible="hasModal"
-    :is-redirect="isRedirect"
+    :is-redirect="false"
     :popup-button="popupButton"
     :popup-link="popupLink"
     :popup-description="popupDescription"
@@ -69,11 +82,11 @@
         width="30"
         height="30"
         preload
-        class="absolute right-1 top-1 cursor-pointer z-50"
+        class="absolute z-50 cursor-pointer right-1 top-1"
         @click="handleClose"
       />
       <div
-        class="w-full flex flex-col justify-center items-center gap-4 py-6 px-6"
+        class="flex flex-col items-center justify-center w-full gap-4 px-6 py-6"
       >
         <img
           src="/images/warning.svg"
@@ -82,7 +95,7 @@
           height="40"
           preload
         />
-        <div class="text-center w-10/12">
+        <div class="w-10/12 text-center">
           <p class="font-bold text-exd-1424 text-exd-gray-scorpion">
             {{ errorMessages }}
           </p>
@@ -97,6 +110,8 @@
 import useRegister from '~/composables/useRegister'
 import iconGift from '/icons/icon-gift.svg'
 import { useI18n } from 'vue-i18n'
+import charImg from '~/public/images/character.png'
+import rarityImg from '~/public/images/r.png'
 
 definePageMeta({
   middleware: 'valid-password',
@@ -133,6 +148,12 @@ const { decryptData } = useEncryption()
 const { t } = useI18n()
 
 const handleCloseModalLogin = () => (modalLogin.value = false)
+
+const handleToLogin = () => {
+  setSourceFrom('spin')
+  hasModal.value = false
+  modalLogin.value = true
+}
 
 const handleButton = async () => {
   if (isRedirect.value) {

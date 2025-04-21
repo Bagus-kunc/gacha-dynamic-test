@@ -100,7 +100,7 @@ onMounted(() => {
       <image
         height="70"
         width="270"
-        href="/images/text-char.png"
+        href="~/public/images/text-char.png"
         x="65"
         y="-20"
       />
@@ -115,7 +115,14 @@ onMounted(() => {
         </div>
       </foreignObject> -->
       <image height="260" width="260" :href="props.imageSrc" x="70" y="60" />
-      <image height="90" width="240" :href="rarityImg" x="80" y="340" />
+      <image
+        height="90"
+        width="240"
+        href="~/public/images/sr.png"
+        x="80"
+        y="340"
+      />
+      <!-- <image height="90" width="240" :href="rarityImg" x="80" y="340" /> -->
     </g>
     <!-- <rect x="44" y="300" width="311" height="237" fill="url(#pattern0_19_69)" /> -->
 

@@ -180,6 +180,8 @@
   "loadingAllAssets": "すべてのアセットをロードしています",
   "pleaseWaitMoment": "しばらくお待ちください。。。",
   "spinTheGacha": "ゲームをプレイ！",
+  "toExchangePrizes": "景品の交換には",
+  "mustBeMember": "会員登録が必要です",
   "close": "閉じる",
   "toTheNext": "次へ",
   "toWinPrizes": "景品の獲得・保存には",
@@ -188,7 +190,7 @@
   "pleaseSee": "をご覧ください。",
   "here": " こちら",
   "redeemForMyPage": "マイページから引き換え",
-  "loginToMyPage": "(会員の方)マイページへ保存",
+  "loginToMyPage": "マイページへログイン",
   "passwordResetCompleted": "パスワードの再設定が完了しました",
   "passwordMin": "半角英数8文字以上",
   "invalidNickname": "ニックネームは英数字でスペースを入れないでください",
@@ -315,5 +317,6 @@
   "eligibilityMessageType4": "Please wait after {minutes} minutes {seconds} seconds to play gacha again",
   "eligibilityMessageMaxQuota": "The point quota has reached maximum user , please play again to receive different prize",
   "formHere": "フォームはこちら",
-  "playAgain": "ありがとうございました！"
+  "playAgain": "ありがとうございました！",
+  "enterSameEmail": "堀商店サイトと同じメールアドレスを入力ください。"
 }
