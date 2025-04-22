@@ -23,11 +23,11 @@
     <div
       :class="[
         'inline-flex rounded-xl bg-gray-100 text-exd-gray-scorpion px-4 h-10 items-center',
-          w230Px ? `!w-[230px]` : 'w-full',
+        w230Px ? `!w-[230px]` : 'w-full',
         error !== '' ? '!border-2 !border-exd-red-vermilion' : '!border-none',
       ]"
     >
-      <span v-if="prefix !== ''" class="mr-2 text-exd-1424 font-bold">{{
+      <span v-if="prefix !== ''" class="mr-2 font-bold text-exd-1424">{{
         prefix
       }}</span>
       <InputText
@@ -48,13 +48,15 @@
           disabled && '!text-gray-400',
         ]"
       />
-      <span v-if="suffix !== ''" class="ml-2 text-exd-1424 font-bold">{{
+
+      <span v-if="suffix !== ''" class="ml-2 font-bold text-exd-1424">{{
         suffix
       }}</span>
     </div>
     <small
       v-if="hasHelper"
       :id="`${model}-${label}--${prefix}-${suffix}-help`"
+      class="!text-exd-gray-scorpion"
       >{{ helperText }}</small
     >
     <small
@@ -146,6 +148,10 @@ const props = defineProps({
     default: false,
   },
   inform: {
+    type: String,
+    default: '',
+  },
+  messages: {
     type: String,
     default: '',
   },

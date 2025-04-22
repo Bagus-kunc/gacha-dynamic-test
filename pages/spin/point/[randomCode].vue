@@ -1,6 +1,6 @@
 <template>
   <div
-    class="grow bg-[url('/images/bg-gacha-character.png')] bg-cover bg-center relative flex flex-col justify-center items-center"
+    class="grow bg-[url('/images/bg-rainbow.png')] bg-cover bg-center relative flex flex-col justify-center items-center"
     @touchmove="(e) => e.preventDefault()"
   >
     <SparkleStart className="top-3 z-30" />
@@ -14,24 +14,26 @@
     <img
       src="/images/sparkling.png"
       alt="sparkling"
-      class="absolute left-1/2 top-1/2 transform -translate-x-1/2 -translate-y-1/2 w-full h-full object-cover z-10 animate-sparkling"
+      class="absolute z-10 object-cover w-full h-full transform -translate-x-1/2 -translate-y-1/2 left-1/2 top-1/2 animate-sparkling"
       preload
     />
-    <div class="absolute inset-0 flex justify-center z-20">
+    <!-- :imageSrc="pointImageUrl"
+        :categorySrc="categoryImageUrl" -->
+    <div class="absolute inset-0 z-20 flex justify-center">
       <CircleSpinPoint
         class="relative top-1/2 -translate-y-[60%]"
-        :imageSrc="pointImageUrl"
-        :categorySrc="categoryImageUrl"
+        imageSrc="/images/30000pt.png"
+        categorySrc="/images/gacha-ball.png"
         width="100%"
         height="800"
       />
-      <div
+      <!-- <div
         class="absolute text-exd-dark-grey bg-white flex justify-center bottom-[17%] px-4 py-3 min-h-[50px] rounded-lg"
       >
         <p class="text-[17px] max-w-[278px] text-center">
           {{ pointName }}
         </p>
-      </div>
+      </div> -->
     </div>
     <div class="absolute-10 top-1/2 translate-y-[80%]"></div>
     <div class="w-full absolute bottom-0 z-[1100]">
@@ -39,7 +41,7 @@
         :label="$t('toTheNext')"
         :on-click="() => handleButton()"
         has-bottom
-        variant="dark"
+        variant="red-coral"
       />
     </div>
 
@@ -137,6 +139,8 @@ const fetchImageFromApi = async () => {
         'READY_SPIN_AFTER_DATE',
         data?.ready_spin_after_date || ''
       )
+
+      // console.log('pointData', data)
 
       const storage = {
         location_id: data.userPoint.location.id,
@@ -342,16 +346,16 @@ const reportMultipleSpin = async ({ gift_id, character_id, location_id }) => {
 }
 
 const handleButton = async () => {
-  if (!hideCharacter.value) {
-    playVideo.value = true
-    return
-  }
+  // if (!hideCharacter.value) {
+  playVideo.value = true
+  //   return
+  // }
 
-  if (!TOKEN.value && !USER.value) {
-    handleShowDialog()
-  } else {
-    await navigateTo('/dashboard')
-  }
+  // if (!TOKEN.value && !USER.value) {
+  //   handleShowDialog()
+  // } else {
+  //   await navigateTo('/dashboard')
+  // }
 }
 
 const handleGoToCharacter = async () => {

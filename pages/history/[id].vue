@@ -7,7 +7,7 @@
       {{ $t('collection') }}
     </p>
   </HeaderBar>
-  <div class="flex flex-col bg-center text-black mt-24 px-8 gap-3">
+  <div class="flex flex-col gap-3 px-8 mt-32 text-black bg-center">
     <div class="max-w-sm bg-white rounded-lg shadow">
       <div class="w-full overflow-hidden rounded-t-lg">
         <Skeleton v-if="isFetching" class="!w-full !h-full"></Skeleton>
@@ -20,7 +20,7 @@
           "
         />
       </div>
-      <div class="p-5 flex flex-col gap-2">
+      <div class="flex flex-col gap-2 p-5">
         <div class="inline-flex justify-between w-full gap-5">
           <Skeleton
             v-if="isFetching"
@@ -29,7 +29,7 @@
           />
           <p
             v-else
-            class="font-bold text-exd-1424 text-exd-gray-scorpion w-full"
+            class="w-full font-bold text-exd-1424 text-exd-gray-scorpion"
           >
             {{ historyDetailData.character_name }}
           </p>
@@ -113,7 +113,7 @@
             :src="link.src"
             :alt="link.alt"
             :aria-label="link.alt"
-            class="md:size-7 size-7 cursor-pointer"
+            class="cursor-pointer md:size-7 size-7"
             @click="openLink(link.url)"
             preload
           />
@@ -130,10 +130,10 @@
             <div id="map" tabindex="-1" style="width: 100%; height: 100%" />
             <div class="absolute inset-0 z-10"></div>
             <div
-              class="absolute bg-white inset-x-0 bottom-0 h-8 flex items-center z-20"
+              class="absolute inset-x-0 bottom-0 z-20 flex items-center h-8 bg-white"
             >
               <span
-                class="text-exd-blue-green text-sm flex items-center cursor-pointer border-b border-b-exd-blue-green"
+                class="flex items-center text-sm border-b cursor-pointer text-exd-blue-green border-b-exd-blue-green"
                 @click="openGoogleMaps"
                 >{{ $t('openGoogleMaps') }}
                 <img
@@ -149,7 +149,7 @@
         </div>
       </div>
 
-      <div class="inline-flex gap-3 w-full justify-center items-center mb-6">
+      <div class="inline-flex items-center justify-center w-full gap-3 mb-6">
         <div class="speech-bubble text-[10pt]">
           {{ $t('share') }}
           <div class="triangle-border"></div>
@@ -158,28 +158,28 @@
         <img
           :src="download"
           alt="download"
-          class="size-5 cursor-pointer"
+          class="cursor-pointer size-5"
           @click="share('image')"
           preload
         />
         <img
           :src="line"
           alt="line"
-          class="size-5 cursor-pointer"
+          class="cursor-pointer size-5"
           @click="share('line')"
           preload
         />
         <img
           :src="x"
           alt="x"
-          class="size-5 cursor-pointer"
+          class="cursor-pointer size-5"
           @click="share('x')"
           preload
         />
         <img
           :src="facebook"
           alt="facebook"
-          class="size-5 cursor-pointer"
+          class="cursor-pointer size-5"
           @click="share('facebook')"
           preload
         />
@@ -190,10 +190,10 @@
   <transition name="slide-right">
     <div
       v-if="showSuccessPopup"
-      class="popup-success bg-exd-dark-grey flex items-center gap-2"
+      class="flex items-center gap-2 popup-success bg-exd-dark-grey"
     >
       <div
-        class="w-7 h-7 bg-exd-green rounded-full flex items-center justify-center text-exd-1320"
+        class="flex items-center justify-center rounded-full w-7 h-7 bg-exd-green text-exd-1320"
       >
         <img :src="check" alt="success" class="w-6 h-6" />
       </div>

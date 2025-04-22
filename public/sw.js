@@ -12,7 +12,7 @@ const urlsToCache = [
   '/images/header-logo.png',
   '/images/close.svg',
   '/images/export.svg',
-  '/images/intl-tom.png',
+  '/images/intl-icon.png',
   '/images/back-button.svg',
   '/images/ssr.png',
   '/images/sr.png',

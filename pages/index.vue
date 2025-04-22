@@ -1,33 +1,34 @@
 <template>
   <div
     @touchmove="(e) => e.preventDefault()"
-    class="flex flex-col grow bg-[url('/images/bg-blue-green.png')] bg-cover bg-center justify-between relative overflow-hidden cursor-pointer"
+    class="flex flex-col grow bg-[url('/assets/images/TOP.png')] bg-cover bg-center justify-between relative overflow-hidden cursor-pointer"
   >
-    <div class="bg-[#2cc9b9] absolute inset-0"></div>
+    <!-- <div class="bg-[#2cc9b9] absolute inset-0"></div> -->
 
     <!-- container scrollable -->
     <div
-      class="relative min-h-dvh overflow-y-auto no-scrollbar"
+      class="relative overflow-y-auto min-h-dvh no-scrollbar"
       @touchmove="handleTouchMove"
       @click="handleShowModal"
     >
-      <img src="/assets/images/TOP.png" alt="top" class="w-full" />
-      <div class="">
-        <!-- Tap screen -->
-        <!-- <div class="absolute w-full pb-10 tap-screen">
-          <div class="justify-center items-center w-full flex flex-col mb-3">
-            <img :src="tapScreen" alt="intl" class="" preload />
-            <p class="text-exd-1218 text-white text-center">
-              {{ $t('loginOrRegisterTop') }}
-            </p>
-          </div>
-
-          <p
-            class="text-white text-center text-exd-1218 font-semibold cursor-pointer"
-          >
-            {{ $t('addToBookmarks') }}
+      <img src="/assets/images/TOP.png" alt="top" class="w-full h-full" />
+      <!-- Tap screen -->
+      <div
+        class="absolute bottom-0 w-full transform -translate-x-1/2 bg-center bg-no-repeat bg-cover h-[140px] left-1/2"
+        :style="{ backgroundImage: `url(${redGradient})` }"
+      >
+        <div class="flex flex-col items-center justify-center w-full mb-3">
+          <img :src="tapScreen" alt="intl" width="280" class="" preload />
+          <p class="text-center text-white text-exd-1320">
+            {{ $t('loginOrRegisterTop') }}
           </p>
-        </div> -->
+        </div>
+
+        <p
+          class="font-semibold text-center text-white underline cursor-pointer text-exd-1320"
+        >
+          {{ $t('addToBookmarks') }}
+        </p>
       </div>
     </div>
   </div>
@@ -55,6 +56,7 @@
 
 <script setup>
 import intlRounded from '~/assets/images/intl-rounded.svg'
+import redGradient from '~/assets/images/red-gradient.png'
 import logoIcon from '~/assets/images/logo-icon.svg'
 import tapScreen from '~/assets/images/tap-screen.png'
 import logo from '~/assets/images/logo.png'

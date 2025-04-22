@@ -1,19 +1,19 @@
 <template>
-  <div class="grow flex flex-col">
+  <div class="flex flex-col grow">
     <HeaderBar>
       <p
         style="text-shadow: 0 3px 3px rgba(0, 0, 0, 0.16)"
-        class="text-black font-bold text-exd-1824.52"
+        class="text-exd-gray-scorpion font-bold text-exd-1824.52"
       >
         {{ $t('resetPassword') }}
       </p>
     </HeaderBar>
 
-    <div class="flex flex-col grow mt-32 justify-between px-8 pb-3">
+    <div class="flex flex-col justify-between px-8 pb-3 mt-32 grow">
       <template v-if="!isSuccessSendResetPassword">
         <div>
           <h1
-            class="text-exd-gray-scorpion font-bold text-exd-1424 text-center"
+            class="font-bold text-center text-exd-gray-scorpion text-exd-1424"
           >
             {{ $t('enterYourNewPassword') }}
           </h1>
@@ -27,14 +27,14 @@
             <InputText
               type="password"
               :model="form.password"
-              :label="$t('loginPassword')"
+              :label="$t('password')"
               @validate="validateInput('password', $event)"
               @update:model="updateModel('password', $event)"
             />
             <InputText
               type="password"
               :model="form.confirmPassword"
-              :label="$t('reenterPassword')"
+              :label="$t('rePassword')"
               @validate="validateInput('confPassword', $event)"
               @update:model="updateModel('confirmPassword', $event)"
             />
@@ -42,7 +42,7 @@
         </div>
       </template>
       <template v-else>
-        <h1 class="text-exd-gray-scorpion font-bold text-exd-1424 text-center">
+        <h1 class="font-bold text-center text-exd-gray-scorpion text-exd-1424">
           {{ $t('passwordResetCompleted') }}
         </h1>
       </template>
@@ -69,12 +69,12 @@
         width="30"
         height="30"
         preload
-        class="absolute right-1 top-1 cursor-pointer z-50"
+        class="absolute z-50 cursor-pointer right-1 top-1"
         @click="handleCloseDialog"
       />
-      <div class="w-full flex flex-col justify-center items-center gap-4 py-6">
+      <div class="flex flex-col items-center justify-center w-full gap-4 py-6">
         <img :src="warning" alt="warning" width="40" height="40" preload />
-        <div class="text-center w-10/12 text-exd-gray-scorpion">
+        <div class="w-10/12 text-center text-exd-gray-scorpion">
           <p>
             {{ errorMessage }}
           </p>

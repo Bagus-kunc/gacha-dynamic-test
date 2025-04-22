@@ -1,5 +1,5 @@
 <template>
-  <div class="grow flex flex-col">
+  <div class="flex flex-col grow">
     <HeaderBar hasBack>
       <p
         style="text-shadow: 0 3px 3px rgba(0, 0, 0, 0.16)"
@@ -9,89 +9,10 @@
       </p>
     </HeaderBar>
 
-    <div class="flex flex-col grow mt-24 pb-3 justify-between gap-6 w-full">
-      <div class="flex flex-col grow px-3">
+    <div class="flex flex-col justify-between w-full gap-6 pb-3 mt-24 grow">
+      <div class="flex flex-col px-3 grow">
         <div
-          class="inline-flex flex-col border-b border-b-exd-light-grey py-5 px-4"
-        >
-          <label
-            :for="$t('sex')"
-            class="text-exd-gray-scorpion text-exd-1424 flex items-center gap-2"
-            >{{ $t('sex') }}
-            <span
-              class="bg-exd-red-coral text-white text-exd-0910 px-1 py-[2px] rounded-sm"
-              >{{ $t('required') }}</span
-            >
-          </label>
-          <ButtonGroup
-            class="text-exd-gray-scorpion w-full h-10 rounded-none"
-            style="box-shadow: 0px 3px 3px 0px rgba(0, 0, 0, 0.1608)"
-          >
-            <Button
-              @click="updateModel('gender', 'Male')"
-              :label="$t('male')"
-              :class="[
-                'bg-white w-4/12 h-full border border-exd-stone-300 rounded-none !text-exd-gray-scorpion',
-                form.gender === 'Male' && '!bg-exd-banana',
-              ]"
-            />
-            <Button
-              @click="updateModel('gender', 'Female')"
-              :label="$t('female')"
-              :class="[
-                'bg-white w-4/12 h-full border-t border-b border-t-exd-stone-300 border-b-exd-stone-300 rounded-none !text-exd-gray-scorpion',
-                form.gender === 'Female' && '!bg-exd-banana',
-              ]"
-            />
-            <Button
-              @click="updateModel('gender', 'Non-Binary')"
-              :label="$t('noAnswer')"
-              :class="[
-                'bg-white w-4/12 h-full border border-exd-stone-300 rounded-none !text-exd-gray-scorpion',
-                form.gender === 'Non-Binary' && '!bg-exd-banana',
-              ]"
-            />
-          </ButtonGroup>
-        </div>
-
-        <div
-          class="inline-flex gap-4 border-b border-b-exd-light-grey py-5 px-4 flex-col"
-        >
-          <div class="">
-            <InputText
-              onlyNumeric
-              :model="form.postCode"
-              :disabled="isLoading"
-              required
-              :label="$t('postalCodeNoHyphens')"
-              @update:model="
-                ($event) => {
-                  updateModel('postCode', $event)
-                  checkPostalCode($event)
-                }
-              "
-              @validate="validateInput('postCode', $event)"
-              :validate-on-submit="validateOnSubmit"
-              :error="
-                !form.postCode && validateOnSubmit
-                  ? $t('fieldRequired')
-                  : '' || (form.postCode.length > 0 && form.postCode.length < 7)
-                  ? $t('minLengthPostalCode')
-                  : '' || errorPostCodeMessage
-              "
-              :class="{
-                'input-error':
-                  (!form.postCode && validateOnSubmit) ||
-                  (form.postCode.length > 0 && form.postCode.length < 7) ||
-                  errorPostCodeMessage,
-                'opacity-50': isLoading,
-              }"
-            />
-          </div>
-        </div>
-
-        <div
-          class="inline-flex gap-4 border-b border-b-exd-light-grey py-5 px-4"
+          class="inline-flex gap-4 px-4 py-5 border-b border-b-exd-light-grey"
         >
           <InputText
             type="email"
@@ -102,6 +23,8 @@
             @validate="validateInput('email', $event)"
             :validate-on-submit="validateOnSubmit"
             :is-email-error="true"
+            hasHelper
+            :helperText="t('enterSameEmail')"
             :error="
               !form.email && validateOnSubmit
                 ? t('fieldRequired')
@@ -121,7 +44,7 @@
         </div>
 
         <div
-          class="flex flex-col gap-4 border-b border-b-exd-light-grey py-5 px-4"
+          class="flex flex-col gap-4 px-4 py-5 border-b border-b-exd-light-grey"
         >
           <InputText
             type="password"
@@ -169,9 +92,9 @@
           />
         </div>
 
-        <div class="w-full inline-flex gap-2 items-center justify-center mt-7">
+        <div class="inline-flex items-center justify-center w-full gap-2 mt-7">
           <Checkbox v-model="form.checked" :binary="true" />
-          <p class="text-exd-gray-scorpion font-bold text-exd-1424">
+          <p class="font-bold text-exd-gray-scorpion text-exd-1424">
             {{ $t('acceptTerm') }}
           </p>
         </div>
@@ -182,7 +105,7 @@
           <div
             class="max-h-[85px] mt-[5.5px] scrollable-content overflow-y-auto pl-6 pr-4"
           >
-            <p class="text-exd-1424 font-bold text-center">
+            <p class="font-bold text-center text-exd-1424">
               {{ $t('termOfService') }}
             </p>
 
@@ -202,7 +125,7 @@
         </div>
       </div>
       <div class="mt-16" />
-      <div class="fixed bottom-0 w-full max-w-md mx-auto mb-2 z-50">
+      <div class="fixed bottom-0 z-50 w-full max-w-md mx-auto mb-2">
         <SolidButton
           :label="$t('register')"
           :has-loading="isLoading"
@@ -228,12 +151,12 @@
         width="30"
         height="30"
         preload
-        class="absolute right-1 top-1 cursor-pointer z-50"
+        class="absolute z-50 cursor-pointer right-1 top-1"
         @click="handleCloseDialog"
       />
-      <div class="w-full flex flex-col justify-center items-center gap-4 py-6">
+      <div class="flex flex-col items-center justify-center w-full gap-4 py-6">
         <img :src="warning" alt="warning" width="40" height="40" preload />
-        <div class="text-center w-10/12">
+        <div class="w-10/12 text-center">
           <p
             v-for="(item, index) in errorScroll"
             :key="index"

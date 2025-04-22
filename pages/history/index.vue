@@ -7,12 +7,13 @@
       {{ $t('collection') }}
     </p>
   </HeaderBar>
-  <div class="flex flex-col bg-center text-black mt-32 px-8 gap-3">
-    <div class="text-white w-full inline-flex justify-between items-end">
-      <p class="text-exd-1424 font-bold">{{ $t('characterCatalog') }}</p>
-      <p class="font-bold text-exd-1424 leading-tight">
-        <span class="text-exd-2238">{{ character_count }}</span
-        >/{{ master_count }}
+  <div class="flex flex-col gap-3 px-8 mt-32 text-black bg-center">
+    <div class="inline-flex items-end justify-between w-full text-white">
+      <p class="font-bold text-exd-1424">{{ $t('characterCatalog') }}</p>
+      <p class="font-bold leading-tight text-exd-1424">
+        <!-- <span class="text-exd-2238">{{ character_count }}</span
+        >/{{ master_count }} -->
+        <span class="text-exd-2238">000</span>/000
       </p>
     </div>
     <template v-if="isFetching">

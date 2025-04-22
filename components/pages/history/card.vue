@@ -6,16 +6,16 @@
     :is-fetching="isFetching"
   >
     <template v-slot:text v-if="!isFetching">
-      <div class="flex gap-3 flex-col justify-between">
-        <p class="text-exd-gold text-exd-1624 font-bold">
+      <div class="flex flex-col justify-between gap-1">
+        <p class="font-bold text-exd-gold text-exd-1624">
+          30,000<span class="text-exd-1224">pt</span>
           <!-- {{ data.amount }}<span class="text-exd-1224">pt</span> -->
-          <img :src="raritySrc" alt="power char" width="30" height="30" />
         </p>
-        <p class="text-exd-gray-scorpion font-semibold text-exd-1416">
-          {{ data?.character?.name }}
-        </p>
-        <p class="text-exd-gray-scorpion font-medium text-exd-1014">
+        <p class="font-medium text-exd-gray-scorpion text-exd-1014">
           {{ data.created_at }}
+        </p>
+        <p class="font-semibold text-exd-gray-scorpion text-exd-1218">
+          {{ data?.character?.name }}
         </p>
       </div>
     </template>
