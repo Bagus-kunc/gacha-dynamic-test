@@ -140,6 +140,8 @@ const fetchImageFromApi = async () => {
         data?.ready_spin_after_date || ''
       )
 
+      // console.log('pointData', data)
+
       const storage = {
         location_id: data.userPoint.location.id,
         point_id: data.userCollection.point?.id,

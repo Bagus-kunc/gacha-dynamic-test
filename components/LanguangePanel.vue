@@ -62,7 +62,7 @@ onUnmounted(() => {
             href="javascript:void(0)"
             :class="
               locale === lang.value
-                ? 'bg-exd-dark-grey text-white active-text'
+                ? 'bg-exd-red-vermilion text-white active-text'
                 : '!text-exd-gray-scorpion'
             "
             @click="changeLanguage(lang.value)"

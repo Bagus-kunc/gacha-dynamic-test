@@ -27,12 +27,11 @@
       class="absolute z-10 object-cover w-full h-full transform -translate-x-1/2 -translate-y-1/2 left-1/2 top-1/2 animate-sparkling"
       preload
     />
-    <!-- :imageSrc="characterImageUrl"
-        :raritySrc="raritySrc" -->
+
     <div class="absolute inset-0 z-20 flex justify-center">
       <CircleSpinCharacter
         class="relative top-1/2 -translate-y-[50%]"
-        :imageSrc="charImg"
+        :imageSrc="characterImageUrl"
         :raritySrc="raritySrc"
         width="100%"
         height="100%"
@@ -41,8 +40,7 @@
       <div
         class="absolute text-exd-dark-grey bg-white flex justify-center bottom-[17%] px-4 py-3 min-h-[50px] rounded-lg"
       >
-        <p class="text-[17px] max-w-[278px] text-center">キャラクター名</p>
-        <!-- <p class="text-[17px] max-w-[278px] text-center">{{ charName }}</p> -->
+        <p class="text-[17px] max-w-[278px] text-center">{{ charName }}</p>
       </div>
     </div>
 
@@ -149,17 +147,7 @@ const { t } = useI18n()
 
 const handleCloseModalLogin = () => (modalLogin.value = false)
 
-const handleToLogin = () => {
-  setSourceFrom('spin')
-  hasModal.value = false
-  modalLogin.value = true
-}
-
 const handleButton = async () => {
-  if (isRedirect.value) {
-    return handleShowDialog()
-  }
-
   if (!TOKEN.value && !USER.value) {
     handleShowDialog()
   } else {
@@ -187,6 +175,8 @@ const fetchImage = async () => {
     const slug = parsedData.slug.toUpperCase()
 
     const slugData = decryptData(localStorage.getItem(`${slug}_GACHA`))
+
+    // console.log('slugData', slugData)
 
     characterImageUrl.value = slugData?.character_image
     charName.value = slugData?.character_name
