@@ -24,7 +24,7 @@
       class="relative inline-flex flex-col items-center justify-center gap-4 mt-10 -top-12"
     >
       <div
-        class="flex items-center justify-center w-full p-6 bg-white cursor-pointer rounded-xl h-exd-130"
+        class="flex flex-col items-center justify-center w-full p-6 bg-white cursor-pointer rounded-xl h-exd-130"
         style="box-shadow: 0px 3px 3px 0px rgba(0, 0, 0, 0.1608)"
         @click="handleGoToHistory"
       >

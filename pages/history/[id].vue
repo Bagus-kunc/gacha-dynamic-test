@@ -7,7 +7,7 @@
       {{ $t('collection') }}
     </p>
   </HeaderBar>
-  <div class="flex flex-col gap-3 px-8 mt-24 text-black bg-center">
+  <div class="flex flex-col gap-3 px-8 mt-32 text-black bg-center">
     <div class="max-w-sm bg-white rounded-lg shadow">
       <div class="w-full overflow-hidden rounded-t-lg">
         <Skeleton v-if="isFetching" class="!w-full !h-full"></Skeleton>
