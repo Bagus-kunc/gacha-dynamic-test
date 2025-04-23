@@ -225,7 +225,7 @@ const handleGoToHelp = () => {
   window.open('https://endo-ji-shotengai.dela-kuji.jp/manual', '_blank')
 }
 const handleGoToDigitalMap = () => {
-  window.open('https://endojishotengai.com/', '_blank')
+  window.open('https://www.horishoten.co.jp/', '_blank')
 }
 
 const TOKEN = useCookie('TOKEN')
