@@ -1,10 +1,13 @@
 // Tentukan nama cache dan file yang ingin di-cache
-const CACHE_NAME = `gacharary-kaiyuu-v2 - ${self.location.origin}`
+const CACHE_NAME = `gacharary-horishoten75th-v2 - ${self.location.origin}`
 const urlsToCache = [
   '/favicon.ico',
   '/video/new-spin-point.mp4',
   '/video/new-spin-character.mp4',
   '/images/sparkling.png',
+  '/images/red_base.png',
+  '/images/gacha-tom.png',
+  '/images/bg-rainbow.png',
   '/images/bg-gacha-spin.png',
   '/images/bg-gacha-character.png',
   '/images/logo.png',
