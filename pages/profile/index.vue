@@ -180,12 +180,7 @@ const errorKeyPostCode = ref('')
 const errorPostCodeMessage = computed(() => t(errorKeyPostCode.value))
 
 const form = reactive({
-  gender: '',
   email: '',
-  postCode: '',
-  prefecture: '',
-  city: '',
-  area: '',
   password: '',
   checked: false,
 })
@@ -280,14 +275,8 @@ const validateForm = () => {
 }
 
 const populateForm = (data) => {
-  form.gender = data.gender || ''
   form.email = data.email || ''
   form.password = ''
-  form.postCode = data.postal_code.name || ''
-  form.prefecture = data.prefecture.name || ''
-  form.city = data.city.name || ''
-  form.area = data.area.name || ''
-  form.address = data.area.name || ''
 }
 
 const fetchGetUserData = async () => {
@@ -358,14 +347,8 @@ const handleApiError = (error) => {
 
 const buildPayload = () => {
   const payload = {
-    gender: form.gender,
     email: form.email,
     password: form.password,
-    postal_code: form.postCode,
-    prefecture: form.prefecture,
-    city: form.city,
-    area: form.area,
-    address: form.address,
   }
 
   return payload

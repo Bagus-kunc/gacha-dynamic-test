@@ -14,8 +14,8 @@
           {{ $t('currentPoints') }}
         </p>
         <p class="relative font-bold text-white text-exd-56112 -top-9">
-          <!-- {{ store.point }}<span class="ml-1 text-exd-1530">pt</span> -->
-          000000<span class="ml-1 text-exd-1530">pt</span>
+          {{ store.point }}<span class="ml-1 text-exd-1530">pt</span>
+          <!-- 000000<span class="ml-1 text-exd-1530">pt</span> -->
         </p>
       </div>
     </div>
@@ -225,7 +225,7 @@ const handleGoToHelp = () => {
   window.open('https://endo-ji-shotengai.dela-kuji.jp/manual', '_blank')
 }
 const handleGoToDigitalMap = () => {
-  window.open('https://endojishotengai.com/', '_blank')
+  window.open('https://www.horishoten.co.jp/', '_blank')
 }
 
 const TOKEN = useCookie('TOKEN')

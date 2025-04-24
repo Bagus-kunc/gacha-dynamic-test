@@ -11,9 +11,10 @@
     <div class="inline-flex items-end justify-between w-full text-white">
       <p class="font-bold text-exd-1424">{{ $t('characterCatalog') }}</p>
       <p class="font-bold leading-tight text-exd-1424">
-        <!-- <span class="text-exd-2238">{{ character_count }}</span
-        >/{{ master_count }} -->
-        <span class="text-exd-2238">000</span>/000
+        <span class="text-exd-2238">{{
+          String(character_count).padStart(3, '0')
+        }}</span
+        >/{{ String(master_count).padStart(3, '0') }}
       </p>
     </div>
     <template v-if="isFetching">

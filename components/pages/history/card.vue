@@ -6,16 +6,15 @@
     :is-fetching="isFetching"
   >
     <template v-slot:text v-if="!isFetching">
-      <div class="flex flex-col justify-between gap-1">
-        <p class="font-bold text-exd-gold text-exd-1624">
-          30,000<span class="text-exd-1224">pt</span>
-          <!-- {{ data.amount }}<span class="text-exd-1224">pt</span> -->
+      <div class="flex gap-1 flex-col justify-center overflow-hidden pr-4">
+        <p class="text-exd-gold text-exd-1624 font-bold truncate">
+          {{ data.subtitle }}
         </p>
-        <p class="font-medium text-exd-gray-scorpion text-exd-1014">
-          {{ data.created_at }}
+        <p class="text-exd-gray-scorpion font-medium text-exd-1014 truncate">
+          {{ formatDate(data.date) }}
         </p>
-        <p class="font-semibold text-exd-gray-scorpion text-exd-1218">
-          {{ data?.character?.name }}
+        <p class="text-exd-gray-scorpion font-medium text-exd-1416 truncate">
+          {{ data.title }}
         </p>
       </div>
     </template>
@@ -25,6 +24,7 @@
 <script setup>
 import { useRouter } from 'vue-router'
 import noImage from '~/assets/images/no-image.svg'
+import moment from 'moment'
 
 const props = defineProps({
   isFetching: { type: Boolean, default: false },
@@ -42,7 +42,11 @@ const props = defineProps({
   },
 })
 
-const characterImage = props.data.character?.image || noImage
+watchEffect(() => {
+  console.log(props.data)
+})
+
+const characterImage = props.data.image || noImage
 
 const router = useRouter()
 const raritySrc = ref('')
@@ -58,6 +62,10 @@ const handleRarity = () => {
   } else if (rarity === '3') {
     raritySrc.value = '/images/ssr-bg.png'
   }
+}
+
+const formatDate = (datetime) => {
+  return moment(datetime).format('YYYY/MM/DD HH:mm:ss')
 }
 
 handleRarity()

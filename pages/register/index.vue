@@ -186,12 +186,6 @@ import InputTextArea from '~/components/InputTextArea.vue'
 import RadioButton from '~/components/RadioButton.vue'
 
 const form = ref({
-  gender: 'Male',
-  postCode: '',
-  prefecture: '',
-  address: '',
-  city: '',
-  area: '',
   email: '',
   password: '',
   confPassword: '',
@@ -360,15 +354,9 @@ const handleApiError = (error) => {
 
 const buildPayload = () => {
   const payload = {
-    gender: form.value.gender,
     email: form.value.email,
     password: form.value.password,
     password_confirmation: form.value.confPassword,
-    postal_code: form.value.postCode,
-    prefecture: form.value.prefecture,
-    city: form.value.city,
-    area: form.value.area,
-    address: form.value.area,
   }
 
   return payload
@@ -478,8 +466,6 @@ const saveSpin = async () => {
       },
     })
 
-    console.log(data)
-
     storedData.value = null
     localStorage.removeItem(slugStorageName)
 
@@ -489,8 +475,6 @@ const saveSpin = async () => {
     console.log("Error: Can't save spin result")
   }
 }
-
-console.log(isSpin.value)
 </script>
 
 <style scoped>

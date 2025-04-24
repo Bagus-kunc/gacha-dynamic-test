@@ -1,11 +1,14 @@
 <template>
   <div
-    :class="[variantClass, 'h-full w-full flex justify-center items-center']"
+    :class="[
+      variantClass,
+      'h-full w-full flex justify-center items-center p-2',
+    ]"
   >
     <img
       :src="image || notImage"
       alt="character"
-      class="relative w-full h-full object-fill"
+      class="relative object-fill w-full h-full"
       preload
       @error="handleImageError"
     />
@@ -30,6 +33,6 @@ const props = defineProps({
 })
 
 const variantClass = computed(() => {
-  return props.variant === 'with-background' ? 'bg-[#FFEEE8]' : 'bg-transparent'
+  return props.variant === 'with-background' ? 'bg-[#FFF6E8]' : 'bg-transparent'
 })
 </script>
