@@ -17,12 +17,10 @@
       class="absolute z-10 object-cover w-full h-full transform -translate-x-1/2 -translate-y-1/2 left-1/2 top-1/2 animate-sparkling"
       preload
     />
-    <!-- :imageSrc="pointImageUrl"
-        :categorySrc="categoryImageUrl" -->
     <div class="absolute inset-0 z-20 flex justify-center">
       <CircleSpinPoint
         class="relative top-1/2 -translate-y-[60%]"
-        imageSrc="/images/30000pt.png"
+        :imageSrc="pointImageUrl"
         categorySrc="/images/gacha-ball.png"
         width="100%"
         height="800"
@@ -140,13 +138,13 @@ const fetchImageFromApi = async () => {
         data?.ready_spin_after_date || ''
       )
 
-      // console.log('pointData', data)
+      console.log('pointData', data)
 
       const storage = {
         location_id: data.userPoint.location.id,
-        point_id: data.userCollection.point?.id,
-        point_image: data.userCollection.point?.image,
-        point_name: data.userCollection.point?.name,
+        point_id: data.userCollection.user_point.point?.id,
+        point_image: data.userCollection.user_point.point?.point_category_image,
+        point_name: data.userCollection.user_point.point?.name,
         character_id: data.userCollection.gacha_character.id,
         character_image: data.userCollection.gacha_character.image,
         character_name: data.userCollection.gacha_character.name,
@@ -167,6 +165,8 @@ const fetchImageFromApi = async () => {
       }
 
       localStorage.setItem(slugStorageName, encryptData(storage))
+
+      console.log('storage', storage)
 
       pointImageUrl.value = storage.point_image
       categoryImageUrl.value = storage.popup_image

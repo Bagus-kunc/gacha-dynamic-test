@@ -4,7 +4,7 @@ const giftType = reactive({
   x: 50,
   y: 230,
   width: 300,
-  height: 150,
+  height: 125,
 })
 
 onMounted(() => {
@@ -103,7 +103,7 @@ onMounted(() => {
     <g filter="url(#filter0_b_12_49)">
       <!-- <ellipse cx="200" cy="198" rx="200" ry="198" fill="white" /> -->
     </g>
-    <image x="50" y="-30" width="300" height="250" :href="props.imageSrc" />
+    <image x="60" y="-30" width="300" height="250" :href="props.imageSrc" />
     <image
       :x="giftType.x"
       :y="giftType.y"
