@@ -271,7 +271,7 @@ const fetchImageFromApi = async () => {
       const storage = {
         location_id: data.location?.id,
         point_id: data.point?.id,
-        point_image: data.point?.image,
+        point_image: data.point?.point_category_image,
         point_name: data.point?.name,
         character_id: data.character?.id,
         character_image: data.character?.image,
