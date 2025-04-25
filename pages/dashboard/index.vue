@@ -128,32 +128,13 @@
     <div
       class="relative inline-flex flex-col items-center justify-between mx-auto md:w-[352px] w-[280px] mt-7 -top-12"
     >
-      <p
+      <!-- <p
         class="inline-flex items-center justify-center font-bold text-white underline grow text-exd-1424"
       >
         {{ $t('addToHomeScreen') }}
-      </p>
+      </p> -->
 
-      <Swiper
-        :spaceBetween="30"
-        :centeredSlides="true"
-        :autoplay="{
-          delay: 5000,
-          disableOnInteraction: false,
-        }"
-        :pagination="{
-          clickable: true,
-        }"
-        :navigation="false"
-        :modules="[Autoplay, Pagination, Navigation]"
-        class="mySwiper"
-      >
-        <SwiperSlide v-for="(item, index) in bannerList" :key="index">
-          <a :href="item.link" target="_blank">
-            <img :src="item.image" />
-          </a>
-        </SwiperSlide>
-      </Swiper>
+      <img :src="banner" width="352" height="180" preload class="w-full" />
     </div>
   </div>
 
@@ -201,8 +182,7 @@ import { useRouter } from 'vue-router'
 import { store } from '~/stores/dashboard.js'
 import close from '~/assets/images/close.svg'
 import warning from '~/assets/images/warning.svg'
-import { Swiper, SwiperSlide } from 'swiper/vue'
-import { Autoplay, Pagination, Navigation } from 'swiper/modules'
+import banner from '~/assets/images/banner.png'
 
 import 'swiper/css'
 import 'swiper/css/pagination'

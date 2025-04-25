@@ -143,7 +143,7 @@ const fetchImageFromApi = async () => {
       const storage = {
         location_id: data.userPoint.location.id,
         point_id: data.userCollection.user_point.point?.id,
-        point_image: data.userCollection.user_point.point?.point_category_image,
+        point_image: data.userCollection.user_point.point?.image,
         point_name: data.userCollection.user_point.point?.name,
         character_id: data.userCollection.gacha_character.id,
         character_image: data.userCollection.gacha_character.image,
@@ -271,7 +271,7 @@ const fetchImageFromApi = async () => {
       const storage = {
         location_id: data.location?.id,
         point_id: data.point?.id,
-        point_image: data.point?.point_category_image,
+        point_image: data.point?.image,
         point_name: data.point?.name,
         character_id: data.character?.id,
         character_image: data.character?.image,
