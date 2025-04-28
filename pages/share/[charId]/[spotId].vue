@@ -222,7 +222,7 @@
           raised
           @click="
             () =>
-              navigateTo('https://endo-ji-shotengai.dela-kuji.jp/', {
+              navigateTo('https://horishoten75th.dela-kuji.jp/', {
                 external: true,
                 open: {
                   target: '_blank',
