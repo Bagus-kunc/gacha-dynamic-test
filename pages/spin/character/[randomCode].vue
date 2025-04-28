@@ -29,10 +29,10 @@
     />
 
     <div class="absolute inset-0 z-20 flex justify-center">
+      <!-- :raritySrc="raritySrc" -->
       <CircleSpinCharacter
         class="relative top-1/2 -translate-y-[50%]"
         :imageSrc="characterImageUrl"
-        :raritySrc="raritySrc"
         width="100%"
         height="100%"
       />

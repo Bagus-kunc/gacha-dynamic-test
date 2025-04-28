@@ -37,7 +37,7 @@
 
   <div
     v-if="isValidPath"
-    class="w-full max-w-md mx-auto min-h-dvh max-h-full overflow-hidden bg-white flex flex-col relative bg-[url('/images/bg-blue-green.png')] bg-cover bg-center"
+    class="w-full max-w-md mx-auto min-h-dvh max-h-full overflow-hidden bg-white flex flex-col relative bg-[url('/images/red_base.png')] bg-cover bg-center"
   >
     <HeaderBar>
       <p
@@ -56,8 +56,8 @@
         class="flex flex-col bg-center text-black mt-[105px] px-8 gap-3 mb-20"
       >
         <div class="max-w-sm bg-white rounded-lg shadow">
-          <div class="h-72 w-full overflow-hidden rounded-t-lg no-char-avail">
-            <div class="p-5 flex flex-col gap-2 text-center">
+          <div class="w-full overflow-hidden rounded-t-lg h-72 no-char-avail">
+            <div class="flex flex-col gap-2 p-5 text-center">
               {{ t('no_available_data') }}
             </div>
             <SolidButton
@@ -70,7 +70,7 @@
         </div>
       </div>
     </section>
-    <section class="h-[calc(100dvh-35px)] overflow-y-auto pb-6" v-else>
+    <section class="h-[calc(100dvh-35px)] overflow-y-auto py-6" v-else>
       <div
         class="flex flex-col bg-center text-black mt-[105px] px-8 gap-3 mb-10"
       >
@@ -82,13 +82,13 @@
               :image="shareDetailData.character_image"
             />
           </div>
-          <div class="p-5 flex flex-col gap-2">
-            <div class="inline-flex justify-between items-center w-full gap-5">
+          <div class="flex flex-col gap-2 p-5">
+            <div class="inline-flex items-center justify-between w-full gap-5">
               <Skeleton v-if="isFetching" class="!h-3" width="15rem"></Skeleton>
 
               <p
                 v-else-if="shareDetailData.is_valid_char"
-                class="font-bold text-exd-1424 text-exd-gray-scorpion w-full"
+                class="w-full font-bold text-exd-1424 text-exd-gray-scorpion"
               >
                 {{ shareDetailData.character_name }}
               </p>
@@ -98,13 +98,13 @@
                 class="!h-3 !bg-exd-gold !rounded-full"
                 width="2rem "
               />
-              <p
+              <!-- <p
                 v-else
                 class="font-bold text-exd-1824.52 text-white p-1 min-h-10 min-w-12 h-10 w-12 flex items-center justify-center rounded-full pr-2 bg-no-repeat bg-contain bg-center"
                 :style="
                   rarityImg ? { backgroundImage: `url(${rarityImg})` } : {}
                 "
-              ></p>
+              ></p> -->
             </div>
 
             <div
@@ -174,7 +174,7 @@
                   :src="link.src"
                   :alt="link.alt"
                   :aria-label="link.alt"
-                  class="md:size-7 size-7 cursor-pointer"
+                  class="cursor-pointer md:size-7 size-7"
                   @click="openLink(link.url)"
                   preload
                 />
@@ -195,7 +195,7 @@
                   />
                   <div class="absolute inset-0 z-10"></div>
                   <div
-                    class="absolute bg-white inset-x-0 bottom-0 h-8 flex items-center z-20"
+                    class="absolute inset-x-0 bottom-0 z-20 flex items-center h-8 bg-white"
                   >
                     <span
                       class="text-exd-blue-green text-sm flex items-center cursor-pointer relative after:content-[''] after:absolute after:inset-x-0 after:bottom-0 after:border-b after:border-b-exd-blue-green"
@@ -216,13 +216,13 @@
           </div>
         </div>
       </div>
-      <div class="fixed bottom-0 w-full max-w-md mx-auto px-8 mb-3 z-50">
+      <div class="fixed bottom-0 z-50 w-full max-w-md px-8 mx-auto mb-3">
         <Button
           class="!bg-exd-red-coral !py-4 !w-full !uppercase !font-bold !text-exd-1424 !rounded-full !text-white !flex !flex-row !justify-between !px-5"
           raised
           @click="
             () =>
-              navigateTo('https://endo-ji-shotengai.dela-kuji.jp/', {
+              navigateTo('https://horishoten75th.dela-kuji.jp/', {
                 external: true,
                 open: {
                   target: '_blank',
@@ -230,7 +230,7 @@
               })
           "
         >
-          <span class="grow text-center">{{ $t('shareClickHere') }}</span>
+          <span class="text-center grow">{{ $t('shareClickHere') }}</span>
         </Button>
       </div>
     </section>

@@ -1,5 +1,5 @@
 <template>
-  <div class="grow flex flex-col">
+  <div class="flex flex-col grow">
     <HeaderBar hasBack>
       <p
         style="text-shadow: 0 3px 3px rgba(0, 0, 0, 0.16)"
@@ -10,11 +10,11 @@
     </HeaderBar>
 
     <div
-      class="flex flex-col grow px-3 mt-32 pb-3 justify-between gap-6 w-full"
+      class="flex flex-col justify-between w-full gap-6 px-3 pb-3 mt-32 grow"
     >
       <div class="flex flex-col grow">
         <p
-          class="text-exd-gray-scorpion font-normal text-exd-1416 text-center mt-8"
+          class="mt-8 font-normal text-center text-exd-gray-scorpion text-exd-1416"
         >
           {{ $t('completed') }}
         </p>
@@ -22,12 +22,12 @@
     </div>
   </div>
 
-  <div class="flex flex-col w-full relative gap-1">
-    <SolidButton
+  <div class="relative flex flex-col w-full gap-1">
+    <!-- <SolidButton
       :on-click="() => goTo('external')"
       :label="$t('digitalMapTop')"
     />
-    <div class="h-5 w-full" />
+    <div class="w-full h-5" /> -->
     <SolidButton
       variant="red"
       :on-click="() => goTo('top')"

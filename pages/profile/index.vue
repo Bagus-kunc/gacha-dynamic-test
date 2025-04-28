@@ -118,7 +118,7 @@
         <SolidButton
           :label="$t('change')"
           :has-loading="isLoading"
-          :disabled="!isButtonEnabled"
+          :disabled="!isButtonEnabled || !form.checked"
           :on-click="handleSubmit"
           variant="red-coral"
           has-bottom

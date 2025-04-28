@@ -38,11 +38,11 @@
             class="!h-3 !bg-exd-gold !rounded-full"
             width="2rem "
           />
-          <p
+          <!-- <p
             v-else
             class="font-bold text-exd-1824.52 text-white p-1 min-h-10 min-w-12 h-10 w-12 flex items-center justify-center rounded-full pr-2 bg-no-repeat bg-contain bg-center"
             :style="rarityImg ? { backgroundImage: `url(${rarityImg})` } : {}"
-          ></p>
+          ></p> -->
         </div>
         <div v-if="isFetching" class="flex items-center gap-5 text-exd-1218">
           <Skeleton
