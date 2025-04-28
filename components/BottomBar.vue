@@ -12,7 +12,7 @@
           {{ $t('currentPoints') }}
         </p>
         <p class="relative -ml-4 font-bold text-white text-exd-2856 -top-2">
-          000000<span class="text-exd-1020">pt</span>
+          {{ store.point }}<span class="text-exd-1020">pt</span>
           <!-- {{ store.point }}<span class="text-exd-1020">個</span> -->
         </p>
       </div>

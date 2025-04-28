@@ -15,7 +15,6 @@
         </p>
         <p class="relative font-bold text-white text-exd-56112 -top-9">
           {{ store.point }}<span class="ml-1 text-exd-1530">pt</span>
-          <!-- 000000<span class="ml-1 text-exd-1530">pt</span> -->
         </p>
       </div>
     </div>
