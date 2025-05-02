@@ -24,11 +24,11 @@
           </p>
         </div>
 
-        <p
+        <!-- <p
           class="font-semibold text-center text-white underline cursor-pointer text-exd-1320"
         >
           {{ $t('addToBookmarks') }}
-        </p>
+        </p> -->
       </div>
     </div>
   </div>
