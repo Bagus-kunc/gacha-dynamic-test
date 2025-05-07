@@ -132,8 +132,9 @@
       >
         {{ $t('addToHomeScreen') }}
       </p> -->
-
-      <img :src="banner" width="352" height="180" preload class="w-full" />
+      <NuxtLink to="https://www.horishoten.co.jp/" target="_blank" >
+        <img :src="banner" width="352" height="180" preload class="w-full" />
+      </NuxtLink>
     </div>
   </div>
 
