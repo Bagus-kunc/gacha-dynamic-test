@@ -232,7 +232,7 @@ const fetchImageFromApi = async () => {
         // reportMultipleSpin({ ...parse })
 
         return
-      } else if (spinType.value === 4 && slugData) {
+      } else if ((spinType.value === 4 || spinType.value === 5) && slugData) {
         const now = new Date().getTime()
 
         const parse = decryptData(slugData)

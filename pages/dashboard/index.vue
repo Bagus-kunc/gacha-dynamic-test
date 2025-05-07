@@ -132,7 +132,7 @@
       >
         {{ $t('addToHomeScreen') }}
       </p> -->
-      <NuxtLink to="https://www.horishoten.co.jp/" target="_blank" >
+      <NuxtLink to="https://www.horishoten.co.jp/" target="_blank">
         <img :src="banner" width="352" height="180" preload class="w-full" />
       </NuxtLink>
     </div>
@@ -278,7 +278,7 @@ const checkSpinEligibility = async () => {
 
   if (
     isAlreadySpin == 'true' &&
-    spinType === '4' &&
+    (spinType === '4' || spinType === '5') &&
     readySpinAfterDate &&
     new Date(readySpinAfterDate).getTime() > new Date(now).getTime()
   ) {
