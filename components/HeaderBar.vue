@@ -1,6 +1,7 @@
 <template>
   <header
-    class="pt-[39px] pb-3 flex justify-between items-center top-0 left-0 right-0 z-40 fixed w-full max-w-md mx-auto bg-white"
+    class=" flex justify-between items-center top-0 left-0 right-0 z-40 fixed w-full max-w-md mx-auto bg-white"
+    :class="[withLogo ? 'pt-4 pb-4' : 'pt-[39px] pb-3']"
     style="box-shadow: 0px 3px 3px 0px rgba(0, 0, 0, 0.1608)"
     @touchmove="(e) => e.preventDefault()"
   >
@@ -31,7 +32,7 @@
       <img
         :src="headerLogo"
         alt="intl"
-        width="95"
+        width="80"
         height="44"
         preload
         class="absolute transform -translate-x-1/2 -translate-y-1/2 top-1/2 left-1/2"
