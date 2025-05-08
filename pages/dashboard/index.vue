@@ -202,7 +202,7 @@ const handleGoToHistory = () => router.push('/history')
 const handleGoToPrize = () => router.push('/prize')
 const profile = () => router.push('/profile')
 const handleGoToHelp = () => {
-  window.open('https://endo-ji-shotengai.dela-kuji.jp/manual', '_blank')
+  window.open('https://horishoten75th.dela-kuji.jp/manual', '_blank')
 }
 const handleGoToDigitalMap = () => {
   window.open('https://www.horishoten.co.jp/', '_blank')
