@@ -11,7 +11,7 @@
           {{ data.subtitle }}
         </p>
         <p class="text-exd-gray-scorpion font-medium text-exd-1014 truncate">
-          {{ formatDate(data.date) }}
+          {{ data.date }}
         </p>
         <p class="text-exd-gray-scorpion font-medium text-exd-1416 truncate">
           {{ data.title }}
