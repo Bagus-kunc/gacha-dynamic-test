@@ -138,8 +138,6 @@ const fetchImageFromApi = async () => {
         data?.ready_spin_after_date || ''
       )
 
-      console.log('pointData', data)
-
       const storage = {
         location_id: data.userPoint.location.id,
         point_id: data.userCollection.user_point.point?.id,
@@ -165,8 +163,6 @@ const fetchImageFromApi = async () => {
       }
 
       localStorage.setItem(slugStorageName, encryptData(storage))
-
-      console.log('storage', storage)
 
       pointImageUrl.value = storage.point_image
       categoryImageUrl.value = storage.popup_image
@@ -276,11 +272,15 @@ const fetchImageFromApi = async () => {
         character_id: data.character?.id,
         character_image: data.character?.image,
         character_name: data.character?.name,
+        character_description: data.character?.description,
         character_category: data.character?.category,
         character_rarity: data.character?.rarity,
         character_star1: data.character?.star1,
         character_star2: data.character?.star2,
         character_star3: data.character?.star3,
+        character_star_name1: data.character?.star_name1,
+        character_star_name2: data.character?.star_name2,
+        character_star_name3: data.character?.star_name3,
         log_id: data.log_id,
         // gift_id: data.gift.point_id,
         // gift_image: data.gift.image,
@@ -299,6 +299,7 @@ const fetchImageFromApi = async () => {
         point_category_is_fail: !!data.point.point_category_is_fail,
         spin_date: new Date().toLocaleString(),
         hide_character: data?.hide_character,
+        hide_character_info: data?.hide_character_info,
       }
 
       localStorage.setItem(slugStorageName, encryptData(storage))
@@ -338,8 +339,6 @@ const reportMultipleSpin = async ({ gift_id, character_id, location_id }) => {
     const response = await useFetchApi('POST', 'gacha/report', {
       body: { gift_id, character_id, location_id },
     })
-
-    console.log('multiple', response)
   } catch (error) {
     console.log('Error report multiple spin', error)
   }

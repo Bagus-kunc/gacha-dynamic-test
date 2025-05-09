@@ -319,5 +319,6 @@
   "eligibilityMessageMaxQuota": "The point quota has reached maximum user , please play again to receive different prize",
   "formHere": "The Form Is Here",
   "playAgain": "Thank You Very Much!",
-  "enterSameEmail": "Please enter the same email address as on the Hori Shoten website."
+  "enterSameEmail": "Please enter the same email address as on the Hori Shoten website.",
+  "characterIntroduction": "Character Introduction"
 }
