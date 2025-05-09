@@ -3,6 +3,20 @@
     class="grow bg-[url('/images/bg-rainbow.png')] bg-cover bg-center relative flex flex-col justify-center items-center"
     @touchmove="(e) => e.preventDefault()"
   >
+    <Button
+      v-if="!hideCharacterInfo"
+      @click="handleBtnIntroduce"
+      class="bg-rainbow !absolute text-white font-bold flex justify-center bottom-[12%] items-center rounded-full px-4 py-3 h-[14.222vw] w-[41.522vw] max-w-[191px] max-h-[65px] text-[16px] !z-[100]"
+    >
+      {{ $t('characterIntroduction') }}
+      <img
+        :src="opIntro ? minusIcon : plusIcon"
+        alt="plus icon"
+        width="20"
+        height="20"
+      />
+    </Button>
+
     <SparkleStart className="top-3 z-30" />
 
     <div :class="{ notif: true, hide: isHiding }">
@@ -38,7 +52,7 @@
       />
 
       <div
-        class="absolute text-exd-dark-grey bg-white flex justify-center bottom-[17%] px-4 py-3 min-h-[50px] rounded-lg"
+        class="absolute text-exd-dark-grey bg-white flex justify-center bottom-[22%] px-4 py-3 min-h-[50px] rounded-lg"
       >
         <p class="text-[17px] max-w-[278px] text-center">{{ charName }}</p>
       </div>
@@ -102,6 +116,58 @@
       </div>
     </template>
   </Dialog>
+
+  <Transition name="fade-slide" mode="out-in">
+    <div
+      v-if="opIntro"
+      class="with-scroll fixed z-40 transform -translate-x-1/2 -translate-y-1/2 rounded-lg shadow w-[88.889vw] sm:w-[350px] bg-white/85 sm:bottom-[17%] bottom-[13%] left-1/2"
+    >
+      <div
+        class="flex flex-col gap-2 p-5 max-h-[250px] overflow-y-auto scrollbar-thin scrollbar-thumb-exd-gray-scorpion scrollbar-track-transparent"
+      >
+        <div class="inline-flex justify-between w-full gap-5">
+          <p class="w-full font-bold text-exd-1424 text-exd-gray-scorpion">
+            {{ charName }}
+          </p>
+        </div>
+        <div class="flex items-center gap-5 text-exd-1218">
+          <p
+            class="border-[1px] min-w-[68px] border-exd-blue-green text-exd-blue-green rounded-[5px] px-2"
+          >
+            カテゴリ
+          </p>
+          <p class="text-exd-gray-scorpion">
+            {{ charCategory }}
+          </p>
+        </div>
+
+        <p
+          class="font-medium text-exd-1424 text-exd-gray-scorpion text-word-wrap vhtml-desc"
+          v-html="charDesc"
+        ></p>
+
+        <div
+          class="flex flex-col gap-2 py-4 text-exd-gray-scorpion text-exd-1424"
+        >
+          <div class="max-w-full">
+            <p class="flex flex-row justify-between w-full">
+              {{ star1Name }}
+              <StarRating :value="star1" :show-value="false" />
+            </p>
+            <p class="flex flex-row justify-between w-full">
+              {{ star2Name }}<StarRating :value="star2" :show-value="false" />
+            </p>
+            <p class="flex justify-between w-full">
+              {{ star3Name }}
+              <StarRating :value="star3" :show-value="false" />
+            </p>
+          </div>
+        </div>
+      </div>
+      <div
+        class="absolute bottom-[-7px] left-1/2 -translate-x-1/2 w-0 h-0 border-x-8 border-x-transparent border-t-8 border-t-white/85"
+      ></div></div
+  ></Transition>
 </template>
 
 <script setup>
@@ -109,7 +175,9 @@ import useRegister from '~/composables/useRegister'
 import iconGift from '/icons/icon-gift.svg'
 import { useI18n } from 'vue-i18n'
 import charImg from '~/public/images/character.png'
-import rarityImg from '~/public/images/r.png'
+import plusIcon from '~/assets/icons/plus.png'
+import minusIcon from '~/assets/icons/minus.png'
+import StarRating from '~/components/StarRating.vue'
 
 definePageMeta({
   middleware: 'valid-password',
@@ -117,6 +185,8 @@ definePageMeta({
 })
 
 const { setSourceFrom } = useRegister()
+
+const opIntro = ref(false)
 
 const hasModal = ref(false)
 const errorMessages = ref('')
@@ -130,7 +200,16 @@ const TOKEN = useCookie('TOKEN')
 
 const characterImageUrl = ref(null)
 const charName = ref(null)
+const charDesc = ref(null)
 const raritySrc = ref(null)
+const charCategory = ref(null)
+const star1 = ref(null)
+const star1Name = ref(null)
+const star2 = ref(null)
+const star2Name = ref(null)
+const star3 = ref(null)
+const star3Name = ref(null)
+const hideCharacterInfo = ref(true)
 
 const isRedirect = ref(false)
 const popupButton = ref('')
@@ -176,8 +255,6 @@ const fetchImage = async () => {
 
     const slugData = decryptData(localStorage.getItem(`${slug}_GACHA`))
 
-    // console.log('slugData', slugData)
-
     characterImageUrl.value = slugData?.character_image
     charName.value = slugData?.character_name
     raritySrc.value = slugData?.character_rarity
@@ -186,6 +263,17 @@ const fetchImage = async () => {
     popupDescription.value = slugData?.popup_description
     popupImage.value = slugData?.popup_image
     pointCategoryIsFail.value = slugData?.point_category_is_fail
+
+    charDesc.value = slugData?.character_description
+    charCategory.value = slugData?.character_category
+    star1.value = slugData?.character_star1
+    star1Name.value = slugData?.character_star_name1
+    star2.value = slugData?.character_star2
+    star2Name.value = slugData?.character_star_name2
+    star3.value = slugData?.character_star3
+    star3Name.value = slugData?.character_star_name3
+
+    hideCharacterInfo.value = slugData?.hide_character_info
 
     if (slugData?.point_category_is_fail) {
       popupButton.value = t('playAgain')
@@ -199,6 +287,10 @@ const fetchImage = async () => {
 
 const goTo = async (url) => {
   await navigateTo(url)
+}
+
+const handleBtnIntroduce = () => {
+  opIntro.value = !opIntro.value
 }
 
 onMounted(() => {
@@ -267,5 +359,37 @@ onMounted(() => {
   transform-box: fill-box;
   transform-origin: center center;
   animation: sparkle 1s infinite cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.bg-rainbow {
+  background: transparent
+    linear-gradient(
+      113deg,
+      #f8e500 0%,
+      #56f800 18%,
+      #00e2eb 40%,
+      #3984ea 67%,
+      #db35db 84%,
+      #aa00b1 100%
+    )
+    0% 0% no-repeat padding-box;
+}
+
+.fade-slide-enter-active,
+.fade-slide-leave-active {
+  transition: all 0.3s ease;
+  opacity: 1;
+  transform: translate(-50%, -50%) scale(1);
+}
+
+.fade-slide-enter-from,
+.fade-slide-leave-to {
+  opacity: 0;
+  transform: translate(-50%, -60%) scale(0.95);
+}
+
+.with-scroll {
+  scrollbar-width: thin;
+  scrollbar-color: #9a9a9a transparent; /* thumb dan track */
 }
 </style>

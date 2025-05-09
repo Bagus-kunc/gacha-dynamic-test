@@ -6,14 +6,14 @@
     :is-fetching="isFetching"
   >
     <template v-slot:text v-if="!isFetching">
-      <div class="flex gap-1 flex-col justify-center overflow-hidden pr-4">
-        <p class="text-exd-gold text-exd-1624 font-bold truncate">
+      <div class="flex flex-col justify-center gap-1 pr-4 overflow-hidden">
+        <p class="font-bold truncate text-exd-gold text-exd-1624">
           {{ data.subtitle }}
         </p>
-        <p class="text-exd-gray-scorpion font-medium text-exd-1014 truncate">
+        <p class="font-medium truncate text-exd-gray-scorpion text-exd-1014">
           {{ data.date }}
         </p>
-        <p class="text-exd-gray-scorpion font-medium text-exd-1416 truncate">
+        <p class="font-medium truncate text-exd-gray-scorpion text-exd-1416">
           {{ data.title }}
         </p>
       </div>
@@ -40,10 +40,6 @@ const props = defineProps({
     type: Boolean,
     default: true,
   },
-})
-
-watchEffect(() => {
-  console.log(props.data)
 })
 
 const characterImage = props.data.image || noImage
