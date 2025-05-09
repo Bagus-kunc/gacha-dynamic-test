@@ -356,7 +356,7 @@ definePageMeta({
       const spinType = useState('spin_type', () => 0)
       spinType.value = data.spin_type
 
-      if (data.spin_type === 4) {
+      if (data.spin_type === 4 || data.spin_type === 5) {
         const spinInterval = useState('spin_interval', () => 0)
         spinInterval.value = data.spin_interval
       }
@@ -584,6 +584,9 @@ const checkSpinEligibility = async () => {
   const readySpinAfterDate = parse?.spin_date_interval
   const now = new Date().getTime()
 
+  console.log('spinType', spinType)
+  console.log('readySpinAfterDate', parse)
+
   if (slugData && spinType === 1) {
     const expired_date = moment(new Date(parse.spin_date))
       .add(1, 'days')
@@ -603,7 +606,7 @@ const checkSpinEligibility = async () => {
 
   if (
     slugData &&
-    spinType === 4 &&
+    (spinType === 4 || spinType === 5) &&
     readySpinAfterDate &&
     new Date(readySpinAfterDate).getTime() > now
   ) {

@@ -54,6 +54,7 @@
                   ? t('emailFormat')
                   : errorEmailMessage,
             }"
+            :border="true"
           />
         </div>
 
@@ -78,6 +79,7 @@
                 ? ''
                 : t(errorPasswordMessage)
             "
+            :border="true"
           />
         </div>
 

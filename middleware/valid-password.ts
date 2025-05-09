@@ -14,7 +14,7 @@ export default defineNuxtRouteMiddleware(async (to, from) => {
     const spinType = useState('spin_type', () => 0)
     spinType.value = data.spin_type
 
-    if (data.spin_type === 4) {
+    if (data.spin_type === 4 || data.spin_type === 5) {
       const spinInterval = useState('spin_interval', () => 0)
       spinInterval.value = data.spin_interval
     }

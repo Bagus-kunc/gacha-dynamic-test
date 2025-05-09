@@ -24,7 +24,8 @@
       :class="[
         'inline-flex rounded-xl bg-gray-100 text-exd-gray-scorpion px-4 h-10 items-center',
         w230Px ? `!w-[230px]` : 'w-full',
-        error !== '' ? '!border-2 !border-exd-red-vermilion' : '!border-none',
+        error !== '' ? '!border-2 !border-exd-red-vermilion' : '',
+        border ? 'border border-gray-300 ' : '',
       ]"
     >
       <span v-if="prefix !== ''" class="mr-2 font-bold text-exd-1424">{{
@@ -167,6 +168,10 @@ const props = defineProps({
   maxLength: {
     type: Number,
     default: 0,
+  },
+  border: {
+    type: Boolean,
+    default: false,
   },
 })
 

@@ -132,7 +132,7 @@
       >
         {{ $t('addToHomeScreen') }}
       </p> -->
-      <NuxtLink to="https://www.horishoten.co.jp/" target="_blank" >
+      <NuxtLink to="https://www.horishoten.co.jp/" target="_blank">
         <img :src="banner" width="352" height="180" preload class="w-full" />
       </NuxtLink>
     </div>
@@ -202,7 +202,7 @@ const handleGoToHistory = () => router.push('/history')
 const handleGoToPrize = () => router.push('/prize')
 const profile = () => router.push('/profile')
 const handleGoToHelp = () => {
-  window.open('https://endo-ji-shotengai.dela-kuji.jp/manual', '_blank')
+  window.open('https://horishoten75th.dela-kuji.jp/manual', '_blank')
 }
 const handleGoToDigitalMap = () => {
   window.open('https://www.horishoten.co.jp/', '_blank')
@@ -278,7 +278,7 @@ const checkSpinEligibility = async () => {
 
   if (
     isAlreadySpin == 'true' &&
-    spinType === '4' &&
+    (spinType === '4' || spinType === '5') &&
     readySpinAfterDate &&
     new Date(readySpinAfterDate).getTime() > new Date(now).getTime()
   ) {

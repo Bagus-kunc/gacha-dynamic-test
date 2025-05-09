@@ -40,6 +40,7 @@
                   ? t('emailFormat')
                   : errorEmailMessage,
             }"
+            :border="true"
           />
         </div>
 
@@ -67,6 +68,7 @@
             :class="{
               'input-error': errorPasswordMessage,
             }"
+            :border="true"
           />
           <InputText
             type="password"
@@ -89,6 +91,7 @@
             :class="{
               'input-error': errorConfPasswordMessage,
             }"
+            :border="true"
           />
         </div>
 

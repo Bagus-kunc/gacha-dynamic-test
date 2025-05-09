@@ -10,8 +10,13 @@
         <p class="font-bold truncate text-exd-gold text-exd-1624">
           {{ data.subtitle }}
         </p>
+<<<<<<< HEAD
         <p class="font-medium truncate text-exd-gray-scorpion text-exd-1014">
           {{ formatDate(data.date) }}
+=======
+        <p class="text-exd-gray-scorpion font-medium text-exd-1014 truncate">
+          {{ data.date }}
+>>>>>>> 3f9cbfca652a896a23f861669b5ff19d23b0397d
         </p>
         <p class="font-medium truncate text-exd-gray-scorpion text-exd-1416">
           {{ data.title }}
