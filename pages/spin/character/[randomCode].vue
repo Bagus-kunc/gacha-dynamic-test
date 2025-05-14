@@ -60,7 +60,7 @@
 
     <div class="absolute bottom-0 w-full">
       <SolidButton
-        :label="$t('toTheNext')"
+        :label="$t('loginAndEarnPoints')"
         :on-click="handleButton"
         variant="red-coral"
         has-bottom
