@@ -63,17 +63,7 @@ const props = defineProps({
     type: String,
     default: 'gold',
     validator: (value) =>
-      [
-        'gold',
-        'tom',
-        'red',
-        'skip',
-        'red-coral',
-        'blue-green',
-        'disabled',
-        'gray',
-        'dark',
-      ].includes(value),
+      ['skip', 'red-coral', 'disabled', 'dark'].includes(value),
   },
   onClick: {
     type: Function,
@@ -84,18 +74,12 @@ const props = defineProps({
 const variantClass = computed(() => {
   if (props.variant === 'skip') {
     return '!bg-exd-gray-scorpion !text-white text-start !text-[16px] !w-auto !font-normal !opacity-90  !rounded-xl'
-  } else if (props.variant === 'blue-green') {
-    return '!bg-exd-blue-green'
   } else if (props.variant === 'red-coral') {
     return '!bg-exd-red-coral'
-  } else if (props.variant === 'gold') {
-    return '!bg-exd-gold'
-  } else if (props.variant === 'tom') {
-    return '!bg-exd-yellow-tom !text-exd-dark-grey'
+  } else if (props.variant === 'blue-green') {
+    return '!bg-exd-blue-green'
   } else if (props.variant === 'disabled') {
     return '!bg-exd-stone-300'
-  } else if (props.variant === 'gray') {
-    return '!bg-exd-dark-grey'
   } else if (props.variant === 'dark') {
     return '!bg-exd-dark'
   } else {

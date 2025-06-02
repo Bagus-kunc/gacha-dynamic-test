@@ -1,10 +1,9 @@
 @tailwind base;
-@tailwind components;
 @tailwind utilities;
+@tailwind components;
 
 @layer base {
   :root {
-    --dark-red: 5 60% 32%;
     --gold: 40 67% 53%;
     --gray-scorpion: 0 0% 38%;
     --banana: 40 100% 87%;
@@ -12,9 +11,7 @@
     --red-vermilion: 15 74% 48%;
     --light-grey: 0 0% 82%;
     --dark-grey: 0, 0%, 24%;
-    --stone-300: 0 0% 76%;
     --zinc-100: 0 0% 95%;
-    --neutral-400: 180 5% 56%;
     --orange-700: 15 74% 48%;
     --red-900: 5 60% 32%;
     --yellow-300: 58 100% 67%;
