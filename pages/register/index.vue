@@ -12,6 +12,85 @@
     <div class="flex flex-col justify-between w-full gap-6 pb-3 mt-24 grow">
       <div class="flex flex-col px-3 grow">
         <div
+          class="inline-flex flex-col px-4 py-5 border-b border-b-exd-light-grey"
+        >
+          <label
+            :for="$t('sex')"
+            class="flex items-center gap-2 text-exd-gray-scorpion text-exd-1424"
+            >{{ $t('sex') }}
+            <span
+              class="bg-exd-red-coral text-white text-exd-0910 px-1 py-[2px] rounded-sm"
+              >{{ $t('required') }}</span
+            >
+          </label>
+          <ButtonGroup
+            class="w-full h-10 rounded-none text-exd-gray-scorpion"
+            style="box-shadow: 0px 3px 3px 0px rgba(0, 0, 0, 0.1608)"
+          >
+            <Button
+              @click="updateModel('gender', 'Male')"
+              :label="$t('male')"
+              :class="[
+                'bg-white w-4/12 h-full border border-exd-stone-300 rounded-none !text-exd-gray-scorpion',
+                form.gender === 'Male' && '!bg-exd-banana',
+              ]"
+            />
+            <Button
+              @click="updateModel('gender', 'Female')"
+              :label="$t('female')"
+              :class="[
+                'bg-white w-4/12 h-full border-t border-b border-t-exd-stone-300 border-b-exd-stone-300 rounded-none !text-exd-gray-scorpion',
+                form.gender === 'Female' && '!bg-exd-banana',
+              ]"
+            />
+            <Button
+              @click="updateModel('gender', 'Non-Binary')"
+              :label="$t('noAnswer')"
+              :class="[
+                'bg-white w-4/12 h-full border border-exd-stone-300 rounded-none !text-exd-gray-scorpion',
+                form.gender === 'Non-Binary' && '!bg-exd-banana',
+              ]"
+            />
+          </ButtonGroup>
+        </div>
+
+        <div
+          class="inline-flex flex-col gap-4 px-4 py-5 border-b border-b-exd-light-grey"
+        >
+          <div class="">
+            <InputText
+              onlyNumeric
+              :model="form.postCode"
+              :disabled="isLoading"
+              required
+              :label="$t('postalCodeNoHyphens')"
+              @update:model="
+                ($event) => {
+                  updateModel('postCode', $event)
+                  checkPostalCode($event)
+                }
+              "
+              @validate="validateInput('postCode', $event)"
+              :validate-on-submit="validateOnSubmit"
+              :error="
+                !form.postCode && validateOnSubmit
+                  ? $t('fieldRequired')
+                  : '' || (form.postCode.length > 0 && form.postCode.length < 7)
+                  ? $t('minLengthPostalCode')
+                  : '' || errorPostCodeMessage
+              "
+              :class="{
+                'input-error':
+                  (!form.postCode && validateOnSubmit) ||
+                  (form.postCode.length > 0 && form.postCode.length < 7) ||
+                  errorPostCodeMessage,
+                'opacity-50': isLoading,
+              }"
+            />
+          </div>
+        </div>
+
+        <div
           class="inline-flex gap-4 px-4 py-5 border-b border-b-exd-light-grey"
         >
           <InputText
@@ -24,7 +103,6 @@
             :validate-on-submit="validateOnSubmit"
             :is-email-error="true"
             hasHelper
-            :helperText="t('enterSameEmail')"
             :error="
               !form.email && validateOnSubmit
                 ? t('fieldRequired')
@@ -67,29 +145,6 @@
             "
             :class="{
               'input-error': errorPasswordMessage,
-            }"
-            :border="true"
-          />
-          <InputText
-            type="password"
-            :model="form.confPassword"
-            :isPassword="true"
-            required
-            :isConfPassword="true"
-            :minLength="8"
-            :label="$t('reenterPassword')"
-            @update:model="updateModel('confPassword', $event)"
-            @validate="validateInput('confPassword', $event)"
-            :validate-on-submit="validateOnSubmit"
-            :error="
-              !form.confPassword && validateOnSubmit
-                ? t('fieldRequired')
-                : '' || errorConfPasswordMessage === ''
-                ? ''
-                : t(errorConfPasswordMessage)
-            "
-            :class="{
-              'input-error': errorConfPasswordMessage,
             }"
             :border="true"
           />
@@ -189,9 +244,15 @@ import InputTextArea from '~/components/InputTextArea.vue'
 import RadioButton from '~/components/RadioButton.vue'
 
 const form = ref({
+  gender: 'Non-Binary',
+  postCode: '',
+  prefecture: '',
+  address: '',
+  city: '',
+  area: '',
   email: '',
   password: '',
-  confPassword: '',
+  // confPassword: '',
   checked: false,
 })
 const { t } = useI18n()

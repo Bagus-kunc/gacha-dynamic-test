@@ -46,13 +46,13 @@
         </div>
         <div v-if="isFetching" class="flex items-center gap-5 text-exd-1218">
           <Skeleton
-            class="border-[1px] border-exd-blue-green text-exd-blue-green rounded-[5px] px-2"
+            class="border-[1px] border-exd-green text-exd-green rounded-[5px] px-2"
           />
           <Skeleton class="text-exd-gray-scorpion bg-exd-gray-scorpion" />
         </div>
         <div v-else class="flex items-center gap-5 text-exd-1218">
           <p
-            class="border-[1px] border-exd-blue-green text-exd-blue-green rounded-[5px] px-2"
+            class="border-[1px] border-exd-green text-exd-green rounded-[5px] px-2"
           >
             カテゴリ
           </p>
@@ -133,11 +133,11 @@
               class="absolute inset-x-0 bottom-0 z-20 flex items-center h-8 bg-white"
             >
               <span
-                class="flex items-center text-sm border-b cursor-pointer text-exd-blue-green border-b-exd-blue-green"
+                class="flex items-center text-sm border-b cursor-pointer text-exd-green border-b-exd-green"
                 @click="openGoogleMaps"
                 >{{ $t('openGoogleMaps') }}
                 <img
-                  src="~/assets/images/export-blue-green.png"
+                  src="~/assets/images/export-green.png"
                   alt="export"
                   width="15"
                   height="15"

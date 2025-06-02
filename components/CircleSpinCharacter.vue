@@ -115,7 +115,7 @@ onMounted(() => {
         </div>
       </foreignObject> -->
       <image height="260" width="260" :href="props.imageSrc" x="70" y="70" />
-      <image height="90" width="240" :href="rarityImg" x="80" y="365" />
+      <image height="126" width="240" :href="rarityImg" x="80" y="355" />
     </g>
     <!-- <rect x="44" y="300" width="311" height="237" fill="url(#pattern0_19_69)" /> -->
 

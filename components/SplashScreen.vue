@@ -59,7 +59,7 @@ const checkCaches = () => {
     '/video/new-spin-point.mp4',
     '/video/new-spin-character.mp4',
     '/images/sparkling.png',
-    '/images/red_base.png',
+    '/images/green_base.png',
     '/images/gacha-tom.png',
     '/images/bg-rainbow.png',
     '/images/warning.svg',
@@ -75,7 +75,7 @@ const checkCaches = () => {
     '/icons/icon-gift.svg',
   ]
   caches
-    .open(`gacharary-horishoten75th-v2 - ${self.location.origin}`)
+    .open(`gacharary-aichi-gurutto-v2 - ${self.location.origin}`)
     .then(function (cache) {
       return cache.keys()
     })
@@ -96,7 +96,7 @@ const checkCaches = () => {
 <template>
   <div
     v-if="loading"
-    class="w-full max-w-md mx-auto h-screen overflow-hidden bg-[url('/images/red_base.png')] bg-cover bg-center flex flex-col fixed z-[2000]"
+    class="w-full max-w-md mx-auto h-screen overflow-hidden bg-[url('/images/green_base.png')] bg-cover bg-center flex flex-col fixed z-[2000]"
   >
     <div
       class="flex flex-col items-center justify-center w-full h-full text-exd-red"

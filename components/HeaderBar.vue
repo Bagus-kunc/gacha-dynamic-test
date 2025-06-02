@@ -1,6 +1,6 @@
 <template>
   <header
-    class=" flex justify-between items-center top-0 left-0 right-0 z-40 fixed w-full max-w-md mx-auto bg-white"
+    class="fixed top-0 left-0 right-0 z-40 flex items-center justify-between w-full max-w-md mx-auto bg-white"
     :class="[withLogo ? 'pt-4 pb-4' : 'pt-[39px] pb-3']"
     style="box-shadow: 0px 3px 3px 0px rgba(0, 0, 0, 0.1608)"
     @touchmove="(e) => e.preventDefault()"
@@ -32,8 +32,8 @@
       <img
         :src="headerLogo"
         alt="intl"
-        width="80"
-        height="44"
+        width="241"
+        height="58"
         preload
         class="absolute transform -translate-x-1/2 -translate-y-1/2 top-1/2 left-1/2"
       />
@@ -42,7 +42,7 @@
       <div class="relative">
         <button type="button" aria-haspopup="true" @click="langPanelToggle">
           <img
-            src="/images/intl-icon.png"
+            src="/images/intl-icon.svg"
             alt="intl"
             width="40"
             height="40"

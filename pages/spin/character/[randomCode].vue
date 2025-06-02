@@ -3,7 +3,7 @@
     class="grow bg-[url('/images/bg-rainbow.png')] bg-cover bg-center relative flex flex-col justify-center items-center"
     @touchmove="(e) => e.preventDefault()"
   >
-    <Button
+    <!-- <Button
       v-if="!hideCharacterInfo"
       @click="handleBtnIntroduce"
       class="bg-rainbow !absolute text-white font-bold flex justify-center bottom-[12%] items-center rounded-full px-4 py-3 h-[14.222vw] w-[41.522vw] max-w-[191px] max-h-[65px] text-[16px] !z-[100]"
@@ -15,11 +15,11 @@
         width="20"
         height="20"
       />
-    </Button>
+    </Button> -->
 
     <SparkleStart className="top-3 z-30" />
 
-    <div :class="{ notif: true, hide: isHiding }">
+    <!-- <div :class="{ notif: true, hide: isHiding }">
       <img :src="iconGift" alt="icon gift" class="w-8 h-8" />
       <p
         class="font-bold text-[12px] text-white"
@@ -27,7 +27,7 @@
       >
         {{ $t('addToCollection') }}
       </p>
-    </div>
+    </div> -->
 
     <img
       src="/images/gacha-tom.png"
@@ -43,16 +43,16 @@
     />
 
     <div class="absolute inset-0 z-20 flex justify-center">
-      <!-- :raritySrc="raritySrc" -->
       <CircleSpinCharacter
         class="relative top-1/2 -translate-y-[50%]"
         :imageSrc="characterImageUrl"
+        :raritySrc="raritySrc"
         width="100%"
         height="100%"
       />
 
       <div
-        class="absolute text-exd-dark-grey bg-white flex justify-center bottom-[22%] px-4 py-3 min-h-[50px] rounded-lg"
+        class="absolute text-exd-dark-grey bg-white flex justify-center bottom-[15%] px-4 py-3 min-h-[50px] rounded-lg"
       >
         <p class="text-[17px] max-w-[278px] text-center">{{ charName }}</p>
       </div>
@@ -60,7 +60,7 @@
 
     <div class="absolute bottom-0 w-full">
       <SolidButton
-        :label="$t('loginAndEarnPoints')"
+        :label="$t('toTheNext')"
         :on-click="handleButton"
         variant="red-coral"
         has-bottom
@@ -132,7 +132,7 @@
         </div>
         <div class="flex items-center gap-5 text-exd-1218">
           <p
-            class="border-[1px] min-w-[68px] border-exd-blue-green text-exd-blue-green rounded-[5px] px-2"
+            class="border-[1px] min-w-[68px] border-exd-green text-exd-green rounded-[5px] px-2"
           >
             カテゴリ
           </p>

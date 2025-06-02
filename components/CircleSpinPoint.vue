@@ -104,13 +104,14 @@ onMounted(() => {
       <!-- <ellipse cx="200" cy="198" rx="200" ry="198" fill="white" /> -->
     </g>
     <image x="60" y="-30" width="300" height="250" :href="props.imageSrc" />
-    <image
+
+    <!-- <image
       :x="giftType.x"
       :y="giftType.y"
       :width="giftType.width"
       :height="giftType.height"
       :href="props.categorySrc"
-    />
+    /> -->
 
     <defs>
       <filter

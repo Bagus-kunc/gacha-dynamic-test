@@ -37,7 +37,7 @@
 
   <div
     v-if="isValidPath"
-    class="w-full max-w-md mx-auto min-h-dvh max-h-full overflow-hidden bg-white flex flex-col relative bg-[url('/images/red_base.png')] bg-cover bg-center"
+    class="w-full max-w-md mx-auto min-h-dvh max-h-full overflow-hidden bg-white flex flex-col relative bg-[url('/images/green_base.png')] bg-cover bg-center"
   >
     <HeaderBar>
       <p
@@ -112,13 +112,13 @@
               class="flex items-center gap-5 text-exd-1218"
             >
               <Skeleton
-                class="border-[1px] border-exd-blue-green text-exd-blue-green rounded-[5px] px-2"
+                class="border-[1px] border-exd-green text-exd-green rounded-[5px] px-2"
               />
               <Skeleton class="text-exd-gray-scorpion bg-exd-gray-scorpion" />
             </div>
             <div v-else class="flex items-center gap-5 text-exd-1218">
               <p
-                class="border-[1px] border-exd-blue-green text-exd-blue-green rounded-[5px] px-2"
+                class="border-[1px] border-exd-green text-exd-green rounded-[5px] px-2"
               >
                 {{ $t('category') }}
               </p>
@@ -198,11 +198,11 @@
                     class="absolute inset-x-0 bottom-0 z-20 flex items-center h-8 bg-white"
                   >
                     <span
-                      class="text-exd-blue-green text-sm flex items-center cursor-pointer relative after:content-[''] after:absolute after:inset-x-0 after:bottom-0 after:border-b after:border-b-exd-blue-green"
+                      class="text-exd-green text-sm flex items-center cursor-pointer relative after:content-[''] after:absolute after:inset-x-0 after:bottom-0 after:border-b after:border-b-exd-green"
                       @click="openGoogleMaps"
                       >{{ $t('openGoogleMaps') }}
                       <img
-                        src="~/assets/images/export-blue-green.png"
+                        src="~/assets/images/export-green.png"
                         alt="export"
                         width="15"
                         height="15"

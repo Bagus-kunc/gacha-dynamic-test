@@ -76,8 +76,8 @@ const variantClass = computed(() => {
     return '!bg-exd-gray-scorpion !text-white text-start !text-[16px] !w-auto !font-normal !opacity-90  !rounded-xl'
   } else if (props.variant === 'red-coral') {
     return '!bg-exd-red-coral'
-  } else if (props.variant === 'blue-green') {
-    return '!bg-exd-blue-green'
+  } else if (props.variant === 'green') {
+    return '!bg-exd-green'
   } else if (props.variant === 'disabled') {
     return '!bg-exd-stone-300'
   } else if (props.variant === 'dark') {
