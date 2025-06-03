@@ -57,7 +57,7 @@
         <div
           class="inline-flex flex-col gap-4 px-4 py-5 border-b border-b-exd-light-grey"
         >
-          <div class="">
+          <div class="max-w-[270px]">
             <InputText
               onlyNumeric
               :model="form.postCode"

@@ -30,7 +30,6 @@ import noImage from '~/assets/images/no-image.svg'
 import moment from 'moment'
 
 const props = defineProps({
-  isFetching: { type: Boolean, default: false },
   data: {
     type: Object,
     default: {},

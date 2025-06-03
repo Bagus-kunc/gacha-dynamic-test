@@ -1,14 +1,17 @@
 <template>
   <HeaderBar hasBack>
+    <div v-if="!type" class="flex justify-center">
+      <Skeleton class="!w-32 !h-6 bg-gray-200" />
+    </div>
     <p
-      v-if="type === 'a'"
+      v-if="type === 'b'"
       style="text-shadow: 0 3px 3px rgba(0, 0, 0, 0.16)"
       class="text-exd-gray-scorpion font-bold text-exd-1824.52"
     >
       {{ $t('chooseDigitalGift') }}
     </p>
     <p
-      v-if="type === 'b'"
+      v-if="type === 'a'"
       style="text-shadow: 0 3px 3px rgba(0, 0, 0, 0.16)"
       class="text-exd-gray-scorpion font-bold text-exd-1824.52"
     >
@@ -16,43 +19,32 @@
     </p>
   </HeaderBar>
 
-  <div class="flex flex-col bg-center text-black h-auto">
+  <div class="flex flex-col h-auto text-black bg-center">
     <div
-      class="relative w-full bg-white border border-gray-200 border-b-0 overflow-y-auto px-3"
+      class="relative w-full px-3 mb-24 overflow-y-auto bg-white border border-b-0 border-gray-200"
     >
       <div class="w-full flex items-center justify-center text-[15px]">
         <h1
-          v-if="type === 'a'"
-          class="text-center flex text-exd-gray-scorpion pt-32 pb-10 w-full max-w-[270px] mx-auto font-bold"
+          v-if="type === 'b'"
+          class="flex justify-center w-full pt-32 pb-10 font-bold text-exd-gray-scorpion"
         >
-          {{ $t('chooseYourDesired') }}
+          {{ $t('enterYourInformation') }}
         </h1>
         <h1
-          v-if="type === 'b'"
-          class="text-center flex flex-col text-exd-gray-scorpion w-full max-w-[360px] pt-32 pb-10 font-bold"
+          v-if="type === 'a'"
+          class="flex justify-center w-full pt-32 pb-10 font-bold text-exd-gray-scorpion"
         >
           {{ $t('deliveryAddress') }}
         </h1>
-      </div>
-      <div class="w-full flex flex-col gap-10">
-        <div v-if="type === 'a'" class="px-5 !text-exd-1424 font-bold">
-          <Dropdown
-            :model="form.gift"
-            @update:model="updateModel('gift', $event)"
-            @validate="validateInput('gift', $event)"
-            :options="getGiftType()"
-            optionValue="value"
-            optionLabel="label"
-            class="font-bold text-[15px]"
-            :hasHelper="true"
-          />
+        <div v-if="!type" class="flex justify-center pt-32">
+          <Skeleton class="!w-44 !h-6 bg-gray-200" />
         </div>
-        <div
-          v-if="type === 'b'"
-          class="flex flex-col grow text-[19px] font-bold !text-exd-1624"
-        >
+      </div>
+      <div class="flex flex-col w-full gap-10">
+        <div class="flex flex-col grow text-[19px] font-bold !text-exd-1624">
           <div
-            class="inline-flex gap-4 border-b border-b-exd-light-grey pb-5 px-5"
+            v-if="type"
+            class="inline-flex gap-4 px-5 pb-5 border-b border-b-exd-light-grey"
           >
             <InputText
               bold
@@ -68,6 +60,7 @@
               :class="{
                 'input-error': !form.nickName && validateOnSubmit,
               }"
+              :border="true"
             />
             <InputText
               bold
@@ -84,13 +77,22 @@
               :class="{
                 'input-error': !form.givenName && validateOnSubmit,
               }"
+              :border="true"
             />
+          </div>
+          <div
+            v-else
+            class="inline-flex gap-4 px-5 pb-5 mt-10 border-b border-b-exd-light-grey"
+          >
+            <Skeleton class="!w-56 !h-10 bg-gray-200" />
+            <Skeleton class="!w-56 !h-10 bg-gray-200" />
           </div>
 
           <div
-            class="inline-flex gap-4 border-b border-b-exd-light-grey py-5 px-5 flex-col"
+            v-if="type === 'a'"
+            class="inline-flex flex-col gap-4 px-5 py-5 border-b border-b-exd-light-grey"
           >
-            <div class="">
+            <div class="max-w-[270px]">
               <InputText
                 onlyNumeric
                 bold
@@ -121,15 +123,17 @@
                     errorPostCodeMessage,
                   'opacity-50': isLoadingPostalCode,
                 }"
+                :border="true"
               />
             </div>
-            <p class="text-exd-1320 text-exd-gray-scorpion font-normal">
+            <p class="font-normal text-exd-1320 text-exd-gray-scorpion">
               {{ t('postalCodeInformation') }}
             </p>
           </div>
 
           <div
-            class="inline-flex gap-4 border-b border-b-exd-light-grey py-5 px-5 flex-col"
+            v-if="type === 'a'"
+            class="inline-flex flex-col gap-4 px-5 py-5 border-b border-b-exd-light-grey"
           >
             <InputText
               bold
@@ -151,6 +155,7 @@
               :class="{
                 'input-error': !form.prefecture && validateOnSubmit,
               }"
+              :border="true"
             />
 
             <InputText
@@ -175,6 +180,7 @@
               :class="{
                 'input-error': !form.municipalities && validateOnSubmit,
               }"
+              :border="true"
             />
 
             <InputText
@@ -197,17 +203,19 @@
               :class="{
                 'input-error': !form.streetAddressEtc && validateOnSubmit,
               }"
+              :border="true"
             />
-            <p class="text-exd-1320 text-exd-gray-scorpion font-normal">
+            <p class="font-normal text-exd-1320 text-exd-gray-scorpion">
               {{ t('streetAddressInformation') }}
             </p>
           </div>
 
           <div
-            class="inline-flex gap-4 border-b border-b-exd-light-grey py-5 px-5 flex-col"
+            class="inline-flex flex-col gap-4 px-5 py-5 border-b border-b-exd-light-grey"
           >
             <div class="max-w-[270px]">
               <InputText
+                v-if="type"
                 type="number"
                 bold
                 :model="form.phoneNumber"
@@ -230,77 +238,116 @@
                   'input-error':
                     (!form.phoneNumber && validateOnSubmit) || errorPhoneNumber,
                 }"
+                :border="true"
               />
-            </div>
-          </div>
-        </div>
-        <div class="flex flex-col gap-5 pb-10">
-          <div
-            v-if="type"
-            class="relative bg-exd-banana flex flex-col gap-2 items-center justify-center pb-8"
-          >
-            <div
-              class="relative max-w-[220pt] -top-3 bg-exd-orange-700 text-white px-5 py-1"
-            >
-              <p
-                class="text-[15px] font-medium small:text-[13px] extraSmall:text-[10px] text-center"
-                v-html="$t('evenIfYouDontWin')"
-              ></p>
-              <span class="triangle absolute left-[48%]"></span>
-            </div>
-            <div
-              class="flex flex-col justify-center text-exd-gray-scorpion font-medium text-exd-1424 px-4 gap-2"
-            >
-              <div class="flex flex-col text-[15px] text-center font-bold">
-                <p v-html="$t('500people')"></p>
-                <p v-html="$t('500people2')"></p>
-                <p v-if="type === 'b'">{{ t('selectDigitalGift') }}</p>
-              </div>
-
-              <div v-if="type === 'b'" class="w-auto">
-                <Dropdown
-                  :model="form.gift"
-                  @update:model="updateModel('gift', $event)"
-                  @validate="validateInput('gift', $event)"
-                  :options="getGiftType()"
-                  optionValue="value"
-                  optionLabel="label"
-                  :hasHelper="true"
-                  class="font-bold text-[15px] small:text-[14px] extraSmall:text-[13px]"
-                  bgWhite
-                />
-              </div>
-
-              <p class="font-normal text-[13px]">
-                {{ t('winnerWillBeContact') }}
-              </p>
+              <Skeleton v-else class="!w-56 !h-10 bg-gray-200" />
             </div>
           </div>
 
-          <div
-            v-if="type === 'a'"
-            class="flex flex-col text-justify px-5 text-exd-gray-scorpion mb-20 text-exd-1424 leading-7 font-semibold"
-          >
-            <p>{{ t('afterTheLotery') }}</p>
-            <p>{{ t('makeSureEmail') }}</p>
-          </div>
           <div
             v-if="type === 'b'"
-            class="flex flex-col text-justify px-5 text-exd-gray-scorpion mb-20 text-exd-1424 leading-7 font-semibold"
+            class="inline-flex gap-4 px-4 py-5 border-b border-b-exd-light-grey"
           >
-            <p>{{ t('afterTheLottery') }}</p>
-            <p>{{ t('theWinnerW') }}</p>
-            <p>{{ t('pleaseSetYourEmail') }}</p>
+            <InputText
+              type="email"
+              :model="form.email"
+              required
+              :label="$t('emailAddress')"
+              @update:model="updateModel('email', $event)"
+              @validate="validateInput('email', $event)"
+              :validate-on-submit="validateOnSubmit"
+              :is-email-error="true"
+              hasHelper
+              :error="
+                !form.email && validateOnSubmit
+                  ? t('fieldRequired')
+                  : '' || (form.email && !emailRegex(form.email))
+                  ? t('emailFormat')
+                  : errorEmailMessage
+              "
+              :class="{
+                'input-error':
+                  !form.email && validateOnSubmit
+                    ? t('fieldRequired')
+                    : '' || (form.email && !emailRegex(form.email))
+                    ? t('emailFormat')
+                    : errorEmailMessage,
+              }"
+              :border="true"
+            />
+          </div>
+
+          <div
+            class="flex flex-col gap-4 px-4 py-5 border-b border-b-exd-light-grey"
+          >
+            <template v-if="!type">
+              <Skeleton width="10rem" height="1rem" class="mb-2 bg-gray-200" />
+              <div class="flex flex-col gap-2">
+                <Skeleton
+                  v-for="n in 3"
+                  :key="n"
+                  width="100%"
+                  height="1.5rem"
+                  class="bg-gray-200"
+                />
+              </div>
+            </template>
+            <template v-else>
+              <RadioButton
+                :label="$t('questionnaire1')"
+                v-model="form.questionnaire1"
+                :options="questionnaire1Options"
+                name="questionnaire1"
+                :error="
+                  !form.questionnaire1 && validateOnSubmit
+                    ? $t('fieldRequired')
+                    : ''
+                "
+                required
+              />
+            </template>
+          </div>
+
+          <!-- Questionnaire 2 -->
+          <div
+            class="flex flex-col gap-4 px-4 py-5 border-b border-b-exd-light-grey"
+          >
+            <template v-if="!type">
+              <Skeleton width="10rem" height="1rem" class="mb-2 bg-gray-200" />
+              <div class="flex flex-col gap-2">
+                <Skeleton
+                  v-for="n in 3"
+                  :key="n"
+                  width="100%"
+                  height="1.5rem"
+                  class="bg-gray-200"
+                />
+              </div>
+            </template>
+            <template v-else>
+              <RadioButton
+                :label="$t('questionnaire2')"
+                v-model="form.questionnaire2"
+                :options="questionnaire2Options"
+                name="questionnaire2"
+                :error="
+                  !form.questionnaire2 && validateOnSubmit
+                    ? $t('fieldRequired')
+                    : ''
+                "
+                required
+              />
+            </template>
           </div>
         </div>
       </div>
     </div>
-    <!-- :disabled="disableRedeem || isFetching" -->
-    <div class="fixed bottom-0 w-full max-w-md mx-auto px-8 mb-1 z-50">
+    <div class="fixed bottom-0 z-50 w-full max-w-md px-8 mx-auto mb-1">
       <SolidButton
         :label="$t('applyNow')"
         :has-loading="isLoading"
         :disabled="isLoading"
+        variant="red-coral"
         :on-click="handleSubmit"
         has-bottom
       />
@@ -319,11 +366,11 @@
         width="30"
         height="30"
         preload
-        class="absolute right-1 top-1 cursor-pointer z-50"
+        class="absolute z-50 cursor-pointer right-1 top-1"
         @click="handleToggleModal"
       />
       <div
-        class="w-full flex flex-col justify-center items-center gap-1 px-5 py-8 my-2"
+        class="flex flex-col items-center justify-center w-full gap-1 px-5 py-8 my-2"
       >
         <p
           class="text-exd-gray-scorpion font-bold text-center text-1416 small:w-[105%] w-[93%] max-w-w-[93%]"
@@ -331,7 +378,7 @@
         >
           {{ $t('thePrizeWillBeAwarded') }}
         </p>
-        <p class="text-exd-gray-scorpion text-center text-1416">
+        <p class="text-center text-exd-gray-scorpion text-1416">
           {{ $t('winnerWillBeNotifed') }}
         </p>
       </div>
@@ -351,12 +398,16 @@
 import { useI18n } from 'vue-i18n'
 import { useRoute } from 'vue-router'
 import { useRouter } from 'vue-router'
-import arrow from '~/assets/images/arrow.svg'
 import close from '~/assets/images/close.svg'
 import { store } from '~/stores/dashboard.js'
 import Dropdown from '~/components/Dropdown.vue'
 import InputText from '~/components/InputText.vue'
 import JapanPostalCode from 'japan-postal-code'
+import {
+  questionnaire1Options,
+  questionnaire2Options,
+} from '~/data/questionnaire'
+import RadioButton from '~/components/RadioButton.vue'
 
 definePageMeta({
   middleware: 'auth',
@@ -384,7 +435,6 @@ const errorPostCodeMessage = computed(() => t(errorKeyPostCode.value))
 const errorPhoneNumber = ref('')
 
 const form = ref({
-  gift: 'amazon',
   lastName: '',
   givenName: '',
   phoneNumber: '',
@@ -393,6 +443,8 @@ const form = ref({
   prefecture: '',
   municipalities: '',
   streetAddressEtc: '',
+  questionnaire1: '',
+  questionnaire2: '',
 })
 
 const fetchingPrizeData = async () => {
@@ -400,22 +452,18 @@ const fetchingPrizeData = async () => {
     const { data } = await useFetchApi('GET', 'prizes/' + id)
     sessionStorage.setItem('type', data.type)
     type.value = data.type
+
+    isFetching.value = false
   } catch (error) {
     console.log(error)
   }
 }
-
-const getGiftType = () => [
-  { value: 'amazon', label: t('amazonGift') },
-  { value: 'quo', label: t('quoGift') },
-]
 
 const updateModel = (field, value) => {
   form.value[field] = value
 }
 
 const validateInput = (field, value) => {
-  //console.log(`Validated ${field}:`, value)
   if (field === 'phoneNumber') {
     if (
       form.value.phoneNumber.length < 10 ||
@@ -455,6 +503,8 @@ const validateForm = () => {
     'prefecture',
     'municipalities',
     'streetAddressEtc',
+    'questionnaire1',
+    'questionnaire2',
   ]
 
   for (const field of requiredFields) {
@@ -614,6 +664,7 @@ const checkPostalCode = async (code) => {
 
 onMounted(async () => {
   await fetchingPrizeData()
+  type.value = route.query.type
 })
 </script>
 

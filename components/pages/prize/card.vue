@@ -29,6 +29,7 @@
         :key="item.user_point_id"
         :on-click="() => handleGoToDetailRedeem(item.point_id)"
         :image-card="item.image"
+        :is-fetching="isFetching"
       >
         <template v-slot:text>
           <div class="inline-flex justify-between pr-4 w-100">
@@ -63,7 +64,7 @@ import { useRouter } from 'vue-router'
 const { t } = useI18n()
 
 const props = defineProps({
-  isFetching: { type: Boolean, default: false },
+  isFetching: { type: Boolean, default: true },
 
   body: {
     type: Array,

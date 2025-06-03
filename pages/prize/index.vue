@@ -51,7 +51,7 @@
       </template>
     </div>
 
-    <div class="vertical-menu bottom-10">
+    <div v-if="!isFetching" class="vertical-menu bottom-10">
       <div class="menu-item" @click="handleScrollUp">
         <div class="flex items-center gap-2 btn-click">
           <img

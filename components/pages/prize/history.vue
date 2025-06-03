@@ -2,7 +2,6 @@
   <div class="bg-white">
     <ImageTextCard
       :key="body.user_point_id"
-      :on-click="() => handleGoToDetailRedeem(body.user_point_id)"
       :history="true"
       :image-card="body.image"
     >
@@ -15,7 +14,7 @@
               class="px-[6px] text-center text-white rounded-md text-[11px]"
               :class="color"
             >
-              {{ body.rank.toUpperCase() }} {{ $t('prize') }}
+              {{ body.rank.toUpperCase() }}{{ $t('prize') }}
             </p>
             <p class="font-semibold md:text-[15px] sm:text-[14px] text-[13px]">
               {{ body.name }}
@@ -50,6 +49,9 @@ const props = defineProps({
 })
 
 const color = ref('')
+const router = useRouter()
+
+const handleGoToDetailRedeem = (id) => router.push(`/prize/history/${id}`)
 
 const handleRankColor = () => {
   const rank = props.body.rank

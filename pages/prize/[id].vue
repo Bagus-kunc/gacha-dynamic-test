@@ -8,7 +8,7 @@
     </p>
   </HeaderBar>
 
-  <div class="flex flex-col px-8 mt-40 text-black bg-center">
+  <div class="flex flex-col px-8 text-black bg-center mt-36">
     <div
       class="max-w-sm overflow-hidden bg-white border border-gray-200 rounded-lg shadow"
     >
@@ -59,46 +59,6 @@
             :title="$t('conditionsOfUse')"
             :body="detailData.gift != null ? detailData.gift?.term_of_use : ''"
           />
-
-          <!-- <HeadingSection
-            v-if="popupType != 'a' && popupType != 'b'"
-            :is-fetching="isFetching"
-            :title="$t('redemptionLocation')"
-            :body="
-              detailData.location != null
-                ? detailData.location?.description
-                : ''
-            "
-          /> -->
-
-          <!-- <div v-if="popupType != 'a' && popupType != 'b'" class="w-full mb-5">
-            <Skeleton v-if="isFetching" class="!w-full !h-72" />
-            <div
-              v-show="!isFetching"
-              id="parentMap"
-              class="relative"
-              style="width: 100%; height: 300px"
-            >
-              <div id="map" style="width: 100%; height: 100%" />
-              <div class="absolute inset-0 z-10"></div>
-              <div
-                class="absolute inset-x-0 bottom-0 z-20 flex items-center h-8 bg-white"
-              >
-                <span
-                  class="flex items-center text-sm border-b cursor-pointer text-exd-gray-scorpion border-b-exd-gray-scorpion"
-                  @click="openGoogleMaps"
-                  >{{ $t('openGoogleMaps') }}
-                  <img
-                    src="~/assets/images/export.svg"
-                    alt="export"
-                    width="15"
-                    height="15"
-                    class="inline ml-1"
-                  />
-                </span>
-              </div>
-            </div>
-          </div> -->
         </div>
       </div>
       <SolidButton
@@ -112,7 +72,7 @@
   </div>
 
   <Dialog
-    v-if="false"
+    v-if="popupType === 'a'"
     v-model:visible="hasModal"
     modal
     class="!bg-white w-11/12 md:!w-5/12 !max-w-sm border border-exd-gray-44"
@@ -152,7 +112,7 @@
   </Dialog>
 
   <Dialog
-    v-if="popupType === 1"
+    v-if="popupType === 'b'"
     v-model:visible="hasModal"
     modal
     class="!bg-white w-11/12 md:!w-5/12 !max-w-sm border border-exd-gray-44"
@@ -207,7 +167,7 @@ definePageMeta({
 
 const map = ref(null)
 const route = useRoute()
-const popupType = ref('c')
+const popupType = ref('a')
 const router = useRouter()
 const id = route.params.id
 const hasModal = ref(false)
@@ -220,7 +180,8 @@ const { t } = useI18n()
 const LOCALE = useCookie('LOCALE')
 const handleToggleModal = () => (hasModal.value = !hasModal.value)
 const handleGoToClaim = () => router.push(`/claim/${route.params.id}`)
-const handleGoToRedeem = () => router.push(`/redeem/${route.params.id}`)
+const handleGoToRedeem = () =>
+  router.push(`/redeem/${route.params.id}?type=${popupType.value}`)
 
 const detailData = {
   gift: {
@@ -361,8 +322,8 @@ const handleRankColor = () => {
 }
 
 onMounted(async () => {
-  // await loadGoogleMaps()
-  // await fetchingPrizeData()
+  await loadGoogleMaps()
+  await fetchingPrizeData()
   handleRankColor()
 })
 
