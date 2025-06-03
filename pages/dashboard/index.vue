@@ -7,7 +7,7 @@
       {{ $t('myPage') }}
     </p>
   </HeaderBar>
-  <div class="flex flex-col px-12 bg-center">
+  <div class="flex flex-col px-8 mt-[45%] sm:mt-[40%] bg-center">
     <!-- <div class="flex flex-col mt-[35%] items-center">
       <div class="flex flex-col mt-[5%] items-center">
         <p class="font-bold text-white text-exd-1530">
@@ -20,7 +20,7 @@
     </div> -->
 
     <div
-      class="relative inline-flex flex-col items-center justify-center gap-4 mt-[60%] -top-12"
+      class="relative inline-flex flex-col items-center justify-center gap-4 -top-12"
     >
       <div
         class="flex items-center justify-center w-full p-6 bg-white cursor-pointer rounded-xl h-exd-130"
@@ -143,7 +143,7 @@
     </div>
 
     <div
-      class="relative inline-flex flex-col items-center justify-between mx-auto md:w-[352px] w-[280px] mt-7 -top-12"
+      class="relative inline-flex flex-col items-center justify-between w-full mx-auto mt-7 -top-12"
     >
       <!-- <p
         class="inline-flex items-center justify-center font-bold text-white underline grow text-exd-1424"
