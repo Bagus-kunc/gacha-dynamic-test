@@ -7,14 +7,17 @@
   >
     <template v-slot:text v-if="!isFetching">
       <div class="flex flex-col justify-center gap-1 pr-4 overflow-hidden">
-        <p class="font-bold truncate text-exd-gold text-exd-1624">
-          {{ data.subtitle }}
-        </p>
-        <p class="font-medium truncate text-exd-gray-scorpion text-exd-1014">
-          {{ data.date }}
+        <p
+          class="font-bold text-exd-1824.52 text-white p-1 min-h-10 min-w-12 h-10 w-12 flex items-center justify-center rounded-full pr-2 bg-no-repeat bg-contain bg-center"
+          :style="raritySrc ? { backgroundImage: `url(${raritySrc})` } : {}"
+        >
+          <!-- {{ data.subtitle }} -->
         </p>
         <p class="font-medium truncate text-exd-gray-scorpion text-exd-1416">
           {{ data.title }}
+        </p>
+        <p class="font-medium truncate text-exd-gray-scorpion text-exd-1014">
+          {{ data.date }}
         </p>
       </div>
     </template>
@@ -50,7 +53,7 @@ const raritySrc = ref('')
 const handleGoToDetailHistory = () => router.push(`/history/${props.data.id}`)
 
 const handleRarity = () => {
-  const rarity = props.data.character?.rarity
+  const rarity = '2'
   if (rarity === '1') {
     raritySrc.value = '/images/r-bg.png'
   } else if (rarity === '2') {

@@ -8,21 +8,21 @@
     >
       <template v-slot:text>
         <div
-          class="text-exd-gray-scorpion inline-flex justify-between w-100 pr-4"
+          class="inline-flex justify-between pr-4 text-exd-gray-scorpion w-100"
         >
-          <div class="flex flex-col justify-center gap-1">
+          <div class="flex flex-col items-start justify-center gap-1">
             <p
-              class="text-exd-1218 rounded-md text-white px-1 w-[30px] text-center bg-no-repeat bg-cover bg-center"
-              :style="color ? { backgroundImage: `url(${color})` } : {}"
+              class="px-[6px] text-center text-white rounded-md text-[11px]"
+              :class="color"
             >
-              <span class="text-[10px]">{{ prizeTypeText }}</span>
+              {{ body.rank.toUpperCase() }} {{ $t('prize') }}
             </p>
             <p class="font-semibold md:text-[15px] sm:text-[14px] text-[13px]">
               {{ body.name }}
             </p>
-            <p class="md:text-[13px] sm:text-[12px] text-[10px] font-medium">
+            <!-- <p class="md:text-[13px] sm:text-[12px] text-[10px] font-medium">
               {{ $t('exchangeCompleted') }}：{{ body.reedem_at }}
-            </p>
+            </p> -->
           </div>
         </div>
       </template>
@@ -31,12 +31,6 @@
 </template>
 
 <script setup>
-import rainbow from '~/assets/images/rainbow-tag.png'
-import gold from '~/assets/images/gold-tag.png'
-import silver from '~/assets/images/silver-tag.png'
-import brown from '~/assets/images/brown-tag.png'
-import bronze from '~/assets/images/bronze-tag.png'
-
 const props = defineProps({
   isFetching: { type: Boolean, default: false },
   body: {
@@ -57,33 +51,25 @@ const props = defineProps({
 
 const color = ref('')
 
-const redeemLimit = ref(null)
-const prizesData = ref({})
-const prizeTypeText = ref(null)
-
 const handleRankColor = () => {
-  const rank = props.body.type
-  if (rank == 6) {
-    color.value = rainbow
-    prizeTypeText.value = '特賞'
-  } else if (rank == 1) {
-    color.value = gold
-    prizeTypeText.value = '1等'
-  } else if (rank == 2) {
-    color.value = silver
-    prizeTypeText.value = '2等'
-  } else if (rank == 3) {
-    color.value = bronze
-    prizeTypeText.value = '3等'
-  } else if (rank == 4) {
-    color.value = brown
-    prizeTypeText.value = '4等'
+  const rank = props.body.rank
+  if (rank === 's') {
+    color.value = 'bg-exd-gold'
+    return color.value
+  } else if (rank === 'a') {
+    color.value = 'bg-exd-red-vermilion'
+    return color.value
+  } else if (rank === 'b') {
+    color.value = 'bg-exd-blue-sky'
+    return color.value
+  } else if (rank === 'c') {
+    color.value = 'bg-exd-green-tea'
+    return color.value
+  } else if (rank === 'd') {
+    color.value = 'bg-exd-purple-gray'
+    return color.value
   }
 }
 
 handleRankColor()
-
-const handleGoToDetailRedeem = (id) => {
-  console.log('klik id', id)
-}
 </script>

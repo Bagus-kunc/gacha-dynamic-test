@@ -19,7 +19,7 @@
 
     <SparkleStart className="top-3 z-30" />
 
-    <!-- <div :class="{ notif: true, hide: isHiding }">
+    <div :class="{ notif: true, hide: isHiding }">
       <img :src="iconGift" alt="icon gift" class="w-8 h-8" />
       <p
         class="font-bold text-[12px] text-white"
@@ -27,7 +27,7 @@
       >
         {{ $t('addToCollection') }}
       </p>
-    </div> -->
+    </div>
 
     <img
       src="/images/gacha-tom.png"

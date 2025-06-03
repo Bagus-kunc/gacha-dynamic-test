@@ -121,6 +121,9 @@ module.exports = {
         'exd-green': {
           DEFAULT: 'hsla(var(--green))', //#009245
         },
+        'exd-green-tea': {
+          DEFAULT: 'hsla(var(--green-tea))', //#75A000
+        },
         'exd-green-light': {
           DEFAULT: 'hsla(var(--green-light))', //#D5F7B9
         },
@@ -129,6 +132,12 @@ module.exports = {
         },
         'exd-blue-green': {
           DEFAULT: 'hsla(var(--blue))', //#2CC9B9
+        },
+        'exd-blue-sky': {
+          DEFAULT: 'hsla(var(--blue-sky))', //#21AAD4
+        },
+        'exd-purple-gray': {
+          DEFAULT: 'hsla(var(--purple-gray))', //#8564AA
         },
         'exd-red-coral': {
           DEFAULT: '#C9495A',
