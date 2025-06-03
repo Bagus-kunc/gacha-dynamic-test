@@ -13,7 +13,7 @@
       class="flex flex-col justify-between w-full gap-6 pb-3 mt-32 font-bold grow"
     >
       <h1
-        class="text-center flex flex-col text-1416 text-exd-gray-scorpion pt-6 pb-10 w-full max-w-[360px] mx-auto"
+        class="text-center flex flex-col text-1416 text-exd-gray-scorpion pb-4 w-full max-w-[360px] mx-auto"
       >
         {{ $t('memberInformation1') }}
         <span> {{ $t('memberInformation2') }}</span>
@@ -22,7 +22,7 @@
         class="inline-flex items-center justify-between gap-4 pb-5 border-b border-b-exd-light-grey px-7 text-exd-gray-scorpion text-1416"
       >
         <h1>{{ $t('member') }} <span class="font-bold">ID</span></h1>
-        <p class="w-48 overflow-hidden font-bold text-right whitespace-nowrap">
+        <p class="overflow-hidden font-bold text-right whitespace-nowrap">
           {{ userId }}
         </p>
         <p class="w-48 overflow-hidden font-bold text-right whitespace-nowrap">
@@ -105,6 +105,7 @@
                   errorPostCodeMessage,
                 'opacity-50': isLoading,
               }"
+              :border="true"
             />
           </div>
         </div>
@@ -563,7 +564,7 @@ onMounted(async () => {
 .scrollable-content::-webkit-scrollbar-thumb {
   display: block !important;
   height: 30px !important;
-  background: #d7a237 !important;
+  background: #9a9a9a !important;
   border-radius: 10px !important;
 }
 

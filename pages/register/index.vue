@@ -86,6 +86,7 @@
                   errorPostCodeMessage,
                 'opacity-50': isLoading,
               }"
+              :border="true"
             />
           </div>
         </div>
@@ -565,7 +566,7 @@ const saveSpin = async () => {
 .scrollable-content::-webkit-scrollbar-thumb {
   display: block !important;
   height: 30px !important;
-  background: #d7a237 !important;
+  background: #9a9a9a !important;
   border-radius: 10px !important;
 }
 

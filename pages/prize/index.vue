@@ -11,9 +11,9 @@
     ref="prizeCards"
     class="relative flex flex-col w-full bg-center scroll-container"
   >
-    <div class="flex flex-col mt-[42%] items-center mb-4"></div>
+    <div class="flex flex-col mt-[35%] items-center mb-4"></div>
 
-    <div class="relative flex flex-col gap-3 px-8 -top-14">
+    <div class="relative flex flex-col gap-3 px-8 -top-10">
       <template v-if="isFetching">
         <Skeleton v-if="isFetching" class="!w-full !h-full"></Skeleton>
       </template>
@@ -31,7 +31,7 @@
     </div>
 
     <div ref="prizeHistory" class="relative flex flex-col px-8 -bottom-5">
-      <div v-if="!isFetching" class="px-2 py-1 bg-exd-gray-44">
+      <div v-if="!isFetching" class="px-2 py-1 text-white bg-exd-gray-44">
         <p class="font-semibold md:text-[15px] sm:text-[14px] text-[13px]">
           {{ $t('exchangeHistory') }}
         </p>
@@ -268,7 +268,7 @@ onMounted(async () => {
 
 <style scoped>
 .scroll-container {
-  max-height: 90vh;
+  max-height: 95vh;
   overflow-y: auto;
   position: relative;
 }

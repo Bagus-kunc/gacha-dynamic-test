@@ -31,13 +31,13 @@
               @validate="validateInput('password', $event)"
               @update:model="updateModel('password', $event)"
             />
-            <InputText
+            <!-- <InputText
               type="password"
               :model="form.confirmPassword"
               :label="$t('rePassword')"
               @validate="validateInput('confPassword', $event)"
               @update:model="updateModel('confirmPassword', $event)"
-            />
+            /> -->
           </div>
         </div>
       </template>
