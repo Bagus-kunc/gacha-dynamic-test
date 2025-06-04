@@ -202,7 +202,7 @@
                       @click="openGoogleMaps"
                       >{{ $t('openGoogleMaps') }}
                       <img
-                        src="~/assets/images/export-green.png"
+                        src="~/assets/images/export-green.svg"
                         alt="export"
                         width="15"
                         height="15"
