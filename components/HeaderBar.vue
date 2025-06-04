@@ -1,7 +1,6 @@
 <template>
   <header
-    class="fixed top-0 left-0 right-0 z-40 flex items-center justify-between w-full max-w-md mx-auto bg-white"
-    :class="[withLogo ? 'pt-4 pb-4' : 'pt-[16px] pb-3']"
+    class="pt-[39px] pb-3 flex justify-between items-center top-0 left-0 right-0 z-40 fixed w-full max-w-md mx-auto bg-white"
     style="box-shadow: 0px 3px 3px 0px rgba(0, 0, 0, 0.1608)"
     @touchmove="(e) => e.preventDefault()"
   >
