@@ -54,8 +54,14 @@
       <div
         class="w-full flex flex-col justify-center items-center gap-4 py-6 !pb-8 relative"
       >
-        <div class="font-bold text-center text-exd-1624 text-exd-gray-scorpion mt-8 mb-4 px-4">
-          <p style="text-shadow: 0 3px 3px rgba(0, 0, 0, 0.16)" class="whitespace-pre-line" v-html="$t('toExchangePrizes')"></p>
+        <div
+          class="px-4 mt-8 mb-4 font-bold text-center text-exd-1624 text-exd-gray-scorpion"
+        >
+          <p
+            style="text-shadow: 0 3px 3px rgba(0, 0, 0, 0.16)"
+            class="whitespace-pre-line"
+            v-html="$t('toExchangePrizes')"
+          ></p>
           <!-- <p style="text-shadow: 0 3px 3px rgba(0, 0, 0, 0.16)">
             {{ $t('mustBeMember') }}
           </p> -->
@@ -68,7 +74,7 @@
         <SolidButton
           :label="$t('loginToMyPage')"
           :on-click="handleToLogin"
-          variant="blue-green"
+          variant="green"
         />
       </div>
     </template>

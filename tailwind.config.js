@@ -119,7 +119,13 @@ module.exports = {
           DEFAULT: 'hsla(var(--red-500))', //#D84F45
         },
         'exd-green': {
-          DEFAULT: 'hsla(var(--green))', //#2E7D32
+          DEFAULT: 'hsla(var(--green))', //#009245
+        },
+        'exd-green-tea': {
+          DEFAULT: 'hsla(var(--green-tea))', //#75A000
+        },
+        'exd-green-light': {
+          DEFAULT: 'hsla(var(--green-light))', //#D5F7B9
         },
         'exd-gold': {
           DEFAULT: 'hsla(var(--gold))', //#D7A237
@@ -127,8 +133,14 @@ module.exports = {
         'exd-blue-green': {
           DEFAULT: 'hsla(var(--blue))', //#2CC9B9
         },
+        'exd-blue-sky': {
+          DEFAULT: 'hsla(var(--blue-sky))', //#21AAD4
+        },
+        'exd-purple-gray': {
+          DEFAULT: 'hsla(var(--purple-gray))', //#8564AA
+        },
         'exd-red-coral': {
-          DEFAULT: '#FF5331',
+          DEFAULT: '#C9495A',
         },
         'exd-dark': {
           DEFAULT: '#242B29',

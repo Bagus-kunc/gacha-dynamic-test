@@ -9,17 +9,25 @@
   </HeaderBar>
   <div
     ref="prizeCards"
-    class="scroll-container relative flex flex-col bg-center w-full"
+    class="relative flex flex-col w-full bg-center scroll-container"
   >
-    <div class="flex flex-col mt-[42%] items-center mb-4"></div>
+    <div class="flex flex-col mt-[35%] items-center mb-4"></div>
 
-    <div class="flex flex-col gap-3 px-8 relative -top-14">
+    <div class="relative flex flex-col gap-3 px-10 -top-10">
       <template v-if="isFetching">
-        <Skeleton v-if="isFetching" class="!w-full !h-full"></Skeleton>
+        <PagesPrizeCard
+          v-for="(prize, key) in dummyPrizes"
+          :key="key"
+          :keyBody="key"
+          :body="prize.data"
+          :totalData="prize.totalVoucher"
+          :currentPoint="store.point"
+          :is-fetching="true"
+        />
       </template>
       <template v-else>
         <PagesPrizeCard
-          v-for="(prize, key) in prizes"
+          v-for="(prize, key) in dummyPrizes"
           :key="key"
           :keyBody="key"
           :body="prize.data"
@@ -30,26 +38,33 @@
       </template>
     </div>
 
-    <div ref="prizeHistory" class="flex flex-col px-8 relative -bottom-5">
-      <div v-if="!isFetching" class="bg-exd-gray-44 px-2 py-1">
-        <p class="font-semibold md:text-[15px] sm:text-[14px] text-[13px]">
+    <div ref="prizeHistory" class="relative flex flex-col px-10 -bottom-5">
+      <div class="px-2 py-1 text-white bg-exd-gray-44">
+        <p
+          v-if="!isFetching"
+          class="font-semibold md:text-[15px] sm:text-[14px] text-[13px]"
+        >
           {{ $t('exchangeHistory') }}
         </p>
+        <Skeleton
+          v-else
+          class="font-semibold h-5 md:text-[15px] sm:text-[14px] text-[13px]"
+        >
+        </Skeleton>
       </div>
       <template v-if="isFetching">
-        <Skeleton width="10rem" class="!h-full !w-full"></Skeleton>
-        <!-- <PagesPrizeHistory
-          v-for="n in 1"
-          :key="n"
-          :keyBody="n"
-          :body="[]"
-          :currentPoint="0"
+        <PagesPrizeHistory
+          v-for="(redeem, key) in dummyReedems"
+          :key="key"
+          :keyBody="key"
+          :body="redeem"
+          :currentPoint="store.point"
           :is-fetching="true"
-        /> -->
+        />
       </template>
       <template v-else>
         <PagesPrizeHistory
-          v-for="(redeem, key) in redeems"
+          v-for="(redeem, key) in dummyReedems"
           :key="key"
           :keyBody="key"
           :body="redeem"
@@ -59,16 +74,34 @@
       </template>
     </div>
 
-    <div class="vertical-menu bottom-10">
+    <div v-if="!isFetching" class="vertical-menu bottom-[15%]">
       <div class="menu-item" @click="handleScrollUp">
-        <p class="btn-click" :class="{ 'reverse-mode': $i18n.locale === 'en' }">
-          {{ $t('listOfPrizes') }}
-        </p>
+        <div class="flex items-center gap-2 btn-click">
+          <img
+            src="~/assets/images/arrow-skip.svg"
+            width="13"
+            height="13"
+            alt=""
+            class="-rotate-90"
+          />
+          <p :class="{ 'reverse-mode': $i18n.locale === 'en' }">
+            {{ $t('listOfPrizes') }}
+          </p>
+        </div>
       </div>
       <div class="menu-item" @click="handleScrollDown">
-        <p class="btn-click" :class="{ 'reverse-mode': $i18n.locale === 'en' }">
-          {{ $t('exchangeHistory') }}
-        </p>
+        <div class="flex items-center gap-2 btn-click">
+          <p :class="{ 'reverse-mode': $i18n.locale === 'en' }">
+            {{ $t('exchangeHistory') }}
+          </p>
+          <img
+            src="~/assets/images/arrow-skip.svg"
+            width="13"
+            height="13"
+            alt=""
+            class="rotate-90"
+          />
+        </div>
       </div>
     </div>
   </div>
@@ -76,6 +109,7 @@
 
 <script setup>
 import { store } from '~/stores/dashboard.js'
+import noImage from '~/assets/images/no-image.svg'
 
 definePageMeta({
   middleware: 'auth',
@@ -90,13 +124,106 @@ const rankColor = ref('rainbow')
 
 const prizeHistory = ref(null)
 
+const dummyPrizes = {
+  '2000pt': {
+    totalVoucher: 2,
+    data: [
+      {
+        user_point_id: 1,
+        point_id: 1,
+        image: '/images/character.png',
+        name: '景品名景品名景品名景品名景品名景品名景品名景品名景品名景品名',
+        started_at: '2022/01/01',
+        expired_at: '2022/01/01',
+      },
+      {
+        user_point_id: 2,
+        point_id: 2,
+        image: '/images/character.png',
+        name: '景品名景品名景品名景品名景品名景品名景品名景品名景品名景品名景品名景品名景品名景品名景品名景品名景品名景品名景品名景品名',
+        started_at: '2022/01/01',
+        expired_at: '2022/01/01',
+      },
+    ],
+  },
+  '1000pt': {
+    totalVoucher: 1,
+    data: [
+      {
+        user_point_id: 1,
+        point_id: 1,
+        image: '/images/character.png',
+        name: '景品名景品名景品名景品名景品名景品名景品名景品名景品名景品名',
+        started_at: '2022/01/01',
+        expired_at: '2022/01/01',
+      },
+    ],
+  },
+  '500pt': {
+    totalVoucher: 1,
+    data: [
+      {
+        user_point_id: 1,
+        point_id: 1,
+        image: '/images/character.png',
+        name: '景品名景品名景品名景品名景品名景品名景品名景品名景品名景品名',
+        started_at: '2022/01/01',
+        expired_at: '2022/01/01',
+      },
+    ],
+  },
+  '200pt': {
+    totalVoucher: 1,
+    data: [
+      {
+        user_point_id: 1,
+        point_id: 1,
+        image: '/images/character.png',
+        name: '景品名景品名景品名景品名景品名景品名景品名景品名景品名景品名',
+        started_at: '2022/01/01',
+        expired_at: '2022/01/01',
+      },
+    ],
+  },
+  '50pt': {
+    totalVoucher: 1,
+    data: [
+      {
+        user_point_id: 1,
+        point_id: 1,
+        image: '/images/character.png',
+        name: '景品名景品名景品名景品名景品名景品名景品名景品名景品名景品名',
+        started_at: '2022/01/01',
+        expired_at: '2022/01/01',
+      },
+    ],
+  },
+}
+
+const dummyReedems = [
+  {
+    user_point_id: 1,
+    point_id: 1,
+    rank: 's',
+    image: '/images/character.png',
+    name: '景品名景品名景品名景品名景品名景品名景品名景品名景品名景品名',
+    redeem_at: '2022-01-01',
+  },
+  {
+    user_point_id: 2,
+    point_id: 2,
+    rank: 'a',
+    image: '/images/character.png',
+    name: '景品名景品名景品名景品名景品名景品名景品名景品名景品名景品名',
+    redeem_at: '2022-01-01',
+  },
+]
+
 const fetchingPrizesData = async () => {
   try {
     isFetching.value = true
     const { data } = await useFetchApi('GET', 'prize-list')
     prizes.value = data
-
-    // prizes.value = dataArrays(data)
   } catch (error) {
     console.log(error)
   } finally {
@@ -165,7 +292,7 @@ onMounted(async () => {
 
 <style scoped>
 .scroll-container {
-  max-height: 90vh;
+  max-height: 95vh;
   overflow-y: auto;
   position: relative;
 }

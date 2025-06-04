@@ -16,9 +16,13 @@
     --red-900: 5 60% 32%;
     --yellow-300: 58 100% 67%;
     --red-500: 4 65% 56%;
-    --green: 110, 46%, 44%;
+    --green: 155, 100%, 28%;
+    --green-light: 96, 80%, 85%;
+    --green-tea: 75, 100%, 31%;
     --blue: 172, 53%, 55%;
+    --blue-sky: 193, 73%, 48%;
     --yellow-tom: 61, 100%, 45%;
+    --purple-gray: 270, 27%, 53%;
 
     --noto-sans: 'Noto Sans JP', sans-serif;
   }

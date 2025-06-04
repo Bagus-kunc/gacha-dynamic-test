@@ -1,5 +1,5 @@
 <template>
-  <div class="grow flex flex-col">
+  <div class="flex flex-col grow">
     <HeaderBar>
       <p
         v-if="type === 'a'"
@@ -18,11 +18,11 @@
     </HeaderBar>
 
     <div
-      class="flex flex-col grow px-3 mt-32 pb-3 justify-between gap-6 w-full"
+      class="flex flex-col justify-between w-full gap-6 px-3 pb-3 mt-32 grow"
     >
       <div v-if="type" class="flex flex-col grow">
         <p
-          class="text-exd-gray-scorpion font-semibold text-exd-1416 text-center mt-8"
+          class="mt-8 font-semibold text-center text-exd-gray-scorpion text-exd-1416"
         >
           {{ $t('done') }}
         </p>
@@ -30,10 +30,11 @@
     </div>
   </div>
 
-  <div class="flex flex-col w-full relative gap-1">
+  <div class="relative flex flex-col w-full gap-1">
     <SolidButton
       :on-click="handleClick"
       :has-loading="isLoading"
+      variant="red-coral"
       :label="$t('gachaTop')"
       has-bottom
     />
@@ -97,5 +98,6 @@ const handleClick = async () => {
 onMounted(() => {
   saveSpin()
   type.value = sessionStorage.getItem('type')
+  type.value = route.query.type
 })
 </script>

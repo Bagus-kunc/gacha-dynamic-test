@@ -1,22 +1,20 @@
 <template>
   <div
-    class="rounded-xl max-w-sm overflow-hidden cursor-pointer"
+    class="max-w-sm overflow-hidden cursor-pointer rounded-xl"
     v-if="body.length > 0"
   >
-    <div
-      class="flex justify-between bg-center w-full px-2 py-1 bg-no-repeat bg-cover"
-      :style="color ? { backgroundImage: `url(${color})` } : {}"
-    >
+    <div class="flex justify-between w-full px-2 py-1 min-h-6" :class="color">
       <template v-if="!isFetching">
-        <p class="text-white font-bold text-exd-1824">
-          <span class="text-[16px]" v-html="t(classType)"></span>
-        </p>
-
-        <p class="text-white font-medium text-exd-1224" v-html="totalGift"></p>
-      </template>
-      <template v-else>
-        <Skeleton width="10rem" class="bg-white"></Skeleton>
-        <Skeleton width="5rem" class="bg-white"></Skeleton>
+        <i18n-t
+          keypath="availablePoints"
+          tag="div"
+          scope="global"
+          class="font-bold text-white text-exd-1624"
+        >
+          <template v-slot:points>
+            <span class=""> {{ $t(keyBody) }}</span>
+          </template>
+        </i18n-t>
       </template>
     </div>
     <template v-if="!isFetching">
@@ -25,21 +23,22 @@
         :key="item.user_point_id"
         :on-click="() => handleGoToDetailRedeem(item.point_id)"
         :image-card="item.image"
+        :is-fetching="isFetching"
       >
         <template v-slot:text>
-          <div class="inline-flex justify-between w-100 pr-4">
+          <div class="inline-flex justify-between pr-4 w-100">
             <div class="flex flex-col justify-center gap-1">
               <p
-                class="text-exd-gray-scorpion font-semibold md:text-[15px] sm:text-[14px] text-[13px] truncate"
+                class="text-exd-gray-scorpion font-semibold text-[12px] sm:text-[14px] line-clamp-2"
               >
                 {{ item.name }}
               </p>
               <p
-                class="text-exd-red-500 md:text-[13px] sm:text-[12px] text-[10px] font-medium"
+                class="text-exd-red-500 text-[10px] sm:text-[12px] font-medium"
               >
-                {{ $t('availablePeriod') }}：{{
-                  formatDate(item.started_at)
-                }}〜{{ formatDate(item.expired_at) }}
+                {{ $t('applicationPeriod') }}：{{ item.started_at }}〜{{
+                  item.expired_at
+                }}
               </p>
             </div>
           </div>
@@ -47,7 +46,7 @@
       </ImageTextCard>
     </template>
     <template v-else>
-      <ImageTextCard v-for="n in 5" :key="n" :is-fetching="isFetching" />
+      <ImageTextCard v-for="n in 1" :key="n" :is-fetching="isFetching" />
     </template>
   </div>
 </template>
@@ -55,16 +54,11 @@
 <script setup>
 import { useI18n } from 'vue-i18n'
 import { useRouter } from 'vue-router'
-import rainbow from '~/assets/images/rainbow.png'
-import gold from '~/assets/images/gold.png'
-import silver from '~/assets/images/silver.png'
-import bronze from '~/assets/images/bronze.png'
-import iron from '~/assets/images/brown.png'
 
 const { t } = useI18n()
 
 const props = defineProps({
-  isFetching: { type: Boolean, default: false },
+  isFetching: { type: Boolean, default: true },
 
   body: {
     type: Array,
@@ -77,7 +71,7 @@ const props = defineProps({
     type: [String, Number],
   },
   currentPoint: {
-    type: Number,
+    type: [Number, String],
     default: 0,
   },
 })
@@ -92,25 +86,20 @@ const handleGoToDetailRedeem = (id) => router.push(`/prize/${id}`)
 
 const handleRankClass = () => {
   const rank = props.keyBody
-  if (rank === 'special_prize') {
-    color.value = rainbow
-    classType.value = 'specialPrize'
+  if (rank === '2000pt') {
+    color.value = 'bg-exd-gold'
     return color.value
-  } else if (rank === 'gold') {
-    color.value = gold
-    classType.value = '1stClass'
+  } else if (rank === '1000pt') {
+    color.value = 'bg-exd-red-vermilion'
     return color.value
-  } else if (rank === 'silver') {
-    color.value = silver
-    classType.value = '2ndClass'
+  } else if (rank === '500pt') {
+    color.value = 'bg-exd-blue-sky'
     return color.value
-  } else if (rank === 'bronze') {
-    color.value = bronze
-    classType.value = '3rdClass'
+  } else if (rank === '200pt') {
+    color.value = 'bg-exd-green-tea'
     return color.value
-  } else if (rank === 'iron') {
-    color.value = iron
-    classType.value = '4thClass'
+  } else if (rank === '50pt') {
+    color.value = 'bg-exd-purple-gray'
     return color.value
   }
 }

@@ -8,98 +8,57 @@
     </p>
   </HeaderBar>
 
-  <div class="flex flex-col bg-center text-black mt-24 px-8">
+  <div class="flex flex-col px-8 mt-32 text-black bg-center">
     <div
-      class="max-w-sm bg-white border border-gray-200 rounded-lg shadow overflow-hidden"
+      class="max-w-sm overflow-hidden bg-white border border-gray-200 rounded-lg shadow"
     >
-      <div class="w-full overflow-hidden bg-[#E8FFF3]">
+      <div class="w-full overflow-hidden bg-[#FFF6E8]">
         <Skeleton v-if="isFetching" class="!w-full !h-full"></Skeleton>
         <CharacterCard
           v-else
-          :image="prizeDetailData.gift.image"
+          :image="detailData.gift.image"
           variant="without-background"
         />
       </div>
-      <div class="p-5 flex flex-col justify-between w-full">
+      <div class="flex flex-col justify-between w-full p-5">
         <div class="flex flex-col gap-4">
           <div class="relative inline-flex justify-between w-full gap-5">
             <Skeleton v-if="isFetching" class="!h-3" width="15rem"></Skeleton>
-            <p v-else class="font-bold text-exd-1424 text-exd-gray-scorpion">
-              {{ prizeDetailData.gift.name }}
+            <p
+              v-else
+              class="font-bold text-exd-1424 max-w-[220px] line-clamp-2 text-exd-gray-scorpion"
+            >
+              {{ detailData.gift.name }}
             </p>
             <Skeleton
               v-if="isFetching"
               class="!h-3 !rounded-full !bg-exd-orange-700"
               width="2rem"
             ></Skeleton>
-            <p
-              v-else
-              class="font-bold text-exd-1824.52 text-white p-1 flex items-center justify-center rounded-full right-0 top-5 bg-no-repeat bg-cover bg-center w-12 h-12"
-              :style="colorBg ? { backgroundImage: `url(${colorBg})` } : {}"
+            <i18n-t
+              keypath="prize"
+              tag="div"
+              scope="global"
+              class="font-bold text-exd-1824.52 text-white p-1 flex items-center justify-center rounded-full right-0 top-5 min-w-12 min-h-12"
+              :class="colorBg"
             >
-              {{ prizeTypeText }}
-            </p>
+              <template v-slot:rank>
+                {{ detailData.gift.rank.toUpperCase() }}
+              </template>
+            </i18n-t>
           </div>
 
           <HeadingSection
             :is-fetching="isFetching"
             :title="$t('howToGetPrizes')"
-            :body="
-              prizeDetailData.gift != null
-                ? prizeDetailData.gift?.how_to_win
-                : ''
-            "
+            :body="detailData.gift != null ? detailData.gift?.how_to_win : ''"
           />
 
           <HeadingSection
             :is-fetching="isFetching"
             :title="$t('conditionsOfUse')"
-            :body="
-              prizeDetailData.gift != null
-                ? prizeDetailData.gift?.term_of_use
-                : ''
-            "
+            :body="detailData.gift != null ? detailData.gift?.term_of_use : ''"
           />
-
-          <HeadingSection
-            v-if="popupType != 'a' && popupType != 'b'"
-            :is-fetching="isFetching"
-            :title="$t('redemptionLocation')"
-            :body="
-              prizeDetailData.location != null
-                ? prizeDetailData.location?.description
-                : ''
-            "
-          />
-
-          <div v-if="popupType != 'a' && popupType != 'b'" class="w-full mb-5">
-            <Skeleton v-if="isFetching" class="!w-full !h-72" />
-            <div
-              v-show="!isFetching"
-              id="parentMap"
-              class="relative"
-              style="width: 100%; height: 300px"
-            >
-              <div id="map" style="width: 100%; height: 100%" />
-              <div class="absolute inset-0 z-10"></div>
-              <div
-                class="absolute bg-white inset-x-0 bottom-0 h-8 flex items-center z-20"
-              >
-                <span
-                  class="text-exd-gray-scorpion text-sm flex items-center cursor-pointer border-b border-b-exd-gray-scorpion"
-                  @click="openGoogleMaps"
-                  >{{ $t('openGoogleMaps') }}
-                  <img
-                    src="~/assets/images/export.svg"
-                    alt="export"
-                    width="15"
-                    height="15"
-                    class="inline ml-1"
-                  />
-                </span>
-              </div>
-            </div>
-          </div>
         </div>
       </div>
       <SolidButton
@@ -113,7 +72,7 @@
   </div>
 
   <Dialog
-    v-if="false"
+    v-if="popupType === 'a'"
     v-model:visible="hasModal"
     modal
     class="!bg-white w-11/12 md:!w-5/12 !max-w-sm border border-exd-gray-44"
@@ -125,11 +84,11 @@
         width="30"
         height="30"
         preload
-        class="absolute right-1 top-1 cursor-pointer z-50"
+        class="absolute z-50 cursor-pointer right-1 top-1"
         @click="handleToggleModal"
       />
       <div
-        class="w-full flex flex-col justify-center items-center gap-1 px-5 py-8 my-2"
+        class="flex flex-col items-center justify-center w-full gap-1 px-5 py-8 my-2"
       >
         <p
           class="text-exd-gray-scorpion font-bold text-center text-exd-1424 small:w-[105%] w-[93%] max-w-w-[93%]"
@@ -137,7 +96,7 @@
         >
           {{ $t('thePrizeWillBeAwarded') }}
         </p>
-        <p class="text-exd-gray-scorpion text-center text-exd-1424">
+        <p class="text-center text-exd-gray-scorpion text-exd-1424">
           {{ $t('winnerWillBeNotifed') }}
         </p>
       </div>
@@ -153,7 +112,7 @@
   </Dialog>
 
   <Dialog
-    v-if="popupType === 1"
+    v-if="popupType === 'b'"
     v-model:visible="hasModal"
     modal
     class="!bg-white w-11/12 md:!w-5/12 !max-w-sm border border-exd-gray-44"
@@ -165,11 +124,11 @@
         width="30"
         height="30"
         preload
-        class="absolute right-1 top-1 cursor-pointer z-50"
+        class="absolute z-50 cursor-pointer right-1 top-1"
         @click="handleToggleModal"
       />
       <div
-        class="w-full flex flex-col justify-center items-center gap-4 px-5 py-8 my-2"
+        class="flex flex-col items-center justify-center w-full gap-4 px-5 py-8 my-2"
       >
         <p
           class="text-exd-gray-scorpion text-center text-[14px] small:w-[105%] w-[80%]"
@@ -208,11 +167,11 @@ definePageMeta({
 
 const map = ref(null)
 const route = useRoute()
-const popupType = ref('c')
+const popupType = ref('a')
 const router = useRouter()
 const id = route.params.id
 const hasModal = ref(false)
-const isFetching = ref(true)
+const isFetching = ref(false)
 const prizeTypeText = ref(null)
 const prizeDetailData = ref({})
 const disableRedeem = ref(false)
@@ -221,7 +180,20 @@ const { t } = useI18n()
 const LOCALE = useCookie('LOCALE')
 const handleToggleModal = () => (hasModal.value = !hasModal.value)
 const handleGoToClaim = () => router.push(`/claim/${route.params.id}`)
-const handleGoToRedeem = () => router.push(`/redeem/${route.params.id}`)
+const handleGoToRedeem = () =>
+  router.push(`/redeem/${route.params.id}?type=${popupType.value}`)
+
+const detailData = {
+  gift: {
+    image: '/images/character.png',
+    rank: 's',
+    name: '景品名景品名景品名景品名景品名 景品名景品名景品名景品名景品名',
+    how_to_win:
+      'ダミーダミーダミーダミーダミーダミーダミーダミーダミーダミーダミーダミーダミーダミー',
+    term_of_use:
+      'ダミーダミーダミーダミーダミーダミーダミーダミーダミーダミーダミーダミーダミーダミー',
+  },
+}
 
 const colorBg = ref('')
 
@@ -330,26 +302,21 @@ const openGoogleMaps = () => {
 }
 
 const handleRankColor = () => {
-  const rank = prizeDetailData.value.gift.type
-  if (rank == 6) {
-    colorBg.value = rainbow
-    prizeTypeText.value = '特賞'
+  const rank = detailData.gift.rank
+  if (rank === 's') {
+    colorBg.value = 'bg-exd-gold'
     return colorBg.value
-  } else if (rank == 1) {
-    colorBg.value = gold
-    prizeTypeText.value = '1等'
+  } else if (rank === 'a') {
+    colorBg.value = 'bg-exd-red-vermilion'
     return colorBg.value
-  } else if (rank == 2) {
-    colorBg.value = silver
-    prizeTypeText.value = '2等'
+  } else if (rank === 'b') {
+    colorBg.value = 'bg-exd-blue-sky'
     return colorBg.value
-  } else if (rank == 3) {
-    colorBg.value = bronze
-    prizeTypeText.value = '3等'
+  } else if (rank === 'c') {
+    colorBg.value = 'bg-exd-green-tea'
     return colorBg.value
-  } else if (rank == 4) {
-    colorBg.value = brown
-    prizeTypeText.value = '4等'
+  } else if (rank === 'd') {
+    colorBg.value = 'bg-exd-purple-gray'
     return colorBg.value
   }
 }

@@ -38,21 +38,21 @@
             class="!h-3 !bg-exd-gold !rounded-full"
             width="2rem "
           />
-          <!-- <p
+          <p
             v-else
             class="font-bold text-exd-1824.52 text-white p-1 min-h-10 min-w-12 h-10 w-12 flex items-center justify-center rounded-full pr-2 bg-no-repeat bg-contain bg-center"
             :style="rarityImg ? { backgroundImage: `url(${rarityImg})` } : {}"
-          ></p> -->
+          ></p>
         </div>
         <div v-if="isFetching" class="flex items-center gap-5 text-exd-1218">
           <Skeleton
-            class="border-[1px] border-exd-blue-green text-exd-blue-green rounded-[5px] px-2"
+            class="border-[1px] border-exd-green text-exd-green rounded-[5px] px-2"
           />
           <Skeleton class="text-exd-gray-scorpion bg-exd-gray-scorpion" />
         </div>
         <div v-else class="flex items-center gap-5 text-exd-1218">
           <p
-            class="border-[1px] border-exd-blue-green text-exd-blue-green rounded-[5px] px-2"
+            class="border-[1px] border-exd-green text-exd-green rounded-[5px] px-2"
           >
             カテゴリ
           </p>
@@ -75,14 +75,14 @@
         <div
           class="flex flex-col gap-2 py-4 text-exd-gray-scorpion text-exd-1218"
         >
-          <div class="max-w-full">
-            <p class="flex flex-row justify-between w-full">
+          <div class="w-full">
+            <p class="flex flex-row justify-between max-w-full">
               {{ star1Name }}<StarRating :value="star1" :show-value="false" />
             </p>
-            <p class="flex flex-row justify-between w-full">
+            <p class="flex flex-row justify-between max-w-full">
               {{ star2Name }}<StarRating :value="star2" :show-value="false" />
             </p>
-            <p class="flex justify-between w-full">
+            <p class="flex justify-between max-w-full">
               {{ star3Name }}
               <StarRating :value="star3" :show-value="false" />
             </p>
@@ -133,11 +133,11 @@
               class="absolute inset-x-0 bottom-0 z-20 flex items-center h-8 bg-white"
             >
               <span
-                class="flex items-center text-sm border-b cursor-pointer text-exd-blue-green border-b-exd-blue-green"
+                class="flex items-center text-sm border-b cursor-pointer text-exd-green border-b-exd-green"
                 @click="openGoogleMaps"
                 >{{ $t('openGoogleMaps') }}
                 <img
-                  src="~/assets/images/export-blue-green.png"
+                  src="~/assets/images/export-green.svg"
                   alt="export"
                   width="15"
                   height="15"

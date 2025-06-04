@@ -7,8 +7,8 @@
       {{ $t('myPage') }}
     </p>
   </HeaderBar>
-  <div class="flex flex-col px-12 bg-center">
-    <div class="flex flex-col mt-[35%] items-center">
+  <div class="flex flex-col px-8 mt-[45%] sm:mt-[40%] bg-center">
+    <!-- <div class="flex flex-col mt-[35%] items-center">
       <div class="flex flex-col mt-[5%] items-center">
         <p class="font-bold text-white text-exd-1530">
           {{ $t('currentPoints') }}
@@ -17,18 +17,36 @@
           {{ store.point }}<span class="ml-1 text-exd-1530">pt</span>
         </p>
       </div>
-    </div>
+    </div> -->
 
     <div
-      class="relative inline-flex flex-col items-center justify-center gap-4 mt-10 -top-12"
+      class="relative inline-flex flex-col items-center justify-center gap-4 -top-12"
     >
       <div
-        class="flex flex-col items-center justify-center w-full p-6 bg-white cursor-pointer rounded-xl h-exd-130"
+        class="flex items-center justify-center w-full p-6 bg-white cursor-pointer rounded-xl h-exd-130"
+        style="box-shadow: 0px 3px 3px 0px rgba(0, 0, 0, 0.1608)"
+        @click="handleGoToPrize"
+      >
+        <img
+          :src="iconStar"
+          alt="icon-gift"
+          width="60"
+          height="60"
+          preload
+          class="text-center cursor-pointer"
+        />
+        <p class="font-bold text-center text-exd-gray-scorpion text-exd-1424">
+          {{ $t('prizeListEntry') }}
+        </p>
+      </div>
+
+      <div
+        class="flex items-center justify-center w-full p-6 bg-white cursor-pointer rounded-xl h-exd-130"
         style="box-shadow: 0px 3px 3px 0px rgba(0, 0, 0, 0.1608)"
         @click="handleGoToHistory"
       >
         <img
-          :src="iconGift"
+          :src="collection"
           alt="icon-gift"
           width="60"
           height="60"
@@ -58,15 +76,16 @@
           class="invert"
         />
       </div>
+
       <div
-        class="inline-flex items-center justify-between w-full px-5 bg-white border-b-2 h-exd-50 border-b-exd-light-grey"
+        class="inline-flex items-center justify-between w-full px-5 bg-white border-b-2 cursor-pointer h-exd-50 border-b-exd-light-grey"
         style="box-shadow: 0px 3px 3px 0px rgba(0, 0, 0, 0.1608)"
-        @click="handleGoToHelp()"
+        @click="handleGoToDigitalMap()"
       >
         <p
-          class="inline-flex items-center gap-1 font-bold cursor-pointer text-exd-gray-scorpion grow text-exd-1424"
+          class="inline-flex items-center gap-1 font-bold text-exd-gray-scorpion grow text-exd-1424"
         >
-          {{ $t('helpAndInquiries') }}
+          {{ $t('dummy') }}
           <span>
             <img :src="exportIcon" alt="export" width="20" height="20" preload
           /></span>
@@ -80,16 +99,15 @@
           class="invert"
         />
       </div>
-
       <div
-        class="inline-flex items-center justify-between w-full px-5 bg-white border-b-2 cursor-pointer h-exd-50 border-b-exd-light-grey"
+        class="inline-flex items-center justify-between w-full px-5 bg-white border-b-2 h-exd-50 border-b-exd-light-grey"
         style="box-shadow: 0px 3px 3px 0px rgba(0, 0, 0, 0.1608)"
-        @click="handleGoToDigitalMap()"
+        @click="handleGoToHelp()"
       >
         <p
-          class="inline-flex items-center gap-1 font-bold text-exd-gray-scorpion grow text-exd-1424"
+          class="inline-flex items-center gap-1 font-bold cursor-pointer text-exd-gray-scorpion grow text-exd-1424"
         >
-          {{ $t('toHoriShoten') }}
+          {{ $t('helpAndInquiries') }}
           <span>
             <img :src="exportIcon" alt="export" width="20" height="20" preload
           /></span>
@@ -125,15 +143,15 @@
     </div>
 
     <div
-      class="relative inline-flex flex-col items-center justify-between mx-auto md:w-[352px] w-[280px] mt-7 -top-12"
+      class="relative inline-flex flex-col items-center justify-between w-full mx-auto mt-7 -top-12"
     >
       <!-- <p
         class="inline-flex items-center justify-center font-bold text-white underline grow text-exd-1424"
       >
         {{ $t('addToHomeScreen') }}
       </p> -->
-      <NuxtLink to="https://www.horishoten.co.jp/" target="_blank">
-        <img :src="banner" width="352" height="180" preload class="w-full" />
+      <NuxtLink to="https://aichi-platform.com" target="_blank" class="w-full">
+        <img :src="banner" width="350" height="180" preload class="w-full" />
       </NuxtLink>
     </div>
   </div>
@@ -175,7 +193,7 @@
 
 <script setup>
 import iconStar from '~/assets/images/icon-star.svg'
-import iconGift from '~/assets/images/icon-gift.svg'
+import collection from '~/assets/images/collection.png'
 import arrow from '~/assets/images/arrow.svg'
 import exportIcon from '~/assets/images/export.svg'
 import { useRouter } from 'vue-router'

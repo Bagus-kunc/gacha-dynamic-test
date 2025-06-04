@@ -12,13 +12,13 @@
         width="30"
         height="30"
         preload
-        class="absolute right-1 top-1 cursor-pointer z-50"
+        class="absolute z-50 cursor-pointer right-1 top-1"
         @click="$emit('update:modelValue', false)"
       />
       <div
-        class="w-full flex flex-col justify-center items-center gap-4 py-6 relative px-4"
+        class="relative flex flex-col items-center justify-center w-full gap-4 px-4 py-6"
       >
-        <div class="font-bold text-exd-1424 text-center text-exd-gray-scorpion">
+        <div class="font-bold text-center text-exd-1424 text-exd-gray-scorpion">
           <p style="text-shadow: 0 3px 3px rgba(0, 0, 0, 0.16)">
             {{ $t('loginOrRegister') }}
           </p>
@@ -40,7 +40,7 @@
         />
 
         <a
-          class="underline text-exd-1220 font-medium text-exd-gray-scorpion cursor-pointer"
+          class="font-medium underline cursor-pointer text-exd-1220 text-exd-gray-scorpion"
           style="text-shadow: 0 3px 3px rgba(0, 0, 0, 0.16)"
           @click="navigateTo('/forgot-password')"
         >
@@ -56,7 +56,7 @@
         />
         <SolidButton
           :label="$t('newMemberRegistration')"
-          variant="blue-green"
+          variant="green"
           :onClick="handleToRegister"
         />
       </div>
@@ -75,12 +75,12 @@
         width="30"
         height="30"
         preload
-        class="absolute right-1 top-1 cursor-pointer z-50"
+        class="absolute z-50 cursor-pointer right-1 top-1"
         @click="isErrorMessage = false"
       />
-      <div class="w-full flex flex-col justify-center items-center gap-4 py-6">
+      <div class="flex flex-col items-center justify-center w-full gap-4 py-6">
         <img :src="warning" alt="warning" width="40" height="40" preload />
-        <div class="text-center w-10/12">
+        <div class="w-10/12 text-center">
           <p
             v-for="(item, index) in errorMessages"
             class="font-bold text-exd-1424 text-exd-gray-scorpion"

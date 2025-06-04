@@ -5,7 +5,7 @@
     <HeaderBar withLogo />
 
     <div
-      class="flex flex-col grow bg-[url('/images/red_base.png')] bg-cover bg-center relative"
+      class="flex flex-col grow bg-[url('/images/green_base.png')] bg-cover bg-center relative"
     >
       <div
         class="grow w-full flex flex-col items-center justify-center relative mb-4 mt-[15%]"

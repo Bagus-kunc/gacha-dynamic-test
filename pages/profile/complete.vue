@@ -29,7 +29,7 @@
     />
     <div class="w-full h-5" /> -->
     <SolidButton
-      variant="red"
+      variant="red-coral"
       :on-click="() => goTo('top')"
       :has-loading="isLoading"
       :label="$t('gachaTop')"

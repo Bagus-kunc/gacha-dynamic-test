@@ -7,7 +7,7 @@
       {{ $t('collection') }}
     </p>
   </HeaderBar>
-  <div class="flex flex-col gap-3 px-8 mt-32 text-black bg-center">
+  <div class="flex flex-col gap-3 px-8 text-black bg-center mt-28">
     <div class="inline-flex items-end justify-between w-full text-white">
       <p class="font-bold text-exd-1424">{{ $t('characterCatalog') }}</p>
       <p class="font-bold leading-tight text-exd-1424">

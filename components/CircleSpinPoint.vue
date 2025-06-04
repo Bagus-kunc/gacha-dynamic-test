@@ -39,8 +39,8 @@ onMounted(() => {
 <template>
   <svg
     width="400"
-    height="716"
-    viewBox="0 -60 400 400"
+    height="718"
+    viewBox="0 0 400 375"
     fill="none"
     xmlns="http://www.w3.org/2000/svg"
     xmlns:xlink="http://www.w3.org/1999/xlink"
@@ -104,13 +104,14 @@ onMounted(() => {
       <!-- <ellipse cx="200" cy="198" rx="200" ry="198" fill="white" /> -->
     </g>
     <image x="60" y="-30" width="300" height="250" :href="props.imageSrc" />
-    <image
+
+    <!-- <image
       :x="giftType.x"
       :y="giftType.y"
       :width="giftType.width"
       :height="giftType.height"
       :href="props.categorySrc"
-    />
+    /> -->
 
     <defs>
       <filter
