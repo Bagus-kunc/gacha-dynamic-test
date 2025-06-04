@@ -38,10 +38,7 @@
       </template>
     </div>
 
-    <div
-      ref="prizeHistory"
-      class="relative flex flex-col px-10 mb-20 -bottom-5"
-    >
+    <div ref="prizeHistory" class="relative flex flex-col px-10 -bottom-5">
       <div class="px-2 py-1 text-white bg-exd-gray-44">
         <p
           v-if="!isFetching"
