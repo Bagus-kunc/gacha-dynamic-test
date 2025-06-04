@@ -39,8 +39,8 @@ onMounted(() => {
 <template>
   <svg
     width="400"
-    height="716"
-    viewBox="0 -60 400 400"
+    height="718"
+    viewBox="0 0 400 375"
     fill="none"
     xmlns="http://www.w3.org/2000/svg"
     xmlns:xlink="http://www.w3.org/1999/xlink"

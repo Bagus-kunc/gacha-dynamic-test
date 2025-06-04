@@ -3,7 +3,7 @@
     class="max-w-sm overflow-hidden cursor-pointer rounded-xl"
     v-if="body.length > 0"
   >
-    <div class="flex justify-between w-full px-2 py-1" :class="color">
+    <div class="flex justify-between w-full px-2 py-1 min-h-6" :class="color">
       <template v-if="!isFetching">
         <i18n-t
           keypath="availablePoints"
@@ -15,12 +15,6 @@
             <span class=""> {{ $t(keyBody) }}</span>
           </template>
         </i18n-t>
-
-        <!-- <p class="font-medium text-white text-exd-1224" v-html="totalGift"></p> -->
-      </template>
-      <template v-else>
-        <Skeleton width="10rem" class="bg-white"></Skeleton>
-        <Skeleton width="5rem" class="bg-white"></Skeleton>
       </template>
     </div>
     <template v-if="!isFetching">
@@ -52,7 +46,7 @@
       </ImageTextCard>
     </template>
     <template v-else>
-      <ImageTextCard v-for="n in 5" :key="n" :is-fetching="isFetching" />
+      <ImageTextCard v-for="n in 1" :key="n" :is-fetching="isFetching" />
     </template>
   </div>
 </template>
@@ -77,7 +71,7 @@ const props = defineProps({
     type: [String, Number],
   },
   currentPoint: {
-    type: Number,
+    type: [Number, String],
     default: 0,
   },
 })

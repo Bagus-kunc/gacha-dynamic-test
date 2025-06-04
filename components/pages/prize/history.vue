@@ -1,5 +1,5 @@
 <template>
-  <div class="bg-white">
+  <div v-if="!isFetching" class="bg-white">
     <ImageTextCard
       :key="body.user_point_id"
       :history="true"
@@ -27,6 +27,9 @@
       </template>
     </ImageTextCard>
   </div>
+  <div v-else>
+    <ImageTextCard v-for="n in 1" :key="n" :is-fetching="isFetching" />
+  </div>
 </template>
 
 <script setup>
@@ -43,7 +46,7 @@ const props = defineProps({
     type: [String, Number],
   },
   currentPoint: {
-    type: Number,
+    type: [Number, String],
     default: 0,
   },
 })

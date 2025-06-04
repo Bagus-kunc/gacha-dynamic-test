@@ -13,9 +13,17 @@
   >
     <div class="flex flex-col mt-[35%] items-center mb-4"></div>
 
-    <div class="relative flex flex-col gap-3 px-8 -top-10">
+    <div class="relative flex flex-col gap-3 px-10 -top-10">
       <template v-if="isFetching">
-        <Skeleton v-if="isFetching" class="!w-full !h-full"></Skeleton>
+        <PagesPrizeCard
+          v-for="(prize, key) in dummyPrizes"
+          :key="key"
+          :keyBody="key"
+          :body="prize.data"
+          :totalData="prize.totalVoucher"
+          :currentPoint="store.point"
+          :is-fetching="true"
+        />
       </template>
       <template v-else>
         <PagesPrizeCard
@@ -30,14 +38,32 @@
       </template>
     </div>
 
-    <div ref="prizeHistory" class="relative flex flex-col px-8 -bottom-5">
-      <div v-if="!isFetching" class="px-2 py-1 text-white bg-exd-gray-44">
-        <p class="font-semibold md:text-[15px] sm:text-[14px] text-[13px]">
+    <div
+      ref="prizeHistory"
+      class="relative flex flex-col px-10 mb-20 -bottom-5"
+    >
+      <div class="px-2 py-1 text-white bg-exd-gray-44">
+        <p
+          v-if="!isFetching"
+          class="font-semibold md:text-[15px] sm:text-[14px] text-[13px]"
+        >
           {{ $t('exchangeHistory') }}
         </p>
+        <Skeleton
+          v-else
+          class="font-semibold h-5 md:text-[15px] sm:text-[14px] text-[13px]"
+        >
+        </Skeleton>
       </div>
       <template v-if="isFetching">
-        <Skeleton width="10rem" class="!h-full !w-full"></Skeleton>
+        <PagesPrizeHistory
+          v-for="(redeem, key) in dummyReedems"
+          :key="key"
+          :keyBody="key"
+          :body="redeem"
+          :currentPoint="store.point"
+          :is-fetching="true"
+        />
       </template>
       <template v-else>
         <PagesPrizeHistory
@@ -51,7 +77,7 @@
       </template>
     </div>
 
-    <div v-if="!isFetching" class="vertical-menu bottom-10">
+    <div v-if="!isFetching" class="vertical-menu bottom-[15%]">
       <div class="menu-item" @click="handleScrollUp">
         <div class="flex items-center gap-2 btn-click">
           <img
@@ -86,6 +112,7 @@
 
 <script setup>
 import { store } from '~/stores/dashboard.js'
+import noImage from '~/assets/images/no-image.svg'
 
 definePageMeta({
   middleware: 'auth',
