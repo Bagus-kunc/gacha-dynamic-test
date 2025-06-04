@@ -297,6 +297,7 @@
   "locationPermissionRequired": "続行するには、位置情報にアクセスする必要があります。位置情報へのアクセスを許可してください。",
   "addToBookmarks": "ブックマークやホーム画面に追加してね！",
   "enterYourMailing": "郵送先の入力",
+  "enteringInformation": "情報の入力",
   "afterTheLotery": "抽選後、当選者の方には2025年1月中に、1月10 日12:00時点でマイページに登録されたメールア ドレス宛にメールにてこ連絡します。",
   "makeSureEmail": "キャンペーン事務局のドメイン「{'support@per-inc.com'}」のメールを受信できるよう設定いただ き、楽しみにお待ちください！ ",
   "titleLocationAccessBlocked": "{title} の使用中に位置 情報の利用を許可しますか?",

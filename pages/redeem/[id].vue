@@ -8,7 +8,7 @@
       style="text-shadow: 0 3px 3px rgba(0, 0, 0, 0.16)"
       class="text-exd-gray-scorpion font-bold text-exd-1824.52"
     >
-      {{ $t('chooseDigitalGift') }}
+      {{ $t('enteringInformation') }}
     </p>
     <p
       v-if="type === 'b'"
@@ -80,6 +80,7 @@
               :border="true"
             />
           </div>
+
           <div
             v-else
             class="inline-flex gap-4 px-5 pb-5 mt-10 border-b border-b-exd-light-grey"
@@ -308,7 +309,6 @@
             </template>
           </div>
 
-          <!-- Questionnaire 2 -->
           <div
             class="flex flex-col gap-4 px-4 py-5 border-b border-b-exd-light-grey"
           >

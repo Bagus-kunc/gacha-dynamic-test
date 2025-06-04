@@ -296,6 +296,7 @@
   "locationPermissionRequired": "To continue, we need access to your location. Please allow location access",
   "addToBookmarks": "Add it to your bookmarks or home screen!",
   "enterYourMailing": "Enter your mailing address",
+  "enteringInformation": "Entering information",
   "afterTheLotery": "After the lottery, winners will be contacted by email in January 2025 to the email address registered on their My Page as of January 10th at 12:00.",
   "makeSureEmail": "Please make sure your email settings allow you to receive emails from the campaign secretariat's domain, {'support@Per-Inc.corn'}, and look forward to the results!",
   "titleLocationAccessBlocked": "Do you want to allow location information to be used while using {title}?",

@@ -11,7 +11,7 @@
         class="grow w-full flex flex-col items-center justify-center relative mb-4 mt-[15%]"
       >
         <img
-          src="/images/gacha-tom.png"
+          src="/images/gacha-aichi.png"
           alt="gacha2"
           class="absolute left-1/2 top-1/2 transform -translate-x-1/2 -translate-y-[47%] w-full h-auto max-h-[80%] object-contain"
           preload
@@ -424,7 +424,6 @@ const getPassword = async (id) => {
     const { data } = await useFetchApi('GET', '/location/password/' + id)
 
     if (!data.not_required_radius) {
-      console.log('check radius')
       await checkingLocation()
     }
 
@@ -583,9 +582,6 @@ const checkSpinEligibility = async () => {
   const spinType = useState('spin_type').value
   const readySpinAfterDate = parse?.spin_date_interval
   const now = new Date().getTime()
-
-  console.log('spinType', spinType)
-  console.log('readySpinAfterDate', parse)
 
   if (slugData && spinType === 1) {
     const expired_date = moment(new Date(parse.spin_date))
