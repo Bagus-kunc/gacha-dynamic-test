@@ -4,14 +4,14 @@
       <Skeleton class="!w-32 !h-6 bg-gray-200" />
     </div>
     <p
-      v-if="type === 'b'"
+      v-if="type === 'a'"
       style="text-shadow: 0 3px 3px rgba(0, 0, 0, 0.16)"
       class="text-exd-gray-scorpion font-bold text-exd-1824.52"
     >
       {{ $t('chooseDigitalGift') }}
     </p>
     <p
-      v-if="type === 'a'"
+      v-if="type === 'b'"
       style="text-shadow: 0 3px 3px rgba(0, 0, 0, 0.16)"
       class="text-exd-gray-scorpion font-bold text-exd-1824.52"
     >
@@ -25,13 +25,13 @@
     >
       <div class="w-full flex items-center justify-center text-[15px]">
         <h1
-          v-if="type === 'b'"
+          v-if="type === 'a'"
           class="flex justify-center w-full pt-32 pb-10 font-bold text-exd-gray-scorpion"
         >
           {{ $t('enterYourInformation') }}
         </h1>
         <h1
-          v-if="type === 'a'"
+          v-if="type === 'b'"
           class="flex justify-center w-full pt-32 pb-10 font-bold text-exd-gray-scorpion"
         >
           {{ $t('deliveryAddress') }}
@@ -89,7 +89,7 @@
           </div>
 
           <div
-            v-if="type === 'a'"
+            v-if="type === 'b'"
             class="inline-flex flex-col gap-4 px-5 py-5 border-b border-b-exd-light-grey"
           >
             <div class="max-w-[270px]">
@@ -132,7 +132,7 @@
           </div>
 
           <div
-            v-if="type === 'a'"
+            v-if="type === 'b'"
             class="inline-flex flex-col gap-4 px-5 py-5 border-b border-b-exd-light-grey"
           >
             <InputText
@@ -245,7 +245,7 @@
           </div>
 
           <div
-            v-if="type === 'b'"
+            v-if="type === 'a'"
             class="inline-flex gap-4 px-4 py-5 border-b border-b-exd-light-grey"
           >
             <InputText
