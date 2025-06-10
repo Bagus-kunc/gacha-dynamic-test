@@ -334,12 +334,12 @@ const validateForm = () => {
     return false
   }
 
-  // for (const field of requiredFields) {
-  //   if (!form.value[field]) {
-  //     console.log('Field must be filled:', field)
-  //     return false
-  //   }
-  // }
+  for (const field of requiredFields) {
+    if (!form.value[field]) {
+      console.log('Field must be filled:', field)
+      return false
+    }
+  }
 
   return true
 }
@@ -415,24 +415,37 @@ const handleApiError = (error) => {
       emailErrorKey.value = 'emailIsAlreadyRegistered'
     }
   }
+
+
 }
 
 const buildPayload = () => {
   const payload = {
+    gender: form.value.gender,
     email: form.value.email,
     password: form.value.password,
-    password_confirmation: form.value.confPassword,
+    postal_code: form.value.postCode,
+    prefecture: form.value.prefecture,
+    city: form.value.city,
+    area: form.value.area,
+    address: form.value.area
   }
 
   return payload
 }
 
 const handleSubmit = async () => {
+  
+  if (!validateForm()) return
+  if (!form.postCode || form.postCode.length < 7 || errorPostCodeMessage.value) {
+    return
+  }
+
   errorScroll.value = []
-
-  isLoading.value = true
-
+  
   validateOnSubmit.value = true
+  
+  isLoading.value = true
 
   const payload = buildPayload()
 

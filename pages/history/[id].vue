@@ -494,11 +494,11 @@ const downloadImage = async () => {
 
 const handleRarity = (rarityChar) => {
   const rarity = rarityChar
-  if (rarity === '1') {
+  if (rarity === 'R') {
     rarityImg.value = '/images/r-bg.png'
-  } else if (rarity === '2') {
+  } else if (rarity === 'SR') {
     rarityImg.value = '/images/sr-bg.png'
-  } else if (rarity === '3') {
+  } else if (rarity === 'SSR') {
     rarityImg.value = '/images/ssr-bg.png'
   }
 }

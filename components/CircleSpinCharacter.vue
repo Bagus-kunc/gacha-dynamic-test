@@ -5,11 +5,11 @@ const rarityImg = ref('')
 
 const handleRarity = () => {
   const rarity = props.raritySrc
-  if (rarity === '1') {
+  if (rarity === 'R') {
     rarityImg.value = '/images/r.png'
-  } else if (rarity === '2') {
+  } else if (rarity === 'SR') {
     rarityImg.value = '/images/sr.png'
-  } else if (rarity === '3') {
+  } else if (rarity === 'SSR') {
     rarityImg.value = '/images/ssr.png'
   }
 }

@@ -11,9 +11,9 @@
         >
           {{ $t('currentPoints') }}
         </p>
-        <p class="relative -ml-4 font-bold text-white text-[30px] -top-[2px]">
+        <Skeleton v-if="!store.point" class="!h-5 mt-2 bg-white !w-20 mr-4"/>
+        <p v-else class="relative -ml-4 font-bold text-white text-[30px] -top-[2px]">
           {{ store.point }}<span class="text-exd-1020">pt</span>
-          <!-- {{ store.point }}<span class="text-exd-1020">個</span> -->
         </p>
       </div>
 
