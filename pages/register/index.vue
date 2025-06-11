@@ -44,11 +44,11 @@
               ]"
             />
             <Button
-              @click="updateModel('gender', 'Non-Binary')"
+              @click="updateModel('gender', 'No-Answer')"
               :label="$t('noAnswer')"
               :class="[
                 'bg-white w-4/12 h-full border border-exd-stone-300 rounded-none !text-exd-gray-scorpion',
-                form.gender === 'Non-Binary' && '!bg-exd-banana',
+                form.gender === 'No-Answer' && '!bg-exd-banana',
               ]"
             />
           </ButtonGroup>
@@ -231,11 +231,6 @@
 
 <script setup>
 import { useI18n } from 'vue-i18n'
-import { countries } from '~/data/countries'
-import {
-  questionnaire1Options,
-  questionnaire2Options,
-} from '~/data/questionnaire'
 import close from '~/assets/images/close.svg'
 import JapanPostalCode from 'japan-postal-code'
 import Dropdown from '~/components/Dropdown.vue'
@@ -245,7 +240,7 @@ import InputTextArea from '~/components/InputTextArea.vue'
 import RadioButton from '~/components/RadioButton.vue'
 
 const form = ref({
-  gender: 'Non-Binary',
+  gender: 'No-Answer',
   postCode: '',
   prefecture: '',
   address: '',
@@ -281,16 +276,9 @@ const updateModel = (field, value) => {
   form.value[field] = value
 
   const password = form.value.password
-  const confPassword = form.value.confPassword
 
   if (field === 'password') {
     passwordValidate()
-  }
-
-  if (password === confPassword) {
-    errorConfPasswordMessage.value = ''
-  } else {
-    errorConfPasswordMessage.value = 'passwordNotMatch'
   }
 }
 
@@ -435,17 +423,10 @@ const buildPayload = () => {
 }
 
 const handleSubmit = async () => {
-  
-  if (!validateForm()) return
-  if (!form.postCode || form.postCode.length < 7 || errorPostCodeMessage.value) {
-    return
-  }
 
   errorScroll.value = []
   
   validateOnSubmit.value = true
-  
-  isLoading.value = true
 
   const payload = buildPayload()
 

@@ -63,11 +63,11 @@
               ]"
             />
             <Button
-              @click="updateModel('gender', 'Non-Binary')"
+              @click="updateModel('gender', 'No-Answer')"
               :label="$t('noAnswer')"
               :class="[
                 'bg-white w-4/12 h-full border border-exd-stone-300 rounded-none !text-exd-gray-scorpion',
-                form.gender === 'Non-Binary' && '!bg-exd-banana',
+                form.gender === 'No-Answer' && '!bg-exd-banana',
               ]"
             />
           </ButtonGroup>
@@ -264,7 +264,7 @@ const errorKeyPostCode = ref('')
 const errorPostCodeMessage = computed(() => t(errorKeyPostCode.value))
 
 const form = reactive({
-  gender: 'Non-Binary',
+  gender: 'No-Answer',
   postCode: '',
   prefecture: '',
   address: '',

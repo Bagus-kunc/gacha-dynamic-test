@@ -321,9 +321,6 @@ onMounted(async () => {
   color: white;
 }
 
-.btn-click {
-}
-
 .reverse-mode {
   writing-mode: vertical-lr;
   transform: rotate(180deg);
