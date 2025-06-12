@@ -223,6 +223,7 @@ const fetchingPrizesData = async () => {
   try {
     isFetching.value = true
     const { data } = await useFetchApi('GET', 'prize-list')
+    console.log(data)
     prizes.value = data
   } catch (error) {
     console.log(error)
@@ -319,9 +320,6 @@ onMounted(async () => {
   border-top-left-radius: 10px;
   transition: color 0.3s, background-color 0.3s;
   color: white;
-}
-
-.btn-click {
 }
 
 .reverse-mode {

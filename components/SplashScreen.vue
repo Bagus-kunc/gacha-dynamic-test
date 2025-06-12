@@ -60,7 +60,7 @@ const checkCaches = () => {
     '/video/new-spin-character.mp4',
     '/images/sparkling.png',
     '/images/green_base.png',
-    '/images/gacha-tom.png',
+    '/images/gacha-aichi.png',
     '/images/bg-rainbow.png',
     '/images/warning.svg',
     '/images/header-logo.png',

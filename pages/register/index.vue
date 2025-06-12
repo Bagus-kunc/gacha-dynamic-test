@@ -44,11 +44,11 @@
               ]"
             />
             <Button
-              @click="updateModel('gender', 'Non-Binary')"
+              @click="updateModel('gender', 'No-Answer')"
               :label="$t('noAnswer')"
               :class="[
                 'bg-white w-4/12 h-full border border-exd-stone-300 rounded-none !text-exd-gray-scorpion',
-                form.gender === 'Non-Binary' && '!bg-exd-banana',
+                form.gender === 'No-Answer' && '!bg-exd-banana',
               ]"
             />
           </ButtonGroup>
@@ -231,11 +231,6 @@
 
 <script setup>
 import { useI18n } from 'vue-i18n'
-import { countries } from '~/data/countries'
-import {
-  questionnaire1Options,
-  questionnaire2Options,
-} from '~/data/questionnaire'
 import close from '~/assets/images/close.svg'
 import JapanPostalCode from 'japan-postal-code'
 import Dropdown from '~/components/Dropdown.vue'
@@ -245,7 +240,7 @@ import InputTextArea from '~/components/InputTextArea.vue'
 import RadioButton from '~/components/RadioButton.vue'
 
 const form = ref({
-  gender: 'Non-Binary',
+  gender: 'No-Answer',
   postCode: '',
   prefecture: '',
   address: '',
@@ -281,16 +276,9 @@ const updateModel = (field, value) => {
   form.value[field] = value
 
   const password = form.value.password
-  const confPassword = form.value.confPassword
 
   if (field === 'password') {
     passwordValidate()
-  }
-
-  if (password === confPassword) {
-    errorConfPasswordMessage.value = ''
-  } else {
-    errorConfPasswordMessage.value = 'passwordNotMatch'
   }
 }
 
@@ -334,12 +322,12 @@ const validateForm = () => {
     return false
   }
 
-  // for (const field of requiredFields) {
-  //   if (!form.value[field]) {
-  //     console.log('Field must be filled:', field)
-  //     return false
-  //   }
-  // }
+  for (const field of requiredFields) {
+    if (!form.value[field]) {
+      console.log('Field must be filled:', field)
+      return false
+    }
+  }
 
   return true
 }
@@ -415,23 +403,29 @@ const handleApiError = (error) => {
       emailErrorKey.value = 'emailIsAlreadyRegistered'
     }
   }
+
+
 }
 
 const buildPayload = () => {
   const payload = {
+    gender: form.value.gender,
     email: form.value.email,
     password: form.value.password,
-    password_confirmation: form.value.confPassword,
+    postal_code: form.value.postCode,
+    prefecture: form.value.prefecture,
+    city: form.value.city,
+    area: form.value.area,
+    address: form.value.area
   }
 
   return payload
 }
 
 const handleSubmit = async () => {
+
   errorScroll.value = []
-
-  isLoading.value = true
-
+  
   validateOnSubmit.value = true
 
   const payload = buildPayload()

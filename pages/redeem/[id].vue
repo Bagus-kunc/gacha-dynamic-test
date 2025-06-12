@@ -8,7 +8,7 @@
       style="text-shadow: 0 3px 3px rgba(0, 0, 0, 0.16)"
       class="text-exd-gray-scorpion font-bold text-exd-1824.52"
     >
-      {{ $t('chooseDigitalGift') }}
+      {{ $t('enteringInformation') }}
     </p>
     <p
       v-if="type === 'b'"
@@ -64,22 +64,23 @@
             />
             <InputText
               bold
-              :model="form.givenName"
-              :label="$t('givenName')"
+              :model="form.firstName"
+              :label="$t('firstName')"
               required
               :is-nick-name="true"
-              @update:model="updateModel('givenName', $event)"
-              @validate="validateInput('givenName', $event)"
+              @update:model="updateModel('firstName', $event)"
+              @validate="validateInput('firstName', $event)"
               :validate-on-submit="validateOnSubmit"
               :error="
-                !form.givenName && validateOnSubmit ? $t('fieldRequired') : ''
+                !form.firstName && validateOnSubmit ? $t('fieldRequired') : ''
               "
               :class="{
-                'input-error': !form.givenName && validateOnSubmit,
+                'input-error': !form.firstName && validateOnSubmit,
               }"
               :border="true"
             />
           </div>
+
           <div
             v-else
             class="inline-flex gap-4 px-5 pb-5 mt-10 border-b border-b-exd-light-grey"
@@ -227,7 +228,7 @@
                   }
                 "
                 @validate="validateInput('phoneNumber', $event)"
-                :maxLength="11"
+                :maxLength="12"
                 :validate-on-submit="validateOnSubmit"
                 :error="
                   !form.phoneNumber && validateOnSubmit
@@ -308,7 +309,6 @@
             </template>
           </div>
 
-          <!-- Questionnaire 2 -->
           <div
             class="flex flex-col gap-4 px-4 py-5 border-b border-b-exd-light-grey"
           >
@@ -433,10 +433,11 @@ const handleGoToClaim = () => router.push(`/claim/${route.params.id}`)
 const errorKeyPostCode = ref('')
 const errorPostCodeMessage = computed(() => t(errorKeyPostCode.value))
 const errorPhoneNumber = ref('')
+const errorEmailMessage = ref('')
 
 const form = ref({
   lastName: '',
-  givenName: '',
+  firstName: '',
   phoneNumber: '',
   address: '',
   postCode: '',
@@ -446,6 +447,10 @@ const form = ref({
   questionnaire1: '',
   questionnaire2: '',
 })
+
+const emailRegex = (email) => {
+  return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)
+}
 
 const fetchingPrizeData = async () => {
   try {
@@ -467,7 +472,7 @@ const validateInput = (field, value) => {
   if (field === 'phoneNumber') {
     if (
       form.value.phoneNumber.length < 10 ||
-      form.value.phoneNumber.length > 11
+      form.value.phoneNumber.length > 12
     ) {
       errorPhoneNumber.value = t('validPhoneNumber')
     } else {
@@ -497,7 +502,7 @@ const handleApiError = (error) => {
 const validateForm = () => {
   const requiredFields = [
     'lastName',
-    'givenName',
+    'firstName',
     'phoneNumber',
     'postCode',
     'prefecture',
@@ -521,7 +526,7 @@ const validateForm = () => {
 
   if (
     form.value.phoneNumber.length < 10 ||
-    form.value.phoneNumber.length > 11
+    form.value.phoneNumber.length > 12
   ) {
     errorPhoneNumber.value = t('validPhoneNumber')
     return false
@@ -557,19 +562,20 @@ const fetchRedeem = async (payload) => {
 const buildPayload = () => {
   const payload = {
     prize_id: id,
-    prize_options: form.value.gift,
+    last_name: form.value.lastName,
+    first_name: form.value.firstName,
+    phone_number: form.value.phoneNumber,
+    email: form.value.email,
+    find_event: form.value.questionnaire1,
+    coming_purpose: form.value.questionnaire2,
   }
 
   if (type.value === 'b') {
-    payload.last_name = form.value.lastName
-    payload.first_name = form.value.givenName
     payload.postal_code = form.value.postCode
     payload.prefecture = form.value.prefecture
     payload.city = form.value.municipalities
     payload.address = form.value.streetAddressEtc
-    payload.phone_number = form.value.phoneNumber
   }
-
   return payload
 }
 

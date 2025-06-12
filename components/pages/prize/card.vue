@@ -1,6 +1,6 @@
 <template>
   <div
-    class="max-w-sm overflow-hidden cursor-pointer rounded-xl"
+    class="max-w-sm overflow-hidden rounded-xl"
     v-if="body.length > 0"
   >
     <div class="flex justify-between w-full px-2 py-1 min-h-6" :class="color">
@@ -24,9 +24,10 @@
         :on-click="() => handleGoToDetailRedeem(item.point_id)"
         :image-card="item.image"
         :is-fetching="isFetching"
-      >
+        :isDisabled="currentPoint < parseInt(keyBody, 10)"
+      >      
         <template v-slot:text>
-          <div class="inline-flex justify-between pr-4 w-100">
+          <div class="inline-flex justify-between pr-4 w-100" :class="currentPoint < parseInt(keyBody, 10) ? 'opacity-50' : ''">
             <div class="flex flex-col justify-center gap-1">
               <p
                 class="text-exd-gray-scorpion font-semibold text-[12px] sm:text-[14px] line-clamp-2"

@@ -8,7 +8,7 @@
     <template v-slot:text v-if="!isFetching">
       <div class="flex flex-col justify-center gap-1 pr-4 overflow-hidden">
         <p
-          class="font-bold text-exd-1824.52 text-white p-1 min-h-10 min-w-12 h-10 w-12 flex items-center justify-center rounded-full pr-2 bg-no-repeat bg-contain bg-center"
+          class="h-5 bg-no-repeat bg-contain bg-start"
           :style="raritySrc ? { backgroundImage: `url(${raritySrc})` } : {}"
         >
           <!-- {{ data.subtitle }} -->
@@ -52,14 +52,7 @@ const raritySrc = ref('')
 const handleGoToDetailHistory = () => router.push(`/history/${props.data.id}`)
 
 const handleRarity = () => {
-  const rarity = '2'
-  if (rarity === '1') {
-    raritySrc.value = '/images/r-bg.png'
-  } else if (rarity === '2') {
-    raritySrc.value = '/images/sr-bg.png'
-  } else if (rarity === '3') {
-    raritySrc.value = '/images/ssr-bg.png'
-  }
+  raritySrc.value = props.data.rarity_image
 }
 
 const formatDate = (datetime) => {

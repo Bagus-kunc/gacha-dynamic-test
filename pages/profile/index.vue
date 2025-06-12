@@ -63,11 +63,11 @@
               ]"
             />
             <Button
-              @click="updateModel('gender', 'Non-Binary')"
+              @click="updateModel('gender', 'No-Answer')"
               :label="$t('noAnswer')"
               :class="[
                 'bg-white w-4/12 h-full border border-exd-stone-300 rounded-none !text-exd-gray-scorpion',
-                form.gender === 'Non-Binary' && '!bg-exd-banana',
+                form.gender === 'No-Answer' && '!bg-exd-banana',
               ]"
             />
           </ButtonGroup>
@@ -264,7 +264,7 @@ const errorKeyPostCode = ref('')
 const errorPostCodeMessage = computed(() => t(errorKeyPostCode.value))
 
 const form = reactive({
-  gender: 'Non-Binary',
+  gender: 'No-Answer',
   postCode: '',
   prefecture: '',
   address: '',
@@ -338,6 +338,7 @@ const isFormChanged = () => {
 }
 
 const validateForm = () => {
+  const requiredFields = ['email', 'password', 'postCode']
   let isValid = true
 
   if (!emailRegex(form.email)) {
@@ -359,6 +360,13 @@ const validateForm = () => {
       firstErrorElement.style.marginTop = ''
     }, 3000)
     return false
+  }
+
+  for (const field of requiredFields) {
+    if (!form[field]) {
+      console.log('Field must be filled:', field)
+      return false
+    }
   }
 
   return true
@@ -437,21 +445,31 @@ const handleApiError = (error) => {
 
 const buildPayload = () => {
   const payload = {
+    gender: form.gender,
     email: form.email,
     password: form.password,
+    postal_code: form.postCode,
+    prefecture: form.prefecture,
+    city: form.city,
+    area: form.area,
+    address: form.area
   }
 
   return payload
 }
 
 const handleSubmit = async () => {
+    
+  if (!validateForm()) return
+  if (!form.postCode || form.postCode.length < 7 || errorPostCodeMessage.value) {
+    return
+  }
+  
   errorScroll.value = []
 
-  validateOnSubmit.value = true
-
-  if (!validateForm()) return
-
   isLoading.value = true
+
+  validateOnSubmit.value = true
 
   const payload = buildPayload()
 

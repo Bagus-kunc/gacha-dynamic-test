@@ -11,9 +11,9 @@
         >
           {{ $t('currentPoints') }}
         </p>
-        <p class="relative -ml-4 font-bold text-white text-[30px] -top-[2px]">
+        <Skeleton v-if="!store.point" class="!h-5 mt-2 bg-white !w-20 mr-4"/>
+        <p v-else class="relative -ml-4 font-bold text-white text-[30px] -top-[2px]">
           {{ store.point }}<span class="text-exd-1020">pt</span>
-          <!-- {{ store.point }}<span class="text-exd-1020">個</span> -->
         </p>
       </div>
 
@@ -33,7 +33,7 @@
 </template>
 
 <script setup>
-import goToAichi from '~/assets/images/go-to-aichi.png'
+import iconPin from '~/assets/images/icon-pin.svg'
 import iconStar from '~/assets/images/icon-star.svg'
 import collection from '~/assets/images/collection.png'
 import iconPerson from '~/assets/images/icon-person.png'
@@ -54,8 +54,8 @@ const menuItems = ref([
     onClick: () => router.push('/history'),
   },
   {
-    icon: goToAichi,
-    label: 'letsGoToAichi',
+    icon: iconPin,
+    label: 'targetSpot',
     onClick: () => window.open('https://aichi-platform.com', '_blank'),
   },
   {

@@ -11,11 +11,16 @@
         class="grow w-full flex flex-col items-center justify-center relative mb-4 mt-[15%]"
       >
         <img
-          src="/images/gacha-tom.png"
+          src="/images/gacha-aichi.png"
           alt="gacha2"
           class="absolute left-1/2 top-1/2 transform -translate-x-1/2 -translate-y-[47%] w-full h-auto max-h-[80%] object-contain"
           preload
         />
+
+      </div>
+      
+      <div class="flex flex-col items-center justify-center w-full gap-4 px-6 py-6 mb-10">
+        <p class="underline cursor-pointer sm:text-exd-1424 text-exd-1218 text-exd-gray-scorpion" @click="handleAboutSpin">{{ $t('aboutSpin') }}</p>
       </div>
 
       <SolidButton
@@ -257,6 +262,51 @@
   </Dialog>
 
   <Dialog
+    :visible="showAboutSpin"
+    modal
+    class="!rounded-2xl !text-exd-gray-scorpion !bg-white !w-exd-300 !max-w-sm border border-exd-gray-44"
+    pt:root:class="!border-none"
+    pt:root:style="width: 21rem !important"
+    style="
+      font-family: -apple-system, 'Noto Sans JP', sans-serif;
+      font-size: 1rem;
+    "
+  >
+    <template #container>
+      <img
+        :src="close"
+        alt="close"
+        width="30"
+        height="30"
+        preload
+        class="absolute z-50 cursor-pointer right-1 top-1"
+        @click="closeShowAboutSpin"
+      />
+      <div
+        class="relative flex flex-col items-center justify-center w-full gap-2 px-6 py-6 overflow-hidden"
+      >
+       <h1 class="font-medium text-exd-1424">{{ $t('aboutSpin') }}</h1>
+        <div class="flex flex-col gap-1">
+          <p class="py-1 text-center text-white text-exd-1416 bg-exd-red-coral">{{ t('point') }}</p>
+          <p class="text-exd-1424">{{ t('descPoint') }}</p>
+        </div>
+        <div class="flex flex-col gap-1">
+          <p class="py-1 text-center text-white text-exd-1416 bg-exd-red-coral">{{ t('character') }}</p>
+          <p class="text-exd-1424">{{ t('descCharacter') }}</p>
+        </div>
+        
+        <div class="w-full border divide-y rounded-md divide-exd-gray-scorpion divide-solid border-exd-gray-scorpion">
+          <div v-for="item in aboutSpinItems" :key="item.id" class="flex font-medium text-exd-1320 ">
+            <p class="divide-x divide-exd-gray-scorpion divide-solid min-w-[50px] p-1 flex items-center justify-center h-auto bg-[#919191] text-white"><span>{{ item.name }}</span></p>
+            <p class="divide-x divide-exd-gray-scorpion divide-solid flex items-center justify-center min-w-[40px] bg-gray-300"><span>{{ item.percen }}%</span></p>
+            <p class="flex items-center justify-center px-1 divide-x divide-exd-gray-scorpion divide-solid "><span>{{ t(item.desc) }}</span></p>
+          </div>
+        </div>
+      </div>
+    </template>
+  </Dialog>
+
+  <Dialog
     v-model:visible="modalSpinWarning"
     modal
     class="!bg-white !w-11/12 !max-w-sm border border-exd-gray-44"
@@ -304,9 +354,11 @@ const router = useRouter()
 const route = useRoute()
 const errorMessages = ref('')
 const isNotAllowed = ref(false)
+const showAboutSpin = ref(false)
 const playVideo = ref(false)
 const handleOpenDialog = () => (isNotAllowed.value = true)
 const handleCloseDialog = () => (isNotAllowed.value = false)
+const handleAboutSpin = () => (showAboutSpin.value = true)
 
 const { encryptData, decryptData } = useEncryption()
 const { t, locale } = useI18n()
@@ -331,6 +383,12 @@ const locationBlocked = ref(false)
 const isSplashComplete = ref(false)
 const modalSpinWarning = ref(false)
 const redirectLink = ref('')
+
+const aboutSpinItems = ref([
+  { id: 1, name: 'R', percen: 30, desc: 'normalMorizzoAndKiccoro' },
+  { id: 2, name: 'SR', percen: 65, desc: 'localMorizzoAndKiccoro' },
+  { id: 3, name: 'SSR', percen: 5, desc: 'aniversaryMorizzoAndKiccoro' },
+]);
 
 const handleCloseModalSpinWarning = () => {
   modalSpinWarning.value = false
@@ -417,6 +475,10 @@ const closeStepAllowLocation = () => {
   selectedContent.value = 1
 }
 
+const closeShowAboutSpin = () => {
+  showAboutSpin.value = false
+}
+
 const getPassword = async (id) => {
   try {
     isLoading.value = true
@@ -424,7 +486,6 @@ const getPassword = async (id) => {
     const { data } = await useFetchApi('GET', '/location/password/' + id)
 
     if (!data.not_required_radius) {
-      console.log('check radius')
       await checkingLocation()
     }
 
@@ -583,9 +644,6 @@ const checkSpinEligibility = async () => {
   const spinType = useState('spin_type').value
   const readySpinAfterDate = parse?.spin_date_interval
   const now = new Date().getTime()
-
-  console.log('spinType', spinType)
-  console.log('readySpinAfterDate', parse)
 
   if (slugData && spinType === 1) {
     const expired_date = moment(new Date(parse.spin_date))

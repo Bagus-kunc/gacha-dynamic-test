@@ -320,7 +320,7 @@ const fetchingHistoryData = async () => {
       initializeMap(data.lat, data.long)
     }
 
-    handleRarity(data.character_rarity)
+    handleRarity(data.character.rarity_image_in_gacha_history)
   } catch (error) {
     console.log(error)
   } finally {
@@ -493,14 +493,7 @@ const downloadImage = async () => {
 }
 
 const handleRarity = (rarityChar) => {
-  const rarity = rarityChar
-  if (rarity === '1') {
-    rarityImg.value = '/images/r-bg.png'
-  } else if (rarity === '2') {
-    rarityImg.value = '/images/sr-bg.png'
-  } else if (rarity === '3') {
-    rarityImg.value = '/images/ssr-bg.png'
-  }
+  rarityImg.value = rarityChar
 }
 
 onBeforeMount(async () => {
