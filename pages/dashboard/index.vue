@@ -85,7 +85,7 @@
         <p
           class="inline-flex items-center gap-1 font-bold text-exd-gray-scorpion grow text-exd-1424"
         >
-          {{ $t('dummy') }}
+          {{ $t('letsGoToAichi') }}
           <span>
             <img :src="exportIcon" alt="export" width="20" height="20" preload
           /></span>
@@ -223,7 +223,7 @@ const handleGoToHelp = () => {
   window.open('https://horishoten75th.dela-kuji.jp/manual', '_blank')
 }
 const handleGoToDigitalMap = () => {
-  window.open('https://www.horishoten.co.jp/', '_blank')
+  window.open('https://aichi-platform.com', '_blank')
 }
 
 const TOKEN = useCookie('TOKEN')

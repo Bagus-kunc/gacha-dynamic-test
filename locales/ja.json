@@ -13,6 +13,7 @@
   "exchangeHistory": "交換履歴",
   "toHoriShoten": "堀商店へ",
   "letsGoToAichi": "旅ろっ！愛知",
+  "targetSpot": "対象スポット",
   "membershipInformation": "会員情報",
   "shoppingStreet": "円頓寺商店街",
   "helpAndInquiries": "ヘルプ・お問い合わせ",
@@ -331,5 +332,13 @@
   "playAgain": "ありがとうございました！",
   "enterSameEmail": "堀商店サイトと同じメールアドレスを入力ください。",
   "characterIntroduction": "キャラ紹介",
-  "loginAndEarnPoints": "ログイン後、ポイント獲得"
+  "loginAndEarnPoints": "ログイン後、ポイント獲得",
+  "aboutSpin": "ポイント・キャラクターについて",
+  "point":"ポイント",
+  "descPoint": "10pt・30pt・50ptのいずれかがランダムで出ます。ポイントを集めて景品をGET！",
+  "character":"キャラクター",
+  "descCharacter": "ポイントと同時に、モリゾー・キッコロが出ます。獲得したキャラクターは、マイページから確認できます。",
+  "normalMorizzoAndKiccoro": "通常のモリゾー・キッコロ",
+  "localMorizzoAndKiccoro": "ゲームをプレイした各市町村の ご当地モリゾー・キッコロ",
+  "aniversaryMorizzoAndKiccoro": "愛・地球博20祭 モリゾー・キッコロ"
 }

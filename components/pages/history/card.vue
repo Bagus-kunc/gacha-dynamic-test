@@ -52,14 +52,7 @@ const raritySrc = ref('')
 const handleGoToDetailHistory = () => router.push(`/history/${props.data.id}`)
 
 const handleRarity = () => {
-  const rarity = props.data.subtitle
-  if (rarity === 'R') {
-    raritySrc.value = '/images/r-bg.png'
-  } else if (rarity === 'SR') {
-    raritySrc.value = '/images/sr-bg.png'
-  } else if (rarity === 'SSR') {
-    raritySrc.value = '/images/ssr-bg.png'
-  }
+  raritySrc.value = props.data.rarity_image
 }
 
 const formatDate = (datetime) => {

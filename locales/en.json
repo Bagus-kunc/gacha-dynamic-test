@@ -17,6 +17,7 @@
   "shoppingStreet": "Mentonji Shopping Street",
   "toHoriShoten": "To Hori Shoten",
   "letsGoToAichi": "Let’s Travel! Aichi",
+  "targetSpot": "Target Spot",
   "helpAndInquiries": "Help & Inquiries",
   "toTheDigitalMap": "Nagoya Sightseeing Digital Map",
   "logout": "Logout",
@@ -330,5 +331,13 @@
   "playAgain": "Thank You Very Much!",
   "enterSameEmail": "Please enter the same email address as on the Hori Shoten website.",
   "characterIntroduction": "Character Introduction",
-  "loginAndEarnPoints": "Log in and earn points"
+  "loginAndEarnPoints": "Log in and earn points",
+  "aboutSpin": "About points and characters",
+  "point": "Point",
+  "descPoint": "You’ll randomly receive either 10, 30, or 50 points. Collect points and win prizes!",
+  "character": "Character",
+  "descCharacter": "Along with the points, Morizo and Kiccoro will also appear! You can check the characters you've collected from your My Page.",
+  "normalMorizzoAndKiccoro": "Normal Morizo ​​and Kikkoro",
+  "localMorizzoAndKiccoro": "Local Versions of Morizo ​​& Kiccoro from Each Visited Municipality",
+  "aniversaryMorizzoAndKiccoro": "Morizo and Kiccoro – Expo 2005 20th Anniversary"
 }
