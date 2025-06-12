@@ -54,7 +54,7 @@
 
       <div
         class="absolute text-exd-dark-grey bg-white flex justify-center px-4 py-3 min-h-[50px] rounded-lg"
-        :class="hideCharacterInfo ? 'bottom-[15%]' : 'bottom-[23%]'"
+        :class="hideCharacterInfo ? 'sm:bottom-[15%] bottom-[14.5%]' : 'sm:bottom-[23%] bottom-[21.5%]'"
       >
         <p class="text-[17px] max-w-[278px] text-center">{{ charName }}</p>
       </div>
