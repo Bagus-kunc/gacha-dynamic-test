@@ -138,6 +138,8 @@ const fetchImageFromApi = async () => {
         data?.ready_spin_after_date || ''
       )
 
+      console.log(data)
+
       const storage = {
         location_id: data.userPoint.location.id,
         point_id: data.userCollection.user_point.point?.id,
@@ -264,6 +266,8 @@ const fetchImageFromApi = async () => {
         },
       })
 
+      console.log(data)
+
       const storage = {
         location_id: data.location?.id,
         point_id: data.point?.id,
@@ -274,7 +278,7 @@ const fetchImageFromApi = async () => {
         character_name: data.character?.name,
         character_description: data.character?.description,
         character_category: data.character?.category,
-        character_rarity: data.character?.rarity,
+        character_rarity: data.character?.rarity_image_during_gacha,
         character_star1: data.character?.star1,
         character_star2: data.character?.star2,
         character_star3: data.character?.star3,
