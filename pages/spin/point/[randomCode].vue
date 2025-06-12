@@ -138,8 +138,6 @@ const fetchImageFromApi = async () => {
         data?.ready_spin_after_date || ''
       )
 
-      console.log(data)
-
       const storage = {
         location_id: data.userPoint.location.id,
         point_id: data.userCollection.user_point.point?.id,
@@ -162,6 +160,7 @@ const fetchImageFromApi = async () => {
         button_name: data.button_name,
         popup_description: data.popup_description,
         redirect_link: data.redirect_link,
+        hide_character_info: data?.hide_character_info,
       }
 
       localStorage.setItem(slugStorageName, encryptData(storage))
@@ -349,16 +348,16 @@ const reportMultipleSpin = async ({ gift_id, character_id, location_id }) => {
 }
 
 const handleButton = async () => {
-  // if (!hideCharacter.value) {
+  if (!hideCharacter.value) {
   playVideo.value = true
-  //   return
-  // }
+    return
+  }
 
-  // if (!TOKEN.value && !USER.value) {
-  //   handleShowDialog()
-  // } else {
-  //   await navigateTo('/dashboard')
-  // }
+  if (!TOKEN.value && !USER.value) {
+    handleShowDialog()
+  } else {
+    await navigateTo('/dashboard')
+  }
 }
 
 const handleGoToCharacter = async () => {

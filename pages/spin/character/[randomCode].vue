@@ -47,12 +47,14 @@
         class="relative top-1/2 -translate-y-[50%]"
         :imageSrc="characterImageUrl"
         :raritySrc="raritySrc"
+        :hideCharacterInfo="hideCharacterInfo"
         width="100%"
         height="100%"
       />
 
       <div
-        class="absolute text-exd-dark-grey bg-white flex justify-center bottom-[22%] px-4 py-3 min-h-[50px] rounded-lg"
+        class="absolute text-exd-dark-grey bg-white flex justify-center px-4 py-3 min-h-[50px] rounded-lg"
+        :class="hideCharacterInfo ? 'bottom-[15%]' : 'bottom-[23%]'"
       >
         <p class="text-[17px] max-w-[278px] text-center">{{ charName }}</p>
       </div>
