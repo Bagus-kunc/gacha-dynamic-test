@@ -147,7 +147,7 @@ const fetchImageFromApi = async () => {
         character_image: data.userCollection.gacha_character.image,
         character_name: data.userCollection.gacha_character.name,
         character_category: data.userCollection.gacha_character.category,
-        character_rarity: data.userCollection.gacha_character.rarity,
+        character_rarity: data.userCollection.gacha_character.rarity_image_during_gacha,
         character_star1: data.userCollection.gacha_character.star1,
         character_star2: data.userCollection.gacha_character.star2,
         character_star3: data.userCollection.gacha_character.star3,

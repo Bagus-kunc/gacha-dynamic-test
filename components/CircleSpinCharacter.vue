@@ -4,14 +4,7 @@ const props = defineProps(['imageSrc', 'raritySrc', 'headSrc'])
 const rarityImg = ref('')
 
 const handleRarity = () => {
-  const rarity = props.raritySrc
-  if (rarity === 'R') {
-    rarityImg.value = '/images/r.png'
-  } else if (rarity === 'SR') {
-    rarityImg.value = '/images/sr.png'
-  } else if (rarity === 'SSR') {
-    rarityImg.value = '/images/ssr.png'
-  }
+  rarityImg.value = props.raritySrc
 }
 
 watchEffect(() => {
