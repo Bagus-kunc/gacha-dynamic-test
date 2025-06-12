@@ -223,6 +223,7 @@ const fetchingPrizesData = async () => {
   try {
     isFetching.value = true
     const { data } = await useFetchApi('GET', 'prize-list')
+    console.log(data)
     prizes.value = data
   } catch (error) {
     console.log(error)

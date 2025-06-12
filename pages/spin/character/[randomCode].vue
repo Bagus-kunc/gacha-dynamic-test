@@ -3,7 +3,7 @@
     class="grow bg-[url('/images/bg-rainbow.png')] bg-cover bg-center relative flex flex-col justify-center items-center"
     @touchmove="(e) => e.preventDefault()"
   >
-    <!-- <Button
+    <Button
       v-if="!hideCharacterInfo"
       @click="handleBtnIntroduce"
       class="bg-rainbow !absolute text-white font-bold flex justify-center bottom-[12%] items-center rounded-full px-4 py-3 h-[14.222vw] w-[41.522vw] max-w-[191px] max-h-[65px] text-[16px] !z-[100]"
@@ -15,7 +15,7 @@
         width="20"
         height="20"
       />
-    </Button> -->
+    </Button>
 
     <SparkleStart className="top-3 z-30" />
 
@@ -52,7 +52,7 @@
       />
 
       <div
-        class="absolute text-exd-dark-grey bg-white flex justify-center bottom-[15%] px-4 py-3 min-h-[50px] rounded-lg"
+        class="absolute text-exd-dark-grey bg-white flex justify-center bottom-[22%] px-4 py-3 min-h-[50px] rounded-lg"
       >
         <p class="text-[17px] max-w-[278px] text-center">{{ charName }}</p>
       </div>
@@ -120,7 +120,7 @@
   <Transition name="fade-slide" mode="out-in">
     <div
       v-if="opIntro"
-      class="with-scroll fixed z-40 transform -translate-x-1/2 -translate-y-1/2 rounded-lg shadow w-[88.889vw] sm:w-[350px] bg-white/85 sm:bottom-[17%] bottom-[13%] left-1/2"
+      class="with-scroll fixed z-40 transform -translate-x-1/2 -translate-y-1/2 rounded-lg shadow w-[88.889vw] sm:w-[350px] bg-white/90 sm:bottom-[17%] bottom-[13%] left-1/2"
     >
       <div
         class="flex flex-col gap-2 p-5 max-h-[250px] overflow-y-auto scrollbar-thin scrollbar-thumb-exd-gray-scorpion scrollbar-track-transparent"
