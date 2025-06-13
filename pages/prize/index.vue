@@ -16,22 +16,24 @@
     <div class="relative flex flex-col gap-3 px-10 -top-10">
       <template v-if="isFetching">
         <PagesPrizeCard
-          v-for="(prize, key) in dummyPrizes"
-          :key="key"
-          :keyBody="key"
-          :body="prize.data"
+          v-for="(prize) in prizes.data"
+          :key="prize.slug"
+          :keyBody="prize.title"
+          :body="prize.prizes"
           :totalData="prize.totalVoucher"
+          :headColor="prize.color"
           :currentPoint="store.point"
           :is-fetching="true"
         />
       </template>
       <template v-else>
         <PagesPrizeCard
-          v-for="(prize, key) in dummyPrizes"
-          :key="key"
-          :keyBody="key"
-          :body="prize.data"
+          v-for="(prize) in prizes.data"
+          :key="prize.slug"
+          :keyBody="prize.title"
+          :body="prize.prizes"
           :totalData="prize.totalVoucher"
+          :headColor="prize.color"
           :currentPoint="store.point"
           :is-fetching="false"
         />
@@ -48,13 +50,13 @@
         </p>
         <Skeleton
           v-else
-          class="font-semibold h-5 md:text-[15px] sm:text-[14px] text-[13px]"
+          class="font-semibold !h-10 md:text-[15px] sm:text-[14px] text-[13px]"
         >
         </Skeleton>
       </div>
       <template v-if="isFetching">
         <PagesPrizeHistory
-          v-for="(redeem, key) in dummyReedems"
+          v-for="(redeem, key) in redeems"
           :key="key"
           :keyBody="key"
           :body="redeem"
@@ -64,7 +66,7 @@
       </template>
       <template v-else>
         <PagesPrizeHistory
-          v-for="(redeem, key) in dummyReedems"
+          v-for="(redeem, key) in redeems"
           :key="key"
           :keyBody="key"
           :body="redeem"
@@ -120,117 +122,35 @@ const prizes = ref([])
 const redeems = ref([])
 const prizeCards = ref(null)
 const isFetching = ref(false)
-const rankColor = ref('rainbow')
 
 const prizeHistory = ref(null)
-
-const dummyPrizes = {
-  '2000pt': {
-    totalVoucher: 2,
-    data: [
-      {
-        user_point_id: 1,
-        point_id: 1,
-        image: '/images/character.png',
-        name: '景品名景品名景品名景品名景品名景品名景品名景品名景品名景品名',
-        started_at: '2022/01/01',
-        expired_at: '2022/01/01',
-      },
-      {
-        user_point_id: 2,
-        point_id: 2,
-        image: '/images/character.png',
-        name: '景品名景品名景品名景品名景品名景品名景品名景品名景品名景品名景品名景品名景品名景品名景品名景品名景品名景品名景品名景品名',
-        started_at: '2022/01/01',
-        expired_at: '2022/01/01',
-      },
-    ],
-  },
-  '1000pt': {
-    totalVoucher: 1,
-    data: [
-      {
-        user_point_id: 1,
-        point_id: 1,
-        image: '/images/character.png',
-        name: '景品名景品名景品名景品名景品名景品名景品名景品名景品名景品名',
-        started_at: '2022/01/01',
-        expired_at: '2022/01/01',
-      },
-    ],
-  },
-  '500pt': {
-    totalVoucher: 1,
-    data: [
-      {
-        user_point_id: 1,
-        point_id: 1,
-        image: '/images/character.png',
-        name: '景品名景品名景品名景品名景品名景品名景品名景品名景品名景品名',
-        started_at: '2022/01/01',
-        expired_at: '2022/01/01',
-      },
-    ],
-  },
-  '200pt': {
-    totalVoucher: 1,
-    data: [
-      {
-        user_point_id: 1,
-        point_id: 1,
-        image: '/images/character.png',
-        name: '景品名景品名景品名景品名景品名景品名景品名景品名景品名景品名',
-        started_at: '2022/01/01',
-        expired_at: '2022/01/01',
-      },
-    ],
-  },
-  '50pt': {
-    totalVoucher: 1,
-    data: [
-      {
-        user_point_id: 1,
-        point_id: 1,
-        image: '/images/character.png',
-        name: '景品名景品名景品名景品名景品名景品名景品名景品名景品名景品名',
-        started_at: '2022/01/01',
-        expired_at: '2022/01/01',
-      },
-    ],
-  },
-}
-
-const dummyReedems = [
-  {
-    user_point_id: 1,
-    point_id: 1,
-    rank: 's',
-    image: '/images/character.png',
-    name: '景品名景品名景品名景品名景品名景品名景品名景品名景品名景品名',
-    redeem_at: '2022-01-01',
-  },
-  {
-    user_point_id: 2,
-    point_id: 2,
-    rank: 'a',
-    image: '/images/character.png',
-    name: '景品名景品名景品名景品名景品名景品名景品名景品名景品名景品名',
-    redeem_at: '2022-01-01',
-  },
-]
 
 const fetchingPrizesData = async () => {
   try {
     isFetching.value = true
     const { data } = await useFetchApi('GET', 'prize-list')
-    console.log(data)
-    prizes.value = data
+
+    const sortedData = [...data.data]
+      .filter(item => item.title.includes('pt'))
+      .sort((a, b) => {
+        const numA = parseInt(a.title.replace('pt', ''))
+        const numB = parseInt(b.title.replace('pt', ''))
+        return numB - numA 
+      })
+
+    const others = data.data.filter(item => !item.title.includes('pt'))
+
+    prizes.value = {
+      ...data,
+      data: [...sortedData, ...others],
+    }
   } catch (error) {
     console.log(error)
   } finally {
     isFetching.value = false
   }
 }
+
 
 const fetchingRedeemsData = async () => {
   try {

@@ -98,6 +98,5 @@ const handleClick = async () => {
 onMounted(() => {
   saveSpin()
   type.value = sessionStorage.getItem('type')
-  type.value = route.query.type
 })
 </script>

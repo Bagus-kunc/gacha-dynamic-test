@@ -10,18 +10,33 @@
           class="inline-flex justify-between pr-4 text-exd-gray-scorpion w-100"
         >
           <div class="flex flex-col items-start justify-center gap-1">
-            <p
-              class="px-[6px] text-center text-white rounded-md text-[11px]"
-              :class="color"
+            <img 
+              v-if="body.rarity?.type === 'image'"
+              :src="body.rarity?.image"
+              alt="arrow"
+              width="30"
+              height="30"
+              preload
+              class=""
+            />
+
+            <i18n-t
+              v-else-if="body.rarity?.type === 'color'"
+              keypath="prize"
+              tag="div"
+              scope="global"
+              class="font-bold text-exd-1013.62 text-white py-[2px] px-2 flex items-center justify-center rounded-lg"
+              :style="{ backgroundColor: body.rarity.background_color, color: body.rarity.text_color }"
             >
-              {{ body.rank.toUpperCase() }}{{ $t('prize') }}
-            </p>
+              <template v-slot:rank>
+                {{ body.rarity.text.toUpperCase() }}
+              </template>
+            </i18n-t>
+
             <p class="font-semibold md:text-[15px] sm:text-[14px] text-[13px]">
               {{ body.name }}
             </p>
-            <!-- <p class="md:text-[13px] sm:text-[12px] text-[10px] font-medium">
-              {{ $t('exchangeCompleted') }}：{{ body.reedem_at }}
-            </p> -->
+            
           </div>
         </div>
       </template>

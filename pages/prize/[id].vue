@@ -10,40 +10,50 @@
 
   <div class="flex flex-col px-8 mt-32 text-black bg-center">
     <div
-      class="max-w-sm overflow-hidden bg-white border border-gray-200 rounded-lg shadow"
+      class="flex flex-col max-w-sm gap-2 overflow-hidden bg-white border border-gray-200 rounded-lg shadow"
     >
       <div class="w-full overflow-hidden bg-[#FFF6E8]">
         <Skeleton v-if="isFetching" class="!w-full !h-full"></Skeleton>
         <CharacterCard
           v-else
-          :image="detailData.gift.image"
+          :image="prizeDetailData.image"
           variant="without-background"
         />
       </div>
       <div class="flex flex-col justify-between w-full p-5">
         <div class="flex flex-col gap-4">
-          <div class="relative inline-flex justify-between w-full gap-5">
+          <div class="relative inline-flex items-center justify-between w-full gap-5">
             <Skeleton v-if="isFetching" class="!h-3" width="15rem"></Skeleton>
             <p
               v-else
               class="font-bold text-exd-1424 max-w-[220px] line-clamp-2 text-exd-gray-scorpion"
             >
-              {{ detailData.gift.name }}
+              {{ prizeDetailData.name }}
             </p>
             <Skeleton
               v-if="isFetching"
               class="!h-3 !rounded-full !bg-exd-orange-700"
               width="2rem"
             ></Skeleton>
+            <img 
+              v-else-if="prizeDetailData.rarity?.type === 'image'"
+              :src="prizeDetailData.rarity?.image"
+              alt="arrow"
+              width="50"
+              height="50"
+              preload
+              class=""
+            />
             <i18n-t
+              v-else-if="prizeDetailData.rarity?.type === 'color'"
               keypath="prize"
               tag="div"
               scope="global"
               class="font-bold text-exd-1824.52 text-white p-1 flex items-center justify-center rounded-full right-0 top-5 min-w-12 min-h-12"
-              :class="colorBg"
+              :style="{ backgroundColor: prizeDetailData.rarity.background_color, color: prizeDetailData.rarity.text_color }"
             >
               <template v-slot:rank>
-                {{ detailData.gift.rank.toUpperCase() }}
+                {{ prizeDetailData.rarity.text.toUpperCase() }}
               </template>
             </i18n-t>
           </div>
@@ -51,28 +61,27 @@
           <HeadingSection
             :is-fetching="isFetching"
             :title="$t('howToGetPrizes')"
-            :body="detailData.gift != null ? detailData.gift?.how_to_win : ''"
+            :body="prizeDetailData != null ? prizeDetailData?.how_to_win : ''"
           />
 
           <HeadingSection
             :is-fetching="isFetching"
             :title="$t('conditionsOfUse')"
-            :body="detailData.gift != null ? detailData.gift?.term_of_use : ''"
+            :body="prizeDetailData != null ? prizeDetailData?.terms_of_use : ''"
           />
         </div>
       </div>
       <SolidButton
-        :disabled="disableRedeem || isFetching"
         :label="disableRedeem ? $t('cannotBeExchanged') : $t('exchange')"
+        :disabled="disableRedeem || isFetching"
         :on-click="handleToggleModal"
-        :variant="!disableRedeem ? 'red-coral' : 'disabled'"
+        :variant="`red-coral`"
         has-bottom
       />
     </div>
   </div>
 
   <Dialog
-    v-if="popupType === 'a'"
     v-model:visible="hasModal"
     modal
     class="!bg-white w-11/12 md:!w-5/12 !max-w-sm border border-exd-gray-44"
@@ -111,41 +120,6 @@
     </template>
   </Dialog>
 
-  <Dialog
-    v-if="popupType === 'b'"
-    v-model:visible="hasModal"
-    modal
-    class="!bg-white w-11/12 md:!w-5/12 !max-w-sm border border-exd-gray-44"
-  >
-    <template #container>
-      <img
-        :src="close"
-        alt="close"
-        width="30"
-        height="30"
-        preload
-        class="absolute z-50 cursor-pointer right-1 top-1"
-        @click="handleToggleModal"
-      />
-      <div
-        class="flex flex-col items-center justify-center w-full gap-4 px-5 py-8 my-2"
-      >
-        <p
-          class="text-exd-gray-scorpion text-center text-[14px] small:w-[105%] w-[80%]"
-          style="text-shadow: 0 3px 3px rgba(0, 0, 0, 0.16)"
-          v-html="formattedMessage"
-        ></p>
-      </div>
-      <div class="mt-3 mb-7">
-        <SolidButton
-          :label="$t('arrived')"
-          :on-click="handleGoToClaim"
-          variant="red-coral"
-          has-bottom
-        />
-      </div>
-    </template>
-  </Dialog>
 </template>
 
 <script setup>
@@ -154,11 +128,6 @@ import { useRoute } from 'vue-router'
 import { useRouter } from 'vue-router'
 import close from '~/assets/images/close.svg'
 import { store } from '~/stores/dashboard.js'
-import rainbow from '~/assets/images/rainbow-circle.png'
-import gold from '~/assets/images/gold-circle.png'
-import silver from '~/assets/images/silver-circle.png'
-import brown from '~/assets/images/brown-circle.png'
-import bronze from '~/assets/images/bronze-circle.png'
 
 definePageMeta({
   middleware: 'auth',
@@ -178,22 +147,13 @@ const disableRedeem = ref(false)
 const config = useRuntimeConfig()
 const { t } = useI18n()
 const LOCALE = useCookie('LOCALE')
-const handleToggleModal = () => (hasModal.value = !hasModal.value)
 const handleGoToClaim = () => router.push(`/claim/${route.params.id}`)
-const handleGoToRedeem = () =>
-  router.push(`/redeem/${route.params.id}?type=${popupType.value}`)
-
-const detailData = {
-  gift: {
-    image: '/images/character.png',
-    rank: 's',
-    name: '景品名景品名景品名景品名景品名 景品名景品名景品名景品名景品名',
-    how_to_win:
-      'ダミーダミーダミーダミーダミーダミーダミーダミーダミーダミーダミーダミーダミーダミー',
-    term_of_use:
-      'ダミーダミーダミーダミーダミーダミーダミーダミーダミーダミーダミーダミーダミーダミー',
-  },
+const handleToggleModal = () => {
+  if (disableRedeem.value) return
+  hasModal.value = !hasModal.value
 }
+const handleGoToRedeem = () =>
+  router.push(`/redeem/${route.params.id}`)
 
 const colorBg = ref('')
 
@@ -226,10 +186,10 @@ const fetchingPrizeData = async () => {
     isFetching.value = true
     const { data } = await useFetchApi('GET', 'prize-list/' + id)
     prizeDetailData.value = data
-    checkType(data.type)
-    if (data.lat !== null && data.long !== null) {
-      initializeMap(data.location.lat, data.location.long)
-    }
+    checkPoint(data.point)
+    // if (data.lat !== null && data.long !== null) {
+    //   initializeMap(data.location.lat, data.location.long)
+    // }
     popupType.value = data.type
   } catch (error) {
     console.log(error)
@@ -247,8 +207,9 @@ const checkType = (type) => {
 }
 
 const checkPoint = (point) => {
+
   try {
-    const currentPoint = store.point
+    const currentPoint = parseInt(store.point)
     if (currentPoint < point) {
       disableRedeem.value = true
     }
@@ -301,30 +262,9 @@ const openGoogleMaps = () => {
   }
 }
 
-const handleRankColor = () => {
-  const rank = detailData.gift.rank
-  if (rank === 's') {
-    colorBg.value = 'bg-exd-gold'
-    return colorBg.value
-  } else if (rank === 'a') {
-    colorBg.value = 'bg-exd-red-vermilion'
-    return colorBg.value
-  } else if (rank === 'b') {
-    colorBg.value = 'bg-exd-blue-sky'
-    return colorBg.value
-  } else if (rank === 'c') {
-    colorBg.value = 'bg-exd-green-tea'
-    return colorBg.value
-  } else if (rank === 'd') {
-    colorBg.value = 'bg-exd-purple-gray'
-    return colorBg.value
-  }
-}
-
 onMounted(async () => {
   await loadGoogleMaps()
   await fetchingPrizeData()
-  handleRankColor()
 })
 
 watch(LOCALE, async (val) => {

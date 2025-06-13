@@ -3,7 +3,8 @@
     class="max-w-sm overflow-hidden rounded-xl"
     v-if="body.length > 0"
   >
-    <div class="flex justify-between w-full px-2 py-1 min-h-6" :class="color">
+    <div v-if="headColor"
+    :style="{ backgroundColor: headColor }" :class="`lex justify-between w-full px-2 py-1 min-h-6`">
       <template v-if="!isFetching">
         <i18n-t
           keypath="availablePoints"
@@ -20,8 +21,8 @@
     <template v-if="!isFetching">
       <ImageTextCard
         v-for="item in body"
-        :key="item.user_point_id"
-        :on-click="() => handleGoToDetailRedeem(item.point_id)"
+        :key="item.id"
+        :on-click="() => handleGoToDetailRedeem(item.id)"
         :image-card="item.image"
         :is-fetching="isFetching"
         :isDisabled="currentPoint < parseInt(keyBody, 10)"
@@ -71,39 +72,19 @@ const props = defineProps({
   totalData: {
     type: [String, Number],
   },
+  headColor: {
+    type: String,
+  },
   currentPoint: {
     type: [Number, String],
     default: 0,
   },
 })
 
-const color = ref('')
-const classType = ref('')
-
 const totalGift = ref(null)
 
 const router = useRouter()
 const handleGoToDetailRedeem = (id) => router.push(`/prize/${id}`)
-
-const handleRankClass = () => {
-  const rank = props.keyBody
-  if (rank === '2000pt') {
-    color.value = 'bg-exd-gold'
-    return color.value
-  } else if (rank === '1000pt') {
-    color.value = 'bg-exd-red-vermilion'
-    return color.value
-  } else if (rank === '500pt') {
-    color.value = 'bg-exd-blue-sky'
-    return color.value
-  } else if (rank === '200pt') {
-    color.value = 'bg-exd-green-tea'
-    return color.value
-  } else if (rank === '50pt') {
-    color.value = 'bg-exd-purple-gray'
-    return color.value
-  }
-}
 
 const formatDate = (datetime) => {
   const date = new Date(datetime)
@@ -114,6 +95,5 @@ const handleTotalData = () => {
   totalGift.value = t('canBeReplaced', { limit: props.totalData })
 }
 
-handleRankClass()
 handleTotalData()
 </script>
