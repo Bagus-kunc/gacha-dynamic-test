@@ -145,14 +145,26 @@
     <div
       class="relative inline-flex flex-col items-center justify-between w-full mx-auto mt-7 -top-12"
     >
-      <!-- <p
-        class="inline-flex items-center justify-center font-bold text-white underline grow text-exd-1424"
+      <Swiper
+        :spaceBetween="30"
+        :centeredSlides="true"
+        :autoplay="{
+          delay: 5000,
+          disableOnInteraction: false,
+        }"
+        :pagination="{
+          clickable: true,
+        }"
+        :navigation="false"
+        :modules="[Autoplay, Pagination, Navigation]"
+        class=""
       >
-        {{ $t('addToHomeScreen') }}
-      </p> -->
-      <NuxtLink to="https://aichi-platform.com" target="_blank" class="w-full">
-        <img :src="banner" width="350" height="180" preload class="w-full" />
-      </NuxtLink>
+        <SwiperSlide v-for="(item, index) in bannerList" :key="index">
+          <a :href="item.link" target="_blank" class="w-full">
+            <img :src="item.image" />
+          </a>
+        </SwiperSlide>
+      </Swiper>
     </div>
   </div>
 
@@ -201,6 +213,9 @@ import { store } from '~/stores/dashboard.js'
 import close from '~/assets/images/close.svg'
 import warning from '~/assets/images/warning.svg'
 import banner from '~/assets/images/banner.png'
+import banner1 from '~/assets/images/banner1.png'
+import { Swiper, SwiperSlide } from 'swiper/vue'
+import { Autoplay, Pagination, Navigation } from 'swiper/modules'
 
 import 'swiper/css'
 import 'swiper/css/pagination'
@@ -357,23 +372,8 @@ const goToSpin = async (url) => {
 }
 
 const bannerList = ref([
-  { image: '/images/banner_01.jpg', link: 'https://www.yabaton.com/' },
-  { image: '/images/banner_02.jpg', link: 'https://www.koushoji.or.jp/' },
-  { image: '/images/banner_03.jpg', link: 'https://www.maruya-honten.com/' },
-  {
-    image: '/images/banner_04.jpg',
-    link: 'https://www.nagoya-tv-tower.co.jp/',
-  },
-  {
-    image: '/images/banner_05.jpg',
-    link: 'https://www.tokyuhotels.co.jp/nagoya-h/index.html',
-  },
-  { image: '/images/banner_06.jpg', link: 'https://www.kani-honke.co.jp/' },
-  { image: '/images/banner_07.jpg', link: 'https://nagoya.nikkostyle.jp/' },
-  {
-    image: '/images/banner_08.jpg',
-    link: 'https://www.nagoya-info.jp/accommodation/detail/115/',
-  },
+  { image: banner, link: 'https://aichi-platform.com' },
+  { image: banner1, link: 'https://aichiexpo20th.org/' },
 ])
 
 onMounted(() => {

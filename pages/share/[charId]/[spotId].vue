@@ -98,13 +98,13 @@
                 class="!h-3 !bg-exd-gold !rounded-full"
                 width="2rem "
               />
-              <!-- <p
+              <p
                 v-else
                 class="font-bold text-exd-1824.52 text-white p-1 min-h-10 min-w-12 h-10 w-12 flex items-center justify-center rounded-full pr-2 bg-no-repeat bg-contain bg-center"
                 :style="
                   rarityImg ? { backgroundImage: `url(${rarityImg})` } : {}
                 "
-              ></p> -->
+              ></p>
             </div>
 
             <div
@@ -302,6 +302,7 @@ const fetchingShareData = async () => {
 
     if (data.value) {
       shareDetailData.value = data.value.data
+      // handleRarity(data.value.data.character_rarity_image_in_gacha_history)
       handleRarity(data.value.data.character_rarity)
 
       star1.value = calculateStar(data.value.data.character_star1)
@@ -416,11 +417,11 @@ const openGoogleMaps = () => {
 
 const handleRarity = (rarityChar) => {
   const rarity = rarityChar
-  if (rarity === '1') {
+  if (rarity === 'R') {
     rarityImg.value = '/images/r-bg.png'
-  } else if (rarity === '2') {
+  } else if (rarity === 'SR') {
     rarityImg.value = '/images/sr-bg.png'
-  } else if (rarity === '3') {
+  } else if (rarity === 'SSR') {
     rarityImg.value = '/images/ssr-bg.png'
   }
 }

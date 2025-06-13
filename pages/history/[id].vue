@@ -305,14 +305,14 @@ const fetchingHistoryData = async () => {
     star3Name.value = data.character_star_name3
 
     socialMediaLinks.value = [
-      { url: data.character.web1_link, src: web1, alt: 'Web 1' },
-      { url: data.character.web2_link, src: web2, alt: 'Web 2' },
-      { url: data.character.web3_link, src: web3, alt: 'Web 3' },
-      { url: data.character.line_link, src: line, alt: 'Line' },
-      { url: data.character.x_link, src: x, alt: 'X (Twitter)' },
-      { url: data.character.fb_link, src: facebook, alt: 'Facebook' },
-      { url: data.character.ig_link, src: instagram, alt: 'Instagram' },
-      { url: data.character.tt_link, src: tiktok, alt: 'TikTok' },
+      { url: data.character_web1_url, src: web1, alt: 'Web 1' },
+      { url: data.character_web2_url, src: web2, alt: 'Web 2' },
+      { url: data.character_web3_url, src: web3, alt: 'Web 3' },
+      { url: data.character_line_url, src: line, alt: 'Line' },
+      { url: data.character_x_url, src: x, alt: 'X (Twitter)' },
+      { url: data.character_fb_url, src: facebook, alt: 'Facebook' },
+      { url: data.character_ig_url, src: instagram, alt: 'Instagram' },
+      { url: data.character_tt_url, src: tiktok, alt: 'TikTok' },
     ].filter((link) => link.url)
 
     // Memuat peta jika ada koordinat
