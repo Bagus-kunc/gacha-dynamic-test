@@ -138,21 +138,19 @@ const fetchImageFromApi = async () => {
         data?.ready_spin_after_date || ''
       )
 
-      console.log(data)
-
       const storage = {
         location_id: data.userPoint.location.id,
-        point_id: data.userCollection.user_point.point?.id,
-        point_image: data.userCollection.user_point.point?.image,
-        point_name: data.userCollection.user_point.point?.name,
-        character_id: data.userCollection.gacha_character.id,
-        character_image: data.userCollection.gacha_character.image,
-        character_name: data.userCollection.gacha_character.name,
-        character_category: data.userCollection.gacha_character.category,
-        character_rarity: data.userCollection.gacha_character.rarity_image_during_gacha,
-        character_star1: data.userCollection.gacha_character.star1,
-        character_star2: data.userCollection.gacha_character.star2,
-        character_star3: data.userCollection.gacha_character.star3,
+        point_id: data.userPoint.point?.id,
+        point_image: data.userPoint.point?.image,
+        point_name: data.userPoint.point?.name,
+        character_id: data.userCollection?.gacha_character.id,
+        character_image: data.userCollection?.gacha_character.image,
+        character_name: data.userCollection?.gacha_character.name,
+        character_category: data.userCollection?.gacha_character.category,
+        character_rarity: data.userCollection?.gacha_character.rarity_image_during_gacha,
+        character_star1: data.userCollection?.gacha_character.star1,
+        character_star2: data.userCollection?.gacha_character.star2,
+        character_star3: data.userCollection?.gacha_character.star3,
         // gift_id: data.userPoint.gift.point_id,
         // gift_image: data.userPoint.gift.image,
         // gift_type: data.userPoint.gift.type,
@@ -162,6 +160,8 @@ const fetchImageFromApi = async () => {
         button_name: data.button_name,
         popup_description: data.popup_description,
         redirect_link: data.redirect_link,
+        hide_character: data.hide_character,
+        hide_character_info: data?.hide_character_info,
       }
 
       localStorage.setItem(slugStorageName, encryptData(storage))
@@ -349,16 +349,16 @@ const reportMultipleSpin = async ({ gift_id, character_id, location_id }) => {
 }
 
 const handleButton = async () => {
-  // if (!hideCharacter.value) {
+  if (!hideCharacter.value) {
   playVideo.value = true
-  //   return
-  // }
+    return
+  }
 
-  // if (!TOKEN.value && !USER.value) {
-  //   handleShowDialog()
-  // } else {
-  //   await navigateTo('/dashboard')
-  // }
+  if (!TOKEN.value && !USER.value) {
+    handleShowDialog()
+  } else {
+    await navigateTo('/dashboard')
+  }
 }
 
 const handleGoToCharacter = async () => {

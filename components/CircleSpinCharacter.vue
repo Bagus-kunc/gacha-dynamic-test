@@ -1,14 +1,25 @@
 <script setup>
-const props = defineProps(['imageSrc', 'raritySrc', 'headSrc'])
+const props = defineProps(['imageSrc', 'raritySrc', 'headSrc', 'hideCharacterInfo'])
 
 const rarityImg = ref('')
+const hideCharacterInfo = ref(false)
+const heightRarity = ref('')
 
 const handleRarity = () => {
   rarityImg.value = props.raritySrc
 }
 
+const handleHeightRarity = () => {
+  if (props.hideCharacterInfo) {
+    heightRarity.value = '58.83%'
+  } else {
+    heightRarity.value = '55.83%'
+  }
+}
+
 watchEffect(() => {
   handleRarity()
+  handleHeightRarity()
 })
 
 onMounted(() => {
@@ -113,7 +124,7 @@ onMounted(() => {
         <image
           :href="rarityImg"
           x="22.5%"
-          y="55.83%"
+          :y="heightRarity"
           width="55%"
           height="21%"
           preserveAspectRatio="xMidYMid meet"
