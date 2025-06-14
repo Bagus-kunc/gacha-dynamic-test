@@ -12,7 +12,7 @@
     ref="prizeCards"
     class="relative flex flex-col w-full bg-center scroll-container"
   >
-    <div class="flex flex-col mt-[43%] items-center mb-4"></div>
+    <div class="flex flex-col sm:mt-[36%] mt-[43%] items-center mb-4"></div>
 
     <div class="relative flex flex-col gap-3 px-10 -top-10">
       <template v-if="isFetching">
