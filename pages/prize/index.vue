@@ -7,106 +7,107 @@
       {{ $t('listOfPrizesAndExchanges') }}
     </p>
   </HeaderBar>
+  
   <div
     ref="prizeCards"
     class="relative flex flex-col w-full bg-center scroll-container"
   >
-    <div class="flex flex-col mt-[35%] items-center mb-4"></div>
+    <div class="flex flex-col mt-[43%] items-center mb-4"></div>
 
     <div class="relative flex flex-col gap-3 px-10 -top-10">
       <template v-if="isFetching">
-        <PagesPrizeCard
-          v-for="(prize) in prizes.data"
-          :key="prize.slug"
-          :keyBody="prize.title"
-          :body="prize.prizes"
-          :totalData="prize.totalVoucher"
-          :headColor="prize.color"
-          :currentPoint="store.point"
-          :is-fetching="true"
-        />
-      </template>
-      <template v-else>
-        <PagesPrizeCard
-          v-for="(prize) in prizes.data"
-          :key="prize.slug"
-          :keyBody="prize.title"
-          :body="prize.prizes"
-          :totalData="prize.totalVoucher"
-          :headColor="prize.color"
-          :currentPoint="store.point"
-          :is-fetching="false"
-        />
-      </template>
-    </div>
-
-    <div ref="prizeHistory" class="relative flex flex-col px-10 -bottom-5">
-      <div class="px-2 py-1 text-white bg-exd-gray-44">
-        <p
-          v-if="!isFetching"
-          class="font-semibold md:text-[15px] sm:text-[14px] text-[13px]"
-        >
-          {{ $t('exchangeHistory') }}
-        </p>
-        <Skeleton
-          v-else
-          class="font-semibold !h-10 md:text-[15px] sm:text-[14px] text-[13px]"
-        >
-        </Skeleton>
-      </div>
-      <template v-if="isFetching">
-        <PagesPrizeHistory
-          v-for="(redeem, key) in redeems"
-          :key="key"
-          :keyBody="key"
-          :body="redeem"
-          :currentPoint="store.point"
-          :is-fetching="true"
-        />
-      </template>
-      <template v-else>
-        <PagesPrizeHistory
-          v-for="(redeem, key) in redeems"
-          :key="key"
-          :keyBody="key"
-          :body="redeem"
-          :currentPoint="store.point"
-          :is-fetching="false"
-        />
-      </template>
-    </div>
-
-    <div v-if="!isFetching" class="vertical-menu bottom-[15%]">
-      <div class="menu-item" @click="handleScrollUp">
-        <div class="flex items-center gap-2 btn-click">
-          <img
-            src="~/assets/images/arrow-skip.svg"
-            width="13"
-            height="13"
-            alt=""
-            class="-rotate-90"
-          />
-          <p :class="{ 'reverse-mode': $i18n.locale === 'en' }">
-            {{ $t('listOfPrizes') }}
-          </p>
+        <div v-for="n in 3" :key="`prize-skeleton-${n}`" class="bg-white !rounded-lg">
+          <Skeleton width="100%" height="1.9rem" class="!rounded-b-none"></Skeleton>
+          <div class="flex h-24 p-3 bg-white border-b rounded-b-lg border-surface-200">
+            <Skeleton shape="circle" size="4.5rem"></Skeleton>
+            <div class="self-center flex-1 ml-3">
+                <Skeleton width="30%" class="mb-2"></Skeleton>
+                <Skeleton width="70%" height=".8rem" class="bg-exd-red-500"></Skeleton>
+            </div>
+          </div>
         </div>
-      </div>
-      <div class="menu-item" @click="handleScrollDown">
-        <div class="flex items-center gap-2 btn-click">
-          <p :class="{ 'reverse-mode': $i18n.locale === 'en' }">
+      </template>
+      
+      <template v-else>
+        <PagesPrizeCard
+          v-for="prize in prizes.data"
+          :key="prize.slug"
+          :keyBody="prize.title"
+          :body="prize.prizes"
+          :totalData="prize.totalVoucher"
+          :headColor="prize.color"
+          :currentPoint="store.point"
+          :is-fetching="isFetching"
+        />
+      </template>
+    </div>
+
+    <div ref="prizeHistory" class="relative flex flex-col px-10 mb-[20%]">
+      <div class="px-2 py-1 text-white bg-exd-gray-44">
+        <template v-if="isFetching">
+          <Skeleton width="8rem" height="1.25rem"></Skeleton>
+        </template>
+        <template v-else>
+          <p class="font-semibold md:text-[15px] sm:text-[14px] text-[13px]">
             {{ $t('exchangeHistory') }}
           </p>
-          <img
-            src="~/assets/images/arrow-skip.svg"
-            width="13"
-            height="13"
-            alt=""
-            class="rotate-90"
-          />
+        </template>
+      </div>
+      
+      <template v-if="isFetching">
+        <div v-for="n in 5" :key="`history-skeleton-${n}`" class="flex items-center p-3 bg-white border-b border-surface-200">
+          <div class="flex-1">
+            <Skeleton width="10%" height="1rem" class="mb-2"></Skeleton>
+            <Skeleton width="40%" height="0.75rem"></Skeleton>
+          </div>
+           <Skeleton shape="circle" size="2.5rem" class="mr-3"></Skeleton>
         </div>
+      </template>
+      
+      <template v-else>
+        <PagesPrizeHistory
+          v-for="(redeem, key) in redeems"
+          :key="key"
+          :keyBody="key"
+          :body="redeem"
+          :currentPoint="store.point"
+          :is-fetching="isFetching"
+        />
+      </template>
+    </div>
+  </div>
+
+  <div class="absolute bottom-[15%] right-0 flex flex-col items-end">
+    <div class="menu-item" @click="handleScrollUp">
+      <div class="flex items-center gap-2 btn-click">
+        <img
+          src="~/assets/images/arrow-skip.svg"
+          width="13"
+          height="13"
+          alt=""
+          class="-rotate-90"
+        />
+        <p :class="{ 'reverse-mode': $i18n.locale === 'en' }">
+          {{ $t('listOfPrizes') }}
+        </p>
+      </div>
+    </div>
+    <div class="menu-item" @click="handleScrollDown">
+      <div class="flex items-center gap-2 btn-click">
+        <p :class="{ 'reverse-mode': $i18n.locale === 'en' }">
+          {{ $t('exchangeHistory') }}
+        </p>
+        <img
+          src="~/assets/images/arrow-skip.svg"
+          width="13"
+          height="13"
+          alt=""
+          class="rotate-90"
+        />
       </div>
     </div>
   </div>
+  
 </template>
 
 <script setup>
@@ -216,15 +217,6 @@ onMounted(async () => {
   max-height: 95vh;
   overflow-y: auto;
   position: relative;
-}
-
-.vertical-menu {
-  position: sticky;
-  display: flex;
-  flex-direction: column;
-  align-items: end;
-  border-radius: 8px 0 0 8px;
-  pointer-events: none;
 }
 
 .menu-item {

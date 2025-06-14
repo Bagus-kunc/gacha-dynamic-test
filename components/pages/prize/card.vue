@@ -4,7 +4,7 @@
     v-if="body.length > 0"
   >
     <div v-if="headColor"
-    :style="{ backgroundColor: headColor }" :class="`lex justify-between w-full px-2 py-1 min-h-6`">
+    :style="{ backgroundColor: headColor }" :class="`flex justify-between w-full px-2 py-1 min-h-6`">
       <template v-if="!isFetching">
         <i18n-t
           keypath="availablePoints"
@@ -47,9 +47,7 @@
         </template>
       </ImageTextCard>
     </template>
-    <template v-else>
-      <ImageTextCard v-for="n in 1" :key="n" :is-fetching="isFetching" />
-    </template>
+    
   </div>
 </template>
 
