@@ -391,6 +391,7 @@ const fetchGetUserData = async () => {
     populateForm(data)
 
     initialForm = JSON.parse(JSON.stringify(form))
+
   } catch (error) {
     console.log(error)
   } finally {
@@ -481,8 +482,8 @@ const handleSubmit = async () => {
     await nextTick()
     const firstErrorElement = document.querySelector('.input-error')
     if (firstErrorElement) {
-      firstErrorElement.style.paddingTop = '80px'
-      firstErrorElement.style.marginTop = '-80px'
+      firstErrorElement.style.paddingTop = '115px'
+      firstErrorElement.style.marginTop = '-115px'
 
       firstErrorElement.scrollIntoView({ behavior: 'smooth' })
 
@@ -557,6 +558,7 @@ watch(
 
 onMounted(async () => {
   await fetchGetUserData()
+  checkPostalCode(form.postCode)
 })
 </script>
 

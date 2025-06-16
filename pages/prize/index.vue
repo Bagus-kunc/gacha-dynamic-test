@@ -193,8 +193,8 @@ const handleScrollUp = () => {
 
 const handleScrollDown = () => {
   if (prizeHistory.value) {
-    prizeHistory.value.style.paddingTop = '120px'
-    prizeHistory.value.style.marginTop = '-120px'
+    prizeHistory.value.style.paddingTop = '135px'
+    prizeHistory.value.style.marginTop = '-135px'
 
     prizeHistory.value.scrollIntoView({ behavior: 'smooth' })
 
