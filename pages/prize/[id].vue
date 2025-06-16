@@ -184,7 +184,7 @@ const loadGoogleMaps = () => {
 const fetchingPrizeData = async () => {
   try {
     isFetching.value = true
-    const { data } = await useFetchApi('GET', 'prize-list/' + id)
+    const { data } = await useFetchApi('GET', 'prizes/' + id)
     prizeDetailData.value = data
     checkPoint(data.point)
     // if (data.lat !== null && data.long !== null) {
