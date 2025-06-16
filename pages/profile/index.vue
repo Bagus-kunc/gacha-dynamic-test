@@ -22,10 +22,10 @@
         class="inline-flex items-center justify-between gap-4 pb-5 border-b border-b-exd-light-grey px-7 text-exd-gray-scorpion text-1416"
       >
         <h1>{{ $t('member') }} <span class="font-bold">ID</span></h1>
-        <p class="overflow-hidden font-bold text-right whitespace-nowrap">
+        <p v-if="userId" class="overflow-hidden font-bold text-right whitespace-nowrap">
           {{ userId }}
         </p>
-        <p class="w-48 overflow-hidden font-bold text-right whitespace-nowrap">
+        <p v-else class="w-48 overflow-hidden font-bold text-right whitespace-nowrap">
           00000000000
         </p>
       </div>
@@ -373,8 +373,10 @@ const validateForm = () => {
 }
 
 const populateForm = (data) => {
+  form.gender = data.gender || 'No-Answer'
+  form.postCode = data.postal_code.name || ''
   form.email = data.email || ''
-  form.password = ''
+  form.password = data.password || ''
 }
 
 const fetchGetUserData = async () => {

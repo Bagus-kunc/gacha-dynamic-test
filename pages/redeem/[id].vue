@@ -346,7 +346,7 @@
       <SolidButton
         :label="$t('applyNow')"
         :has-loading="isLoading"
-        :disabled="isLoading"
+        :disabled="disableRedeem || isLoading"
         variant="red-coral"
         :on-click="handleSubmit"
         has-bottom
@@ -400,7 +400,6 @@ import { useRoute } from 'vue-router'
 import { useRouter } from 'vue-router'
 import close from '~/assets/images/close.svg'
 import { store } from '~/stores/dashboard.js'
-import Dropdown from '~/components/Dropdown.vue'
 import InputText from '~/components/InputText.vue'
 import JapanPostalCode from 'japan-postal-code'
 import {
@@ -423,12 +422,17 @@ const id = route.params.id
 const hasModal = ref(false)
 const errorScroll = ref([])
 const isLoading = ref(false)
+const isFetching = ref(false)
 const errorMessages = ref([])
+const disableRedeem = ref(false)
 const LOCALE = useCookie('LOCALE')
 const validateOnSubmit = ref(false)
 const isLoadingPostalCode = ref(false)
 
-const handleToggleModal = () => (hasModal.value = !hasModal.value)
+const handleToggleModal = () => {
+  if (disableRedeem.value) return
+  hasModal.value = !hasModal.value
+}
 const handleGoToClaim = () => router.push(`/claim/${route.params.id}`)
 const errorKeyPostCode = ref('')
 const errorPostCodeMessage = computed(() => t(errorKeyPostCode.value))
@@ -457,11 +461,22 @@ const fetchingPrizeData = async () => {
     const { data } = await useFetchApi('GET', 'prizes/' + id)
     sessionStorage.setItem('type', data.type)
     type.value = data.type
-
-    isFetching.value = false
+    checkPoint(data.point)
   } catch (error) {
     console.log(error)
+  } finally {
+    isFetching.value = false
   }
+}
+
+const checkPoint = (point) => {
+
+try {
+  const currentPoint = parseInt(store.point)
+  if (currentPoint < point) {
+    disableRedeem.value = true
+  }
+} catch (error) {}
 }
 
 const updateModel = (field, value) => {
@@ -580,6 +595,8 @@ const buildPayload = () => {
 }
 
 const handleSubmit = async () => {
+  if (disableRedeem.value) return
+
   errorScroll.value = []
 
   isLoading.value = true
@@ -669,8 +686,8 @@ const checkPostalCode = async (code) => {
 }
 
 onMounted(async () => {
+  await store.fetchingDashboardData()
   await fetchingPrizeData()
-  type.value = route.query.type
 })
 </script>
 
