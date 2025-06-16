@@ -132,14 +132,14 @@ const fetchingPrizesData = async () => {
     const { data } = await useFetchApi('GET', 'prize-list')
 
     const sortedData = [...data.data]
-      .filter(item => item.title.includes('pt'))
+      .filter(item => typeof item.title === 'string' && item.title.includes('pt'))
       .sort((a, b) => {
         const numA = parseInt(a.title.replace('pt', ''))
         const numB = parseInt(b.title.replace('pt', ''))
         return numB - numA 
       })
 
-    const others = data.data.filter(item => !item.title.includes('pt'))
+    const others = data.data.filter(item => typeof item.title === 'string' && !item.title.includes('pt'))
 
     prizes.value = {
       ...data,
@@ -151,7 +151,6 @@ const fetchingPrizesData = async () => {
     isFetching.value = false
   }
 }
-
 
 const fetchingRedeemsData = async () => {
   try {

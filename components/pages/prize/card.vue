@@ -3,7 +3,7 @@
     class="max-w-sm overflow-hidden rounded-xl"
     v-if="body.length > 0"
   >
-    <div v-if="headColor"
+    <div v-if="headColor && keyBody.includes('pt')"
     :style="{ backgroundColor: headColor }" :class="`flex justify-between w-full px-2 py-1 min-h-6`">
       <template v-if="!isFetching">
         <i18n-t
