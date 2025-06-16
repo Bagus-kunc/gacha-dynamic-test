@@ -436,8 +436,8 @@ const handleSubmit = async () => {
     await nextTick()
     const firstErrorElement = document.querySelector('.input-error')
     if (firstErrorElement) {
-      firstErrorElement.style.paddingTop = '80px'
-      firstErrorElement.style.marginTop = '-80px'
+      firstErrorElement.style.paddingTop = '115px'
+      firstErrorElement.style.marginTop = '-115px'
 
       firstErrorElement.scrollIntoView({ behavior: 'smooth' })
 
