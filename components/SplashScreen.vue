@@ -68,9 +68,6 @@ const checkCaches = () => {
     '/images/export.svg',
     '/images/intl-icon.png',
     '/images/back-button.svg',
-    '/images/ssr.png',
-    '/images/sr.png',
-    '/images/r.png',
     '/images/text-char.png',
     '/icons/icon-gift.svg',
   ]
