@@ -7,7 +7,7 @@
       {{ $t('myPage') }}
     </p>
   </HeaderBar>
-  <div class="flex flex-col px-8 mt-[45%] sm:mt-[40%] bg-center">
+  <div class="flex flex-col px-8 mt-[35%] sm:mt-[30%]">
     <!-- <div class="flex flex-col mt-[35%] items-center">
       <div class="flex flex-col mt-[5%] items-center">
         <p class="font-bold text-white text-exd-1530">
@@ -20,7 +20,7 @@
     </div> -->
 
     <div
-      class="relative inline-flex flex-col items-center justify-center gap-4 -top-12"
+      class="relative inline-flex flex-col items-center justify-center gap-5"
     >
       <div
         class="flex items-center justify-center w-full p-6 bg-white cursor-pointer rounded-xl h-exd-130"
@@ -58,7 +58,7 @@
         </p>
       </div>
     </div>
-    <div class="relative w-full -top-12">
+    <div class="relative w-full">
       <div
         class="inline-flex items-center justify-between w-full px-5 mt-5 bg-white border-b-2 cursor-pointer h-exd-50 rounded-tl-xl rounded-tr-xl border-b-exd-light-grey"
         style="box-shadow: 0px 3px 3px 0px rgba(0, 0, 0, 0.1608)"
@@ -143,16 +143,28 @@
     </div>
 
     <div
-      class="relative inline-flex flex-col items-center justify-between w-full mx-auto mt-7 -top-12"
+      class="relative inline-flex flex-col w-full mx-auto mt-5"
     >
-      <!-- <p
-        class="inline-flex items-center justify-center font-bold text-white underline grow text-exd-1424"
+      <Swiper
+        :spaceBetween="30"
+        :centeredSlides="true"
+        :autoplay="{
+          delay: 5000,
+          disableOnInteraction: false,
+        }"
+        :pagination="{
+          clickable: true,
+        }"
+        :navigation="false"
+        :modules="[Autoplay, Pagination, Navigation]"
+        class=""
       >
-        {{ $t('addToHomeScreen') }}
-      </p> -->
-      <NuxtLink to="https://aichi-platform.com" target="_blank" class="w-full">
-        <img :src="banner" width="350" height="180" preload class="w-full" />
-      </NuxtLink>
+        <SwiperSlide v-for="(item, index) in bannerList" :key="index" class="!items-start">
+          <a :href="item.link" target="_blank" class="w-full">
+            <img :src="item.image" />
+          </a>
+        </SwiperSlide>
+      </Swiper>
     </div>
   </div>
 
@@ -201,6 +213,9 @@ import { store } from '~/stores/dashboard.js'
 import close from '~/assets/images/close.svg'
 import warning from '~/assets/images/warning.svg'
 import banner from '~/assets/images/banner.png'
+import banner1 from '~/assets/images/banner1.png'
+import { Swiper, SwiperSlide } from 'swiper/vue'
+import { Autoplay, Pagination, Navigation } from 'swiper/modules'
 
 import 'swiper/css'
 import 'swiper/css/pagination'
@@ -357,23 +372,8 @@ const goToSpin = async (url) => {
 }
 
 const bannerList = ref([
-  { image: '/images/banner_01.jpg', link: 'https://www.yabaton.com/' },
-  { image: '/images/banner_02.jpg', link: 'https://www.koushoji.or.jp/' },
-  { image: '/images/banner_03.jpg', link: 'https://www.maruya-honten.com/' },
-  {
-    image: '/images/banner_04.jpg',
-    link: 'https://www.nagoya-tv-tower.co.jp/',
-  },
-  {
-    image: '/images/banner_05.jpg',
-    link: 'https://www.tokyuhotels.co.jp/nagoya-h/index.html',
-  },
-  { image: '/images/banner_06.jpg', link: 'https://www.kani-honke.co.jp/' },
-  { image: '/images/banner_07.jpg', link: 'https://nagoya.nikkostyle.jp/' },
-  {
-    image: '/images/banner_08.jpg',
-    link: 'https://www.nagoya-info.jp/accommodation/detail/115/',
-  },
+  { image: banner, link: 'https://aichi-platform.com' },
+  { image: banner1, link: 'https://aichiexpo20th.org/' },
 ])
 
 onMounted(() => {
