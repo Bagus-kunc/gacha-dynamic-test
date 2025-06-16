@@ -25,10 +25,10 @@
         :on-click="() => handleGoToDetailRedeem(item.id)"
         :image-card="item.image"
         :is-fetching="isFetching"
-        :isDisabled="currentPoint < parseInt(keyBody, 10)"
+        :isDisabled="item.disabled"
       >      
         <template v-slot:text>
-          <div class="inline-flex justify-between pr-4 w-100" :class="currentPoint < parseInt(keyBody, 10) ? 'opacity-50' : ''">
+          <div class="inline-flex justify-between pr-4 w-100" :class="item.disabled ? 'opacity-50' : ''">
             <div class="flex flex-col justify-center gap-1">
               <p
                 class="text-exd-gray-scorpion font-semibold text-[12px] sm:text-[14px] line-clamp-2"
@@ -76,7 +76,7 @@ const props = defineProps({
   currentPoint: {
     type: [Number, String],
     default: 0,
-  },
+  }
 })
 
 const totalGift = ref(null)

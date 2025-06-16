@@ -147,10 +147,14 @@ const fetchImageFromApi = async () => {
         character_image: data.userCollection?.gacha_character.image,
         character_name: data.userCollection?.gacha_character.name,
         character_category: data.userCollection?.gacha_character.category,
+        character_description: data.userCollection?.gacha_character.description,
         character_rarity: data.userCollection?.gacha_character.rarity_image_during_gacha,
         character_star1: data.userCollection?.gacha_character.star1,
         character_star2: data.userCollection?.gacha_character.star2,
         character_star3: data.userCollection?.gacha_character.star3,
+        character_star_name1: data.userCollection?.gacha_character.star_name1,
+        character_star_name2: data.userCollection?.gacha_character.star_name2,  
+        character_star_name3: data.userCollection?.gacha_character.star_name3,
         // gift_id: data.userPoint.gift.point_id,
         // gift_image: data.userPoint.gift.image,
         // gift_type: data.userPoint.gift.type,
@@ -265,8 +269,6 @@ const fetchImageFromApi = async () => {
           password: parsedData.password,
         },
       })
-
-      console.log(data)
 
       const storage = {
         location_id: data.location?.id,
