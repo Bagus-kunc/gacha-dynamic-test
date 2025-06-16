@@ -4,6 +4,7 @@
       :key="body.user_point_id"
       :history="true"
       :image-card="body.image"
+      isDisabled
     >
       <template v-slot:text>
         <div

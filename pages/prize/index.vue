@@ -12,9 +12,9 @@
     ref="prizeCards"
     class="relative flex flex-col w-full bg-center scroll-container"
   >
-    <div class="flex flex-col sm:mt-[36%] mt-[43%] items-center mb-4"></div>
+    <div class="flex flex-col sm:mt-[30%] mt-[36%] items-center"></div>
 
-    <div class="relative flex flex-col gap-3 px-10 -top-10">
+    <div class="relative flex flex-col gap-3 px-10 mb-10">
       <template v-if="isFetching">
         <div v-for="n in 3" :key="`prize-skeleton-${n}`" class="bg-white !rounded-lg">
           <Skeleton width="100%" height="1.9rem" class="!rounded-b-none"></Skeleton>
@@ -42,7 +42,7 @@
       </template>
     </div>
 
-    <div ref="prizeHistory" class="relative flex flex-col px-10 mb-[20%]">
+    <div ref="prizeHistory" class="relative flex flex-col px-10 sm:mb-[23%] mb-[28%]">
       <div class="px-2 py-1 text-white bg-exd-gray-44">
         <template v-if="isFetching">
           <Skeleton width="8rem" height="1.25rem"></Skeleton>
@@ -213,7 +213,7 @@ onMounted(async () => {
 
 <style scoped>
 .scroll-container {
-  max-height: 95vh;
+  max-height: 100%;
   overflow-y: auto;
   position: relative;
 }
