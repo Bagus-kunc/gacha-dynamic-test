@@ -80,12 +80,12 @@
       <div
         class="inline-flex items-center justify-between w-full px-5 bg-white border-b-2 cursor-pointer h-exd-50 border-b-exd-light-grey"
         style="box-shadow: 0px 3px 3px 0px rgba(0, 0, 0, 0.1608)"
-        @click="handleGoToDigitalMap()"
+        @click="handleGoToCampaignSite()"
       >
         <p
           class="inline-flex items-center gap-1 font-bold text-exd-gray-scorpion grow text-exd-1424"
         >
-          {{ $t('letsGoToAichi') }}
+          {{ $t('campaignSite') }}
           <span>
             <img :src="exportIcon" alt="export" width="20" height="20" preload
           /></span>
@@ -237,8 +237,8 @@ const profile = () => router.push('/profile')
 const handleGoToHelp = () => {
   window.open('https://horishoten75th.dela-kuji.jp/manual', '_blank')
 }
-const handleGoToDigitalMap = () => {
-  window.open('https://aichi-platform.com', '_blank')
+const handleGoToCampaignSite = () => {
+  window.open('https://aichi-gurutto.dela-kuji.site', '_blank')
 }
 
 const TOKEN = useCookie('TOKEN')
