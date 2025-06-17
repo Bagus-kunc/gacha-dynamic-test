@@ -235,7 +235,7 @@ const handleGoToHistory = () => router.push('/history')
 const handleGoToPrize = () => router.push('/prize')
 const profile = () => router.push('/profile')
 const handleGoToHelp = () => {
-  window.open('https://horishoten75th.dela-kuji.jp/manual', '_blank')
+  window.open('https://aichi-gurutto.dela-kuji.jp/manual', '_blank')
 }
 const handleGoToCampaignSite = () => {
   window.open('https://aichi-gurutto.dela-kuji.site', '_blank')
