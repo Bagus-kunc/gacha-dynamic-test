@@ -13,13 +13,13 @@
         <img
           src="/images/gacha-aichi.png"
           alt="gacha2"
-          class="absolute left-1/2 top-1/2 transform -translate-x-1/2 -translate-y-[47%] w-full h-auto max-h-[80%] object-contain"
+          class="absolute left-1/2 top-[57%] sm:top-[53%] transform -translate-x-1/2 -translate-y-[47%] w-full h-auto max-h-[85%] sm:max-h-[90%] object-contain"
           preload
         />
 
       </div>
       
-      <div class="flex flex-col items-center justify-center w-full gap-4 px-6 py-6 mb-10">
+      <div class="flex flex-col items-center justify-center w-full gap-4 px-6 py-6 mb-8">
         <p class="underline cursor-pointer sm:text-exd-1424 text-exd-1218 text-exd-gray-scorpion" @click="handleAboutSpin">{{ $t('aboutSpin') }}</p>
       </div>
 

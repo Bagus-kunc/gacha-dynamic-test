@@ -2,23 +2,23 @@
   <div
     class="fixed bottom-0 left-0 right-0 z-50 w-full h-16 max-w-md mx-auto bg-white"
   >
-    <div class="inline-flex w-full gap-3 pt-3">
+    <div class="inline-flex w-full gap-3">
       <div
-        class="absolute -top-[40px] bg-[url('assets/images/point-navbar.png')] bg-cover bg-center w-[130px] md:w-[160px] h-[135px] flex flex-col justify-center items-center"
+        class="absolute -top-[40px] bg-[url('assets/images/point-navbar.png')] bg-cover bg-center w-[110px] md:w-[130px] h-[115px] flex flex-col justify-center items-center"
       >
         <p
-          class="text-white text-[11px] font-bold -ml-4 text-center whitespace-pre-line"
+          class="text-white text-[11px] font-bold -ml-3 text-center whitespace-pre-line mt-9"
         >
           {{ $t('currentPoints') }}
         </p>
         <Skeleton v-if="!store.point" class="!h-5 mt-2 bg-white !w-20 mr-4"/>
-        <p v-else class="relative -ml-4 font-bold text-white text-[30px] -top-[2px]">
+        <p v-else class="relative -ml-3 font-bold text-white text-[30px] -top-1">
           {{ store.point }}<span class="text-exd-1020">pt</span>
         </p>
       </div>
 
       <div
-        class="inline-flex flex-row ml-[7.8rem] md:ml-[9.5rem] justify-around w-full"
+        class="inline-flex flex-row justify-around w-full ml-[28%] pt-2"
       >
         <BottomBarMenuIcon
           v-for="(item, index) in menuItems"

@@ -24,14 +24,16 @@
         categorySrc="/images/gacha-ball.png"
         width="100%"
         height="800"
+        :showPointOnly="showPointOnly"
       />
-      <!-- <div
+      <div
+        v-if="!showPointOnly"
         class="absolute text-exd-dark-grey bg-white flex justify-center bottom-[17%] px-4 py-3 min-h-[50px] rounded-lg"
       >
         <p class="text-[17px] max-w-[278px] text-center">
           {{ pointName }}
         </p>
-      </div> -->
+      </div>
     </div>
     <!-- <div class="absolute-10 top-1/2 translate-y-[80%]"></div> -->
     <div class="w-full absolute bottom-0 z-[1100]">
@@ -66,6 +68,7 @@
 <script setup>
 import moment from 'moment'
 import { useI18n } from 'vue-i18n'
+
 const router = useRouter()
 const route = useRoute()
 
@@ -93,6 +96,7 @@ const popupDescription = ref('')
 const popupImage = ref('')
 const pointCategoryIsFail = ref(false)
 const modalLogin = ref(false)
+const showPointOnly = ref(true)
 
 const { t } = useI18n()
 

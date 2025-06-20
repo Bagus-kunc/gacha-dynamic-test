@@ -6,7 +6,7 @@
   >
     <div class="pl-5" v-if="hasBack">
       <img
-        src="/images/back-button.svg"
+        :src="backIcon"
         alt="back"
         width="40"
         height="40"
@@ -58,6 +58,7 @@
 <script setup>
 import { useRouter, useRoute } from 'vue-router'
 import headerLogo from '~/public/images/header-logo.png'
+import backIcon from '~/public/images/back-button.svg'
 
 const router = useRouter()
 
