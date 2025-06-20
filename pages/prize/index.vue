@@ -4,7 +4,7 @@
       style="text-shadow: 0 3px 3px rgba(0, 0, 0, 0.16)"
       class="text-exd-gray-scorpion font-bold text-exd-1824.52"
     >
-      {{ $t('listOfPrizesAndExchanges') }}
+      {{ $t('listOfPrizesAndApplication') }}
     </p>
   </HeaderBar>
   

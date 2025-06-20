@@ -6,8 +6,9 @@
   >
     <div class="flex flex-col items-center justify-between h-full">
       <div
-        class="bg-[url(~/assets/images/top-char.png)] w-full h-[400px] md:h-[550px] bg-origin-border bg-center bg-no-repeat bg-cover"
+        class="bg-[url(~/assets/images/top-char.png)] w-full h-[550px] bg-origin-border bg-center bg-no-repeat bg-contain"
       />
+      
       <img :src="headLogo" alt="Logo" class="w-[90%]" />
 
       <div
