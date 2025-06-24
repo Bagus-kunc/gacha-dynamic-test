@@ -236,6 +236,24 @@ const handleButton = async () => {
   }
 }
 
+const calculateStar = (characterStar) => {
+  const starMapping = {
+    1: 0,
+    2: 0.5,
+    3: 1,
+    4: 1.5,
+    5: 2,
+    6: 2.5,
+    7: 3,
+    8: 3.5,
+    9: 4,
+    10: 4.5,
+    11: 5,
+  }
+
+  return starMapping[characterStar] ?? 0
+}
+
 const fetchImage = async () => {
   try {
     const storedData = useCookie('VALID_PASSWORD')
@@ -268,11 +286,11 @@ const fetchImage = async () => {
 
     charDesc.value = slugData?.character_description
     charCategory.value = slugData?.character_category
-    star1.value = slugData?.character_star1
+    star1.value = calculateStar(slugData?.character_star1)
     star1Name.value = slugData?.character_star_name1
-    star2.value = slugData?.character_star2
+    star2.value = calculateStar(slugData?.character_star2)
     star2Name.value = slugData?.character_star_name2
-    star3.value = slugData?.character_star3
+    star3.value = calculateStar(slugData?.character_star3)
     star3Name.value = slugData?.character_star_name3
 
     hideCharacterInfo.value = slugData?.hide_character_info

@@ -65,7 +65,7 @@
             <InputText
               bold
               :model="form.firstName"
-              :label="$t('firstName')"
+              :label="$t('givenName')"
               required
               :is-nick-name="true"
               @update:model="updateModel('firstName', $event)"
