@@ -259,19 +259,33 @@ const handleClose = () => {
   sessionStorage.removeItem('LOCATION_SLUG')
 }
 
+const clearSessionExcept = (whitelist) => {
+  const keep = {}
+  whitelist.forEach((key) => {
+    const val = sessionStorage.getItem(key)
+    if (val !== null) keep[key] = val
+  })
+
+  sessionStorage.clear()
+
+  Object.entries(keep).forEach(([k, v]) => sessionStorage.setItem(k, v))
+}
+
+
 const logout = async () => {
   try {
     const { data, status } = await useFetchApi('POST', 'logout')
+    const WHITELIST_SESSION = ['EMAIL', 'PASSWORD']
 
     localStorage.clear()
-    sessionStorage.clear()
+    clearSessionExcept(WHITELIST_SESSION)
     TOKEN.value = null
     USER.value = null
     VALID_PASSWORD.value = null
     await navigateTo('/')
   } catch (error) {
     localStorage.clear()
-    sessionStorage.clear()
+    clearSessionExcept(WHITELIST_SESSION)
     TOKEN.value = null
     USER.value = null
     VALID_PASSWORD.value = null

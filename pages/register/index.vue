@@ -265,7 +265,7 @@ const errorPasswordMessage = ref('')
 const errorConfPasswordMessage = ref('')
 const register = useRegister()
 const { isSpin } = storeToRefs(register)
-const { decryptData } = useEncryption()
+const { decryptData, encryptData } = useEncryption()
 
 const errorKeyPostCode = ref('')
 const errorPostCodeMessage = computed(() => t(errorKeyPostCode.value))
@@ -360,6 +360,10 @@ const fetchRegister = async (payload) => {
     if (validateForm() && status) {
       localStorage.setItem('USER_ID', data.user.id)
       await saveSpin()
+
+      sessionStorage.setItem('EMAIL', payload.email)
+      sessionStorage.setItem('PASSWORD', encryptData(payload.password))
+
 
       navigateTo('/#registration-complete')
       isLoading.value = false
