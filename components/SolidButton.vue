@@ -63,7 +63,7 @@ const props = defineProps({
     type: String,
     default: 'gold',
     validator: (value) =>
-      ['skip', 'red-coral', 'disabled', 'dark'].includes(value),
+      ['skip', 'red-coral', 'disabled', 'dark', 'green'].includes(value),
   },
   onClick: {
     type: Function,

@@ -117,6 +117,7 @@ const props = defineProps({
 const emits = defineEmits(['update:modelValue', 'callback'])
 
 const isLoading = ref(false)
+
 const form = ref({
   email: '',
   password: '',
@@ -125,7 +126,7 @@ const form = ref({
 const isErrorMessage = ref(false)
 const errorMessages = ref([])
 const route = useRoute()
-const { decryptData } = useEncryption()
+const { encryptData, decryptData } = useEncryption()
 
 const isValidInput = computed(
   () => form.value.email !== '' && form.value.password !== ''
@@ -194,6 +195,16 @@ const handleSubmit = async () => {
     TOKEN.value = response.data.token
     USER.value = response.data.user
 
+    sessionStorage.setItem('EMAIL', form.value?.email)
+    if (form.value?.password) {
+      try {
+        const encrypted = encryptData(form.value.password)
+        sessionStorage.setItem('PASSWORD', encrypted)
+      } catch (encryptError) {
+        
+      }
+    }
+
     await nextTick()
 
     await saveSpin()
@@ -203,8 +214,11 @@ const handleSubmit = async () => {
     } else {
       await navigateTo('/dashboard', { replace: true })
     }
+    
     isLoading.value = false
+
   } catch (error) {
+
     console.log("Error: Can't login", error)
 
     const { errors, message } = error._data || {}
@@ -244,8 +258,6 @@ const saveSpin = async () => {
       },
     })
 
-    console.log(data)
-
     storedData.value = null
     localStorage.removeItem(slugStorageName)
 
@@ -262,6 +274,16 @@ const saveSpin = async () => {
     throw error
   }
 }
+
+onMounted(() => {
+
+  const emailSession    = sessionStorage.getItem('EMAIL')    || ''
+  const passwordCipher  = sessionStorage.getItem('PASSWORD') || ''
+
+  form.value.email = emailSession
+  form.value.password = decryptData(passwordCipher)
+})
+
 
 watch(
   () => props.email,
