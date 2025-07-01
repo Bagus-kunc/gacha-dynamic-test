@@ -12,6 +12,10 @@
       ]"
       raised
       @click="handleClick"
+      :style="{
+        backgroundColor: bgColor,
+        color: textColor,
+      }"
     >
       <span class="!text-center !w-full">{{ label }}</span>
       <div class="!absolute !right-6 !top-1/2 !transform !-translate-y-1/2">
@@ -65,6 +69,14 @@ const props = defineProps({
     validator: (value) =>
       ['skip', 'red-coral', 'disabled', 'dark', 'green'].includes(value),
   },
+  bgColor: {
+    type: String,
+    default: '',
+  },
+  textColor: {
+    type: String,
+    default: '',
+  },
   onClick: {
     type: Function,
     default: null,
@@ -83,7 +95,7 @@ const variantClass = computed(() => {
   } else if (props.variant === 'dark') {
     return '!bg-exd-dark'
   } else {
-    return '!bg-exd-red-vermilion'
+    return ''
   }
 })
 

@@ -46,17 +46,19 @@
         >
           {{ $t('forgotYourPassword') }}
         </a>
-
+        
         <SolidButton
           :label="$t('login')"
           :onClick="handleSubmit"
-          variant="red-coral"
+          :bgColor="store.bgColorOne"
+          :textColor="store.textColorOne"
           :disabled="!isValidInput || isLoading"
           :has-loading="isLoading"
         />
         <SolidButton
           :label="$t('newMemberRegistration')"
-          variant="green"
+          :bgColor="store.bgColorTwo"
+          :textColor="store.textColorTwo"
           :onClick="handleToRegister"
         />
       </div>
@@ -101,6 +103,7 @@ import arrow from '~/assets/images/arrow.svg'
 import warning from '~/assets/images/warning.svg'
 import InputText from '~/components/InputText.vue'
 import useRegister from '~/composables/useRegister'
+import { store } from '~/stores/global-settings.js'
 
 const register = useRegister()
 const { isSpin } = storeToRefs(register)
@@ -284,6 +287,9 @@ onMounted(() => {
   form.value.password = decryptData(passwordCipher)
 })
 
+onMounted(() => {
+  store.fetchingSettingsData()
+})
 
 watch(
   () => props.email,

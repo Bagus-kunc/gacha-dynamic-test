@@ -60,6 +60,7 @@
   "loginPassword": "Login Password",
   "rePassword": "Password (Re-enter)",
   "password": "Password",
+  "forgotPassword": "Forgot Password",
   "forgotYourPassword": "Forgot your password?",
   "loginOrRegister": "Login/Register",
   "passwordIsOnlyForToday": "Password is valid only for today.",

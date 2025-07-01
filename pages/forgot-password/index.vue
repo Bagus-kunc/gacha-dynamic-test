@@ -5,7 +5,7 @@
         style="text-shadow: 0 3px 3px rgba(0, 0, 0, 0.16)"
         class="text-exd-gray-scorpion font-bold text-exd-1824.52"
       >
-        {{ $t('resetPassword') }}
+        {{ $t('forgotPassword') }}
       </p>
     </HeaderBar>
 
@@ -57,7 +57,8 @@
         :label="!isSuccessSendLinkResetPassword ? $t('send') : 'TOP'"
         :has-loading="isLoading"
         :on-click="handleSubmit"
-        variant="red-coral"
+        :bgColor="store.bgColorOne"
+        :textColor="store.textColorOne"
         has-bottom
         :disabled="emailError !== '' || isLoading"
       />
@@ -66,6 +67,7 @@
 </template>
 
 <script setup>
+import { store } from '~~/stores/global-settings.js'
 import InputText from '~/components/InputText.vue'
 import { useI18n } from 'vue-i18n'
 
@@ -127,4 +129,8 @@ const handleSubmit = async () => {
     }
   }
 }
+
+onMounted(() => {
+  store.fetchingSettingsData()
+})
 </script>

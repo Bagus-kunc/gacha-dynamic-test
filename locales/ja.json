@@ -63,6 +63,7 @@
   "address2": "オアシス21 iセンター",
   "loginPassword": "ログインパスワード",
   "password": "パスワード",
+  "forgotPassword": "パスワードをリセット",
   "forgotYourPassword": "パスワードを忘れた方",
   "loginOrRegister": "ログイン／新規会員登録",
   "passwordIsOnlyForToday": "パスワードは本日限り有効です。",
