@@ -1,36 +1,32 @@
 <template>
   <div
     @touchmove="(e) => e.preventDefault()"
-    class="flex flex-col grow bg-[url('/assets/images/TOP.png')] bg-cover bg-center justify-between relative overflow-hidden cursor-pointer"
+    class="flex flex-col grow bg-[url('/images/green_base.png')] bg-cover bg-center justify-between relative overflow-hidden cursor-pointer"
+    @click="handleShowModal"
   >
-    <!-- <div class="bg-[#2cc9b9] absolute inset-0"></div> -->
-
-    <!-- container scrollable -->
-    <div
-      class="relative overflow-y-auto min-h-dvh no-scrollbar"
-      @touchmove="handleTouchMove"
-      @click="handleShowModal"
-    >
-      <img src="/assets/images/TOP.png" alt="top" class="w-full h-full" />
-      <!-- Tap screen -->
+    <div class="flex flex-col items-center justify-between h-full">
       <div
-        class="absolute bottom-0 w-full transform -translate-x-1/2 bg-center bg-no-repeat bg-cover h-[140px] left-1/2"
-        :style="{ backgroundImage: `url(${redGradient})` }"
-      >
-        <div class="flex flex-col items-center justify-center w-full mb-3">
-          <img :src="tapScreen" alt="intl" width="280" class="" preload />
-          <p class="text-center text-white text-exd-1320">
-            {{ $t('loginOrRegisterTop') }}
-          </p>
-        </div>
+        class="bg-[url(~/assets/images/top-char.png)] w-full h-[550px] bg-origin-border bg-center bg-no-repeat bg-contain"
+      />
+      
+      <img :src="headLogo" alt="Logo" class="w-[90%]" />
 
-        <!-- <p
-          class="font-semibold text-center text-white underline cursor-pointer text-exd-1320"
+      <div
+        class="bg-exd-green-light w-full h-[150px] flex flex-col justify-center items-center gap-3"
+      >
+        <img :src="tapScreen" alt="intl" width="280" class="" preload />
+
+        <p
+          class="font-semibold text-center underline cursor-pointer text-exd-gray-scorpion text-exd-1320"
         >
           {{ $t('addToBookmarks') }}
-        </p> -->
+        </p>
       </div>
     </div>
+
+    <!-- container scrollable -->
+
+    <!-- Tap screen -->
   </div>
 
   <ModalLogin v-model="hasModal" :email="emailVerified" />
@@ -55,20 +51,11 @@
 </template>
 
 <script setup>
-import intlRounded from '~/assets/images/intl-rounded.svg'
-import redGradient from '~/assets/images/red-gradient.png'
-import logoIcon from '~/assets/images/logo-icon.svg'
+import topChar from '~/assets/images/top-char.png'
+import headLogo from '~/public/images/header-logo.png'
 import tapScreen from '~/assets/images/tap-screen.png'
-import logo from '~/assets/images/logo.png'
 import { nextTick } from 'vue'
 import WarningPopUp from '~/components/WarningPopUp.vue'
-import gacha from '~/assets/images/gacha.png'
-import picture1 from '~/assets/images/picture1.png'
-import picture2 from '~/assets/images/picture2.png'
-import get from '~/assets/images/get.png'
-import intl from '~/assets/images/intl.png'
-import character from '~/assets/images/character.png'
-import talk from '~/assets/images/talk.png'
 
 const route = useRoute()
 const router = useRouter()

@@ -4,116 +4,84 @@
       style="text-shadow: 0 3px 3px rgba(0, 0, 0, 0.16)"
       class="text-exd-gray-scorpion font-bold text-exd-1824.52"
     >
-      {{ $t('listOfPrizesAndExchanges') }}
+      {{ $t('listOfPrizesAndApplication') }}
     </p>
   </HeaderBar>
 
-  <div class="flex flex-col bg-center text-black mt-24 px-8">
+  <div class="flex flex-col px-8 mt-32 text-black bg-center">
     <div
-      class="max-w-sm bg-white border border-gray-200 rounded-lg shadow overflow-hidden"
+      class="flex flex-col max-w-sm gap-2 overflow-hidden bg-white border border-gray-200 rounded-lg shadow"
     >
-      <div class="w-full overflow-hidden bg-[#E8FFF3]">
+      <div class="w-full overflow-hidden bg-[#FFF6E8]">
         <Skeleton v-if="isFetching" class="!w-full !h-full"></Skeleton>
         <CharacterCard
           v-else
-          :image="prizeDetailData.gift.image"
+          :image="prizeDetailData.image"
           variant="without-background"
         />
       </div>
-      <div class="p-5 flex flex-col justify-between w-full">
+      <div class="flex flex-col justify-between w-full p-5">
         <div class="flex flex-col gap-4">
-          <div class="relative inline-flex justify-between w-full gap-5">
+          <div class="relative inline-flex items-center justify-between w-full gap-5">
             <Skeleton v-if="isFetching" class="!h-3" width="15rem"></Skeleton>
-            <p v-else class="font-bold text-exd-1424 text-exd-gray-scorpion">
-              {{ prizeDetailData.gift.name }}
+            <p
+              v-else
+              class="font-bold text-exd-1424 max-w-[220px] line-clamp-2 text-exd-gray-scorpion"
+            >
+              {{ prizeDetailData.name }}
             </p>
             <Skeleton
               v-if="isFetching"
               class="!h-3 !rounded-full !bg-exd-orange-700"
               width="2rem"
             ></Skeleton>
-            <p
-              v-else
-              class="font-bold text-exd-1824.52 text-white p-1 flex items-center justify-center rounded-full right-0 top-5 bg-no-repeat bg-cover bg-center w-12 h-12"
-              :style="colorBg ? { backgroundImage: `url(${colorBg})` } : {}"
+            <img 
+              v-else-if="prizeDetailData.rarity?.type === 'image'"
+              :src="prizeDetailData.rarity?.image"
+              alt="arrow"
+              width="50"
+              height="50"
+              preload
+              class=""
+            />
+            <i18n-t
+              v-else-if="prizeDetailData.rarity?.type === 'color'"
+              keypath="prize"
+              tag="div"
+              scope="global"
+              class="font-bold text-exd-1824.52 text-white p-1 flex items-center justify-center rounded-full right-0 top-5 min-w-12 min-h-12"
+              :style="{ backgroundColor: prizeDetailData.rarity.background_color, color: prizeDetailData.rarity.text_color }"
             >
-              {{ prizeTypeText }}
-            </p>
+              <template v-slot:rank>
+                {{ prizeDetailData.rarity.text.toUpperCase() }}
+              </template>
+            </i18n-t>
           </div>
 
           <HeadingSection
             :is-fetching="isFetching"
             :title="$t('howToGetPrizes')"
-            :body="
-              prizeDetailData.gift != null
-                ? prizeDetailData.gift?.how_to_win
-                : ''
-            "
+            :body="prizeDetailData != null ? prizeDetailData?.how_to_win : ''"
           />
 
           <HeadingSection
             :is-fetching="isFetching"
             :title="$t('conditionsOfUse')"
-            :body="
-              prizeDetailData.gift != null
-                ? prizeDetailData.gift?.term_of_use
-                : ''
-            "
+            :body="prizeDetailData != null ? prizeDetailData?.terms_of_use : ''"
           />
-
-          <HeadingSection
-            v-if="popupType != 'a' && popupType != 'b'"
-            :is-fetching="isFetching"
-            :title="$t('redemptionLocation')"
-            :body="
-              prizeDetailData.location != null
-                ? prizeDetailData.location?.description
-                : ''
-            "
-          />
-
-          <div v-if="popupType != 'a' && popupType != 'b'" class="w-full mb-5">
-            <Skeleton v-if="isFetching" class="!w-full !h-72" />
-            <div
-              v-show="!isFetching"
-              id="parentMap"
-              class="relative"
-              style="width: 100%; height: 300px"
-            >
-              <div id="map" style="width: 100%; height: 100%" />
-              <div class="absolute inset-0 z-10"></div>
-              <div
-                class="absolute bg-white inset-x-0 bottom-0 h-8 flex items-center z-20"
-              >
-                <span
-                  class="text-exd-gray-scorpion text-sm flex items-center cursor-pointer border-b border-b-exd-gray-scorpion"
-                  @click="openGoogleMaps"
-                  >{{ $t('openGoogleMaps') }}
-                  <img
-                    src="~/assets/images/export.svg"
-                    alt="export"
-                    width="15"
-                    height="15"
-                    class="inline ml-1"
-                  />
-                </span>
-              </div>
-            </div>
-          </div>
         </div>
       </div>
       <SolidButton
-        :disabled="disableRedeem || isFetching"
         :label="disableRedeem ? $t('cannotBeExchanged') : $t('exchange')"
+        :disabled="disableRedeem || isFetching"
         :on-click="handleToggleModal"
-        :variant="!disableRedeem ? 'red-coral' : 'disabled'"
+        :variant="`red-coral`"
         has-bottom
       />
     </div>
   </div>
 
   <Dialog
-    v-if="false"
     v-model:visible="hasModal"
     modal
     class="!bg-white w-11/12 md:!w-5/12 !max-w-sm border border-exd-gray-44"
@@ -125,11 +93,11 @@
         width="30"
         height="30"
         preload
-        class="absolute right-1 top-1 cursor-pointer z-50"
+        class="absolute z-50 cursor-pointer right-1 top-1"
         @click="handleToggleModal"
       />
       <div
-        class="w-full flex flex-col justify-center items-center gap-1 px-5 py-8 my-2"
+        class="flex flex-col items-center justify-center w-full gap-1 px-5 py-8 my-2"
       >
         <p
           class="text-exd-gray-scorpion font-bold text-center text-exd-1424 small:w-[105%] w-[93%] max-w-w-[93%]"
@@ -137,7 +105,7 @@
         >
           {{ $t('thePrizeWillBeAwarded') }}
         </p>
-        <p class="text-exd-gray-scorpion text-center text-exd-1424">
+        <p class="text-center text-exd-gray-scorpion text-exd-1424">
           {{ $t('winnerWillBeNotifed') }}
         </p>
       </div>
@@ -152,41 +120,6 @@
     </template>
   </Dialog>
 
-  <Dialog
-    v-if="popupType === 1"
-    v-model:visible="hasModal"
-    modal
-    class="!bg-white w-11/12 md:!w-5/12 !max-w-sm border border-exd-gray-44"
-  >
-    <template #container>
-      <img
-        :src="close"
-        alt="close"
-        width="30"
-        height="30"
-        preload
-        class="absolute right-1 top-1 cursor-pointer z-50"
-        @click="handleToggleModal"
-      />
-      <div
-        class="w-full flex flex-col justify-center items-center gap-4 px-5 py-8 my-2"
-      >
-        <p
-          class="text-exd-gray-scorpion text-center text-[14px] small:w-[105%] w-[80%]"
-          style="text-shadow: 0 3px 3px rgba(0, 0, 0, 0.16)"
-          v-html="formattedMessage"
-        ></p>
-      </div>
-      <div class="mt-3 mb-7">
-        <SolidButton
-          :label="$t('arrived')"
-          :on-click="handleGoToClaim"
-          variant="red-coral"
-          has-bottom
-        />
-      </div>
-    </template>
-  </Dialog>
 </template>
 
 <script setup>
@@ -195,11 +128,6 @@ import { useRoute } from 'vue-router'
 import { useRouter } from 'vue-router'
 import close from '~/assets/images/close.svg'
 import { store } from '~/stores/dashboard.js'
-import rainbow from '~/assets/images/rainbow-circle.png'
-import gold from '~/assets/images/gold-circle.png'
-import silver from '~/assets/images/silver-circle.png'
-import brown from '~/assets/images/brown-circle.png'
-import bronze from '~/assets/images/bronze-circle.png'
 
 definePageMeta({
   middleware: 'auth',
@@ -208,20 +136,24 @@ definePageMeta({
 
 const map = ref(null)
 const route = useRoute()
-const popupType = ref('c')
+const popupType = ref('a')
 const router = useRouter()
 const id = route.params.id
 const hasModal = ref(false)
-const isFetching = ref(true)
+const isFetching = ref(false)
 const prizeTypeText = ref(null)
 const prizeDetailData = ref({})
 const disableRedeem = ref(false)
 const config = useRuntimeConfig()
 const { t } = useI18n()
 const LOCALE = useCookie('LOCALE')
-const handleToggleModal = () => (hasModal.value = !hasModal.value)
 const handleGoToClaim = () => router.push(`/claim/${route.params.id}`)
-const handleGoToRedeem = () => router.push(`/redeem/${route.params.id}`)
+const handleToggleModal = () => {
+  if (disableRedeem.value) return
+  hasModal.value = !hasModal.value
+}
+const handleGoToRedeem = () =>
+  router.push(`/redeem/${route.params.id}`)
 
 const colorBg = ref('')
 
@@ -252,12 +184,12 @@ const loadGoogleMaps = () => {
 const fetchingPrizeData = async () => {
   try {
     isFetching.value = true
-    const { data } = await useFetchApi('GET', 'prize-list/' + id)
+    const { data } = await useFetchApi('GET', 'prizes/' + id)
     prizeDetailData.value = data
-    checkType(data.type)
-    if (data.lat !== null && data.long !== null) {
-      initializeMap(data.location.lat, data.location.long)
-    }
+    checkPoint(data.point)
+    // if (data.lat !== null && data.long !== null) {
+    //   initializeMap(data.location.lat, data.location.long)
+    // }
     popupType.value = data.type
   } catch (error) {
     console.log(error)
@@ -275,8 +207,9 @@ const checkType = (type) => {
 }
 
 const checkPoint = (point) => {
+
   try {
-    const currentPoint = store.point
+    const currentPoint = parseInt(store.point)
     if (currentPoint < point) {
       disableRedeem.value = true
     }
@@ -329,35 +262,9 @@ const openGoogleMaps = () => {
   }
 }
 
-const handleRankColor = () => {
-  const rank = prizeDetailData.value.gift.type
-  if (rank == 6) {
-    colorBg.value = rainbow
-    prizeTypeText.value = '特賞'
-    return colorBg.value
-  } else if (rank == 1) {
-    colorBg.value = gold
-    prizeTypeText.value = '1等'
-    return colorBg.value
-  } else if (rank == 2) {
-    colorBg.value = silver
-    prizeTypeText.value = '2等'
-    return colorBg.value
-  } else if (rank == 3) {
-    colorBg.value = bronze
-    prizeTypeText.value = '3等'
-    return colorBg.value
-  } else if (rank == 4) {
-    colorBg.value = brown
-    prizeTypeText.value = '4等'
-    return colorBg.value
-  }
-}
-
 onMounted(async () => {
   await loadGoogleMaps()
   await fetchingPrizeData()
-  handleRankColor()
 })
 
 watch(LOCALE, async (val) => {

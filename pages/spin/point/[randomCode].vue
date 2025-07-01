@@ -24,16 +24,18 @@
         categorySrc="/images/gacha-ball.png"
         width="100%"
         height="800"
+        :showPointOnly="showPointOnly"
       />
-      <!-- <div
+      <div
+        v-if="!showPointOnly"
         class="absolute text-exd-dark-grey bg-white flex justify-center bottom-[17%] px-4 py-3 min-h-[50px] rounded-lg"
       >
         <p class="text-[17px] max-w-[278px] text-center">
           {{ pointName }}
         </p>
-      </div> -->
+      </div>
     </div>
-    <div class="absolute-10 top-1/2 translate-y-[80%]"></div>
+    <!-- <div class="absolute-10 top-1/2 translate-y-[80%]"></div> -->
     <div class="w-full absolute bottom-0 z-[1100]">
       <SolidButton
         :label="$t('toTheNext')"
@@ -66,6 +68,7 @@
 <script setup>
 import moment from 'moment'
 import { useI18n } from 'vue-i18n'
+
 const router = useRouter()
 const route = useRoute()
 
@@ -93,6 +96,7 @@ const popupDescription = ref('')
 const popupImage = ref('')
 const pointCategoryIsFail = ref(false)
 const modalLogin = ref(false)
+const showPointOnly = ref(true)
 
 const { t } = useI18n()
 
@@ -140,17 +144,21 @@ const fetchImageFromApi = async () => {
 
       const storage = {
         location_id: data.userPoint.location.id,
-        point_id: data.userCollection.user_point.point?.id,
-        point_image: data.userCollection.user_point.point?.image,
-        point_name: data.userCollection.user_point.point?.name,
-        character_id: data.userCollection.gacha_character.id,
-        character_image: data.userCollection.gacha_character.image,
-        character_name: data.userCollection.gacha_character.name,
-        character_category: data.userCollection.gacha_character.category,
-        character_rarity: data.userCollection.gacha_character.rarity,
-        character_star1: data.userCollection.gacha_character.star1,
-        character_star2: data.userCollection.gacha_character.star2,
-        character_star3: data.userCollection.gacha_character.star3,
+        point_id: data.userPoint.point?.id,
+        point_image: data.userPoint.point?.image,
+        point_name: data.userPoint.point?.name,
+        character_id: data.userCollection?.gacha_character.id,
+        character_image: data.userCollection?.gacha_character.image,
+        character_name: data.userCollection?.gacha_character.name,
+        character_category: data.userCollection?.gacha_character.category,
+        character_description: data.userCollection?.gacha_character.description,
+        character_rarity: data.userCollection?.gacha_character.rarity_image_during_gacha,
+        character_star1: data.userCollection?.gacha_character.star1,
+        character_star2: data.userCollection?.gacha_character.star2,
+        character_star3: data.userCollection?.gacha_character.star3,
+        character_star_name1: data.userCollection?.gacha_character.star_name1,
+        character_star_name2: data.userCollection?.gacha_character.star_name2,  
+        character_star_name3: data.userCollection?.gacha_character.star_name3,
         // gift_id: data.userPoint.gift.point_id,
         // gift_image: data.userPoint.gift.image,
         // gift_type: data.userPoint.gift.type,
@@ -160,6 +168,8 @@ const fetchImageFromApi = async () => {
         button_name: data.button_name,
         popup_description: data.popup_description,
         redirect_link: data.redirect_link,
+        hide_character: data.hide_character,
+        hide_character_info: data?.hide_character_info,
       }
 
       localStorage.setItem(slugStorageName, encryptData(storage))
@@ -274,7 +284,7 @@ const fetchImageFromApi = async () => {
         character_name: data.character?.name,
         character_description: data.character?.description,
         character_category: data.character?.category,
-        character_rarity: data.character?.rarity,
+        character_rarity: data.character?.rarity_image_during_gacha,
         character_star1: data.character?.star1,
         character_star2: data.character?.star2,
         character_star3: data.character?.star3,
@@ -345,16 +355,16 @@ const reportMultipleSpin = async ({ gift_id, character_id, location_id }) => {
 }
 
 const handleButton = async () => {
-  // if (!hideCharacter.value) {
+  if (!hideCharacter.value) {
   playVideo.value = true
-  //   return
-  // }
+    return
+  }
 
-  // if (!TOKEN.value && !USER.value) {
-  //   handleShowDialog()
-  // } else {
-  //   await navigateTo('/dashboard')
-  // }
+  if (!TOKEN.value && !USER.value) {
+    handleShowDialog()
+  } else {
+    await navigateTo('/dashboard')
+  }
 }
 
 const handleGoToCharacter = async () => {

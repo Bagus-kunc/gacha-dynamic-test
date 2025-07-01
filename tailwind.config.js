@@ -79,30 +79,11 @@ module.exports = {
       },
       padding: { ...padding },
       colors: {
-        'exd-red': {
-          DEFAULT: 'hsla(var(--dark-red))', //#822820
-        },
         'exd-red-vermilion': {
           DEFAULT: 'hsla(var(--red-vermilion))', //#D44D20
         },
-        'exd-gold': {
-          DEFAULT: 'hsla(var(--gold))', //#D7A237
-        },
         'exd-gray-scorpion': {
           DEFAULT: 'hsla(var(--gray-scorpion))', //#606060
-        },
-        'exd-stone-300': {
-          DEFAULT: 'hsla(var(--stone-300))', //#C3C3C3
-        },
-        'exd-zinc-100': {
-          DEFAULT: 'hsla(var(--zinc-100))', //#F3F3F3
-        },
-
-        'exd-banana': {
-          DEFAULT: 'hsla(var(--banana))', //#FFE9BC
-        },
-        'exd-gray-44': {
-          DEFAULT: 'hsla(var(--gray-44))', //#707070
         },
         'exd-light-grey': {
           DEFAULT: 'hsla(var(--light-grey))', //#D0D0D0
@@ -110,14 +91,8 @@ module.exports = {
         'exd-dark-grey': {
           DEFAULT: 'hsla(var(--dark-grey))', //#3D3D3D
         },
-        'exd-neutral-400': {
-          DEFAULT: 'hsla(var(--neutral-400))', //#8A9595
-        },
         'exd-orange-700': {
           DEFAULT: 'hsla(var(--orange-700))', //#D44D20
-        },
-        'exd-red-900': {
-          DEFAULT: 'hsla(var(--red-900))', //#822820
         },
         'exd-yellow-300': {
           DEFAULT: 'hsla(var(--yellow-300))', //#FFF958
@@ -125,26 +100,47 @@ module.exports = {
         'exd-yellow-tom': {
           DEFAULT: 'hsla(var(--yellow-tom))', //##DEE300
         },
+        'exd-stone-300': {
+          DEFAULT: 'hsla(var(--stone-300))', //#C3C3C3
+        },
+        'exd-zinc-100': {
+          DEFAULT: 'hsla(var(--zinc-100))', //#F3F3F3
+        },
+        'exd-gray-44': {
+          DEFAULT: 'hsla(var(--gray-44))', //#707070
+        },
+        'exd-banana': {
+          DEFAULT: 'hsla(var(--banana))', //#FFE9BC
+        },
+        'exd-red-900': {
+          DEFAULT: 'hsla(var(--red-900))', //#822820
+        },
         'exd-red-500': {
           DEFAULT: 'hsla(var(--red-500))', //#D84F45
         },
         'exd-green': {
-          DEFAULT: 'hsla(var(--green))', //#2E7D32
+          DEFAULT: 'hsla(var(--green))', //#009245
         },
-        'exd-blue-link': {
-          DEFAULT: '#1f76c2', //#1f76c2
+        'exd-green-tea': {
+          DEFAULT: 'hsla(var(--green-tea))', //#75A000
         },
-        'exd-red-coral': {
-          DEFAULT: '#FF5331',
+        'exd-green-light': {
+          DEFAULT: 'hsla(var(--green-light))', //#D5F7B9
+        },
+        'exd-gold': {
+          DEFAULT: 'hsla(var(--gold))', //#D7A237
         },
         'exd-blue-green': {
           DEFAULT: 'hsla(var(--blue))', //#2CC9B9
         },
-        'exd-redeem': {
-          DEFAULT: '#D1A000',
-          silver: '#9B9B9B',
-          bronze: '#A65B04',
-          rose: '#C46A59',
+        'exd-blue-sky': {
+          DEFAULT: 'hsla(var(--blue-sky))', //#21AAD4
+        },
+        'exd-purple-gray': {
+          DEFAULT: 'hsla(var(--purple-gray))', //#8564AA
+        },
+        'exd-red-coral': {
+          DEFAULT: '#C9495A',
         },
         'exd-dark': {
           DEFAULT: '#242B29',

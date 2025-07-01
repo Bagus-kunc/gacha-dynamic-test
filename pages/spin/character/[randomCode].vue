@@ -43,16 +43,18 @@
     />
 
     <div class="absolute inset-0 z-20 flex justify-center">
-      <!-- :raritySrc="raritySrc" -->
       <CircleSpinCharacter
         class="relative top-1/2 -translate-y-[50%]"
         :imageSrc="characterImageUrl"
+        :raritySrc="raritySrc"
+        :hideCharacterInfo="hideCharacterInfo"
         width="100%"
         height="100%"
       />
 
       <div
-        class="absolute text-exd-dark-grey bg-white flex justify-center bottom-[22%] px-4 py-3 min-h-[50px] rounded-lg"
+        class="absolute text-exd-dark-grey bg-white flex justify-center px-4 py-3 min-h-[50px] rounded-lg"
+        :class="hideCharacterInfo ? 'sm:bottom-[15%] bottom-[14.5%]' : 'sm:bottom-[23%] bottom-[21.5%]'"
       >
         <p class="text-[17px] max-w-[278px] text-center">{{ charName }}</p>
       </div>
@@ -60,7 +62,7 @@
 
     <div class="absolute bottom-0 w-full">
       <SolidButton
-        :label="$t('loginAndEarnPoints')"
+        :label="$t('toTheNext')"
         :on-click="handleButton"
         variant="red-coral"
         has-bottom
@@ -120,7 +122,7 @@
   <Transition name="fade-slide" mode="out-in">
     <div
       v-if="opIntro"
-      class="with-scroll fixed z-40 transform -translate-x-1/2 -translate-y-1/2 rounded-lg shadow w-[88.889vw] sm:w-[350px] bg-white/85 sm:bottom-[17%] bottom-[13%] left-1/2"
+      class="with-scroll fixed z-40 transform -translate-x-1/2 -translate-y-1/2 rounded-lg shadow w-[88.889vw] sm:w-[350px] bg-white/90 sm:bottom-[17%] bottom-[13%] left-1/2"
     >
       <div
         class="flex flex-col gap-2 p-5 max-h-[250px] overflow-y-auto scrollbar-thin scrollbar-thumb-exd-gray-scorpion scrollbar-track-transparent"
@@ -132,7 +134,7 @@
         </div>
         <div class="flex items-center gap-5 text-exd-1218">
           <p
-            class="border-[1px] min-w-[68px] border-exd-blue-green text-exd-blue-green rounded-[5px] px-2"
+            class="border-[1px] min-w-[68px] border-exd-green text-exd-green rounded-[5px] px-2"
           >
             カテゴリ
           </p>
@@ -234,6 +236,24 @@ const handleButton = async () => {
   }
 }
 
+const calculateStar = (characterStar) => {
+  const starMapping = {
+    1: 0,
+    2: 0.5,
+    3: 1,
+    4: 1.5,
+    5: 2,
+    6: 2.5,
+    7: 3,
+    8: 3.5,
+    9: 4,
+    10: 4.5,
+    11: 5,
+  }
+
+  return starMapping[characterStar] ?? 0
+}
+
 const fetchImage = async () => {
   try {
     const storedData = useCookie('VALID_PASSWORD')
@@ -266,11 +286,11 @@ const fetchImage = async () => {
 
     charDesc.value = slugData?.character_description
     charCategory.value = slugData?.character_category
-    star1.value = slugData?.character_star1
+    star1.value = calculateStar(slugData?.character_star1)
     star1Name.value = slugData?.character_star_name1
-    star2.value = slugData?.character_star2
+    star2.value = calculateStar(slugData?.character_star2)
     star2Name.value = slugData?.character_star_name2
-    star3.value = slugData?.character_star3
+    star3.value = calculateStar(slugData?.character_star3)
     star3Name.value = slugData?.character_star_name3
 
     hideCharacterInfo.value = slugData?.hide_character_info

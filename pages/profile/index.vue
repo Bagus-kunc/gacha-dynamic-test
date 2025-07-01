@@ -13,7 +13,7 @@
       class="flex flex-col justify-between w-full gap-6 pb-3 mt-32 font-bold grow"
     >
       <h1
-        class="text-center flex flex-col text-1416 text-exd-gray-scorpion pt-6 pb-10 w-full max-w-[360px] mx-auto"
+        class="text-center flex flex-col text-1416 text-exd-gray-scorpion pb-4 w-full max-w-[360px] mx-auto"
       >
         {{ $t('memberInformation1') }}
         <span> {{ $t('memberInformation2') }}</span>
@@ -22,11 +22,93 @@
         class="inline-flex items-center justify-between gap-4 pb-5 border-b border-b-exd-light-grey px-7 text-exd-gray-scorpion text-1416"
       >
         <h1>{{ $t('member') }} <span class="font-bold">ID</span></h1>
-        <p class="w-48 overflow-hidden font-bold text-right whitespace-nowrap">
+        <p v-if="userId" class="overflow-hidden font-bold text-right whitespace-nowrap">
           {{ userId }}
+        </p>
+        <p v-else class="w-48 overflow-hidden font-bold text-right whitespace-nowrap">
+          00000000000
         </p>
       </div>
       <div class="flex flex-col px-3 grow">
+        <div
+          class="inline-flex flex-col px-4 py-5 border-b border-b-exd-light-grey"
+        >
+          <label
+            :for="$t('sex')"
+            class="flex items-center gap-2 text-exd-gray-scorpion text-exd-1424"
+            >{{ $t('sex') }}
+            <span
+              class="bg-exd-red-coral text-white text-exd-0910 px-1 py-[2px] rounded-sm"
+              >{{ $t('required') }}</span
+            >
+          </label>
+          <ButtonGroup
+            class="w-full h-10 rounded-none text-exd-gray-scorpion"
+            style="box-shadow: 0px 3px 3px 0px rgba(0, 0, 0, 0.1608)"
+          >
+            <Button
+              @click="updateModel('gender', 'Male')"
+              :label="$t('male')"
+              :class="[
+                'bg-white w-4/12 h-full border border-exd-stone-300 rounded-none !text-exd-gray-scorpion',
+                form.gender === 'Male' && '!bg-exd-banana',
+              ]"
+            />
+            <Button
+              @click="updateModel('gender', 'Female')"
+              :label="$t('female')"
+              :class="[
+                'bg-white w-4/12 h-full border-t border-b border-t-exd-stone-300 border-b-exd-stone-300 rounded-none !text-exd-gray-scorpion',
+                form.gender === 'Female' && '!bg-exd-banana',
+              ]"
+            />
+            <Button
+              @click="updateModel('gender', 'No-Answer')"
+              :label="$t('noAnswer')"
+              :class="[
+                'bg-white w-4/12 h-full border border-exd-stone-300 rounded-none !text-exd-gray-scorpion',
+                form.gender === 'No-Answer' && '!bg-exd-banana',
+              ]"
+            />
+          </ButtonGroup>
+        </div>
+
+        <div
+          class="inline-flex flex-col gap-4 px-4 py-5 border-b border-b-exd-light-grey"
+        >
+          <div class="max-w-[270px]">
+            <InputText
+              onlyNumeric
+              :model="form.postCode"
+              :disabled="isLoading"
+              required
+              :label="$t('postalCodeNoHyphens')"
+              @update:model="
+                ($event) => {
+                  updateModel('postCode', $event)
+                  checkPostalCode($event)
+                }
+              "
+              @validate="validateInput('postCode', $event)"
+              :validate-on-submit="validateOnSubmit"
+              :error="
+                !form.postCode && validateOnSubmit
+                  ? $t('fieldRequired')
+                  : '' || (form.postCode.length > 0 && form.postCode.length < 7)
+                  ? $t('minLengthPostalCode')
+                  : '' || errorPostCodeMessage
+              "
+              :class="{
+                'input-error':
+                  (!form.postCode && validateOnSubmit) ||
+                  (form.postCode.length > 0 && form.postCode.length < 7) ||
+                  errorPostCodeMessage,
+                'opacity-50': isLoading,
+              }"
+              :border="true"
+            />
+          </div>
+        </div>
         <div
           class="inline-flex gap-4 px-4 py-5 border-b border-b-exd-light-grey"
         >
@@ -182,6 +264,12 @@ const errorKeyPostCode = ref('')
 const errorPostCodeMessage = computed(() => t(errorKeyPostCode.value))
 
 const form = reactive({
+  gender: 'No-Answer',
+  postCode: '',
+  prefecture: '',
+  address: '',
+  city: '',
+  area: '',
   email: '',
   password: '',
   checked: false,
@@ -250,6 +338,7 @@ const isFormChanged = () => {
 }
 
 const validateForm = () => {
+  const requiredFields = ['email', 'password', 'postCode']
   let isValid = true
 
   if (!emailRegex(form.email)) {
@@ -273,12 +362,21 @@ const validateForm = () => {
     return false
   }
 
+  for (const field of requiredFields) {
+    if (!form[field]) {
+      console.log('Field must be filled:', field)
+      return false
+    }
+  }
+
   return true
 }
 
 const populateForm = (data) => {
+  form.gender = data.gender || 'No-Answer'
+  form.postCode = data.postal_code.name || ''
   form.email = data.email || ''
-  form.password = ''
+  form.password = data.password || ''
 }
 
 const fetchGetUserData = async () => {
@@ -293,6 +391,7 @@ const fetchGetUserData = async () => {
     populateForm(data)
 
     initialForm = JSON.parse(JSON.stringify(form))
+
   } catch (error) {
     console.log(error)
   } finally {
@@ -349,21 +448,31 @@ const handleApiError = (error) => {
 
 const buildPayload = () => {
   const payload = {
+    gender: form.gender,
     email: form.email,
     password: form.password,
+    postal_code: form.postCode,
+    prefecture: form.prefecture,
+    city: form.city,
+    area: form.area,
+    address: form.area
   }
 
   return payload
 }
 
 const handleSubmit = async () => {
+    
+  if (!validateForm()) return
+  if (!form.postCode || form.postCode.length < 7 || errorPostCodeMessage.value) {
+    return
+  }
+  
   errorScroll.value = []
 
-  validateOnSubmit.value = true
-
-  if (!validateForm()) return
-
   isLoading.value = true
+
+  validateOnSubmit.value = true
 
   const payload = buildPayload()
 
@@ -373,8 +482,8 @@ const handleSubmit = async () => {
     await nextTick()
     const firstErrorElement = document.querySelector('.input-error')
     if (firstErrorElement) {
-      firstErrorElement.style.paddingTop = '80px'
-      firstErrorElement.style.marginTop = '-80px'
+      firstErrorElement.style.paddingTop = '115px'
+      firstErrorElement.style.marginTop = '-115px'
 
       firstErrorElement.scrollIntoView({ behavior: 'smooth' })
 
@@ -449,6 +558,7 @@ watch(
 
 onMounted(async () => {
   await fetchGetUserData()
+  checkPostalCode(form.postCode)
 })
 </script>
 
@@ -476,7 +586,7 @@ onMounted(async () => {
 .scrollable-content::-webkit-scrollbar-thumb {
   display: block !important;
   height: 30px !important;
-  background: #d7a237 !important;
+  background: #9a9a9a !important;
   border-radius: 10px !important;
 }
 

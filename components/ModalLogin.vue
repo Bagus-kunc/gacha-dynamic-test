@@ -12,13 +12,13 @@
         width="30"
         height="30"
         preload
-        class="absolute right-1 top-1 cursor-pointer z-50"
+        class="absolute z-50 cursor-pointer right-1 top-1"
         @click="$emit('update:modelValue', false)"
       />
       <div
-        class="w-full flex flex-col justify-center items-center gap-4 py-6 relative px-4"
+        class="relative flex flex-col items-center justify-center w-full gap-4 px-4 py-6"
       >
-        <div class="font-bold text-exd-1424 text-center text-exd-gray-scorpion">
+        <div class="font-bold text-center text-exd-1424 text-exd-gray-scorpion">
           <p style="text-shadow: 0 3px 3px rgba(0, 0, 0, 0.16)">
             {{ $t('loginOrRegister') }}
           </p>
@@ -40,23 +40,25 @@
         />
 
         <a
-          class="underline text-exd-1220 font-medium text-exd-gray-scorpion cursor-pointer"
+          class="font-medium underline cursor-pointer text-exd-1220 text-exd-gray-scorpion"
           style="text-shadow: 0 3px 3px rgba(0, 0, 0, 0.16)"
           @click="navigateTo('/forgot-password')"
         >
           {{ $t('forgotYourPassword') }}
         </a>
-
+        
         <SolidButton
           :label="$t('login')"
           :onClick="handleSubmit"
-          variant="red-coral"
+          :bgColor="store.bgColorOne"
+          :textColor="store.textColorOne"
           :disabled="!isValidInput || isLoading"
           :has-loading="isLoading"
         />
         <SolidButton
           :label="$t('newMemberRegistration')"
-          variant="blue-green"
+          :bgColor="store.bgColorTwo"
+          :textColor="store.textColorTwo"
           :onClick="handleToRegister"
         />
       </div>
@@ -75,12 +77,12 @@
         width="30"
         height="30"
         preload
-        class="absolute right-1 top-1 cursor-pointer z-50"
+        class="absolute z-50 cursor-pointer right-1 top-1"
         @click="isErrorMessage = false"
       />
-      <div class="w-full flex flex-col justify-center items-center gap-4 py-6">
+      <div class="flex flex-col items-center justify-center w-full gap-4 py-6">
         <img :src="warning" alt="warning" width="40" height="40" preload />
-        <div class="text-center w-10/12">
+        <div class="w-10/12 text-center">
           <p
             v-for="(item, index) in errorMessages"
             class="font-bold text-exd-1424 text-exd-gray-scorpion"
@@ -101,6 +103,7 @@ import arrow from '~/assets/images/arrow.svg'
 import warning from '~/assets/images/warning.svg'
 import InputText from '~/components/InputText.vue'
 import useRegister from '~/composables/useRegister'
+import { store } from '~/stores/global-settings.js'
 
 const register = useRegister()
 const { isSpin } = storeToRefs(register)
@@ -117,6 +120,7 @@ const props = defineProps({
 const emits = defineEmits(['update:modelValue', 'callback'])
 
 const isLoading = ref(false)
+
 const form = ref({
   email: '',
   password: '',
@@ -125,7 +129,7 @@ const form = ref({
 const isErrorMessage = ref(false)
 const errorMessages = ref([])
 const route = useRoute()
-const { decryptData } = useEncryption()
+const { encryptData, decryptData } = useEncryption()
 
 const isValidInput = computed(
   () => form.value.email !== '' && form.value.password !== ''
@@ -194,6 +198,16 @@ const handleSubmit = async () => {
     TOKEN.value = response.data.token
     USER.value = response.data.user
 
+    sessionStorage.setItem('EMAIL', form.value?.email)
+    if (form.value?.password) {
+      try {
+        const encrypted = encryptData(form.value.password)
+        sessionStorage.setItem('PASSWORD', encrypted)
+      } catch (encryptError) {
+        
+      }
+    }
+
     await nextTick()
 
     await saveSpin()
@@ -203,8 +217,11 @@ const handleSubmit = async () => {
     } else {
       await navigateTo('/dashboard', { replace: true })
     }
+    
     isLoading.value = false
+
   } catch (error) {
+
     console.log("Error: Can't login", error)
 
     const { errors, message } = error._data || {}
@@ -244,8 +261,6 @@ const saveSpin = async () => {
       },
     })
 
-    console.log(data)
-
     storedData.value = null
     localStorage.removeItem(slugStorageName)
 
@@ -262,6 +277,19 @@ const saveSpin = async () => {
     throw error
   }
 }
+
+onMounted(() => {
+
+  const emailSession    = sessionStorage.getItem('EMAIL')    || ''
+  const passwordCipher  = sessionStorage.getItem('PASSWORD') || ''
+
+  form.value.email = emailSession
+  form.value.password = decryptData(passwordCipher)
+})
+
+onMounted(() => {
+  store.fetchingSettingsData()
+})
 
 watch(
   () => props.email,

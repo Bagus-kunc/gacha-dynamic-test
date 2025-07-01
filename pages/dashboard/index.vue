@@ -7,8 +7,8 @@
       {{ $t('myPage') }}
     </p>
   </HeaderBar>
-  <div class="flex flex-col px-12 bg-center">
-    <div class="flex flex-col mt-[35%] items-center">
+  <div class="flex flex-col px-8 mt-[35%] sm:mt-[30%]">
+    <!-- <div class="flex flex-col mt-[35%] items-center">
       <div class="flex flex-col mt-[5%] items-center">
         <p class="font-bold text-white text-exd-1530">
           {{ $t('currentPoints') }}
@@ -17,18 +17,36 @@
           {{ store.point }}<span class="ml-1 text-exd-1530">pt</span>
         </p>
       </div>
-    </div>
+    </div> -->
 
     <div
-      class="relative inline-flex flex-col items-center justify-center gap-4 mt-10 -top-12"
+      class="relative inline-flex flex-col items-center justify-center gap-5"
     >
       <div
-        class="flex flex-col items-center justify-center w-full p-6 bg-white cursor-pointer rounded-xl h-exd-130"
+        class="flex items-center justify-center w-full p-6 bg-white cursor-pointer rounded-xl h-exd-130"
+        style="box-shadow: 0px 3px 3px 0px rgba(0, 0, 0, 0.1608)"
+        @click="handleGoToPrize"
+      >
+        <img
+          :src="iconStar"
+          alt="icon-gift"
+          width="60"
+          height="60"
+          preload
+          class="text-center cursor-pointer"
+        />
+        <p class="font-bold text-center text-exd-gray-scorpion text-exd-1424">
+          {{ $t('prizeListEntry') }}
+        </p>
+      </div>
+
+      <div
+        class="flex items-center justify-center w-full p-6 bg-white cursor-pointer rounded-xl h-exd-130"
         style="box-shadow: 0px 3px 3px 0px rgba(0, 0, 0, 0.1608)"
         @click="handleGoToHistory"
       >
         <img
-          :src="iconGift"
+          :src="collection"
           alt="icon-gift"
           width="60"
           height="60"
@@ -40,7 +58,7 @@
         </p>
       </div>
     </div>
-    <div class="relative w-full -top-12">
+    <div class="relative w-full">
       <div
         class="inline-flex items-center justify-between w-full px-5 mt-5 bg-white border-b-2 cursor-pointer h-exd-50 rounded-tl-xl rounded-tr-xl border-b-exd-light-grey"
         style="box-shadow: 0px 3px 3px 0px rgba(0, 0, 0, 0.1608)"
@@ -48,6 +66,29 @@
       >
         <p class="font-bold text-exd-gray-scorpion grow text-exd-1424">
           {{ $t('membershipInformation') }}
+        </p>
+        <img
+          :src="arrow"
+          alt="arrow"
+          width="12"
+          height="12"
+          preload
+          class="invert"
+        />
+      </div>
+
+      <div
+        class="inline-flex items-center justify-between w-full px-5 bg-white border-b-2 cursor-pointer h-exd-50 border-b-exd-light-grey"
+        style="box-shadow: 0px 3px 3px 0px rgba(0, 0, 0, 0.1608)"
+        @click="handleGoToCampaignSite()"
+      >
+        <p
+          class="inline-flex items-center gap-1 font-bold text-exd-gray-scorpion grow text-exd-1424"
+        >
+          {{ $t('campaignSite') }}
+          <span>
+            <img :src="exportIcon" alt="export" width="20" height="20" preload
+          /></span>
         </p>
         <img
           :src="arrow"
@@ -67,29 +108,6 @@
           class="inline-flex items-center gap-1 font-bold cursor-pointer text-exd-gray-scorpion grow text-exd-1424"
         >
           {{ $t('helpAndInquiries') }}
-          <span>
-            <img :src="exportIcon" alt="export" width="20" height="20" preload
-          /></span>
-        </p>
-        <img
-          :src="arrow"
-          alt="arrow"
-          width="12"
-          height="12"
-          preload
-          class="invert"
-        />
-      </div>
-
-      <div
-        class="inline-flex items-center justify-between w-full px-5 bg-white border-b-2 cursor-pointer h-exd-50 border-b-exd-light-grey"
-        style="box-shadow: 0px 3px 3px 0px rgba(0, 0, 0, 0.1608)"
-        @click="handleGoToDigitalMap()"
-      >
-        <p
-          class="inline-flex items-center gap-1 font-bold text-exd-gray-scorpion grow text-exd-1424"
-        >
-          {{ $t('toHoriShoten') }}
           <span>
             <img :src="exportIcon" alt="export" width="20" height="20" preload
           /></span>
@@ -125,16 +143,28 @@
     </div>
 
     <div
-      class="relative inline-flex flex-col items-center justify-between mx-auto md:w-[352px] w-[280px] mt-7 -top-12"
+      class="relative inline-flex flex-col w-full mx-auto mt-5"
     >
-      <!-- <p
-        class="inline-flex items-center justify-center font-bold text-white underline grow text-exd-1424"
+      <Swiper
+        :spaceBetween="30"
+        :centeredSlides="true"
+        :autoplay="{
+          delay: 5000,
+          disableOnInteraction: false,
+        }"
+        :pagination="{
+          clickable: true,
+        }"
+        :navigation="false"
+        :modules="[Autoplay, Pagination, Navigation]"
+        class=""
       >
-        {{ $t('addToHomeScreen') }}
-      </p> -->
-      <NuxtLink to="https://www.horishoten.co.jp/" target="_blank">
-        <img :src="banner" width="352" height="180" preload class="w-full" />
-      </NuxtLink>
+        <SwiperSlide v-for="(item, index) in bannerList" :key="index" class="!items-start">
+          <a :href="item.link" target="_blank" class="w-full">
+            <img :src="item.image" />
+          </a>
+        </SwiperSlide>
+      </Swiper>
     </div>
   </div>
 
@@ -175,7 +205,7 @@
 
 <script setup>
 import iconStar from '~/assets/images/icon-star.svg'
-import iconGift from '~/assets/images/icon-gift.svg'
+import collection from '~/assets/images/collection.png'
 import arrow from '~/assets/images/arrow.svg'
 import exportIcon from '~/assets/images/export.svg'
 import { useRouter } from 'vue-router'
@@ -183,6 +213,9 @@ import { store } from '~/stores/dashboard.js'
 import close from '~/assets/images/close.svg'
 import warning from '~/assets/images/warning.svg'
 import banner from '~/assets/images/banner.png'
+import banner1 from '~/assets/images/banner1.png'
+import { Swiper, SwiperSlide } from 'swiper/vue'
+import { Autoplay, Pagination, Navigation } from 'swiper/modules'
 
 import 'swiper/css'
 import 'swiper/css/pagination'
@@ -202,10 +235,10 @@ const handleGoToHistory = () => router.push('/history')
 const handleGoToPrize = () => router.push('/prize')
 const profile = () => router.push('/profile')
 const handleGoToHelp = () => {
-  window.open('https://horishoten75th.dela-kuji.jp/manual', '_blank')
+  window.open('/manual', '_blank')
 }
-const handleGoToDigitalMap = () => {
-  window.open('https://www.horishoten.co.jp/', '_blank')
+const handleGoToCampaignSite = () => {
+  window.open('https://aichi-gurutto.dela-kuji.site', '_blank')
 }
 
 const TOKEN = useCookie('TOKEN')
@@ -226,19 +259,33 @@ const handleClose = () => {
   sessionStorage.removeItem('LOCATION_SLUG')
 }
 
+const clearSessionExcept = (whitelist) => {
+  const keep = {}
+  whitelist.forEach((key) => {
+    const val = sessionStorage.getItem(key)
+    if (val !== null) keep[key] = val
+  })
+
+  sessionStorage.clear()
+
+  Object.entries(keep).forEach(([k, v]) => sessionStorage.setItem(k, v))
+}
+
+
 const logout = async () => {
   try {
     const { data, status } = await useFetchApi('POST', 'logout')
+    const WHITELIST_SESSION = ['EMAIL', 'PASSWORD']
 
     localStorage.clear()
-    sessionStorage.clear()
+    clearSessionExcept(WHITELIST_SESSION)
     TOKEN.value = null
     USER.value = null
     VALID_PASSWORD.value = null
     await navigateTo('/')
   } catch (error) {
     localStorage.clear()
-    sessionStorage.clear()
+    clearSessionExcept(WHITELIST_SESSION)
     TOKEN.value = null
     USER.value = null
     VALID_PASSWORD.value = null
@@ -339,23 +386,8 @@ const goToSpin = async (url) => {
 }
 
 const bannerList = ref([
-  { image: '/images/banner_01.jpg', link: 'https://www.yabaton.com/' },
-  { image: '/images/banner_02.jpg', link: 'https://www.koushoji.or.jp/' },
-  { image: '/images/banner_03.jpg', link: 'https://www.maruya-honten.com/' },
-  {
-    image: '/images/banner_04.jpg',
-    link: 'https://www.nagoya-tv-tower.co.jp/',
-  },
-  {
-    image: '/images/banner_05.jpg',
-    link: 'https://www.tokyuhotels.co.jp/nagoya-h/index.html',
-  },
-  { image: '/images/banner_06.jpg', link: 'https://www.kani-honke.co.jp/' },
-  { image: '/images/banner_07.jpg', link: 'https://nagoya.nikkostyle.jp/' },
-  {
-    image: '/images/banner_08.jpg',
-    link: 'https://www.nagoya-info.jp/accommodation/detail/115/',
-  },
+  { image: banner, link: 'https://aichi-platform.com' },
+  { image: banner1, link: 'https://aichiexpo20th.org/' },
 ])
 
 onMounted(() => {

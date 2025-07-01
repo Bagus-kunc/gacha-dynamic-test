@@ -1,25 +1,19 @@
 // Tentukan nama cache dan file yang ingin di-cache
-const CACHE_NAME = `gacharary-horishoten75th-v2 - ${self.location.origin}`
+const CACHE_NAME = `gacharary-aichi-gurutto-v2 - ${self.location.origin}`
 const urlsToCache = [
   '/favicon.ico',
   '/video/new-spin-point.mp4',
   '/video/new-spin-character.mp4',
   '/images/sparkling.png',
-  '/images/red_base.png',
-  '/images/gacha-tom.png',
+  '/images/green_base.png',
+  '/images/gacha-aichi.png',
   '/images/bg-rainbow.png',
-  '/images/bg-gacha-spin.png',
-  '/images/bg-gacha-character.png',
-  '/images/logo.png',
   '/images/warning.svg',
   '/images/header-logo.png',
   '/images/close.svg',
   '/images/export.svg',
   '/images/intl-icon.png',
   '/images/back-button.svg',
-  '/images/ssr.png',
-  '/images/sr.png',
-  '/images/r.png',
   '/images/text-char.png',
   '/icons/icon-gift.svg',
 ]

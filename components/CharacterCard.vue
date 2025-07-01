@@ -11,6 +11,7 @@
       class="relative object-fill w-full h-full"
       preload
       @error="handleImageError"
+      :class="isDisabled ? 'opacity-50' : ''"
     />
   </div>
 </template>
@@ -30,6 +31,10 @@ const props = defineProps({
     validator: (value) =>
       ['with-background', 'without-background'].includes(value),
   },
+  isDisabled: {
+    type: Boolean,
+    default: false,
+  }
 })
 
 const variantClass = computed(() => {

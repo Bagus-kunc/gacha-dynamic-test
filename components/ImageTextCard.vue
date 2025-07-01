@@ -3,12 +3,13 @@
     <div
       :class="[
         roundedClass,
-        'bg-white p-3 inline-flex gap-2 border-b border-b-exd-light-grey w-100 relative cursor-pointer',
+        'bg-white p-3 inline-flex gap-2 border-b border-b-exd-light-grey w-100 relative',
+        isDisabled ? 'cursor-default' : 'cursor-pointer'
       ]"
       @click="handleClick"
     >
       <div v-if="!history" class="w-full max-w-16 max-h-16">
-        <CharacterCard :image="imageCard" variant="without-background" />
+        <CharacterCard :image="imageCard" :isDisabled="isDisabled" variant="without-background" />
       </div>
       <slot name="text"></slot>
       <div
@@ -22,6 +23,7 @@
           height="10"
           preload
           class="invert"
+        :class="isDisabled ? 'opacity-50' : ''"
         />
       </div>
       <div v-if="history" class="w-full mt-1 max-w-16 max-h-16">
@@ -36,11 +38,11 @@
         'bg-white p-3 inline-flex gap-2 border-b border-b-exd-light-grey w-100 relative',
       ]"
     >
-      <div class="h-16 w-20">
+      <div class="w-20 h-16">
         <Skeleton width="10rem" class="!h-full !w-full"></Skeleton>
       </div>
       <div class="inline-flex justify-between w-100">
-        <div class="flex flex-col justify-center gap-2 w-11/12">
+        <div class="flex flex-col justify-center w-11/12 gap-2">
           <Skeleton class="!w-full !h-2"></Skeleton>
           <Skeleton class="!w-full !h-2"></Skeleton>
           <Skeleton width="5rem" class="!h-2"></Skeleton>
@@ -88,9 +90,17 @@ const props = defineProps({
     type: Boolean,
     default: false,
   },
+  isDisabled: {
+    type: Boolean,
+    default: false,
+  },
 })
 
 const handleClick = (event) => {
+  if (props.isDisabled) {
+    return
+  }
+  
   if (props.onClick) {
     props.onClick(event)
   }

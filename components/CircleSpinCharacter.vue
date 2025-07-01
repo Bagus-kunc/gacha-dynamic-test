@@ -1,21 +1,25 @@
 <script setup>
-const props = defineProps(['imageSrc', 'raritySrc', 'headSrc'])
+const props = defineProps(['imageSrc', 'raritySrc', 'headSrc', 'hideCharacterInfo'])
 
 const rarityImg = ref('')
+const hideCharacterInfo = ref(false)
+const heightRarity = ref('')
 
 const handleRarity = () => {
-  const rarity = props.raritySrc
-  if (rarity === '1') {
-    rarityImg.value = '/images/r.png'
-  } else if (rarity === '2') {
-    rarityImg.value = '/images/sr.png'
-  } else if (rarity === '3') {
-    rarityImg.value = '/images/ssr.png'
+  rarityImg.value = props.raritySrc
+}
+
+const handleHeightRarity = () => {
+  if (props.hideCharacterInfo) {
+    heightRarity.value = '58.83%'
+  } else {
+    heightRarity.value = '55.83%'
   }
 }
 
 watchEffect(() => {
   handleRarity()
+  handleHeightRarity()
 })
 
 onMounted(() => {
@@ -115,7 +119,17 @@ onMounted(() => {
         </div>
       </foreignObject> -->
       <image height="260" width="260" :href="props.imageSrc" x="70" y="70" />
-      <image height="90" width="240" :href="rarityImg" x="80" y="365" />
+      <!-- <image height="126" width="230" :href="rarityImg" x="85" y="335" /> -->
+      <svg viewBox="0 0 400 600" class="w-full h-auto">
+        <image
+          :href="rarityImg"
+          x="22.5%"
+          :y="heightRarity"
+          width="55%"
+          height="21%"
+          preserveAspectRatio="xMidYMid meet"
+        />
+      </svg>
     </g>
     <!-- <rect x="44" y="300" width="311" height="237" fill="url(#pattern0_19_69)" /> -->
 

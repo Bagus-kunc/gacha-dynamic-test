@@ -2,22 +2,24 @@
   <div
     class="fixed bottom-0 left-0 right-0 z-50 w-full h-16 max-w-md mx-auto bg-white"
   >
-    <div class="inline-flex w-full gap-3 pt-3">
+    <div class="inline-flex w-full gap-3">
       <div
-        class="absolute -top-[40px] bg-[url('assets/images/point-navbar.png')] bg-cover bg-center w-[175px] h-[135px] flex flex-col justify-center items-center"
+        class="absolute -top-[40px] bg-[url('assets/images/point-navbar.png')] bg-cover bg-center w-[110px] md:w-[130px] h-[115px] flex flex-col justify-center items-center"
       >
         <p
-          class="text-white text-[10px] font-bold -ml-4 text-center whitespace-pre-line"
+          class="text-white text-[11px] font-bold -ml-3 text-center whitespace-pre-line mt-9"
         >
           {{ $t('currentPoints') }}
         </p>
-        <p class="relative -ml-4 font-bold text-white text-exd-2856 -top-2">
+        <Skeleton v-if="!store.point" class="!h-5 mt-2 bg-white !w-20 mr-4"/>
+        <p v-else class="relative -ml-3 font-bold text-white text-[30px] -top-1">
           {{ store.point }}<span class="text-exd-1020">pt</span>
-          <!-- {{ store.point }}<span class="text-exd-1020">個</span> -->
         </p>
       </div>
 
-      <div class="inline-flex flex-row ml-[9rem] justify-around w-full">
+      <div
+        class="inline-flex flex-row justify-around w-full ml-[28%] pt-2"
+      >
         <BottomBarMenuIcon
           v-for="(item, index) in menuItems"
           :key="index"
@@ -31,8 +33,9 @@
 </template>
 
 <script setup>
-import iconGift from '~/assets/images/icon-gift.svg'
+import iconPin from '~/assets/images/icon-pin.svg'
 import iconStar from '~/assets/images/icon-star.svg'
+import collection from '~/assets/images/collection.png'
 import iconPerson from '~/assets/images/icon-person.png'
 import { store } from '~/stores/dashboard.js'
 import { useRouter } from 'vue-router'
@@ -40,16 +43,21 @@ import { useRouter } from 'vue-router'
 const router = useRouter()
 
 const menuItems = ref([
-  // {
-  //   icon: iconStar,
-  //   label: 'listOfPrizesAndExchanges',
-  //   onClick: () => router.push('/prize'),
-  // },
-  // {
-  //   icon: iconGift,
-  //   label: 'collection',
-  //   onClick: () => router.push('/history'),
-  // },
+  {
+    icon: iconStar,
+    label: 'listOfPrizesAndExchanges',
+    onClick: () => router.push('/prize'),
+  },
+  {
+    icon: collection,
+    label: 'collection',
+    onClick: () => router.push('/history'),
+  },
+  {
+    icon: iconPin,
+    label: 'targetSpot',
+    onClick: () => window.open('https://aichi-platform.com', '_blank'),
+  },
   {
     icon: iconPerson,
     label: 'myPage',

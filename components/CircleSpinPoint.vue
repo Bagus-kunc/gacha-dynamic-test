@@ -1,10 +1,24 @@
 <script setup>
-const props = defineProps(['imageSrc', 'categorySrc'])
+const props = defineProps(['imageSrc', 'categorySrc', 'showPointOnly'])
 const giftType = reactive({
   x: 50,
   y: 230,
   width: 300,
   height: 125,
+})
+
+const pointType = reactive({
+  x: 60,
+  y: -30,
+  width: 300,
+  height: 250,
+})
+
+const circleBlur = reactive({
+  x: -75,
+  y: -170,
+  width: 550,
+  height: 600,
 })
 
 onMounted(() => {
@@ -14,19 +28,26 @@ onMounted(() => {
     }
 
     const stars = document.querySelectorAll('.animate-sparkle')
-
     stars.forEach((star, index) => {
       const delay = getRandom(0, 3) + 's'
 
       star.style.animationDelay = delay
     })
 
-    function logViewportHeight() {
-      if (window.innerHeight < 667) {
+    const logViewportHeight = () => {
+      const isShortScreen = window.innerHeight < 667
+
+      if (isShortScreen) {
         const difference = 667 - window.innerHeight
         giftType.width = Math.max(300 - difference / 2, 121.5)
         giftType.height = Math.max(150 - difference / 2, 121.5)
       }
+
+      if (props.showPointOnly) {
+        pointType.y = (380 - pointType.width) / 2
+        circleBlur.y = (300 - circleBlur.width) / 2
+      }
+
       giftType.x = (400 - giftType.width) / 2
     }
 
@@ -34,13 +55,14 @@ onMounted(() => {
     window.addEventListener('resize', logViewportHeight)
   })
 })
+
 </script>
 
 <template>
   <svg
     width="400"
-    height="716"
-    viewBox="0 -60 400 400"
+    height="718"
+    viewBox="0 0 400 375"
     fill="none"
     xmlns="http://www.w3.org/2000/svg"
     xmlns:xlink="http://www.w3.org/1999/xlink"
@@ -94,17 +116,20 @@ onMounted(() => {
     </g>
 
     <image
-      x="-75"
-      y="-170"
-      width="550"
-      height="600"
+      :x="circleBlur.x"
+      :y="circleBlur.y"
+      :width="circleBlur.width"
+      :height="circleBlur.height"
       href="~/assets/images/circle-blur.png"
     />
     <g filter="url(#filter0_b_12_49)">
       <!-- <ellipse cx="200" cy="198" rx="200" ry="198" fill="white" /> -->
     </g>
-    <image x="60" y="-30" width="300" height="250" :href="props.imageSrc" />
+    
+    <image :x="pointType.x" :y="pointType.y" :width="pointType.width" :height="pointType.height" :href="props.imageSrc" />
+
     <image
+      v-if="!props.showPointOnly"
       :x="giftType.x"
       :y="giftType.y"
       :width="giftType.width"

@@ -1,28 +1,43 @@
 <template>
-  <div class="bg-white">
+  <div v-if="!isFetching" class="bg-white">
     <ImageTextCard
       :key="body.user_point_id"
-      :on-click="() => handleGoToDetailRedeem(body.user_point_id)"
       :history="true"
       :image-card="body.image"
+      isDisabled
     >
       <template v-slot:text>
         <div
-          class="text-exd-gray-scorpion inline-flex justify-between w-100 pr-4"
+          class="inline-flex justify-between pr-4 text-exd-gray-scorpion w-100"
         >
-          <div class="flex flex-col justify-center gap-1">
-            <p
-              class="text-exd-1218 rounded-md text-white px-1 w-[30px] text-center bg-no-repeat bg-cover bg-center"
-              :style="color ? { backgroundImage: `url(${color})` } : {}"
+          <div class="flex flex-col items-start justify-center gap-1">
+            <img 
+              v-if="body.rarity?.type === 'image'"
+              :src="body.rarity?.image"
+              alt="arrow"
+              width="30"
+              height="30"
+              preload
+              class=""
+            />
+
+            <i18n-t
+              v-else-if="body.rarity?.type === 'color'"
+              keypath="prize"
+              tag="div"
+              scope="global"
+              class="font-bold text-exd-1013.62 text-white py-[2px] px-2 flex items-center justify-center rounded-lg"
+              :style="{ backgroundColor: body.rarity.background_color, color: body.rarity.text_color }"
             >
-              <span class="text-[10px]">{{ prizeTypeText }}</span>
-            </p>
+              <template v-slot:rank>
+                {{ body.rarity.text.toUpperCase() }}
+              </template>
+            </i18n-t>
+
             <p class="font-semibold md:text-[15px] sm:text-[14px] text-[13px]">
               {{ body.name }}
             </p>
-            <p class="md:text-[13px] sm:text-[12px] text-[10px] font-medium">
-              {{ $t('exchangeCompleted') }}：{{ body.reedem_at }}
-            </p>
+            
           </div>
         </div>
       </template>
@@ -31,11 +46,7 @@
 </template>
 
 <script setup>
-import rainbow from '~/assets/images/rainbow-tag.png'
-import gold from '~/assets/images/gold-tag.png'
-import silver from '~/assets/images/silver-tag.png'
-import brown from '~/assets/images/brown-tag.png'
-import bronze from '~/assets/images/bronze-tag.png'
+import { useRouter } from "nuxt/app"
 
 const props = defineProps({
   isFetching: { type: Boolean, default: false },
@@ -50,40 +61,13 @@ const props = defineProps({
     type: [String, Number],
   },
   currentPoint: {
-    type: Number,
+    type: [Number, String],
     default: 0,
   },
 })
 
 const color = ref('')
+const router = useRouter()
 
-const redeemLimit = ref(null)
-const prizesData = ref({})
-const prizeTypeText = ref(null)
-
-const handleRankColor = () => {
-  const rank = props.body.type
-  if (rank == 6) {
-    color.value = rainbow
-    prizeTypeText.value = '特賞'
-  } else if (rank == 1) {
-    color.value = gold
-    prizeTypeText.value = '1等'
-  } else if (rank == 2) {
-    color.value = silver
-    prizeTypeText.value = '2等'
-  } else if (rank == 3) {
-    color.value = bronze
-    prizeTypeText.value = '3等'
-  } else if (rank == 4) {
-    color.value = brown
-    prizeTypeText.value = '4等'
-  }
-}
-
-handleRankColor()
-
-const handleGoToDetailRedeem = (id) => {
-  console.log('klik id', id)
-}
+const handleGoToDetailRedeem = (id) => router.push(`/prize/history/${id}`)
 </script>

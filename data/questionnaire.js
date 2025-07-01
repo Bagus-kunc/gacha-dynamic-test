@@ -21,5 +21,5 @@ export const questionnaire2Options = [
   { label: 'goingToSchool', value: 'goingToSchool' },
   { label: 'businessTrip', value: 'businessTrip' },
   { label: 'returningHome', value: 'returningHome' },
-  { label: 'other', value: 'other' },
+  { label: 'others', value: 'other' },
 ]

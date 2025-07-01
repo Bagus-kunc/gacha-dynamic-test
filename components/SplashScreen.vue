@@ -59,26 +59,20 @@ const checkCaches = () => {
     '/video/new-spin-point.mp4',
     '/video/new-spin-character.mp4',
     '/images/sparkling.png',
-    '/images/red_base.png',
-    '/images/gacha-tom.png',
+    '/images/green_base.png',
+    '/images/gacha-aichi.png',
     '/images/bg-rainbow.png',
-    '/images/bg-gacha-spin.png',
-    '/images/bg-gacha-character.png',
-    '/images/logo.png',
     '/images/warning.svg',
     '/images/header-logo.png',
     '/images/close.svg',
     '/images/export.svg',
     '/images/intl-icon.png',
     '/images/back-button.svg',
-    '/images/ssr.png',
-    '/images/sr.png',
-    '/images/r.png',
     '/images/text-char.png',
     '/icons/icon-gift.svg',
   ]
   caches
-    .open(`gacharary-horishoten75th-v2 - ${self.location.origin}`)
+    .open(`gacharary-aichi-gurutto-v2 - ${self.location.origin}`)
     .then(function (cache) {
       return cache.keys()
     })
@@ -99,7 +93,7 @@ const checkCaches = () => {
 <template>
   <div
     v-if="loading"
-    class="w-full max-w-md mx-auto h-screen overflow-hidden bg-[url('/images/red_base.png')] bg-cover bg-center flex flex-col fixed z-[2000]"
+    class="w-full max-w-md mx-auto h-screen overflow-hidden bg-[url('/images/green_base.png')] bg-cover bg-center flex flex-col fixed z-[2000]"
   >
     <div
       class="flex flex-col items-center justify-center w-full h-full text-exd-red"
