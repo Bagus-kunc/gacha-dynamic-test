@@ -7,6 +7,7 @@ const props = defineProps(['visible'])
 const emit = defineEmits(['update:visible'])
 const LOCALE = useCookie('LOCALE')
 
+const settings = useState('settings')
 const langItems = ref([])
 
 function changeLanguage(lang) {
@@ -30,7 +31,7 @@ const setLanguages = (lang) => {
     value: code,
     command: () => changeLanguage(code)
   }));
-  
+
   langItems.value = languageOptions
 }
 
@@ -47,11 +48,7 @@ watch(
   }
 )
 
-onMounted(async () => {
-  await store.fetchingSettingsData()
-
-  setLanguages(store.languages)
-})
+setLanguages(settings.value.languages)
 
 onUnmounted(() => {
   document.body.removeEventListener('click', clickOutside)
@@ -72,8 +69,8 @@ onUnmounted(() => {
             @click="changeLanguage(lang.value)"
             :style="locale === lang.value
               ? {
-                  backgroundColor: store.bgColorOne,
-                  color: store.textColorOne,
+                  backgroundColor: settings.buttons[0].background,
+                  color: settings.buttons[0].color,
                 }
               : {}"
           >

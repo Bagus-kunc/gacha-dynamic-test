@@ -5,8 +5,9 @@ export const store = reactive({
     try {
       const { data } = await useFetchApi('GET', 'settings')
 
+      const settings = useState('settings', () => data)
+
       this.data = data
-      console.log('data', data)
 
       // * Buttons
       this.bgColorOne = data.buttons[0].background

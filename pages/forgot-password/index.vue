@@ -57,8 +57,8 @@
         :label="!isSuccessSendLinkResetPassword ? $t('send') : 'TOP'"
         :has-loading="isLoading"
         :on-click="handleSubmit"
-        :bgColor="store.bgColorOne"
-        :textColor="store.textColorOne"
+        :bgColor="settings.buttons[0].background"
+        :textColor="settings.buttons[0].color"
         has-bottom
         :disabled="emailError !== '' || isLoading"
       />
@@ -67,11 +67,11 @@
 </template>
 
 <script setup>
-import { store } from '~~/stores/global-settings.js'
 import InputText from '~/components/InputText.vue'
 import { useI18n } from 'vue-i18n'
 
 const { t } = useI18n()
+const settings = useState('settings')
 
 const form = ref({
   email: '',
@@ -129,8 +129,4 @@ const handleSubmit = async () => {
     }
   }
 }
-
-onMounted(() => {
-  store.fetchingSettingsData()
-})
 </script>

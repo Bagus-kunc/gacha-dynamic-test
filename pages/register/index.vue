@@ -20,7 +20,7 @@
             >{{ $t('sex') }}
             <span
               class="text-exd-0910 px-1 py-[2px] rounded-sm"
-              :style="{ backgroundColor: store.bgColorOne, color: store.textColorOne }"
+              :style="{ backgroundColor: settings.buttons[0].background, color: settings.buttons[0].color }"
               >{{ $t('required') }}</span
             >
           </label>
@@ -88,8 +88,8 @@
                 'opacity-50': isLoading,
               }"
               :border="true"
-              :bgColor="store.bgColorOne"
-              :textColor="store.textColorOne"
+              :bgColor="settings.buttons[0].background"
+              :textColor="settings.buttons[0].color"
             />
           </div>
         </div>
@@ -123,8 +123,8 @@
                   : errorEmailMessage,
             }"
             :border="true"
-            :bgColor="store.bgColorOne"
-            :textColor="store.textColorOne"
+            :bgColor="settings.buttons[0].background"
+            :textColor="settings.buttons[0].color"
           />
         </div>
 
@@ -153,8 +153,8 @@
               'input-error': errorPasswordMessage,
             }"
             :border="true"
-            :bgColor="store.bgColorOne"
-            :textColor="store.textColorOne"
+            :bgColor="settings.buttons[0].background"
+            :textColor="settings.buttons[0].color"
           />
         </div>
 
@@ -195,8 +195,8 @@
         <SolidButton
           :label="$t('register')"
           :has-loading="isLoading"
-          :bgColor="store.bgColorOne"
-          :textColor="store.textColorOne"
+          :bgColor="settings.buttons[0].background"
+          :textColor="settings.buttons[0].color"
           :disabled="!form.checked || isLoading"
           :on-click="handleSubmit"
           has-bottom
@@ -242,7 +242,6 @@ import { useI18n } from 'vue-i18n'
 import close from '~/assets/images/close.svg'
 import JapanPostalCode from 'japan-postal-code'
 import Dropdown from '~/components/Dropdown.vue'
-import { store } from '~~/stores/global-settings'
 import warning from '~/assets/images/warning.svg'
 import InputText from '~/components/InputText.vue'
 import InputTextArea from '~/components/InputTextArea.vue'
@@ -278,6 +277,8 @@ const { decryptData, encryptData } = useEncryption()
 
 const errorKeyPostCode = ref('')
 const errorPostCodeMessage = computed(() => t(errorKeyPostCode.value))
+
+const settings = useState('settings')
 
 const handleCloseDialog = () => (isErrorMessage.value = false)
 
@@ -421,6 +422,8 @@ const handleApiError = (error) => {
 const buildPayload = () => {
   const payload = {
     gender: form.value.gender,
+    nickname: 'Kunc',
+    password_confirmation: form.value.password,
     email: form.value.email,
     password: form.value.password,
     postal_code: form.value.postCode,
@@ -546,9 +549,6 @@ const saveSpin = async () => {
   }
 }
 
-onMounted(() => {
-  store.fetchingSettingsData()
-})
 </script>
 
 <style scoped>
