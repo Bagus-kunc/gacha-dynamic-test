@@ -10,7 +10,8 @@
         >{{ label }}
         <span
           v-if="required"
-          class="!bg-exd-red-coral text-white text-exd-0910 px-1 py-[2px] rounded-sm"
+          class="text-exd-0910 px-1 py-[2px] rounded-sm"
+          :style="{ backgroundColor: bgColor, color: textColor }"
           >{{ $t('required') }}</span
         >
       </label>
@@ -72,8 +73,8 @@
 
 <script setup>
 import { computed } from 'vue'
-import InputText from 'primevue/inputtext'
 import { useI18n } from 'vue-i18n'
+import InputText from 'primevue/inputtext'
 
 const props = defineProps({
   prefix: {
@@ -172,6 +173,14 @@ const props = defineProps({
   border: {
     type: Boolean,
     default: false,
+  },
+  bgColor: {
+    type: String,
+    default: 'gray',
+  },
+  textColor: {
+    type: String,
+    default: 'white',
   },
 })
 

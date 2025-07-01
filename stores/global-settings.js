@@ -20,6 +20,9 @@ export const store = reactive({
       this.fpBtnTextColor = data.forgot_password.button_and_text_color.color
 
       this.fpPageTitle = data.forgot_password.page_title
+
+      // * Languages
+      this.languages = data.languages
     } catch (error) {
       console.log("Error: Can't save spin result")
     }

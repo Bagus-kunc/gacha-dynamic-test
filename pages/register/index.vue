@@ -19,7 +19,8 @@
             class="flex items-center gap-2 text-exd-gray-scorpion text-exd-1424"
             >{{ $t('sex') }}
             <span
-              class="bg-exd-red-coral text-white text-exd-0910 px-1 py-[2px] rounded-sm"
+              class="text-exd-0910 px-1 py-[2px] rounded-sm"
+              :style="{ backgroundColor: store.bgColorOne, color: store.textColorOne }"
               >{{ $t('required') }}</span
             >
           </label>
@@ -87,6 +88,8 @@
                 'opacity-50': isLoading,
               }"
               :border="true"
+              :bgColor="store.bgColorOne"
+              :textColor="store.textColorOne"
             />
           </div>
         </div>
@@ -120,6 +123,8 @@
                   : errorEmailMessage,
             }"
             :border="true"
+            :bgColor="store.bgColorOne"
+            :textColor="store.textColorOne"
           />
         </div>
 
@@ -148,6 +153,8 @@
               'input-error': errorPasswordMessage,
             }"
             :border="true"
+            :bgColor="store.bgColorOne"
+            :textColor="store.textColorOne"
           />
         </div>
 
@@ -188,7 +195,8 @@
         <SolidButton
           :label="$t('register')"
           :has-loading="isLoading"
-          variant="red-coral"
+          :bgColor="store.bgColorOne"
+          :textColor="store.textColorOne"
           :disabled="!form.checked || isLoading"
           :on-click="handleSubmit"
           has-bottom
@@ -234,6 +242,7 @@ import { useI18n } from 'vue-i18n'
 import close from '~/assets/images/close.svg'
 import JapanPostalCode from 'japan-postal-code'
 import Dropdown from '~/components/Dropdown.vue'
+import { store } from '~~/stores/global-settings'
 import warning from '~/assets/images/warning.svg'
 import InputText from '~/components/InputText.vue'
 import InputTextArea from '~/components/InputTextArea.vue'
@@ -407,8 +416,6 @@ const handleApiError = (error) => {
       emailErrorKey.value = 'emailIsAlreadyRegistered'
     }
   }
-
-
 }
 
 const buildPayload = () => {
@@ -538,6 +545,10 @@ const saveSpin = async () => {
     console.log("Error: Can't save spin result")
   }
 }
+
+onMounted(() => {
+  store.fetchingSettingsData()
+})
 </script>
 
 <style scoped>

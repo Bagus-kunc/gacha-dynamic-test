@@ -1,22 +1,13 @@
 <script setup>
 import { useI18n } from 'vue-i18n'
+import { store } from '~~/stores/global-settings'
+
 const { locale } = useI18n()
 const props = defineProps(['visible'])
 const emit = defineEmits(['update:visible'])
 const LOCALE = useCookie('LOCALE')
 
-const langItems = [
-  {
-    label: 'JA',
-    value: 'ja',
-    command: () => changeLanguage('ja'),
-  },
-  {
-    label: 'EN',
-    value: 'en',
-    command: () => changeLanguage('en'),
-  },
-]
+const langItems = ref([])
 
 function changeLanguage(lang) {
   locale.value = lang
@@ -33,6 +24,16 @@ const clickOutside = async (event) => {
   }
 }
 
+const setLanguages = (lang) => {
+  const languageOptions = Object.entries(lang).map(([code]) => ({
+    label: code.toUpperCase(),
+    value: code,
+    command: () => changeLanguage(code)
+  }));
+
+  langItems.value = languageOptions
+}
+
 watch(
   () => props.visible,
   async (val) => {
@@ -46,7 +47,11 @@ watch(
   }
 )
 
-onMounted(() => {})
+onMounted(async () => {
+  await store.fetchingSettingsData()
+
+  setLanguages(store.languages)
+})
 
 onUnmounted(() => {
   document.body.removeEventListener('click', clickOutside)
@@ -60,12 +65,17 @@ onUnmounted(() => {
         <li v-for="lang in langItems" role="none">
           <a
             href="javascript:void(0)"
-            :class="
-              locale === lang.value
-                ? 'bg-exd-red-coral text-white active-text'
-                : '!text-exd-gray-scorpion'
-            "
+            :class="[
+              'rounded px-3 py-1 transition-all duration-200',
+              locale === lang.value ? 'active-text' : '!text-exd-gray-scorpion'
+            ]"
             @click="changeLanguage(lang.value)"
+            :style="locale === lang.value
+              ? {
+                  backgroundColor: store.bgColorOne,
+                  color: store.textColorOne,
+                }
+              : {}"
           >
             <span>{{ lang.label }}</span>
           </a>
