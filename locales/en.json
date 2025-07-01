@@ -325,7 +325,7 @@
   "giftExchangeComplete": "The gift exchange is complete!",
   "exchangeCompleted": "Exchange completed",
   "category": "Category",
-  "gacha": "ガチャ",
+  "gacha": "Gacha",
   "eligibilityMessageType1": "Gacha was played more than once in a day. Points can only be earned once per day at the same spot.",
   "eligibilityMessageType3": "You can only gacha at this location for 1 time only",
   "eligibilityMessageType4": "Please wait after {minutes} minutes {seconds} seconds to play gacha again",

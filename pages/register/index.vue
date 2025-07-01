@@ -32,7 +32,7 @@
               @click="updateModel('gender', 'Male')"
               :label="$t('male')"
               :class="[
-                'bg-white w-4/12 h-full border border-exd-stone-300 rounded-none !text-exd-gray-scorpion',
+                'bg-white w-4/12 h-full border border-exd-stone-300 rounded-none !text-exd-gray-scorpion sm:text-[18px] text-[12.5px]',
                 form.gender === 'Male' && '!bg-exd-banana',
               ]"
             />
@@ -40,7 +40,7 @@
               @click="updateModel('gender', 'Female')"
               :label="$t('female')"
               :class="[
-                'bg-white w-4/12 h-full border-t border-b border-t-exd-stone-300 border-b-exd-stone-300 rounded-none !text-exd-gray-scorpion',
+                'bg-white w-4/12 h-full border-t border-b border-t-exd-stone-300 border-b-exd-stone-300 rounded-none !text-exd-gray-scorpion sm:text-[18px] text-[12.5px]',
                 form.gender === 'Female' && '!bg-exd-banana',
               ]"
             />
@@ -48,7 +48,7 @@
               @click="updateModel('gender', 'No-Answer')"
               :label="$t('noAnswer')"
               :class="[
-                'bg-white w-4/12 h-full border border-exd-stone-300 rounded-none !text-exd-gray-scorpion',
+                'bg-white w-4/12 h-full border border-exd-stone-300 rounded-none !text-exd-gray-scorpion sm:text-[18px] text-[12.5px]',
                 form.gender === 'No-Answer' && '!bg-exd-banana',
               ]"
             />

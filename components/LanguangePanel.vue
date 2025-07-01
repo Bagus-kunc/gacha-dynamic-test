@@ -30,7 +30,7 @@ const setLanguages = (lang) => {
     value: code,
     command: () => changeLanguage(code)
   }));
-
+  
   langItems.value = languageOptions
 }
 
