@@ -26,11 +26,13 @@ const clickOutside = async (event) => {
 }
 
 const setLanguages = (lang) => {
-  const languageOptions = Object.entries(lang).map(([code]) => ({
-    label: code.toUpperCase(),
-    value: code,
-    command: () => changeLanguage(code)
-  }));
+  const languageOptions = Object.entries(lang).map(([code, info]) => {
+    return {
+      label: info.english_name,
+      value: code,
+      command: () => changeLanguage(code)
+    }
+  })
 
   langItems.value = languageOptions
 }
@@ -92,7 +94,6 @@ onUnmounted(() => {
   right: 0;
   top: calc(100% + 2px);
   transform-origin: top;
-  width: 105px;
 }
 
 .languange-panel ul {

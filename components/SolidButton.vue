@@ -65,7 +65,6 @@ const props = defineProps({
   },
   variant: {
     type: String,
-    default: 'gold',
     validator: (value) =>
       ['skip', 'red-coral', 'disabled', 'dark', 'green'].includes(value),
   },
