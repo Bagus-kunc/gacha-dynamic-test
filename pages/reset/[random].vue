@@ -51,8 +51,8 @@
         :label="!isSuccessSendResetPassword ? $t('send') : $t('myPage')"
         :has-loading="isLoading"
         :disabled="isLoading"
-        :bgColor="store.bgColorOne"
-        :textColor="store.textColorOne"
+        :bgColor="settings.buttons[0].background"
+        :textColor="settings.buttons[0].color"
         :on-click="handleSubmit"
         has-bottom
       />
@@ -102,6 +102,7 @@ const isLoading = ref(false)
 const errorMessage = ref(null)
 const isErrorMessage = ref(false)
 const token = route.params.random
+const settings = useState('settings')
 
 const isSuccessSendResetPassword = ref(false)
 const handleCloseDialog = () => (isErrorMessage.value = false)

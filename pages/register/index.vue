@@ -27,7 +27,7 @@
               !form.lastName && validateOnSubmit ? $t('fieldRequired') : ''
             "
             :class="{
-              'input-error': !form.nickName && validateOnSubmit,
+              'input-error': !form.lastName && validateOnSubmit,
             }"
             :border="true"
             :bgColor="settings.buttons[0].background"
@@ -488,8 +488,8 @@ const form = ref({
   postCode: '',
   prefecture: '',
   address: '',
-  city: '',
-  area: '',
+  // city: '',
+  // area: '',
   phoneNumber: '',
   email: '',
   password: '',
@@ -743,8 +743,9 @@ const checkPostalCode = async (code) => {
     })
 
     form.value.prefecture = address.prefecture
-    form.value.city = address.city
-    form.value.area = address.area
+    // form.value.city = address.city
+    // form.value.area = address.area
+    form.value.municipalities = `${address.city}, ${address.area}`
     errorKeyPostCode.value = ''
   } catch (error) {
     console.error('Postal code error:', error)

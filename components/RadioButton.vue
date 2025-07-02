@@ -68,9 +68,21 @@ const { t } = useI18n()
 
 // Mendefinisikan properti yang bisa di-passing ke komponen ini
 const props = defineProps({
+  prefix: {
+    type: String,
+    default: '',
+  },
+  suffix: {
+    type: String,
+    default: '',
+  },
   modelValue: {
     type: [String, Number, Boolean],
     required: true,
+  },
+  model: {
+    type: [String, Number],
+    default: '',
   },
   options: {
     type: Array,

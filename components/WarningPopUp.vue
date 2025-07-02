@@ -2,19 +2,20 @@
   <Modal :is-open="isOpen" :on-close="() => handleClose()">
     <template v-slot:body>
       <div
-        class="w-full h-exd-200 flex flex-col justify-end items-center gap-8 mt-2"
+        class="flex flex-col items-center justify-end w-full gap-8 mt-2 h-exd-200"
       >
         <p
-          class="font-bold text-exd-1424 text-exd-gray-scorpion p-5 text-center"
+          class="p-5 font-bold text-center text-exd-1424 text-exd-gray-scorpion"
         >
           {{ modalTitle }}
         </p>
 
-        <div class="pb-5 w-full">
+        <div class="w-full pb-5">
           <SolidButton
             v-if="hasButton"
             :label="labelButton"
-            variant="red-coral"
+            :bgColor="settings.buttons[0].background"
+            :textColor="settings.buttons[0].color"
             :on-click="() => handleClick()"
           />
         </div>
@@ -58,6 +59,7 @@ const props = defineProps({
 })
 
 const emit = defineEmits(['update:isOpen'])
+const settings = useState('settings')
 
 const handleClose = (event) => {
   props.onClose(event)
