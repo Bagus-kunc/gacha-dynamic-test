@@ -8,5 +8,7 @@ export default defineNuxtRouteMiddleware(async (to, from) => {
   const settings = useState('settings', () => res.data)
 
   console.log(settings.value)
- 
+  // if (allowPaths.some((path) => !to.path.includes(path))) {
+  //   return abortNavigation()
+  // }
 })
