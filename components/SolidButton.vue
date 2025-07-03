@@ -94,7 +94,7 @@ const variantClass = computed(() => {
   } else if (props.variant === 'dark') {
     return '!bg-exd-dark'
   } else {
-    return ''
+    return '!bg-exd-red-vermilion'
   }
 })
 
