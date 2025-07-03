@@ -51,8 +51,8 @@
         :label="!isSuccessSendResetPassword ? $t('send') : $t('myPage')"
         :has-loading="isLoading"
         :disabled="isLoading"
-        :bgColor="settings.buttons[0].background"
-        :textColor="settings.buttons[0].color"
+        :bgColor="settings?.forgot_password?.button_and_text_color?.background"
+        :textColor="settings?.forgot_password?.button_and_text_color?.color"
         :on-click="handleSubmit"
         has-bottom
       />

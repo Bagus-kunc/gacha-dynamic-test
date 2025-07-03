@@ -11,6 +11,7 @@
 
     <div
       class="flex flex-col justify-between w-full gap-6 px-8 pt-32 pb-20 overflow-auto grow"
+      :style="{ backgroundColor: settings?.forgot_password?.background.value }"
     >
       <template v-if="isSuccessSendLinkResetPassword">
         <div class="flex flex-col items-center gap-6 grow">
@@ -57,8 +58,8 @@
         :label="!isSuccessSendLinkResetPassword ? $t('send') : 'TOP'"
         :has-loading="isLoading"
         :on-click="handleSubmit"
-        :bgColor="settings.buttons[0].background"
-        :textColor="settings.buttons[0].color"
+        :bgColor="settings?.forgot_password?.button_and_text_color?.background"
+        :textColor="settings?.forgot_password?.button_and_text_color?.color"
         has-bottom
         :disabled="emailError !== '' || isLoading"
       />
