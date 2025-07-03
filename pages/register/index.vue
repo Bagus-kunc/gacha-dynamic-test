@@ -14,15 +14,17 @@
 
         <!-- * First Name & Last Name * -->
         <div
+            v-if="settings?.register_login?.register_fields?.first_name.show && settings?.register_login?.register_fields?.last_name.show"
             class="inline-flex gap-4 px-5 py-5 border-b border-b-exd-light-grey"
           >
           <InputText
             :model="form.lastName"
             :label="$t('lastName')"
-            required
+            :required="settings?.register_login?.register_fields?.last_name.required"
             @update:model="updateModel('lastName', $event)"
             @validate="validateInput('lastName', $event)"
             :validate-on-submit="validateOnSubmit"
+            :placeholder="settings?.register_login?.register_fields?.last_name?.placeholder_translation_key_id"
             :error="
               !form.lastName && validateOnSubmit ? $t('fieldRequired') : ''
             "
@@ -30,13 +32,14 @@
               'input-error': !form.lastName && validateOnSubmit,
             }"
             :border="true"
-            :bgColor="settings.buttons[0].background"
-            :textColor="settings.buttons[0].color"
+            :bgColor="settings?.register_login?.new_member_registration?.button_text_color?.background"
+            :textColor="settings?.register_login?.new_member_registration?.button_text_color?.color"
           />
           <InputText
             :model="form.firstName"
             :label="$t('givenName')"
-            required
+            :required="settings?.register_login?.register_fields?.first_name.required"
+            :placeholder="settings?.register_login?.register_fields?.first_name.placeholder_translation_key_id"
             :is-nick-name="true"
             @update:model="updateModel('firstName', $event)"
             @validate="validateInput('firstName', $event)"
@@ -48,8 +51,8 @@
               'input-error': !form.firstName && validateOnSubmit,
             }"
             :border="true"
-            :bgColor="settings.buttons[0].background"
-            :textColor="settings.buttons[0].color"
+            :bgColor="settings?.register_login?.new_member_registration?.button_text_color?.background"
+            :textColor="settings?.register_login?.new_member_registration?.button_text_color?.color"
           />
         </div>
 
@@ -63,7 +66,7 @@
             >{{ $t('sex') }}
             <span
               class="text-exd-0910 px-1 py-[2px] rounded-sm"
-              :style="{ backgroundColor: settings.buttons[0].background, color: settings.buttons[0].color }"
+              :style="{ backgroundColor: settings?.register_login?.new_member_registration?.button_text_color?.background, color: settings?.register_login?.new_member_registration?.button_text_color?.color }"
               >{{ $t('required') }}</span
             >
           </label>
@@ -100,6 +103,7 @@
 
         <!-- * Postal Code * -->
         <div
+          v-if="settings?.register_login?.register_fields?.postal_code.show"
           class="inline-flex flex-col gap-4 px-4 py-5 border-b border-b-exd-light-grey"
         >
           <div class="">
@@ -107,8 +111,9 @@
               onlyNumeric
               :model="form.postCode"
               :disabled="isLoading"
-              required
-              :label="$t('postalCodeNoHyphens')"
+              :required="settings?.register_login?.register_fields?.postal_code.required"
+              :placeholder="settings?.register_login?.register_fields?.postal_code.placeholder_translation_key_id"
+              :label="settings?.register_login?.register_fields?.postal_code.label_translation_key_id"
               @update:model="
                 ($event) => {
                   updateModel('postCode', $event)
@@ -133,17 +138,19 @@
               }"
               :w230Px="true"
               :border="true"
-              :bgColor="settings.buttons[0].background"
-              :textColor="settings.buttons[0].color"
+              :bgColor="settings?.register_login?.new_member_registration?.button_text_color?.background"
+              :textColor="settings?.register_login?.new_member_registration?.button_text_color?.color"
             />
           </div>
         </div>
 
         <!-- * Address * -->
         <div
+            v-if="settings?.register_login?.register_fields?.postal_code.show || settings?.register_login?.register_fields?.address.show"
             class="inline-flex flex-col gap-4 px-5 py-5 border-b border-b-exd-light-grey"
           >
           <InputText
+            v-if="settings?.register_login?.register_fields?.postal_code.show"
             :model="form.prefecture"
             required
             :label="$t('prefecture')"
@@ -163,11 +170,12 @@
               'input-error': !form.prefecture && validateOnSubmit,
             }"
             :border="true"
-            :bgColor="settings.buttons[0].background"
-            :textColor="settings.buttons[0].color"
+            :bgColor="settings?.register_login?.new_member_registration?.button_text_color?.background"
+            :textColor="settings?.register_login?.new_member_registration?.button_text_color?.color"
           />
 
           <InputText
+            v-if="settings?.register_login?.register_fields?.postal_code.show"
             :model="form.municipalities"
             disabled
             required
@@ -189,14 +197,16 @@
               'input-error': !form.municipalities && validateOnSubmit,
             }"
             :border="true"
-            :bgColor="settings.buttons[0].background"
-            :textColor="settings.buttons[0].color"
+            :bgColor="settings?.register_login?.new_member_registration?.button_text_color?.background"
+            :textColor="settings?.register_login?.new_member_registration?.button_text_color?.color"
           />
 
           <InputText
+            v-if="settings?.register_login?.register_fields?.address.show"
             :model="form.streetAddressEtc"
-            required
-            :label="$t('streetAddressEtc')"
+            :required="settings?.register_login?.register_fields?.address.required"
+            :placeholder="settings?.register_login?.register_fields?.address.placeholder_translation_key_id"
+            :label="settings?.register_login?.register_fields?.address.label_translation_key_id"
             @update:model="
               ($event) => {
                 updateModel('streetAddressEtc', $event)
@@ -213,24 +223,44 @@
               'input-error': !form.streetAddressEtc && validateOnSubmit,
             }"
             :border="true"
-            :bgColor="settings.buttons[0].background"
-            :textColor="settings.buttons[0].color"
+            :bgColor="settings?.register_login?.new_member_registration?.button_text_color?.background"
+            :textColor="settings?.register_login?.new_member_registration?.button_text_color?.color"
           />
           <p class="font-normal text-exd-1320 text-exd-gray-scorpion">
             {{ t('streetAddressInformation') }}
           </p>
         </div>
 
+        <!-- * Date of Birth * -->
+        <div
+            v-if="settings?.register_login?.register_fields?.date_of_birth.show"
+            class="inline-flex flex-col gap-4 px-5 py-5 border-b border-b-exd-light-grey"
+          >
+          <div class="">
+            <InputDate 
+              :required="settings?.register_login?.register_fields?.date_of_birth.required"
+              :placeholder="settings?.register_login?.register_fields?.date_of_birth.placeholder_translation_key_id"
+              :label="settings?.register_login?.register_fields?.date_of_birth.label_translation_key_id"
+              v-model:model="form.birthday" 
+              border 
+              :bgColor="settings?.register_login?.new_member_registration?.button_text_color?.background"
+              :textColor="settings?.register_login?.new_member_registration?.button_text_color?.color"
+            />
+          </div>
+        </div>
+
         <!-- * Phone Number * -->
         <div
+            v-if="settings?.register_login?.register_fields?.phone_number.show"
             class="inline-flex flex-col gap-4 px-5 py-5 border-b border-b-exd-light-grey"
           >
           <div class="">
             <InputText
               type="number"
               :model="form.phoneNumber"
-              required
-              :label="$t('phoneNumberNoHyphens')"
+              :required="settings?.register_login?.register_fields?.phone_number.required"
+              :placeholder="settings?.register_login?.register_fields?.phone_number.placeholder_translation_key_id"
+              :label="settings?.register_login?.register_fields?.phone_number.label_translation_key_id"
               @update:model="
                 ($event) => {
                   updateModel('phoneNumber', $event)
@@ -250,21 +280,23 @@
               }"
               :w230Px="true"
               :border="true"
-              :bgColor="settings.buttons[0].background"
-              :textColor="settings.buttons[0].color"
+              :bgColor="settings?.register_login?.new_member_registration?.button_text_color?.background"
+              :textColor="settings?.register_login?.new_member_registration?.button_text_color?.color"
             />
           </div>
         </div>
 
         <!-- * Email * -->
         <div
+          v-if="settings?.register_login?.register_fields?.email.show"
           class="inline-flex gap-4 px-4 py-5 border-b border-b-exd-light-grey"
         >
           <InputText
             type="email"
             :model="form.email"
-            required
-            :label="$t('emailAddress')"
+            :required="settings?.register_login?.register_fields?.email.required"
+            :placeholder="settings?.register_login?.register_fields?.email.placeholder_translation_key_id"
+            :label="settings?.register_login?.register_fields?.email.label_translation_key_id"
             @update:model="updateModel('email', $event)"
             @validate="validateInput('email', $event)"
             :validate-on-submit="validateOnSubmit"
@@ -286,8 +318,8 @@
                   : errorEmailMessage,
             }"
             :border="true"
-            :bgColor="settings.buttons[0].background"
-            :textColor="settings.buttons[0].color"
+            :bgColor="settings?.register_login?.new_member_registration?.button_text_color?.background"
+            :textColor="settings?.register_login?.new_member_registration?.button_text_color?.color"
           />
         </div>
 
@@ -296,12 +328,14 @@
           class="flex flex-col gap-4 px-4 py-5 border-b border-b-exd-light-grey"
         >
           <InputText
+            v-if="settings?.register_login?.register_fields?.password.show"
             type="password"
             :model="form.password"
             :isPassword="true"
-            required
+            :required="settings?.register_login?.register_fields?.password.required"
+            :placeholder="settings?.register_login?.register_fields?.password.placeholder_translation_key_id"
+            :label="settings?.register_login?.register_fields?.password.label_translation_key_id"
             :minLength="8"
-            :label="$t('loginPassword')"
             inform="passwordMin"
             @update:model="updateModel('password', $event)"
             @validate="validateInput('password', $event)"
@@ -317,18 +351,20 @@
               'input-error': errorPasswordMessage,
             }"
             :border="true"
-            :bgColor="settings.buttons[0].background"
-            :textColor="settings.buttons[0].color"
+            :bgColor="settings?.register_login?.new_member_registration?.button_text_color?.background"
+            :textColor="settings?.register_login?.new_member_registration?.button_text_color?.color"
           />
 
           <InputText
+            v-if="settings?.register_login?.register_fields?.password_confirmation.show"
             type="password"
             :model="form.confPassword"
             :isPassword="true"
-            required
+            :required="settings?.register_login?.register_fields?.password_confirmation.required"
+            :placeholder="settings?.register_login?.register_fields?.password_confirmation.placeholder_translation_key_id"
+            :label="settings?.register_login?.register_fields?.password_confirmation.label_translation_key_id"
             :isConfPassword="true"
             :minLength="8"
-            :label="$t('reenterPassword')"
             @update:model="updateModel('confPassword', $event)"
             @validate="validateInput('confPassword', $event)"
             :validate-on-submit="validateOnSubmit"
@@ -343,8 +379,8 @@
               'input-error': errorConfPasswordMessage,
             }"
             :border="true"
-            :bgColor="settings.buttons[0].background"
-            :textColor="settings.buttons[0].color"
+            :bgColor="settings?.register_login?.new_member_registration?.button_text_color?.background"
+            :textColor="settings?.register_login?.new_member_registration?.button_text_color?.color"
           />
         </div>
 
@@ -362,8 +398,8 @@
                   ? $t('fieldRequired')
                   : ''
               "
-              :bgColor="settings.buttons[0].background"
-              :textColor="settings.buttons[0].color"
+              :bgColor="settings?.register_login?.new_member_registration?.button_text_color?.background"
+              :textColor="settings?.register_login?.new_member_registration?.button_text_color?.color"
               required
             />
         </div>
@@ -382,7 +418,7 @@
                   ? $t('fieldRequired')
                   : ''
               "
-              :bgColor="settings.buttons[0].background"
+              :bgColor="settings?.register_login?.new_member_registration?.button_text_color?.background"
               :textColor="settings.buttons[0].color"
               required
             />
@@ -425,8 +461,8 @@
         <SolidButton
           :label="$t('register')"
           :has-loading="isLoading"
-          :bgColor="settings.buttons[0].background"
-          :textColor="settings.buttons[0].color"
+          :bgColor="settings?.register_login?.new_member_registration?.button_text_color.background"
+          :textColor="settings?.register_login?.new_member_registration?.button_text_color.color"
           :disabled="!form.checked || isLoading"
           :on-click="handleSubmit"
           has-bottom
@@ -485,6 +521,7 @@ const form = ref({
   firstName: '',
   lastName: '',
   gender: 'No-Answer',
+  birthday: '',
   postCode: '',
   prefecture: '',
   address: '',
@@ -662,7 +699,6 @@ const handleApiError = (error) => {
 const buildPayload = () => {
   const payload = {
     gender: form.value.gender,
-    nickname: 'Kunc',
     password_confirmation: form.value.password,
     email: form.value.email,
     password: form.value.password,
