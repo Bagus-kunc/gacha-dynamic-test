@@ -2,12 +2,13 @@
   <div class="flex flex-col gap-2">
     <label
       :for="`label-${label}`"
-      class="text-exd-gray-scorpion text-exd-1424 flex gap-2 items-center py-0"
+      class="flex items-center gap-2 py-0 text-exd-gray-scorpion text-exd-1424"
       v-if="label !== ''"
       >{{ label }}
       <span
         v-if="required"
-        class="!bg-exd-red-coral text-white text-exd-0910 px-1 py-[2px] rounded-sm"
+        class="text-exd-0910 px-1 py-[2px] rounded-sm"
+        :style="{ backgroundColor: bgColor, color: textColor }"
         >{{ $t('required') }}</span
       >
     </label>
@@ -24,12 +25,25 @@
           :name="name"
           @blur="validate"
           :value="option.label"
-          class="custom-radio"
-          pt:root="bg-white cursor-pointer w-[20px] h-[20px] rounded-full border-[1px] border-exd-red-vermilion flex items-center justify-center"
+          :pt="{
+            root: {
+              class: 'cursor-pointer w-[20px] h-[20px] flex items-center justify-center'
+            },
+            box: {
+              class: 'w-full bg-white h-full rounded-full border-[1px] flex items-center justify-center transition-colors duration-200',
+              style: bgColor ? { borderColor: bgColor } : { borderColor: '#D44D20' }
+            },
+            icon: {
+              class: 'w-[10px] h-[10px] rounded-full',
+              style: bgColor ? { backgroundColor: bgColor } : { backgroundColor: '#D44D20' }
+            }
+          }"
         />
+
+
         <label
           :for="option.label"
-          class="ml-1 text-exd-gray-scorpion text-exd-1424 font-bold cursor-pointer"
+          class="ml-1 font-semibold cursor-pointer text-exd-gray-scorpion text-exd-1424"
         >
           {{ t(option.label) }}
         </label>
@@ -54,9 +68,21 @@ const { t } = useI18n()
 
 // Mendefinisikan properti yang bisa di-passing ke komponen ini
 const props = defineProps({
+  prefix: {
+    type: String,
+    default: '',
+  },
+  suffix: {
+    type: String,
+    default: '',
+  },
   modelValue: {
     type: [String, Number, Boolean],
     required: true,
+  },
+  model: {
+    type: [String, Number],
+    default: '',
   },
   options: {
     type: Array,
@@ -81,6 +107,14 @@ const props = defineProps({
   validateOnSubmit: {
     type: Boolean,
     default: false,
+  },
+  bgColor: {
+    type: String,
+    default: 'gray',
+  },
+  textColor: {
+    type: String,
+    default: 'white',
   },
 })
 

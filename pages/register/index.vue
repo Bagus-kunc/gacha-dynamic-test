@@ -11,6 +11,49 @@
 
     <div class="flex flex-col justify-between w-full gap-6 pb-3 mt-24 grow">
       <div class="flex flex-col px-3 grow">
+
+        <!-- * First Name & Last Name * -->
+        <div
+            class="inline-flex gap-4 px-5 py-5 border-b border-b-exd-light-grey"
+          >
+          <InputText
+            :model="form.lastName"
+            :label="$t('lastName')"
+            required
+            @update:model="updateModel('lastName', $event)"
+            @validate="validateInput('lastName', $event)"
+            :validate-on-submit="validateOnSubmit"
+            :error="
+              !form.lastName && validateOnSubmit ? $t('fieldRequired') : ''
+            "
+            :class="{
+              'input-error': !form.lastName && validateOnSubmit,
+            }"
+            :border="true"
+            :bgColor="settings.buttons[0].background"
+            :textColor="settings.buttons[0].color"
+          />
+          <InputText
+            :model="form.firstName"
+            :label="$t('givenName')"
+            required
+            :is-nick-name="true"
+            @update:model="updateModel('firstName', $event)"
+            @validate="validateInput('firstName', $event)"
+            :validate-on-submit="validateOnSubmit"
+            :error="
+              !form.firstName && validateOnSubmit ? $t('fieldRequired') : ''
+            "
+            :class="{
+              'input-error': !form.firstName && validateOnSubmit,
+            }"
+            :border="true"
+            :bgColor="settings.buttons[0].background"
+            :textColor="settings.buttons[0].color"
+          />
+        </div>
+
+        <!-- * Gender * -->
         <div
           class="inline-flex flex-col px-4 py-5 border-b border-b-exd-light-grey"
         >
@@ -19,7 +62,8 @@
             class="flex items-center gap-2 text-exd-gray-scorpion text-exd-1424"
             >{{ $t('sex') }}
             <span
-              class="bg-exd-red-coral text-white text-exd-0910 px-1 py-[2px] rounded-sm"
+              class="text-exd-0910 px-1 py-[2px] rounded-sm"
+              :style="{ backgroundColor: settings.buttons[0].background, color: settings.buttons[0].color }"
               >{{ $t('required') }}</span
             >
           </label>
@@ -31,7 +75,7 @@
               @click="updateModel('gender', 'Male')"
               :label="$t('male')"
               :class="[
-                'bg-white w-4/12 h-full border border-exd-stone-300 rounded-none !text-exd-gray-scorpion',
+                'bg-white w-4/12 h-full border border-exd-stone-300 rounded-none !text-exd-gray-scorpion sm:text-[16px] text-[12.5px]',
                 form.gender === 'Male' && '!bg-exd-banana',
               ]"
             />
@@ -39,7 +83,7 @@
               @click="updateModel('gender', 'Female')"
               :label="$t('female')"
               :class="[
-                'bg-white w-4/12 h-full border-t border-b border-t-exd-stone-300 border-b-exd-stone-300 rounded-none !text-exd-gray-scorpion',
+                'bg-white w-4/12 h-full border-t border-b border-t-exd-stone-300 border-b-exd-stone-300 rounded-none !text-exd-gray-scorpion sm:text-[16px] text-[12.5px]',
                 form.gender === 'Female' && '!bg-exd-banana',
               ]"
             />
@@ -47,17 +91,18 @@
               @click="updateModel('gender', 'No-Answer')"
               :label="$t('noAnswer')"
               :class="[
-                'bg-white w-4/12 h-full border border-exd-stone-300 rounded-none !text-exd-gray-scorpion',
+                'bg-white w-4/12 h-full border border-exd-stone-300 rounded-none !text-exd-gray-scorpion sm:text-[16px] text-[12.5px]',
                 form.gender === 'No-Answer' && '!bg-exd-banana',
               ]"
             />
           </ButtonGroup>
         </div>
 
+        <!-- * Postal Code * -->
         <div
           class="inline-flex flex-col gap-4 px-4 py-5 border-b border-b-exd-light-grey"
         >
-          <div class="max-w-[270px]">
+          <div class="">
             <InputText
               onlyNumeric
               :model="form.postCode"
@@ -86,11 +131,132 @@
                   errorPostCodeMessage,
                 'opacity-50': isLoading,
               }"
+              :w230Px="true"
               :border="true"
+              :bgColor="settings.buttons[0].background"
+              :textColor="settings.buttons[0].color"
             />
           </div>
         </div>
 
+        <!-- * Address * -->
+        <div
+            class="inline-flex flex-col gap-4 px-5 py-5 border-b border-b-exd-light-grey"
+          >
+          <InputText
+            :model="form.prefecture"
+            required
+            :label="$t('prefecture')"
+            disabled
+            @update:model="
+              ($event) => {
+                updateModel('prefecture', $event)
+                checkPostalCode($event)
+              }
+            "
+            @validate="validateInput('prefecture', $event)"
+            :validate-on-submit="validateOnSubmit"
+            :error="
+              !form.prefecture && validateOnSubmit ? $t('fieldRequired') : ''
+            "
+            :class="{
+              'input-error': !form.prefecture && validateOnSubmit,
+            }"
+            :border="true"
+            :bgColor="settings.buttons[0].background"
+            :textColor="settings.buttons[0].color"
+          />
+
+          <InputText
+            :model="form.municipalities"
+            disabled
+            required
+            :label="$t('municipalities')"
+            @update:model="
+              ($event) => {
+                updateModel('municipalities', $event)
+                checkPostalCode($event)
+              }
+            "
+            @validate="validateInput('municipalities', $event)"
+            :validate-on-submit="validateOnSubmit"
+            :error="
+              !form.municipalities && validateOnSubmit
+                ? $t('fieldRequired')
+                : ''
+            "
+            :class="{
+              'input-error': !form.municipalities && validateOnSubmit,
+            }"
+            :border="true"
+            :bgColor="settings.buttons[0].background"
+            :textColor="settings.buttons[0].color"
+          />
+
+          <InputText
+            :model="form.streetAddressEtc"
+            required
+            :label="$t('streetAddressEtc')"
+            @update:model="
+              ($event) => {
+                updateModel('streetAddressEtc', $event)
+              }
+            "
+            @validate="validateInput('streetAddressEtc', $event)"
+            :validate-on-submit="validateOnSubmit"
+            :error="
+              !form.streetAddressEtc && validateOnSubmit
+                ? $t('fieldRequired')
+                : ''
+            "
+            :class="{
+              'input-error': !form.streetAddressEtc && validateOnSubmit,
+            }"
+            :border="true"
+            :bgColor="settings.buttons[0].background"
+            :textColor="settings.buttons[0].color"
+          />
+          <p class="font-normal text-exd-1320 text-exd-gray-scorpion">
+            {{ t('streetAddressInformation') }}
+          </p>
+        </div>
+
+        <!-- * Phone Number * -->
+        <div
+            class="inline-flex flex-col gap-4 px-5 py-5 border-b border-b-exd-light-grey"
+          >
+          <div class="">
+            <InputText
+              type="number"
+              :model="form.phoneNumber"
+              required
+              :label="$t('phoneNumberNoHyphens')"
+              @update:model="
+                ($event) => {
+                  updateModel('phoneNumber', $event)
+                }
+              "
+              @validate="validateInput('phoneNumber', $event)"
+              :maxLength="12"
+              :validate-on-submit="validateOnSubmit"
+              :error="
+                !form.phoneNumber && validateOnSubmit
+                  ? $t('fieldRequired')
+                  : '' || errorPhoneNumber
+              "
+              :class="{
+                'input-error':
+                  (!form.phoneNumber && validateOnSubmit) || errorPhoneNumber,
+              }"
+              :w230Px="true"
+              :border="true"
+              :bgColor="settings.buttons[0].background"
+              :textColor="settings.buttons[0].color"
+            />
+          </div>
+        </div>
+
+        <!-- * Email * -->
         <div
           class="inline-flex gap-4 px-4 py-5 border-b border-b-exd-light-grey"
         >
@@ -120,9 +286,12 @@
                   : errorEmailMessage,
             }"
             :border="true"
+            :bgColor="settings.buttons[0].background"
+            :textColor="settings.buttons[0].color"
           />
         </div>
 
+        <!-- * Password * -->
         <div
           class="flex flex-col gap-4 px-4 py-5 border-b border-b-exd-light-grey"
         >
@@ -148,7 +317,75 @@
               'input-error': errorPasswordMessage,
             }"
             :border="true"
+            :bgColor="settings.buttons[0].background"
+            :textColor="settings.buttons[0].color"
           />
+
+          <InputText
+            type="password"
+            :model="form.confPassword"
+            :isPassword="true"
+            required
+            :isConfPassword="true"
+            :minLength="8"
+            :label="$t('reenterPassword')"
+            @update:model="updateModel('confPassword', $event)"
+            @validate="validateInput('confPassword', $event)"
+            :validate-on-submit="validateOnSubmit"
+            :error="
+              !form.confPassword && validateOnSubmit
+                ? t('fieldRequired')
+                : '' || errorConfPasswordMessage === ''
+                ? ''
+                : t(errorConfPasswordMessage)
+            "
+            :class="{
+              'input-error': errorConfPasswordMessage,
+            }"
+            :border="true"
+            :bgColor="settings.buttons[0].background"
+            :textColor="settings.buttons[0].color"
+          />
+        </div>
+
+        <!-- * Questionnaire1 * -->
+        <div
+            class="flex flex-col gap-4 px-4 py-5 border-b border-b-exd-light-grey"
+          >
+            <RadioButton
+              :label="$t('questionnaire1')"
+              v-model="form.questionnaire1"
+              :options="questionnaire1Options"
+              name="questionnaire1"
+              :error="
+                !form.questionnaire1 && validateOnSubmit
+                  ? $t('fieldRequired')
+                  : ''
+              "
+              :bgColor="settings.buttons[0].background"
+              :textColor="settings.buttons[0].color"
+              required
+            />
+        </div>
+
+        <!-- * Questionnaire2 * -->
+        <div
+          class="flex flex-col gap-4 px-4 py-5 border-b border-b-exd-light-grey"
+        >
+            <RadioButton
+              :label="$t('questionnaire2')"
+              v-model="form.questionnaire2"
+              :options="questionnaire2Options"
+              name="questionnaire2"
+              :error="
+                !form.questionnaire2 && validateOnSubmit
+                  ? $t('fieldRequired')
+                  : ''
+              "
+              :bgColor="settings.buttons[0].background"
+              :textColor="settings.buttons[0].color"
+              required
+            />
         </div>
 
         <div class="inline-flex items-center justify-center w-full gap-2 mt-7">
@@ -188,7 +425,8 @@
         <SolidButton
           :label="$t('register')"
           :has-loading="isLoading"
-          variant="red-coral"
+          :bgColor="settings.buttons[0].background"
+          :textColor="settings.buttons[0].color"
           :disabled="!form.checked || isLoading"
           :on-click="handleSubmit"
           has-bottom
@@ -238,17 +476,26 @@ import warning from '~/assets/images/warning.svg'
 import InputText from '~/components/InputText.vue'
 import InputTextArea from '~/components/InputTextArea.vue'
 import RadioButton from '~/components/RadioButton.vue'
+import {
+  questionnaire1Options,
+  questionnaire2Options,
+} from '~/data/questionnaire'
 
 const form = ref({
+  firstName: '',
+  lastName: '',
   gender: 'No-Answer',
   postCode: '',
   prefecture: '',
   address: '',
-  city: '',
-  area: '',
+  // city: '',
+  // area: '',
+  phoneNumber: '',
   email: '',
   password: '',
-  // confPassword: '',
+  confPassword: '',
+  questionnaire1: '',
+  questionnaire2: '',
   checked: false,
 })
 const { t } = useI18n()
@@ -257,7 +504,7 @@ const isLoading = ref(false)
 const errorMessages = ref([])
 const errorAgeMessage = ref('')
 const emailErrorKey = ref('')
-const errorEmailMessage = computed(() => t(emailErrorKey.value))
+const errorEmailMessage = computed(() => emailErrorKey.value && t(emailErrorKey.value))
 const isErrorMessage = ref(false)
 const validateOnSubmit = ref(false)
 const errorNicknameMessage = ref('')
@@ -267,8 +514,11 @@ const register = useRegister()
 const { isSpin } = storeToRefs(register)
 const { decryptData, encryptData } = useEncryption()
 
+const errorPhoneNumber = ref('')
 const errorKeyPostCode = ref('')
-const errorPostCodeMessage = computed(() => t(errorKeyPostCode.value))
+const errorPostCodeMessage = computed(() => errorKeyPostCode.value && t(errorKeyPostCode.value))
+
+const settings = useState('settings')
 
 const handleCloseDialog = () => (isErrorMessage.value = false)
 
@@ -407,13 +657,13 @@ const handleApiError = (error) => {
       emailErrorKey.value = 'emailIsAlreadyRegistered'
     }
   }
-
-
 }
 
 const buildPayload = () => {
   const payload = {
     gender: form.value.gender,
+    nickname: 'Kunc',
+    password_confirmation: form.value.password,
     email: form.value.email,
     password: form.value.password,
     postal_code: form.value.postCode,
@@ -493,8 +743,9 @@ const checkPostalCode = async (code) => {
     })
 
     form.value.prefecture = address.prefecture
-    form.value.city = address.city
-    form.value.area = address.area
+    // form.value.city = address.city
+    // form.value.area = address.area
+    form.value.municipalities = `${address.city}, ${address.area}`
     errorKeyPostCode.value = ''
   } catch (error) {
     console.error('Postal code error:', error)
@@ -538,6 +789,7 @@ const saveSpin = async () => {
     console.log("Error: Can't save spin result")
   }
 }
+
 </script>
 
 <style scoped>

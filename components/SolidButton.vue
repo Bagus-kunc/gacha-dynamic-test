@@ -65,7 +65,6 @@ const props = defineProps({
   },
   variant: {
     type: String,
-    default: 'gold',
     validator: (value) =>
       ['skip', 'red-coral', 'disabled', 'dark', 'green'].includes(value),
   },
@@ -95,7 +94,7 @@ const variantClass = computed(() => {
   } else if (props.variant === 'dark') {
     return '!bg-exd-dark'
   } else {
-    return ''
+    return 'bg-exd-red-vermilion'
   }
 })
 

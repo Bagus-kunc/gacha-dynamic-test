@@ -11,6 +11,7 @@
 
     <div
       class="flex flex-col justify-between w-full gap-6 px-8 pt-32 pb-20 overflow-auto grow"
+      :style="{ background: settings?.forgot_password?.background.type === 'image' ? `url(${settings?.forgot_password?.background.value})` : settings?.forgot_password?.background.value }"
     >
       <template v-if="isSuccessSendLinkResetPassword">
         <div class="flex flex-col items-center gap-6 grow">
@@ -57,8 +58,8 @@
         :label="!isSuccessSendLinkResetPassword ? $t('send') : 'TOP'"
         :has-loading="isLoading"
         :on-click="handleSubmit"
-        :bgColor="store.bgColorOne"
-        :textColor="store.textColorOne"
+        :bgColor="settings?.forgot_password?.button_and_text_color?.background"
+        :textColor="settings?.forgot_password?.button_and_text_color?.color"
         has-bottom
         :disabled="emailError !== '' || isLoading"
       />
@@ -67,11 +68,11 @@
 </template>
 
 <script setup>
-import { store } from '~~/stores/global-settings.js'
 import InputText from '~/components/InputText.vue'
 import { useI18n } from 'vue-i18n'
 
 const { t } = useI18n()
+const settings = useState('settings')
 
 const form = ref({
   email: '',
@@ -129,8 +130,4 @@ const handleSubmit = async () => {
     }
   }
 }
-
-onMounted(() => {
-  store.fetchingSettingsData()
-})
 </script>

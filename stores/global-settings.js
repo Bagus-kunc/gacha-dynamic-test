@@ -5,8 +5,9 @@ export const store = reactive({
     try {
       const { data } = await useFetchApi('GET', 'settings')
 
+      const settings = useState('settings', () => data)
+
       this.data = data
-      console.log('data', data)
 
       // * Buttons
       this.bgColorOne = data.buttons[0].background
@@ -20,6 +21,9 @@ export const store = reactive({
       this.fpBtnTextColor = data.forgot_password.button_and_text_color.color
 
       this.fpPageTitle = data.forgot_password.page_title
+
+      // * Languages
+      this.languages = data.languages
     } catch (error) {
       console.log("Error: Can't save spin result")
     }

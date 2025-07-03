@@ -50,15 +50,15 @@
         <SolidButton
           :label="$t('login')"
           :onClick="handleSubmit"
-          :bgColor="store.bgColorOne"
-          :textColor="store.textColorOne"
+          :bgColor="settings.buttons[0].background"
+          :textColor="settings.buttons[0].color"
           :disabled="!isValidInput || isLoading"
           :has-loading="isLoading"
         />
         <SolidButton
           :label="$t('newMemberRegistration')"
-          :bgColor="store.bgColorTwo"
-          :textColor="store.textColorTwo"
+          :bgColor="settings.buttons[1].background"
+          :textColor="settings.buttons[1].color"
           :onClick="handleToRegister"
         />
       </div>
@@ -103,10 +103,11 @@ import arrow from '~/assets/images/arrow.svg'
 import warning from '~/assets/images/warning.svg'
 import InputText from '~/components/InputText.vue'
 import useRegister from '~/composables/useRegister'
-import { store } from '~/stores/global-settings.js'
 
 const register = useRegister()
 const { isSpin } = storeToRefs(register)
+const settings = useState('settings')
+
 const { t } = useI18n()
 
 const props = defineProps({
@@ -285,10 +286,6 @@ onMounted(() => {
 
   form.value.email = emailSession
   form.value.password = decryptData(passwordCipher)
-})
-
-onMounted(() => {
-  store.fetchingSettingsData()
 })
 
 watch(
