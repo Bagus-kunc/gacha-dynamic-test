@@ -93,7 +93,6 @@ import close from '~/assets/images/close.svg'
 import warning from '~/assets/images/warning.svg'
 import InputText from '~/components/InputText.vue'
 import HeaderBar from '~/components/HeaderBar.vue'
-import { store } from '~~/stores/global-settings.js'
 
 const { t } = useI18n()
 const route = useRoute()
@@ -177,6 +176,5 @@ const validateInput = (field, value) => {
 
 onMounted(() => {
   fetchingEmailData()
-  store.fetchingSettingsData()
 })
 </script>
