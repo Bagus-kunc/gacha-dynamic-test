@@ -68,7 +68,7 @@
     "enterYourNewPassword": "請輸入您的新密碼",
     "resetPasswordDescription": "我們將進行密碼重設程序。請輸入您註冊的登入 ID（電子郵件地址），然後點擊「發送」按鈕。",
     "resetPasswordRequirement1": "*重設密碼的電子郵件將會寄送至您註冊的電子郵件地址，請確認您的收件匣。",
-    "resetPasswordRequirement2": "*若您有設定防垃圾郵件，請允許接收來自「{'no-reply@dela-kuji.jp'}」或網域「{'@dela-kuji.jp'}」的郵件。",
+    "resetPasswordRequirement2": "*若您有設定防垃圾郵件，請允許接收來自「{'support@per-inc.com'}」或網域「{'@per-inc.com'}」的郵件。",
     "resetPasswordRequirement3": "*根據您的電子郵件服務或軟體設定，郵件可能會被自動歸類至垃圾郵件資料夾。",
     "send": "發送",
     "emailSentCompleted": "郵件已發送",

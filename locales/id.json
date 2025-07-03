@@ -68,7 +68,7 @@
     "enterYourNewPassword": "Masukkan kata sandi baru Anda",
     "resetPasswordDescription": "Kami akan melakukan prosedur untuk mengatur ulang kata sandi Anda. Silakan masukkan ID login (alamat email) yang terdaftar dan ketuk tombol \"Kirim\".",
     "resetPasswordRequirement1": "*Email pengaturan ulang kata sandi akan dikirim ke alamat email yang Anda daftarkan, jadi mohon periksa email Anda.",
-    "resetPasswordRequirement2": "*Jika Anda telah mengatur filter spam, mohon izinkan menerima email dari \"{'no-reply@dela-kuji.jp'}\" atau domain \"{'@dela-kuji.jp'}\".",
+    "resetPasswordRequirement2": "*Jika Anda telah mengatur filter spam, mohon izinkan menerima email dari \"{'support@per-inc.com'}\" atau domain \"{'@per-inc.com'}\".",
     "resetPasswordRequirement3": "*Tergantung pada layanan email atau perangkat lunak email Anda, email tersebut mungkin otomatis masuk ke folder spam.",
     "send": "Kirim",
     "emailSentCompleted": "Email Berhasil Dikirim",
