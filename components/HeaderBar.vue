@@ -4,12 +4,11 @@
     style="box-shadow: 0px 3px 3px 0px rgba(0, 0, 0, 0.1608)"
     @touchmove="(e) => e.preventDefault()"
   >
-  <div class="pl-5" v-if="hasBack">
-    <svg width="40" height="40" viewBox="0 0 40 40" fill="none" xmlns="http://www.w3.org/2000/svg" class="cursor-pointer" @click="handleGoBack">
-      <path d="M24.4487 11.5L15.5 20.449L24.4487 29.3977" :stroke="settings.buttons[0].background" stroke-width="3"/>
-    </svg>
 
+    <div class="flex pl-5">
+      <IconsArrowIcon v-if="hasBack" :handleGoBack="handleGoBack" :currentColor="settings.global.icon_color.background" />
     </div>
+
     <div
       :class="['grow text-center', !hasBack ? 'pl-[60px]' : '']"
       v-if="!withLogo"
@@ -33,9 +32,9 @@
       />
     </div>
     <div class="pr-5 shrink-0">
-      <div class="relative">
+      <div class="relative flex">
         <button type="button" aria-haspopup="true" @click="langPanelToggle">
-          <IconsLangIcon :style="{color: settings.global.icon_color.color}" />
+          <IconsLangIcon :style="{color: settings.global.icon_color.background}" />
         </button>
         <LanguangePanel v-model:visible="langPanel" />
       </div>

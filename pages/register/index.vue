@@ -525,8 +525,6 @@ const form = ref({
   postCode: '',
   prefecture: '',
   address: '',
-  // city: '',
-  // area: '',
   phoneNumber: '',
   email: '',
   password: '',
@@ -698,15 +696,18 @@ const handleApiError = (error) => {
 
 const buildPayload = () => {
   const payload = {
-    gender: form.value.gender,
-    password_confirmation: form.value.password,
-    email: form.value.email,
-    password: form.value.password,
-    postal_code: form.value.postCode,
-    prefecture: form.value.prefecture,
-    city: form.value.city,
-    area: form.value.area,
-    address: form.value.area
+    email: form.value?.email,
+    gender: form.value?.gender,
+    address: form.value?.address,
+    password: form.value?.password,
+    first_name: form.value?.firstName,
+    last_name: form.value?.lastName,
+    postal_code: form.value?.postCode,
+    prefecture: form.value?.prefecture,
+    date_of_birth: form.value?.birthday,
+    password_confirmation: form.value?.password,
+    questionnaire_1: form.value?.questionnaire1,
+    questionnaire_2: form.value?.questionnaire2,
   }
 
   return payload
