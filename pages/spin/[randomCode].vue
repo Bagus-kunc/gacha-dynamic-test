@@ -5,7 +5,8 @@
     <HeaderBar withLogo />
 
     <div
-      class="flex flex-col grow bg-[url('/images/green_base.png')] bg-cover bg-center relative"
+      class="relative flex flex-col bg-current bg-center grow"
+      :style="{ background: settings?.gacha?.spin_gacha_1_screen?.before_gacha_1_screen?.background?.type === 'image' ? `url(${settings?.gacha?.spin_gacha_1_screen?.before_gacha_1_screen?.background?.value})` : settings?.gacha?.spin_gacha_1_screen?.before_gacha_1_screen?.background?.value }"
     >
       <div
         class="grow w-full flex flex-col items-center justify-center relative mb-4 mt-[15%]"
@@ -24,8 +25,9 @@
       </div>
 
       <SolidButton
-        :label="$t('spinTheGacha')"
-        variant="red-coral"
+        :label="settings.gacha.spin_gacha_1_screen.before_gacha_1_screen.button_text"
+        :bgColor="settings.gacha.spin_gacha_1_screen.before_gacha_1_screen.button_and_text_color?.background"
+        :textColor="settings.gacha.spin_gacha_1_screen.before_gacha_1_screen.button_and_text_color?.color"
         :disabled="isLoading"
         :has-loading="isLoading"
         :on-click="() => nextToSpin()"
@@ -36,7 +38,7 @@
 
   <AutoplayVideo
     v-if="playVideo"
-    src="/video/new-spin-point.mp4"
+    :src="settings.gacha.spin_gacha_1_screen.gacha_1_video"
     @ended="goToSpinPoint"
   />
 
@@ -383,6 +385,8 @@ const locationBlocked = ref(false)
 const isSplashComplete = ref(false)
 const modalSpinWarning = ref(false)
 const redirectLink = ref('')
+
+const settings = useState('settings')
 
 const aboutSpinItems = ref([
   { id: 1, name: 'R', percen: 30, desc: 'normalMorizzoAndKiccoro' },

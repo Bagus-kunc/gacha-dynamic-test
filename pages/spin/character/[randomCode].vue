@@ -1,6 +1,8 @@
 <template>
   <div
-    class="grow bg-[url('/images/bg-rainbow.png')] bg-cover bg-center relative flex flex-col justify-center items-center"
+    class="relative flex flex-col items-center justify-center bg-center bg-cover grow"
+    :style="{ background: settings?.gacha?.spin_gacha_2_screen?.after_gacha_2_screen?.background?.type === 'image' ? `url(${settings?.gacha?.spin_gacha_2_screen?.after_gacha_2_screen?.background?.value})`
+    : settings?.gacha?.spin_gacha_2_screen?.after_gacha_2_screen?.background?.value }"
     @touchmove="(e) => e.preventDefault()"
   >
     <Button
@@ -62,9 +64,10 @@
 
     <div class="absolute bottom-0 w-full">
       <SolidButton
-        :label="$t('toTheNext')"
         :on-click="handleButton"
-        variant="red-coral"
+        :label="settings.gacha.spin_gacha_2_screen?.after_gacha_2_screen.button_text"
+        :bgColor="settings.gacha.spin_gacha_2_screen?.after_gacha_2_screen.button_and_text_color?.background"
+        :textColor="settings.gacha.spin_gacha_2_screen?.after_gacha_2_screen.button_and_text_color?.color"
         has-bottom
       />
     </div>
@@ -219,6 +222,8 @@ const popupLink = ref('')
 const popupDescription = ref('')
 const popupImage = ref('')
 const pointCategoryIsFail = ref(false)
+
+const settings = useState('settings')
 
 const handleClose = () => (isNotAllowed.value = false)
 const handleShowDialog = () => (hasModal.value = true)
