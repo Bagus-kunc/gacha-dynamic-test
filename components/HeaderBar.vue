@@ -6,7 +6,7 @@
   >
 
     <div class="flex pl-5">
-      <IconsArrowIcon v-if="hasBack" :handleGoBack="handleGoBack" :currentColor="settings.global.icon_color.background" />
+      <IconsArrowIcon v-if="hasBack" :handleGoBack="handleGoBack" :currentColor="settings?.global?.icon_color?.background" />
     </div>
 
     <div

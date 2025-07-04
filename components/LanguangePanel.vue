@@ -70,8 +70,8 @@ onUnmounted(() => {
             @click="changeLanguage(lang.value)"
             :style="locale === lang.value
               ? {
-                  backgroundColor: settings.global.icon_color.background,
-                  color: settings.global.icon_color.color,
+                  backgroundColor: settings?.global?.icon_color?.background,
+                  color: settings?.global?.icon_color?.color,
                 }
               : {}"
           >
