@@ -11,7 +11,7 @@
       preload
       class="text-center"
     />
-    <p class="text-exd-gray-scorpion text-[8px]">{{ $t(label) }}</p>
+    <p class="text-exd-gray-scorpion text-[8px] line-clamp-1">{{ label }}</p>
   </div>
 </template>
 

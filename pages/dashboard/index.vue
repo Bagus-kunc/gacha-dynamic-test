@@ -4,7 +4,7 @@
       style="text-shadow: 0 3px 3px rgba(0, 0, 0, 0.16)"
       class="text-exd-gray-scorpion font-bold text-exd-1824.52"
     >
-      {{ $t('myPage') }}
+      {{ settings?.user_dashboard?.my_account_settings?.page_title }}
     </p>
   </HeaderBar>
   <div class="flex flex-col px-8 mt-[35%] sm:mt-[30%]">
@@ -24,11 +24,16 @@
     >
       <div
         class="flex items-center justify-center w-full p-6 bg-white cursor-pointer rounded-xl h-exd-130"
-        style="box-shadow: 0px 3px 3px 0px rgba(0, 0, 0, 0.1608)"
+        :style="{
+          boxShadow: '0px 3px 3px 0px rgba(0, 0, 0, 0.1608)',
+          background: settings.user_dashboard.prize_collections.background.type === 'color'
+            ? settings?.user_dashboard?.prize_collections?.background.value
+            : `url(${settings?.user_dashboard?.prize_collections?.background.value})`
+        }"
         @click="handleGoToPrize"
       >
         <img
-          :src="iconStar"
+          :src="settings?.user_dashboard?.prize_collections?.icon"
           alt="icon-gift"
           width="60"
           height="60"
@@ -36,17 +41,22 @@
           class="text-center cursor-pointer"
         />
         <p class="font-bold text-center text-exd-gray-scorpion text-exd-1424">
-          {{ $t('prizeListEntry') }}
+          {{ settings?.user_dashboard?.prize_collections?.page_title }}
         </p>
       </div>
 
       <div
         class="flex items-center justify-center w-full p-6 bg-white cursor-pointer rounded-xl h-exd-130"
-        style="box-shadow: 0px 3px 3px 0px rgba(0, 0, 0, 0.1608)"
+        :style="{
+          boxShadow: '0px 3px 3px 0px rgba(0, 0, 0, 0.1608)',
+          background: settings.user_dashboard.gacha_collections.background.type === 'color'
+            ? settings?.user_dashboard?.gacha_collections?.background.value
+            : `url(${settings?.user_dashboard?.gacha_collections?.background.value})`
+        }"
         @click="handleGoToHistory"
       >
         <img
-          :src="collection"
+          :src="settings?.user_dashboard?.gacha_collections?.icon"
           alt="icon-gift"
           width="60"
           height="60"
@@ -54,92 +64,33 @@
           class="text-center cursor-pointer"
         />
         <p class="font-bold text-center text-exd-gray-scorpion text-exd-1424">
-          {{ $t('collection') }}
+          {{ settings?.user_dashboard?.gacha_collections?.page_title }}
         </p>
       </div>
     </div>
     <div class="relative w-full">
-      <div
-        class="inline-flex items-center justify-between w-full px-5 mt-5 bg-white border-b-2 cursor-pointer h-exd-50 rounded-tl-xl rounded-tr-xl border-b-exd-light-grey"
-        style="box-shadow: 0px 3px 3px 0px rgba(0, 0, 0, 0.1608)"
-        @click="profile"
-      >
-        <p class="font-bold text-exd-gray-scorpion grow text-exd-1424">
-          {{ $t('membershipInformation') }}
-        </p>
-        <img
-          :src="arrow"
-          alt="arrow"
-          width="12"
-          height="12"
-          preload
-          class="invert"
-        />
+      
+      <div v-for="(item, index) in subMenus" :key="index">
+        <div
+          v-if="item.text"
+          class="inline-flex items-center justify-between w-full px-5 mt-5 bg-white border-b-2 cursor-pointer h-exd-50 border-b-exd-light-grey"
+          :class="{
+            'rounded-tl-xl rounded-tr-xl': index === 0,
+            'rounded-bl-xl rounded-br-xl': index === subMenus.length - 1
+          }"
+          :style="backgroundStyle"
+          @click="handleSubMenuClick(item)"
+        >
+          <p class="inline-flex items-center gap-1 font-bold text-exd-gray-scorpion grow text-exd-1424">
+            {{ item.text }}
+            <span v-if="item.url">
+              <img :src="exportIcon" alt="export" width="20" height="20" preload />
+            </span>
+          </p>
+          <img :src="arrow" alt="arrow" width="12" height="12" preload class="invert" />
+        </div>
       </div>
 
-      <div
-        class="inline-flex items-center justify-between w-full px-5 bg-white border-b-2 cursor-pointer h-exd-50 border-b-exd-light-grey"
-        style="box-shadow: 0px 3px 3px 0px rgba(0, 0, 0, 0.1608)"
-        @click="handleGoToCampaignSite()"
-      >
-        <p
-          class="inline-flex items-center gap-1 font-bold text-exd-gray-scorpion grow text-exd-1424"
-        >
-          {{ $t('campaignSite') }}
-          <span>
-            <img :src="exportIcon" alt="export" width="20" height="20" preload
-          /></span>
-        </p>
-        <img
-          :src="arrow"
-          alt="arrow"
-          width="12"
-          height="12"
-          preload
-          class="invert"
-        />
-      </div>
-      <div
-        class="inline-flex items-center justify-between w-full px-5 bg-white border-b-2 h-exd-50 border-b-exd-light-grey"
-        style="box-shadow: 0px 3px 3px 0px rgba(0, 0, 0, 0.1608)"
-        @click="handleGoToHelp()"
-      >
-        <p
-          class="inline-flex items-center gap-1 font-bold cursor-pointer text-exd-gray-scorpion grow text-exd-1424"
-        >
-          {{ $t('helpAndInquiries') }}
-          <span>
-            <img :src="exportIcon" alt="export" width="20" height="20" preload
-          /></span>
-        </p>
-        <img
-          :src="arrow"
-          alt="arrow"
-          width="12"
-          height="12"
-          preload
-          class="invert"
-        />
-      </div>
-      <div
-        class="inline-flex items-center justify-between w-full px-5 bg-white cursor-pointer h-exd-50 rounded-bl-xl rounded-br-xl"
-        style="box-shadow: 0px 3px 3px 0px rgba(0, 0, 0, 0.1608)"
-        @click="logout"
-      >
-        <p
-          class="inline-flex items-center gap-1 font-bold text-exd-gray-scorpion grow text-exd-1424"
-        >
-          {{ $t('logout') }}
-        </p>
-        <img
-          :src="arrow"
-          alt="arrow"
-          width="12"
-          height="12"
-          preload
-          class="invert"
-        />
-      </div>
     </div>
 
     <div
@@ -160,8 +111,8 @@
         class=""
       >
         <SwiperSlide v-for="(item, index) in bannerList" :key="index" class="!items-start">
-          <a :href="item.link" target="_blank" class="w-full">
-            <img :src="item.image" />
+          <a :href="item.banner_url" target="_blank" class="w-full">
+            <img :src="item.banner_image" />
           </a>
         </SwiperSlide>
       </Swiper>
@@ -241,6 +192,8 @@ const handleGoToCampaignSite = () => {
   window.open('https://aichi-gurutto.dela-kuji.site', '_blank')
 }
 
+const settings = useState('settings')
+
 const TOKEN = useCookie('TOKEN')
 const USER = useCookie('USER')
 const VALID_PASSWORD = useCookie('VALID_PASSWORD')
@@ -249,6 +202,59 @@ const isNotAllowed = ref(false)
 const errorMessages = ref('')
 const redirectLink = ref('')
 const { t } = useI18n()
+
+const subMenus = computed(() => {
+  const menu = settings.value?.user_dashboard?.my_account_settings
+  return [
+    menu?.sub_menu_1,
+    menu?.sub_menu_2,
+    menu?.sub_menu_3,
+    menu?.sub_menu_4,
+  ].filter(Boolean)
+})
+
+const handleSubMenuClick = (item) => {
+  const text = (item?.text || '').toLowerCase()
+
+  const matchTexts = [
+    'membership information', // EN
+    '会員情報',                 // JA
+    '회원 정보',                 // KO
+    'informasi member',       // ID 
+    '会员信息',                 // CH
+    '會員資訊'                  // TW
+  ]
+
+  const matchLogoutTexts = [
+    'logout',                 // EN
+    'ログアウト',               // JA
+    '로그아웃',                 // KO
+    'keluar',                 // ID 
+    '登出',                   // CH
+    '登出'                    // TW
+  ]
+
+  if (matchTexts.includes(text)) {
+    profile()
+  } else if (matchLogoutTexts.includes(text)) {
+    logout()
+  } else if (item?.url) {
+    item.url.startsWith('http')
+      ? window.open(item.url, '_blank')
+      : router.push(item.url)
+  }
+}
+
+
+const backgroundStyle = computed(() => {
+  const bg = settings.value?.user_dashboard?.my_account_settings?.background
+  return {
+    boxShadow: '0px 3px 3px 0px rgba(0, 0, 0, 0.1608)',
+    background: bg?.type === 'color'
+      ? bg.value
+      : `url(${bg.value})`,
+  }
+})
 
 const handleClose = () => {
   isNotAllowed.value = false
@@ -385,10 +391,7 @@ const goToSpin = async (url) => {
   return await navigateTo(url)
 }
 
-const bannerList = ref([
-  { image: banner, link: 'https://aichi-platform.com' },
-  { image: banner1, link: 'https://aichiexpo20th.org/' },
-])
+const bannerList = ref(settings.value?.user_dashboard?.my_account_settings?.banners)
 
 onMounted(() => {
   checkSpinEligibility()

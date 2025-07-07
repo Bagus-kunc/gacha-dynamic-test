@@ -20,13 +20,14 @@
       <div
         class="inline-flex flex-row justify-around w-full ml-[28%] pt-2"
       >
-        <BottomBarMenuIcon
-          v-for="(item, index) in menuItems"
-          :key="index"
-          :icon="item.icon"
-          :label="item.label"
-          :on-click="item.onClick"
-        />
+      <BottomBarMenuIcon
+        v-for="(item, index) in dynamicItems"
+        :key="index"
+        :icon="item.icon"
+        :label="item.label"
+        :on-click="item.onClick"
+      />
+
       </div>
     </div>
   </div>
@@ -41,6 +42,7 @@ import { store } from '~/stores/dashboard.js'
 import { useRouter } from 'vue-router'
 
 const router = useRouter()
+const settings = useState('settings')
 
 const menuItems = ref([
   {
@@ -65,7 +67,30 @@ const menuItems = ref([
   },
 ])
 
+const dynamicItems = ref([])
+
+const handleItems = () => {
+  if (settings.value.user_dashboard.footers) {
+    const items = settings.value.user_dashboard.footers.menus
+    dynamicItems.value = items.map((item) => ({
+      icon: item.icon_image,
+      label: item.footer_title_name_translation_key_id,
+      onClick:
+        item.link_type === 'external'
+          ? () => window.open(item.external_url, '_blank')
+          : () => {
+              const matched = menuItems.value.find(
+                (menu) =>
+                  menu.label === item.footer_title_name_translation_key_id
+              )
+              if (matched) matched.onClick()
+            },
+    }))
+  }
+}
+
 onMounted(() => {
   store.fetchingDashboardData()
+  handleItems()
 })
 </script>
