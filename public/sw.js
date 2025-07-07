@@ -2,12 +2,18 @@
 const CACHE_NAME = `gacharary-aichi-gurutto-v2 - ${self.location.origin}`
 const urlsToCache = [
   '/favicon.ico',
+  '/video/new-spin-point.mp4',
+  '/video/new-spin-character.mp4',
   '/images/sparkling.png',
+  '/images/green_base.png',
   '/images/gacha-aichi.png',
+  '/images/bg-rainbow.png',
   '/images/warning.svg',
+  '/images/header-logo.png',
   '/images/close.svg',
   '/images/export.svg',
   '/images/intl-icon.png',
+  '/images/back-button.svg',
   '/images/text-char.png',
   '/icons/icon-gift.svg',
 ]

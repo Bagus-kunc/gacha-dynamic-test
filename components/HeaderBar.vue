@@ -24,9 +24,9 @@
       v-else
     >
       <img
-        :src="settings.global.logo"
+        :src="headerLogo"
         alt="intl"
-        width="95"
+        width="241"
         height="58"
         preload
         class="absolute transform -translate-x-1/2 -translate-y-1/2 top-1/2 left-1/2"

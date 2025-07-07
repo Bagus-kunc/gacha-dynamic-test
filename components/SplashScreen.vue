@@ -1,8 +1,6 @@
 <script setup>
 const loading = ref(true)
 const isSupportSerWroker = ref(false)
-const settings = useState('settings')
-
 let checkCachesInterval
 let firstCount = 1
 
@@ -58,24 +56,20 @@ function completeLoading() {
 const checkCaches = () => {
   const urlsToCache = [
     '/favicon.ico',
+    '/video/new-spin-point.mp4',
+    '/video/new-spin-character.mp4',
     '/images/sparkling.png',
     '/images/green_base.png',
     '/images/gacha-aichi.png',
+    '/images/bg-rainbow.png',
     '/images/warning.svg',
+    '/images/header-logo.png',
     '/images/close.svg',
     '/images/export.svg',
     '/images/intl-icon.png',
+    '/images/back-button.svg',
     '/images/text-char.png',
     '/icons/icon-gift.svg',
-    settings.value.global.logo,
-    settings.value.gacha.spin_gacha_1_screen.gacha_1_video,
-    settings.value.gacha.spin_gacha_2_screen.gacha_2_video,
-    settings.value.gacha.spin_gacha_1_screen.after_gacha_1_screen.background.value,
-    settings.value.gacha.spin_gacha_1_screen.before_gacha_1_screen.background.value,
-    settings.value.gacha.spin_gacha_2_screen.after_gacha_2_screen.background.value,
-    settings.value.gacha.spin_gacha_1_screen.after_gacha_1_screen.background.value,
-    settings.value.gacha.spin_gacha_2_screen.after_gacha_2_screen.background.value,
-    settings.value.gacha.spin_gacha_1_screen.before_gacha_1_screen.background.value
   ]
   caches
     .open(`gacharary-aichi-gurutto-v2 - ${self.location.origin}`)
@@ -99,14 +93,13 @@ const checkCaches = () => {
 <template>
   <div
     v-if="loading"
-    class="w-full max-w-md mx-auto h-screen overflow-hidden bg-cover bg-center flex flex-col fixed z-[2000]"
-    :style="{ backgroundImage: `url(${settings.gacha.loading_screen.background.value})` }"
+    class="w-full max-w-md mx-auto h-screen overflow-hidden bg-[url('/images/green_base.png')] bg-cover bg-center flex flex-col fixed z-[2000]"
   >
     <div
       class="flex flex-col items-center justify-center w-full h-full text-exd-red"
     >
       <img
-        :src="settings.gacha.loading_screen.gif"
+        src="~/assets/images/gacha-loading.gif"
         class="w-[100px] h-[100px]"
       />
       <img

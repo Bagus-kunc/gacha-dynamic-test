@@ -1,7 +1,6 @@
 <template>
   <div
-    class="relative flex flex-col items-center justify-center bg-center bg-cover grow"
-    :style="{ background: settings?.gacha?.spin_gacha_1_screen?.after_gacha_1_screen?.background?.type === 'image' ? `url(${settings?.gacha?.spin_gacha_1_screen?.after_gacha_1_screen?.background?.value})` : settings?.gacha?.spin_gacha_1_screen?.after_gacha_1_screen?.background?.value }"
+    class="grow bg-[url('/images/bg-rainbow.png')] bg-cover bg-center relative flex flex-col justify-center items-center"
     @touchmove="(e) => e.preventDefault()"
   >
     <SparkleStart className="top-3 z-30" />
@@ -39,17 +38,16 @@
     <!-- <div class="absolute-10 top-1/2 translate-y-[80%]"></div> -->
     <div class="w-full absolute bottom-0 z-[1100]">
       <SolidButton
-        :label="settings.gacha.spin_gacha_1_screen?.after_gacha_1_screen.button_text"
+        :label="$t('toTheNext')"
         :on-click="() => handleButton()"
         has-bottom
-        :bgColor="settings.gacha.spin_gacha_1_screen?.after_gacha_1_screen.button_and_text_color?.background"
-        :textColor="settings.gacha.spin_gacha_1_screen?.after_gacha_1_screen.button_and_text_color?.color"
+        variant="red-coral"
       />
     </div>
 
     <AutoplayVideo
       v-if="playVideo"
-      :src="settings.gacha.spin_gacha_2_screen.gacha_2_video"
+      src="/video/new-spin-character.mp4"
       @ended="handleGoToCharacter"
     />
 
@@ -99,8 +97,6 @@ const popupImage = ref('')
 const pointCategoryIsFail = ref(false)
 const modalLogin = ref(false)
 const showPointOnly = ref(true)
-
-const settings = useState('settings')
 
 const { t } = useI18n()
 
@@ -345,6 +341,7 @@ const fetchImageFromApi = async () => {
       USER.value = null
       fetchImageFromApi()
     }
+    console.error('Unexpected error:', e)
   }
 }
 const reportMultipleSpin = async ({ gift_id, character_id, location_id }) => {
