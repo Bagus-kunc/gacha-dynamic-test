@@ -1,5 +1,6 @@
 // Tentukan nama cache dan file yang ingin di-cache
 const CACHE_NAME = `gacharary-aichi-gurutto-v2 - ${self.location.origin}`
+const FOLLBACK_IMAGE = '/images/gacha-aichi.png'
 const urlsToCache = [
   '/favicon.ico',
   '/images/sparkling.png',
@@ -51,36 +52,71 @@ self.addEventListener('activate', function (event) {
   return self.clients.claim()
 })
 
-self.addEventListener('fetch', function (event) {
+self.addEventListener('message', async (event) => {
+  if (event.data?.type === 'CACHE_IMAGES') {
+    const urls = event.data.payload;
+    const cache = await caches.open(CACHE_NAME);
+
+    for (const url of urls) {
+      try {
+        const response = await fetch(url, { mode: 'cors' });
+        if (response.ok) {
+          await cache.put(url, response.clone());
+          console.log('[SW] Cached from middleware:', url);
+        }
+      } catch (err) {
+        console.error('[SW] Failed to cache image:', url, err);
+      }
+    }
+  }
+});
+
+self.addEventListener('fetch', (event) => {
   if (
+    event.request.destination === 'image' ||
+    event.request.url.endsWith('.jpg') ||
+    event.request.url.endsWith('.jpeg') ||
+    event.request.url.endsWith('.png')
+  ) {
+    event.respondWith(handleImageRequest(event));
+  } else if (
     event.request.url.endsWith('.mp4') &&
     event.request.headers.has('range')
   ) {
     event.respondWith(handleRangeRequest(event.request))
   } else {
     event.respondWith(
-      caches
-        .match(event.request)
-        .then(function (response) {
-          if (response) {
-            return response
-          }
-
-          return fetch(event.request)
-            .then(function (networkResponse) {
-              return networkResponse
-            })
-            .catch((error) => {
-              console.error('Fetch failed:', error)
-            })
-        })
-        .catch((error) => {
-          console.error('Cache match failed:', error)
-        })
-    )
+      caches.match(event.request).then((response) => {
+        return response || fetch(event.request);
+      }),
+    );
   }
-})
+});
 
+const FALLBACK_IMAGE = '/images/gacha-aichi.png'
+
+const handleImageRequest = async (event) => {
+  const cache = await caches.open(CACHE_NAME);
+  const response = await cache.match(event.request.url);
+
+  if (!response) {
+    try {
+      const fetchResponse = await fetch(event.request);
+      cache.put(event.request, fetchResponse.clone());
+      return fetchResponse;
+    } catch (error) {
+      console.error(`Fetch failed for ${event.request.url}. Using fallback image.`);
+      const fallbackResponse = await cache.match(FALLBACK_IMAGE);
+
+      if (!fallbackResponse) {
+        return fallbackResponse || new Response('Fallback image not found', { status: 404 });
+      }
+      return fallbackResponse;
+    }
+  }
+
+  return response;
+};
 async function handleRangeRequest(request) {
   const cache = await caches.open(CACHE_NAME)
   const response = await cache.match(request.url)
@@ -96,11 +132,9 @@ async function handleRangeRequest(request) {
   const videoArrayBuffer = await videoBlob.arrayBuffer()
   const videoSize = videoArrayBuffer.byteLength
 
-  // Jika tidak ada end byte, kirimkan dari start sampai akhir
   const end = bytes[2] ? Number(bytes[2]) : videoSize - 1
   const chunk = videoArrayBuffer.slice(start, end + 1)
 
-  // Header untuk range response
   return new Response(chunk, {
     status: 206,
     statusText: 'Partial Content',

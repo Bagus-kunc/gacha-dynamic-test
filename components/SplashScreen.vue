@@ -66,16 +66,7 @@ const checkCaches = () => {
     '/images/export.svg',
     '/images/intl-icon.png',
     '/images/text-char.png',
-    '/icons/icon-gift.svg',
-    settings.value.global.logo,
-    settings.value.gacha.spin_gacha_1_screen.gacha_1_video,
-    settings.value.gacha.spin_gacha_2_screen.gacha_2_video,
-    settings.value.gacha.spin_gacha_1_screen.after_gacha_1_screen.background.value,
-    settings.value.gacha.spin_gacha_1_screen.before_gacha_1_screen.background.value,
-    settings.value.gacha.spin_gacha_2_screen.after_gacha_2_screen.background.value,
-    settings.value.gacha.spin_gacha_1_screen.after_gacha_1_screen.background.value,
-    settings.value.gacha.spin_gacha_2_screen.after_gacha_2_screen.background.value,
-    settings.value.gacha.spin_gacha_1_screen.before_gacha_1_screen.background.value
+    '/icons/icon-gift.svg'
   ]
   caches
     .open(`gacharary-aichi-gurutto-v2 - ${self.location.origin}`)
@@ -94,6 +85,10 @@ const checkCaches = () => {
       }
     })
 }
+
+onMounted(async () => {
+  
+})
 </script>
 
 <template>
