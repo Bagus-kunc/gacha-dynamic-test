@@ -6,10 +6,8 @@
     <img
       :src="icon"
       alt="icon"
-      width="33"
-      height="33"
       preload
-      class="text-center"
+      class="text-center w-[25px] h-[25px] sm:w-[33px] sm:h-[33px]"
     />
     <p class="text-exd-gray-scorpion text-[8px] line-clamp-1">{{ label }}</p>
   </div>

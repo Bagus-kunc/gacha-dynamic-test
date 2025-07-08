@@ -5,7 +5,7 @@
         style="text-shadow: 0 3px 3px rgba(0, 0, 0, 0.16)"
         class="text-exd-gray-scorpion text-exd-1824.52"
       >
-        {{ $t('membershipInformation') }}
+        {{ settings.user_dashboard?.member_information?.page_title }}
       </p>
     </HeaderBar>
 
@@ -200,11 +200,12 @@
       <div class="mt-16" />
       <div class="fixed bottom-0 z-50 w-full max-w-md mx-auto mb-2">
         <SolidButton
-          :label="$t('change')"
+          :label="settings.user_dashboard?.member_information?.button_text"
           :has-loading="isLoading"
           :disabled="!isButtonEnabled || !form.checked"
           :on-click="handleSubmit"
-          variant="red-coral"
+          :bgColor="settings.user_dashboard?.member_information?.button_and_text_color?.background"
+          :textColor="settings.user_dashboard?.member_information?.button_and_text_color?.color"
           has-bottom
         />
       </div>
@@ -280,6 +281,7 @@ const errorScroll = ref([])
 const errorEmailMessage = ref('')
 const errorNicknameMessage = ref('')
 const errorPasswordMessage = ref('')
+const settings = useState('settings')
 
 const handleCloseDialog = () => (isErrorMessage.value = false)
 
@@ -373,6 +375,7 @@ const validateForm = () => {
 }
 
 const populateForm = (data) => {
+  console.log(data)
   form.gender = data.gender || 'No-Answer'
   form.postCode = data.postal_code.name || ''
   form.email = data.email || ''

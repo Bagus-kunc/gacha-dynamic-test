@@ -73,12 +73,11 @@
       <div v-for="(item, index) in subMenus" :key="index">
         <div
           v-if="item.text"
-          class="inline-flex items-center justify-between w-full px-5 mt-5 bg-white border-b-2 cursor-pointer h-exd-50 border-b-exd-light-grey"
+          class="inline-flex items-center justify-between w-full px-5 bg-white border-b-2 cursor-pointer h-exd-50 border-b-exd-light-grey"
           :class="{
-            'rounded-tl-xl rounded-tr-xl': index === 0,
+            'rounded-tl-xl rounded-tr-xl mt-5': index === 0,
             'rounded-bl-xl rounded-br-xl': index === subMenus.length - 1
           }"
-          :style="backgroundStyle"
           @click="handleSubMenuClick(item)"
         >
           <p class="inline-flex items-center gap-1 font-bold text-exd-gray-scorpion grow text-exd-1424">
@@ -185,12 +184,6 @@ definePageMeta({
 const handleGoToHistory = () => router.push('/history')
 const handleGoToPrize = () => router.push('/prize')
 const profile = () => router.push('/profile')
-const handleGoToHelp = () => {
-  window.open('/manual', '_blank')
-}
-const handleGoToCampaignSite = () => {
-  window.open('https://aichi-gurutto.dela-kuji.site', '_blank')
-}
 
 const settings = useState('settings')
 
@@ -244,17 +237,6 @@ const handleSubMenuClick = (item) => {
       : router.push(item.url)
   }
 }
-
-
-const backgroundStyle = computed(() => {
-  const bg = settings.value?.user_dashboard?.my_account_settings?.background
-  return {
-    boxShadow: '0px 3px 3px 0px rgba(0, 0, 0, 0.1608)',
-    background: bg?.type === 'color'
-      ? bg.value
-      : `url(${bg.value})`,
-  }
-})
 
 const handleClose = () => {
   isNotAllowed.value = false
