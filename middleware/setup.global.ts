@@ -1,31 +1,56 @@
-import { fetchAndCacheImage } from "~/utils/fetchAndCacheImage"
-
-export default defineNuxtRouteMiddleware(async (to, from) => {
+export default defineNuxtRouteMiddleware(async (to) => {
   const allowPaths = ['spin']
+  if (!allowPaths.some(path => to.path.includes(path))) return
 
-  const res = await useFetchApi('GET', 'settings')
-  const settings = useState('settings', () => res.data)
+  try {
+    const settings = useState('settings', () => null)
+    if (!settings.value) {
+      const res = await useFetchApi('GET', 'settings')
+      if (!res || !res.data) return
+      settings.value = res.data
+    }
 
-  console.log(settings.value)
+    const gacha = settings.value?.gacha
+    if (!gacha) return
 
-  if (settings.value?.backgrounds?.length) {
-    const imageUrls = await Promise.all(
-      settings.value.backgrounds.map(async (bg: any) => {
-        try {
-          if (bg.type === 'image') {
-            await fetchAndCacheImage(bg.value)
-          }
-        } catch (e) {
-          console.error('Fetch gagal:', bg.value, e)
-          return null
-        }
-      })
-    )
+    const cachePromises: Promise<any>[] = []
+    const addToCache = (url?: string) => {
+      if (url) cachePromises.push(fetchAndCacheImage(url))
+    }
 
-    console.log('Image URLs:', imageUrls)
+    // Landing screen
+    if (gacha.loading_screen?.background?.type === 'image') {
+      addToCache(gacha.loading_screen.background.value)
+    }
+    if (gacha.loading_screen?.gif) {
+      addToCache(gacha.loading_screen?.gif)
+    }
+
+    // Spin point
+    const spin1 = gacha.spin_gacha_1_screen
+    if (spin1) {
+      addToCache(spin1.gacha_1_video)
+      if (spin1.before_gacha_1_screen?.background?.type === 'image') {
+        addToCache(spin1.before_gacha_1_screen.background.value)
+      }
+      if (spin1.after_gacha_1_screen?.background?.type === 'image') {
+        addToCache(spin1.after_gacha_1_screen.background.value)
+      }
+    }
+
+    // Spin character
+    const spin2 = gacha.spin_gacha_2_screen
+    if (spin2) {
+      addToCache(spin2.gacha_2_video)
+      if (spin2.after_gacha_2_screen?.background?.type === 'image') {
+        addToCache(spin2.after_gacha_2_screen.background.value)
+      }
+    }
+
+    if (cachePromises.length > 0) {
+      await Promise.allSettled(cachePromises)
+    }
+  } catch (err) {
+    console.error(`Gacha middleware error on route ${to.path}:`, err)
   }
-
-  // if (allowPaths.some((path) => !to.path.includes(path))) {
-  //   return abortNavigation()
-  // }
 })

@@ -55,6 +55,10 @@ function completeLoading() {
   emit('finish')
 }
 
+const gacha = settings.value?.gacha
+const spin1 = gacha.spin_gacha_1_screen
+const spin2 = gacha.spin_gacha_2_screen
+
 const checkCaches = () => {
   const urlsToCache = [
     '/favicon.ico',
@@ -66,7 +70,15 @@ const checkCaches = () => {
     '/images/export.svg',
     '/images/intl-icon.png',
     '/images/text-char.png',
-    '/icons/icon-gift.svg'
+    '/icons/icon-gift.svg',
+    gacha.loading_screen.background.value,
+    gacha.loading_screen?.gif,
+    spin1.gacha_1_video,
+    spin1.before_gacha_1_screen.background.value,
+    spin1.after_gacha_1_screen.background.value,
+    spin2.gacha_2_video,
+    spin2.after_gacha_2_screen.background.value
+
   ]
   caches
     .open(`gacharary-aichi-gurutto-v2 - ${self.location.origin}`)
