@@ -25,9 +25,9 @@
       </div>
 
       <SolidButton
-        :label="settings.gacha.spin_gacha_1_screen.before_gacha_1_screen.button_text"
-        :bgColor="settings.gacha.spin_gacha_1_screen.before_gacha_1_screen.button_and_text_color?.background"
-        :textColor="settings.gacha.spin_gacha_1_screen.before_gacha_1_screen.button_and_text_color?.color"
+        :label="settings?.gacha?.spin_gacha_1_screen?.before_gacha_1_screen?.button_text"
+        :bgColor="settings?.gacha?.spin_gacha_1_screen?.before_gacha_1_screen?.button_and_text_color?.background"
+        :textColor="settings?.gacha?.spin_gacha_1_screen?.before_gacha_1_screen?.button_and_text_color?.color"
         :disabled="isLoading"
         :has-loading="isLoading"
         :on-click="() => nextToSpin()"

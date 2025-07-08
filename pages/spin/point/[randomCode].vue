@@ -98,7 +98,7 @@ const popupDescription = ref('')
 const popupImage = ref('')
 const pointCategoryIsFail = ref(false)
 const modalLogin = ref(false)
-const showPointOnly = ref(true)
+const showPointOnly = ref(false)
 
 const settings = useState('settings')
 

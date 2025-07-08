@@ -1,6 +1,5 @@
 export default defineNuxtRouteMiddleware(async (to) => {
   const allowPaths = ['spin']
-  if (!allowPaths.some(path => to.path.includes(path))) return
 
   try {
     const settings = useState('settings', () => null)
@@ -9,6 +8,10 @@ export default defineNuxtRouteMiddleware(async (to) => {
       if (!res || !res.data) return
       settings.value = res.data
     }
+
+    console.log('settings', settings.value)
+
+    if (!allowPaths.some(path => to.path.includes(path))) return
 
     const gacha = settings.value?.gacha
     if (!gacha) return
