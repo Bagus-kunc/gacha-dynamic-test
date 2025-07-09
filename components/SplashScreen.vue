@@ -53,13 +53,16 @@ function completeLoading() {
   emit('finish')
 }
 
+const gacha = settings.value?.gacha
+const spin1 = gacha.spin_gacha_1_screen
+const spin2 = gacha.spin_gacha_2_screen
+
 const checkCaches = () => {
   const urlsToCache = [
     '/favicon.ico',
     '/video/new-spin-point.mp4',
     '/video/new-spin-character.mp4',
     '/images/sparkling.png',
-    '/images/green_base.png',
     '/images/gacha-aichi.png',
     '/images/bg-rainbow.png',
     '/images/warning.svg',
@@ -70,6 +73,13 @@ const checkCaches = () => {
     '/images/back-button.svg',
     '/images/text-char.png',
     '/icons/icon-gift.svg',
+    gacha.loading_screen.background.value,
+    gacha.loading_screen?.gif,
+    spin1.gacha_1_video,
+    spin1.before_gacha_1_screen.background.value,
+    spin1.after_gacha_1_screen.background.value,
+    spin2.gacha_2_video,
+    spin2.after_gacha_2_screen.background.value
   ]
   caches
     .open(`gacharary-aichi-gurutto-v2 - ${self.location.origin}`)
@@ -88,6 +98,10 @@ const checkCaches = () => {
       }
     })
 }
+
+onMounted(async () => {
+  
+})
 </script>
 
 <template>
@@ -102,10 +116,11 @@ const checkCaches = () => {
         src="~/assets/images/gacha-loading.gif"
         class="w-[100px] h-[100px]"
       />
-      <img
+      <h3 class="ml-5 text-xl font-bold" :style="{ color: settings.gacha.loading_screen.text_color }">LOADING...</h3>
+      <!-- <img
         src="~/assets/images/loading.png"
         class="mt-6 ml-5 w-[126px] h-[24px]"
-      />
+      /> -->
     </div>
   </div>
 </template>

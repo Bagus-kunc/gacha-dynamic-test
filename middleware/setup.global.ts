@@ -1,14 +1,59 @@
-
 export default defineNuxtRouteMiddleware(async (to, from) => {
   const allowPaths = ['spin']
 
+  try {
+    const settings = useState('settings', () => null)
+    if (!settings.value) {
+      const res = await useFetchApi('GET', 'settings')
+      if (!res || !res.data) return
+      settings.value = res.data
+    }
 
-  const res = await useFetchApi('GET', 'settings')
+    console.log('settings', settings.value)
 
-  const settings = useState('settings', () => res.data)
+    if (!allowPaths.some(path => to.path.includes(path))) return
 
-  console.log(settings.value)
-  // if (allowPaths.some((path) => !to.path.includes(path))) {
-  //   return abortNavigation()
-  // }
+    const gacha = settings.value?.gacha
+    if (!gacha) return
+
+    const cachePromises: Promise<any>[] = []
+    const addToCache = (url?: string) => {
+      if (url) cachePromises.push(fetchAndCacheImage(url))
+    }
+
+    // Landing screen
+    if (gacha.loading_screen?.background?.type === 'image') {
+      addToCache(gacha.loading_screen.background.value)
+    }
+    if (gacha.loading_screen?.gif) {
+      addToCache(gacha.loading_screen?.gif)
+    }
+
+    // Spin point
+    const spin1 = gacha.spin_gacha_1_screen
+    if (spin1) {
+      addToCache(spin1.gacha_1_video)
+      if (spin1.before_gacha_1_screen?.background?.type === 'image') {
+        addToCache(spin1.before_gacha_1_screen.background.value)
+      }
+      if (spin1.after_gacha_1_screen?.background?.type === 'image') {
+        addToCache(spin1.after_gacha_1_screen.background.value)
+      }
+    }
+
+    // Spin character
+    const spin2 = gacha.spin_gacha_2_screen
+    if (spin2) {
+      addToCache(spin2.gacha_2_video)
+      if (spin2.after_gacha_2_screen?.background?.type === 'image') {
+        addToCache(spin2.after_gacha_2_screen.background.value)
+      }
+    }
+
+    if (cachePromises.length > 0) {
+      await Promise.allSettled(cachePromises)
+    }
+  } catch (err) {
+    console.error(`Gacha middleware error on route ${to.path}:`, err)
+  }
 })

@@ -1,6 +1,5 @@
 <script setup>
 import { useI18n } from 'vue-i18n'
-import { store } from '~~/stores/global-settings'
 
 const { locale } = useI18n()
 const props = defineProps(['visible'])

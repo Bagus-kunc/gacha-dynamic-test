@@ -2,9 +2,9 @@
 const props = defineProps(['imageSrc', 'categorySrc', 'showPointOnly'])
 const giftType = reactive({
   x: 50,
-  y: 230,
+  y: 270,
   width: 300,
-  height: 125,
+  height: 140,
 })
 
 const pointType = reactive({

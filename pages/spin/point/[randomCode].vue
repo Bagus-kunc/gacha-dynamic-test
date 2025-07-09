@@ -1,6 +1,7 @@
 <template>
   <div
-    class="grow bg-[url('/images/bg-rainbow.png')] bg-cover bg-center relative flex flex-col justify-center items-center"
+    class="relative flex flex-col items-center justify-center !bg-no-repeat !bg-cover !bg-center grow"
+    :style="{ background: settings?.gacha?.spin_gacha_1_screen?.after_gacha_1_screen?.background?.type === 'image' ? `url(${settings?.gacha?.spin_gacha_1_screen?.after_gacha_1_screen?.background?.value})` : settings?.gacha?.spin_gacha_1_screen?.after_gacha_1_screen?.background?.value }"
     @touchmove="(e) => e.preventDefault()"
   >
     <SparkleStart className="top-3 z-30" />
@@ -96,7 +97,7 @@ const popupDescription = ref('')
 const popupImage = ref('')
 const pointCategoryIsFail = ref(false)
 const modalLogin = ref(false)
-const showPointOnly = ref(true)
+const showPointOnly = ref(false)
 
 const { t } = useI18n()
 
