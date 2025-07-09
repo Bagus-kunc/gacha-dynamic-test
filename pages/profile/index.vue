@@ -38,7 +38,8 @@
             class="flex items-center gap-2 text-exd-gray-scorpion text-exd-1424"
             >{{ $t('sex') }}
             <span
-              class="bg-exd-red-coral text-white text-exd-0910 px-1 py-[2px] rounded-sm"
+              class="text-exd-0910 px-1 py-[2px] rounded-sm"
+              :style="{ backgroundColor: settings?.user_dashboard?.member_information?.button_and_text_color?.background, color: settings?.user_dashboard?.member_information?.button_and_text_color?.color }"
               >{{ $t('required') }}</span
             >
           </label>
@@ -106,6 +107,8 @@
                 'opacity-50': isLoading,
               }"
               :border="true"
+              :bgColor="settings?.user_dashboard?.member_information?.button_and_text_color?.background"
+              :textColor="settings?.user_dashboard?.member_information?.button_and_text_color?.color"
             />
           </div>
         </div>
@@ -137,6 +140,8 @@
                   : errorEmailMessage,
             }"
             :border="true"
+            :bgColor="settings?.user_dashboard?.member_information?.button_and_text_color?.background"
+            :textColor="settings?.user_dashboard?.member_information?.button_and_text_color?.color"
           />
         </div>
 
@@ -162,6 +167,8 @@
                 : t(errorPasswordMessage)
             "
             :border="true"
+            :bgColor="settings?.user_dashboard?.member_information?.button_and_text_color?.background"
+            :textColor="settings?.user_dashboard?.member_information?.button_and_text_color?.color"
           />
         </div>
 
@@ -375,7 +382,6 @@ const validateForm = () => {
 }
 
 const populateForm = (data) => {
-  console.log(data)
   form.gender = data.gender || 'No-Answer'
   form.postCode = data.postal_code.name || ''
   form.email = data.email || ''
