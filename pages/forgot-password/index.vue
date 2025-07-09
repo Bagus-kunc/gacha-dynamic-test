@@ -10,7 +10,7 @@
     </HeaderBar>
 
     <div
-      class="flex flex-col justify-between w-full gap-6 px-8 pt-32 pb-20 overflow-auto grow"
+      class="flex flex-col justify-between w-full gap-6 px-8 pt-32 pb-20 overflow-auto grow !bg-no-repeat !bg-cover !bg-center"
       :style="{ background: settings?.forgot_password?.background.type === 'image' ? `url(${settings?.forgot_password?.background.value})` : settings?.forgot_password?.background.value, 'background-size': 'cover', 'background-repeat': 'no-repeat' }"
     >
       <template v-if="isSuccessSendLinkResetPassword">
