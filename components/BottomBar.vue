@@ -85,23 +85,30 @@ const handleItems = () => {
   dynamicItems.value = items.map((item) => {
     const isExternal = item.link_type === 'external';
     const label = item.footer_title_name?.value || '';
+    const key = item.footer_title_name?.key;
+
+    const onClick = () => {
+      if (isExternal) {
+        window.open(item.external_url, '_blank');
+      } else if (key === 'character_collection') {
+        router.push('/history');
+      } else if (key === 'prize_list' || key === 'prize_exchange' || key === 'prizes') {
+        router.push('/prize');
+      } else if (key === 'my_page') {
+        router.push('/dashboard');
+      } else {
+        console.warn(`Unknown footer menu key: ${key}`);
+      }
+    };
 
     return {
-      icon: item.icon_image,
+      icon: item.icon_image || iconStar,
       label,
-      onClick: isExternal
-        ? () => window.open(item.external_url, '_blank')
-        : () => {
-            const matched = menuItems.value.find(
-              (menu) => menu.label === label
-            );
-            if (matched && typeof matched.onClick === 'function') {
-              matched.onClick();
-            }
-          },
+      onClick,
     };
   });
 };
+
 
 onMounted(() => {
   store.fetchingDashboardData()
