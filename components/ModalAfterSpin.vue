@@ -67,14 +67,16 @@
           </p> -->
         </div>
         <SolidButton
-          :label="$t('newMemberRegistration')"
           :on-click="handleToRegister"
-          variant="red-coral"
+          :label="settings?.register_login?.new_member_registration?.button_text"
+          :bgColor="settings?.register_login?.new_member_registration?.button_text_color.background"
+          :textColor="settings?.register_login?.new_member_registration?.button_text_color.color"
         />
         <SolidButton
-          :label="$t('loginToMyPage')"
           :on-click="handleToLogin"
-          variant="green"
+          :label="settings?.register_login?.login?.button_text"
+          :bgColor="settings?.register_login?.login?.button_text_color.background"
+          :textColor="settings?.register_login?.login?.button_text_color.color"
         />
       </div>
     </template>
@@ -103,6 +105,8 @@ const modalLogin = ref(false)
 
 const { decryptData } = useEncryption()
 const { setSourceFrom } = useRegister()
+
+const settings = useState('settings')
 
 const handleShowDialog = () => emit('update:visible', true)
 const handleCloseDialog = () => emit('update:visible', false)
