@@ -13,13 +13,15 @@
         >
           {{ $t('currentPoints') }}
         </p>
-        <Skeleton v-if="!store.point" class="absolute !h-5 mt-2 bg-white !w-20 mr-4"/>
-        <p v-else 
-        class="absolute -ml-3 font-bold text-white text-[30px] bottom-1"
-        :style="{color: settings.user_dashboard?.footers?.point_background_color?.color}"
-        >
-          {{ store.point }}<span class="text-exd-1020">pt</span>
-        </p>
+        <div class="absolute -ml-3 bottom-1">
+          <Skeleton v-if="!store.point" class="!w-20 !h-7 bg-white mb-[6px]"/>
+          <p v-else 
+          class="font-bold text-white text-[30px]"
+          :style="{color: settings.user_dashboard?.footers?.point_background_color?.color}"
+          >
+            {{ store.point }}<span class="text-exd-1020">pt</span>
+          </p>
+        </div>
       </div>
 
       <div

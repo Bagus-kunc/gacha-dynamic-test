@@ -13,7 +13,8 @@
         <p class="font-bold text-white text-exd-1530">
           {{ $t('currentPoints') }}
         </p>
-        <p class="relative font-bold text-white text-exd-56112 -top-9">
+        <Skeleton v-if="!store.point" class="!w-32 !h-12 bg-white mb-[50%]" />
+        <p v-else class="relative font-bold text-white text-exd-56112 -top-9">
           {{ store.point }}<span class="ml-1 text-exd-1530">pt</span>
         </p>
       </div>
