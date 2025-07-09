@@ -38,7 +38,7 @@
 
   <AutoplayVideo
     v-if="playVideo"
-    :src="settings.gacha.spin_gacha_1_screen.gacha_1_video"
+    src="/video/new-spin-point.mp4"
     @ended="goToSpinPoint"
   />
 
@@ -385,8 +385,6 @@ const locationBlocked = ref(false)
 const isSplashComplete = ref(false)
 const modalSpinWarning = ref(false)
 const redirectLink = ref('')
-
-const settings = useState('settings')
 
 const aboutSpinItems = ref([
   { id: 1, name: 'R', percen: 30, desc: 'normalMorizzoAndKiccoro' },

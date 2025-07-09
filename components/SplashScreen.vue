@@ -1,8 +1,6 @@
 <script setup>
 const loading = ref(true)
 const isSupportSerWroker = ref(false)
-const settings = useState('settings')
-
 let checkCachesInterval
 let firstCount = 1
 
@@ -62,12 +60,17 @@ const spin2 = gacha.spin_gacha_2_screen
 const checkCaches = () => {
   const urlsToCache = [
     '/favicon.ico',
+    '/video/new-spin-point.mp4',
+    '/video/new-spin-character.mp4',
     '/images/sparkling.png',
     '/images/gacha-aichi.png',
+    '/images/bg-rainbow.png',
     '/images/warning.svg',
+    '/images/header-logo.png',
     '/images/close.svg',
     '/images/export.svg',
     '/images/intl-icon.png',
+    '/images/back-button.svg',
     '/images/text-char.png',
     '/icons/icon-gift.svg',
     gacha.loading_screen.background.value,
@@ -77,7 +80,6 @@ const checkCaches = () => {
     spin1.after_gacha_1_screen.background.value,
     spin2.gacha_2_video,
     spin2.after_gacha_2_screen.background.value
-
   ]
   caches
     .open(`gacharary-aichi-gurutto-v2 - ${self.location.origin}`)
@@ -105,14 +107,13 @@ onMounted(async () => {
 <template>
   <div
     v-if="loading"
-    class="w-full max-w-md mx-auto h-screen overflow-hidden bg-cover bg-center flex flex-col fixed z-[2000]"
-    :style="{ backgroundImage: `url(${settings.gacha.loading_screen.background.value})` }"
+    class="w-full max-w-md mx-auto h-screen overflow-hidden bg-[url('/images/green_base.png')] bg-cover bg-center flex flex-col fixed z-[2000]"
   >
     <div
       class="flex flex-col items-center justify-center w-full h-full text-exd-red"
     >
       <img
-        :src="settings.gacha.loading_screen.gif"
+        src="~/assets/images/gacha-loading.gif"
         class="w-[100px] h-[100px]"
       />
       <h3 class="ml-5 text-xl font-bold" :style="{ color: settings.gacha.loading_screen.text_color }">LOADING...</h3>

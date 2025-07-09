@@ -64,10 +64,9 @@
 
     <div class="absolute bottom-0 w-full">
       <SolidButton
+        :label="$t('toTheNext')"
         :on-click="handleButton"
-        :label="settings.gacha.spin_gacha_2_screen?.after_gacha_2_screen.button_text"
-        :bgColor="settings.gacha.spin_gacha_2_screen?.after_gacha_2_screen.button_and_text_color?.background"
-        :textColor="settings.gacha.spin_gacha_2_screen?.after_gacha_2_screen.button_and_text_color?.color"
+        variant="red-coral"
         has-bottom
       />
     </div>
@@ -222,8 +221,6 @@ const popupLink = ref('')
 const popupDescription = ref('')
 const popupImage = ref('')
 const pointCategoryIsFail = ref(false)
-
-const settings = useState('settings')
 
 const handleClose = () => (isNotAllowed.value = false)
 const handleShowDialog = () => (hasModal.value = true)
