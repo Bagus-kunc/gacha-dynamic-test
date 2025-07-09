@@ -409,8 +409,8 @@ definePageMeta({
     const { data } = await useFetchApi('GET', '/location/password/' + location)
 
     if (data) {
-      const notRequiredPin = useState('not_required_pin', () => 0)
-      notRequiredPin.value = data.not_required_pin
+      const beforeSpinType = useState('before_spin_type', () => 1)
+      beforeSpinType.value = data.before_spin_type
 
       const notRequiredRadius = useState('not_required_radius', () => 0)
       notRequiredRadius.value = data.not_required_radius
@@ -426,19 +426,23 @@ definePageMeta({
 
     const validSlug = decryptData(validPassword.value || '{}')
 
-    if (data && data.not_required_pin === 0 && validSlug?.slug !== location) {
+    if (data && data.before_spin_type === 2 && validSlug?.slug !== location) {
       return navigateTo(`/scan/${location}`)
+    }
+
+    if (data && data.before_spin_type === 3 && validSlug?.slug !== location) {
+      return navigateTo(`/spin/${location}`)
     }
   },
 })
 
 const nextToSpin = async () => {
-  const notRequiredPin = useState('not_required_pin')
+  const beforeSpinType = useState('before_spin_type')
   const notRequiredRadius = useState('not_required_radius')
 
   await checkSpinEligibility()
 
-  if (notRequiredPin.value) {
+  if (beforeSpinType.value) {
     const validPassword = useCookie('VALID_PASSWORD')
     validPassword.value = encryptData({ slug: route.params.randomCode })
   }
