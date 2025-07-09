@@ -63,7 +63,6 @@ const checkCaches = () => {
   const urlsToCache = [
     '/favicon.ico',
     '/images/sparkling.png',
-    '/images/green_base.png',
     '/images/gacha-aichi.png',
     '/images/warning.svg',
     '/images/close.svg',
@@ -116,10 +115,11 @@ onMounted(async () => {
         :src="settings.gacha.loading_screen.gif"
         class="w-[100px] h-[100px]"
       />
-      <img
+      <h3 class="ml-5 text-xl font-bold" :style="{ color: settings.gacha.loading_screen.text_color }">LOADING...</h3>
+      <!-- <img
         src="~/assets/images/loading.png"
         class="mt-6 ml-5 w-[126px] h-[24px]"
-      />
+      /> -->
     </div>
   </div>
 </template>

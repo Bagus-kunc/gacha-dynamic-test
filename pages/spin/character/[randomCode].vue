@@ -1,6 +1,6 @@
 <template>
   <div
-    class="relative flex flex-col items-center justify-center bg-center bg-cover grow"
+    class="relative flex flex-col items-center !bg-no-repeat justify-center !bg-center !bg-cover grow"
     :style="{ background: settings?.gacha?.spin_gacha_2_screen?.after_gacha_2_screen?.background?.type === 'image' ? `url(${settings?.gacha?.spin_gacha_2_screen?.after_gacha_2_screen?.background?.value})`
     : settings?.gacha?.spin_gacha_2_screen?.after_gacha_2_screen?.background?.value }"
     @touchmove="(e) => e.preventDefault()"

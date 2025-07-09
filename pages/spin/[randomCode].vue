@@ -5,7 +5,7 @@
     <HeaderBar withLogo />
 
     <div
-      class="relative flex flex-col bg-current bg-center grow"
+      class="relative flex flex-col !bg-no-repeat !bg-cover !bg-center grow"
       :style="{ background: settings?.gacha?.spin_gacha_1_screen?.before_gacha_1_screen?.background?.type === 'image' ? `url(${settings?.gacha?.spin_gacha_1_screen?.before_gacha_1_screen?.background?.value})` : settings?.gacha?.spin_gacha_1_screen?.before_gacha_1_screen?.background?.value }"
     >
       <div
