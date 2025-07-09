@@ -13,8 +13,6 @@ function changeLanguage(lang) {
   locale.value = lang
   LOCALE.value = lang
   emit('update:visible', false)
-  useState('reload', () => true)
-  window.location.reload()
 }
 
 const clickOutside = async (event) => {

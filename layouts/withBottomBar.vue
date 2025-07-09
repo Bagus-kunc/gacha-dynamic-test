@@ -1,7 +1,6 @@
 <template>
   <main
-    class="relative flex flex-col w-full h-full max-w-md mx-auto overflow-hidden bg-center bg-cover"
-    :style="{ background: settings?.user_dashboard?.my_account_settings?.background?.type === 'image' ? `url(${settings?.user_dashboard?.my_account_settings?.background?.value})` : settings?.user_dashboard?.my_account_settings?.background?.value }"
+    class="w-full max-w-md mx-auto h-full overflow-hidden bg-white flex flex-col relative bg-[url('/images/green_base.png')] bg-cover bg-center"
   >
     <HeaderBar :hasBack="hasBack">
       <p
@@ -14,7 +13,7 @@
 
     <slot name="header"></slot>
 
-    <section class="min-h-dvh max-h-[calc(100dvh-30px)] overflow-y-auto pb-28">
+    <section class="min-h-dvh max-h-[calc(100dvh-30px)] overflow-y-auto pb-32">
       <slot />
     </section>
     <BottomBar />
@@ -31,8 +30,6 @@ const title = ref(layoutCustomProps.title)
 
 const config = useRuntimeConfig()
 const { t } = useI18n()
-
-const settings = useState('settings')
 
 useHead({
   title: t('headTitle'),

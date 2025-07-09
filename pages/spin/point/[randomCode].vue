@@ -39,16 +39,17 @@
     <!-- <div class="absolute-10 top-1/2 translate-y-[80%]"></div> -->
     <div class="w-full absolute bottom-0 z-[1100]">
       <SolidButton
-        :label="$t('toTheNext')"
+        :label="settings.gacha.spin_gacha_1_screen?.after_gacha_1_screen.button_text"
         :on-click="() => handleButton()"
         has-bottom
-        variant="red-coral"
+        :bgColor="settings.gacha.spin_gacha_1_screen?.after_gacha_1_screen.button_and_text_color?.background"
+        :textColor="settings.gacha.spin_gacha_1_screen?.after_gacha_1_screen.button_and_text_color?.color"
       />
     </div>
 
     <AutoplayVideo
       v-if="playVideo"
-      src="/video/new-spin-character.mp4"
+      :src="settings.gacha.spin_gacha_2_screen.gacha_2_video"
       @ended="handleGoToCharacter"
     />
 
@@ -98,6 +99,8 @@ const popupImage = ref('')
 const pointCategoryIsFail = ref(false)
 const modalLogin = ref(false)
 const showPointOnly = ref(false)
+
+const settings = useState('settings')
 
 const { t } = useI18n()
 
@@ -342,7 +345,6 @@ const fetchImageFromApi = async () => {
       USER.value = null
       fetchImageFromApi()
     }
-    console.error('Unexpected error:', e)
   }
 }
 const reportMultipleSpin = async ({ gift_id, character_id, location_id }) => {

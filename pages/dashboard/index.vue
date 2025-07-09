@@ -4,37 +4,31 @@
       style="text-shadow: 0 3px 3px rgba(0, 0, 0, 0.16)"
       class="text-exd-gray-scorpion font-bold text-exd-1824.52"
     >
-      {{ settings?.user_dashboard?.my_account_settings?.page_title }}
+      {{ $t('myPage') }}
     </p>
   </HeaderBar>
   <div class="flex flex-col px-8 mt-[35%] sm:mt-[30%]">
-    <div v-if="!hidePoint" class="flex flex-col items-center">
+    <!-- <div class="flex flex-col mt-[35%] items-center">
       <div class="flex flex-col mt-[5%] items-center">
         <p class="font-bold text-white text-exd-1530">
           {{ $t('currentPoints') }}
         </p>
-        <Skeleton v-if="!store.point" class="!w-32 !h-12 bg-white mb-[50%]" />
-        <p v-else class="relative font-bold text-white text-exd-56112 -top-9">
+        <p class="relative font-bold text-white text-exd-56112 -top-9">
           {{ store.point }}<span class="ml-1 text-exd-1530">pt</span>
         </p>
       </div>
-    </div>
+    </div> -->
 
     <div
       class="relative inline-flex flex-col items-center justify-center gap-5"
     >
       <div
         class="flex items-center justify-center w-full p-6 bg-white cursor-pointer rounded-xl h-exd-130"
-        :style="{
-          boxShadow: '0px 3px 3px 0px rgba(0, 0, 0, 0.1608)',
-          background: settings.user_dashboard.prize_collections.background.type === 'color'
-            ? settings?.user_dashboard?.prize_collections?.background.value
-            : `url(${settings?.user_dashboard?.prize_collections?.background.value})`
-        }"
+        style="box-shadow: 0px 3px 3px 0px rgba(0, 0, 0, 0.1608)"
         @click="handleGoToPrize"
       >
         <img
-          :src="settings?.user_dashboard?.prize_collections?.icon"
+          :src="iconStar"
           alt="icon-gift"
           width="60"
           height="60"
@@ -42,22 +36,17 @@
           class="text-center cursor-pointer"
         />
         <p class="font-bold text-center text-exd-gray-scorpion text-exd-1424">
-          {{ settings?.user_dashboard?.prize_collections?.page_title }}
+          {{ $t('prizeListEntry') }}
         </p>
       </div>
 
       <div
         class="flex items-center justify-center w-full p-6 bg-white cursor-pointer rounded-xl h-exd-130"
-        :style="{
-          boxShadow: '0px 3px 3px 0px rgba(0, 0, 0, 0.1608)',
-          background: settings.user_dashboard.gacha_collections.background.type === 'color'
-            ? settings?.user_dashboard?.gacha_collections?.background.value
-            : `url(${settings?.user_dashboard?.gacha_collections?.background.value})`
-        }"
+        style="box-shadow: 0px 3px 3px 0px rgba(0, 0, 0, 0.1608)"
         @click="handleGoToHistory"
       >
         <img
-          :src="settings?.user_dashboard?.gacha_collections?.icon"
+          :src="collection"
           alt="icon-gift"
           width="60"
           height="60"
@@ -65,32 +54,92 @@
           class="text-center cursor-pointer"
         />
         <p class="font-bold text-center text-exd-gray-scorpion text-exd-1424">
-          {{ settings?.user_dashboard?.gacha_collections?.page_title }}
+          {{ $t('collection') }}
         </p>
       </div>
     </div>
     <div class="relative w-full">
-      
-      <div v-for="(item, index) in subMenus" :key="index">
-        <div
-          v-if="item.text"
-          class="inline-flex items-center justify-between w-full px-5 bg-white border-b-2 cursor-pointer h-exd-50 border-b-exd-light-grey"
-          :class="{
-            'rounded-tl-xl rounded-tr-xl mt-5': index === 0,
-            'rounded-bl-xl rounded-br-xl': index === subMenus.length - 1
-          }"
-          @click="handleSubMenuClick(item)"
-        >
-          <p class="inline-flex items-center gap-1 font-bold text-exd-gray-scorpion grow text-exd-1424">
-            {{ item.text }}
-            <span v-if="item.url">
-              <img :src="exportIcon" alt="export" width="20" height="20" preload />
-            </span>
-          </p>
-          <img :src="arrow" alt="arrow" width="12" height="12" preload class="invert" />
-        </div>
+      <div
+        class="inline-flex items-center justify-between w-full px-5 mt-5 bg-white border-b-2 cursor-pointer h-exd-50 rounded-tl-xl rounded-tr-xl border-b-exd-light-grey"
+        style="box-shadow: 0px 3px 3px 0px rgba(0, 0, 0, 0.1608)"
+        @click="profile"
+      >
+        <p class="font-bold text-exd-gray-scorpion grow text-exd-1424">
+          {{ $t('membershipInformation') }}
+        </p>
+        <img
+          :src="arrow"
+          alt="arrow"
+          width="12"
+          height="12"
+          preload
+          class="invert"
+        />
       </div>
 
+      <div
+        class="inline-flex items-center justify-between w-full px-5 bg-white border-b-2 cursor-pointer h-exd-50 border-b-exd-light-grey"
+        style="box-shadow: 0px 3px 3px 0px rgba(0, 0, 0, 0.1608)"
+        @click="handleGoToCampaignSite()"
+      >
+        <p
+          class="inline-flex items-center gap-1 font-bold text-exd-gray-scorpion grow text-exd-1424"
+        >
+          {{ $t('campaignSite') }}
+          <span>
+            <img :src="exportIcon" alt="export" width="20" height="20" preload
+          /></span>
+        </p>
+        <img
+          :src="arrow"
+          alt="arrow"
+          width="12"
+          height="12"
+          preload
+          class="invert"
+        />
+      </div>
+      <div
+        class="inline-flex items-center justify-between w-full px-5 bg-white border-b-2 h-exd-50 border-b-exd-light-grey"
+        style="box-shadow: 0px 3px 3px 0px rgba(0, 0, 0, 0.1608)"
+        @click="handleGoToHelp()"
+      >
+        <p
+          class="inline-flex items-center gap-1 font-bold cursor-pointer text-exd-gray-scorpion grow text-exd-1424"
+        >
+          {{ $t('helpAndInquiries') }}
+          <span>
+            <img :src="exportIcon" alt="export" width="20" height="20" preload
+          /></span>
+        </p>
+        <img
+          :src="arrow"
+          alt="arrow"
+          width="12"
+          height="12"
+          preload
+          class="invert"
+        />
+      </div>
+      <div
+        class="inline-flex items-center justify-between w-full px-5 bg-white cursor-pointer h-exd-50 rounded-bl-xl rounded-br-xl"
+        style="box-shadow: 0px 3px 3px 0px rgba(0, 0, 0, 0.1608)"
+        @click="logout"
+      >
+        <p
+          class="inline-flex items-center gap-1 font-bold text-exd-gray-scorpion grow text-exd-1424"
+        >
+          {{ $t('logout') }}
+        </p>
+        <img
+          :src="arrow"
+          alt="arrow"
+          width="12"
+          height="12"
+          preload
+          class="invert"
+        />
+      </div>
     </div>
 
     <div
@@ -111,8 +160,8 @@
         class=""
       >
         <SwiperSlide v-for="(item, index) in bannerList" :key="index" class="!items-start">
-          <a :href="item.banner_url" target="_blank" class="w-full">
-            <img :src="item.banner_image" />
+          <a :href="item.link" target="_blank" class="w-full">
+            <img :src="item.image" />
           </a>
         </SwiperSlide>
       </Swiper>
@@ -185,8 +234,12 @@ definePageMeta({
 const handleGoToHistory = () => router.push('/history')
 const handleGoToPrize = () => router.push('/prize')
 const profile = () => router.push('/profile')
-
-const settings = useState('settings')
+const handleGoToHelp = () => {
+  window.open('/manual', '_blank')
+}
+const handleGoToCampaignSite = () => {
+  window.open('https://aichi-gurutto.dela-kuji.site', '_blank')
+}
 
 const TOKEN = useCookie('TOKEN')
 const USER = useCookie('USER')
@@ -195,50 +248,7 @@ const VALID_PASSWORD = useCookie('VALID_PASSWORD')
 const isNotAllowed = ref(false)
 const errorMessages = ref('')
 const redirectLink = ref('')
-const hidePoint = ref(false)
 const { t } = useI18n()
-
-const subMenus = computed(() => {
-  const menu = settings.value?.user_dashboard?.my_account_settings
-  return [
-    menu?.sub_menu_1,
-    menu?.sub_menu_2,
-    menu?.sub_menu_3,
-    menu?.sub_menu_4,
-  ].filter(Boolean)
-})
-
-const handleSubMenuClick = (item) => {
-  const text = (item?.text || '').toLowerCase()
-
-  const matchTexts = [
-    'membership information', // EN
-    '会員情報',                 // JA
-    '회원 정보',                 // KO
-    'informasi member',       // ID 
-    '会员信息',                 // CH
-    '會員資訊'                  // TW
-  ]
-
-  const matchLogoutTexts = [
-    'logout',                 // EN
-    'ログアウト',               // JA
-    '로그아웃',                 // KO
-    'keluar',                 // ID 
-    '登出',                   // CH
-    '登出'                    // TW
-  ]
-
-  if (matchTexts.includes(text)) {
-    profile()
-  } else if (matchLogoutTexts.includes(text)) {
-    logout()
-  } else if (item?.url) {
-    item.url.startsWith('http')
-      ? window.open(item.url, '_blank')
-      : router.push(item.url)
-  }
-}
 
 const handleClose = () => {
   isNotAllowed.value = false
@@ -375,7 +385,10 @@ const goToSpin = async (url) => {
   return await navigateTo(url)
 }
 
-const bannerList = ref(settings.value?.user_dashboard?.my_account_settings?.banners)
+const bannerList = ref([
+  { image: banner, link: 'https://aichi-platform.com' },
+  { image: banner1, link: 'https://aichiexpo20th.org/' },
+])
 
 onMounted(() => {
   checkSpinEligibility()

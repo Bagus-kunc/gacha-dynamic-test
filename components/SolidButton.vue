@@ -8,7 +8,7 @@
         variant === 'skip' ? '!p-2' : '!py-4 !px-6',
         bottomClass,
         disabled ? '!cursor-not-allowed' : '!cursor-pointer',
-        '!w-full !uppercase !font-bold sm:!text-exd-1424 !text-exd-1218 !rounded-full text-white !relative',
+        '!w-full !uppercase !font-bold !text-exd-1424 !rounded-full text-white !relative',
       ]"
       raised
       @click="handleClick"
@@ -107,12 +107,4 @@ const bottomClass = computed(() => {
 const handleClick = (event) => {
   props.onClick && props.onClick(event)
 }
-
-const reload = useState('reload')
-
-watchEffect(() => {
-  if (reload.value) {
-    window.location.reload()
-  }
-})
 </script>
