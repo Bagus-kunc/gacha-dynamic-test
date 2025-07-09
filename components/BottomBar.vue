@@ -25,7 +25,7 @@
       </div>
 
       <div
-        class="inline-flex flex-row ml-[24%] justify-around w-full pt-4 sm:pt-2"
+        class="inline-flex flex-row ml-[27%] sm:ml-[24%] justify-around w-full pt-4 sm:pt-2"
       >
       <BottomBarMenuIcon
         v-for="(item, index) in dynamicItems"
@@ -77,24 +77,31 @@ const menuItems = ref([
 const dynamicItems = ref([])
 
 const handleItems = () => {
-  if (settings.value.user_dashboard.footers) {
-    const items = settings.value.user_dashboard.footers.menus
-    dynamicItems.value = items.map((item) => ({
+  const footers = settings.value?.user_dashboard?.footers;
+  if (!footers) return;
+
+  const items = footers.menus || [];
+
+  dynamicItems.value = items.map((item) => {
+    const isExternal = item.link_type === 'external';
+    const label = item.footer_title_name?.value || '';
+
+    return {
       icon: item.icon_image,
-      label: item.footer_title_name_translation_key_id,
-      onClick:
-        item.link_type === 'external'
-          ? () => window.open(item.external_url, '_blank')
-          : () => {
-              const matched = menuItems.value.find(
-                (menu) =>
-                  menu.label === item.footer_title_name_translation_key_id
-              )
-              if (matched) matched.onClick()
-            },
-    }))
-  }
-}
+      label,
+      onClick: isExternal
+        ? () => window.open(item.external_url, '_blank')
+        : () => {
+            const matched = menuItems.value.find(
+              (menu) => menu.label === label
+            );
+            if (matched && typeof matched.onClick === 'function') {
+              matched.onClick();
+            }
+          },
+    };
+  });
+};
 
 onMounted(() => {
   store.fetchingDashboardData()
