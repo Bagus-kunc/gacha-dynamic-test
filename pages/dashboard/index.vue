@@ -8,7 +8,7 @@
     </p>
   </HeaderBar>
   <div class="flex flex-col px-8 mt-[35%] sm:mt-[30%]">
-    <!-- <div class="flex flex-col mt-[35%] items-center">
+    <div v-if="!hidePoint" class="flex flex-col items-center">
       <div class="flex flex-col mt-[5%] items-center">
         <p class="font-bold text-white text-exd-1530">
           {{ $t('currentPoints') }}
@@ -17,7 +17,7 @@
           {{ store.point }}<span class="ml-1 text-exd-1530">pt</span>
         </p>
       </div>
-    </div> -->
+    </div>
 
     <div
       class="relative inline-flex flex-col items-center justify-center gap-5"
@@ -194,6 +194,7 @@ const VALID_PASSWORD = useCookie('VALID_PASSWORD')
 const isNotAllowed = ref(false)
 const errorMessages = ref('')
 const redirectLink = ref('')
+const hidePoint = ref(false)
 const { t } = useI18n()
 
 const subMenus = computed(() => {

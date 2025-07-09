@@ -14,7 +14,7 @@
 
     <slot name="header"></slot>
 
-    <section class="min-h-dvh max-h-[calc(100dvh-30px)] overflow-y-auto pb-32">
+    <section class="min-h-dvh max-h-[calc(100dvh-30px)] overflow-y-auto pb-28">
       <slot />
     </section>
     <BottomBar />
