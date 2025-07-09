@@ -1,6 +1,8 @@
 <template>
   <div
-    class="grow bg-[url('/images/bg-rainbow.png')] bg-cover bg-center relative flex flex-col justify-center items-center"
+    class="relative flex flex-col items-center !bg-no-repeat justify-center !bg-center !bg-cover grow"
+    :style="{ background: settings?.gacha?.spin_gacha_2_screen?.after_gacha_2_screen?.background?.type === 'image' ? `url(${settings?.gacha?.spin_gacha_2_screen?.after_gacha_2_screen?.background?.value})`
+    : settings?.gacha?.spin_gacha_2_screen?.after_gacha_2_screen?.background?.value }"
     @touchmove="(e) => e.preventDefault()"
   >
     <Button
@@ -62,9 +64,10 @@
 
     <div class="absolute bottom-0 w-full">
       <SolidButton
-        :label="$t('toTheNext')"
         :on-click="handleButton"
-        variant="red-coral"
+        :label="settings.gacha.spin_gacha_2_screen?.after_gacha_2_screen.button_text"
+        :bgColor="settings.gacha.spin_gacha_2_screen?.after_gacha_2_screen.button_and_text_color?.background"
+        :textColor="settings.gacha.spin_gacha_2_screen?.after_gacha_2_screen.button_and_text_color?.color"
         has-bottom
       />
     </div>
@@ -122,7 +125,7 @@
   <Transition name="fade-slide" mode="out-in">
     <div
       v-if="opIntro"
-      class="with-scroll fixed z-40 transform -translate-x-1/2 -translate-y-1/2 rounded-lg shadow w-[88.889vw] sm:w-[350px] bg-white/90 sm:bottom-[17%] bottom-[13%] left-1/2"
+      class="with-scroll fixed z-40 transform -translate-x-1/2 -translate-y-[78%] rounded-lg shadow w-[88.889vw] sm:w-[350px] bg-white/90 sm:bottom-[17%] bottom-[10%] left-1/2"
     >
       <div
         class="flex flex-col gap-2 p-5 max-h-[250px] overflow-y-auto scrollbar-thin scrollbar-thumb-exd-gray-scorpion scrollbar-track-transparent"
@@ -219,6 +222,8 @@ const popupLink = ref('')
 const popupDescription = ref('')
 const popupImage = ref('')
 const pointCategoryIsFail = ref(false)
+
+const settings = useState('settings')
 
 const handleClose = () => (isNotAllowed.value = false)
 const handleShowDialog = () => (hasModal.value = true)
@@ -399,7 +404,7 @@ onMounted(() => {
 .fade-slide-leave-active {
   transition: all 0.3s ease;
   opacity: 1;
-  transform: translate(-50%, -50%) scale(1);
+  transform: translate(-50%, -78%) scale(1);
 }
 
 .fade-slide-enter-from,
