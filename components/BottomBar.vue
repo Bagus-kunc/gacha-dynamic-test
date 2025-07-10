@@ -21,7 +21,7 @@
         class="inline-flex flex-row justify-around w-full ml-[28%] pt-2"
       >
         <BottomBarMenuIcon
-          v-for="(item, index) in menuItems"
+          v-for="(item, index) in dynamicItems"
           :key="index"
           :icon="item.icon"
           :label="item.label"
@@ -41,6 +41,7 @@ import { store } from '~/stores/dashboard.js'
 import { useRouter } from 'vue-router'
 
 const router = useRouter()
+const settings = useState('settings')
 
 const menuItems = ref([
   {
@@ -78,6 +79,8 @@ const handleItems = () => {
     const label = item.footer_title_name?.value || '';
     const key = item.footer_title_name?.key;
 
+    console.log(item)
+
     const onClick = () => {
       if (isExternal) {
         window.open(item.external_url, '_blank');
@@ -103,5 +106,6 @@ const handleItems = () => {
 
 onMounted(() => {
   store.fetchingDashboardData()
+  handleItems()
 })
 </script>
