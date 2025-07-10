@@ -67,16 +67,14 @@
           </p> -->
         </div>
         <SolidButton
+          :label="$t('newMemberRegistration')"
           :on-click="handleToRegister"
-          :label="settings?.register_login?.new_member_registration?.button_text"
-          :bgColor="settings?.register_login?.new_member_registration?.button_text_color.background"
-          :textColor="settings?.register_login?.new_member_registration?.button_text_color.color"
+          variant="red-coral"
         />
         <SolidButton
+          :label="$t('loginToMyPage')"
           :on-click="handleToLogin"
-          :label="settings?.register_login?.login?.button_text"
-          :bgColor="settings?.register_login?.login?.button_text_color.background"
-          :textColor="settings?.register_login?.login?.button_text_color.color"
+          variant="green"
         />
       </div>
     </template>

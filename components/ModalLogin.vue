@@ -48,17 +48,15 @@
         </a>
         
         <SolidButton
+          :label="$t('login')"
           :onClick="handleSubmit"
-          :label="settings?.register_login?.login?.button_text"
-          :bgColor="settings?.register_login?.login?.button_text_color.background"
-          :textColor="settings?.register_login?.login?.button_text_color.color"
+          variant="red-coral"
           :disabled="!isValidInput || isLoading"
           :has-loading="isLoading"
         />
         <SolidButton
-          :label="settings?.register_login?.new_member_registration?.button_text"
-          :bgColor="settings?.register_login?.new_member_registration?.button_text_color.background"
-          :textColor="settings?.register_login?.new_member_registration?.button_text_color.color"
+          :label="$t('newMemberRegistration')"
+          variant="green"
           :onClick="handleToRegister"
         />
       </div>
