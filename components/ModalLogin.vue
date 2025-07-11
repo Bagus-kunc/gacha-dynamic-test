@@ -66,7 +66,10 @@
   <Dialog
     v-model:visible="isErrorMessage"
     modal
-    class="!bg-white !w-11/12 !max-w-sm border border-exd-gray-44"
+    class=" !w-11/12 !max-w-sm border border-exd-gray-44"
+    :style="{
+          background: settings?.global?.modal?.background_color
+    }"
   >
     <template #container>
       <img
@@ -83,7 +86,10 @@
         <div class="w-10/12 text-center">
           <p
             v-for="(item, index) in errorMessages"
-            class="font-bold text-exd-1424 text-exd-gray-scorpion"
+            class="font-bold text-exd-1424"
+            :style="{
+              color: settings?.global?.modal?.text_color
+            }"
             :key="index"
           >
             {{ item }}
@@ -221,7 +227,7 @@ const handleSubmit = async () => {
 
   } catch (error) {
 
-    console.log("Error: Can't login", error)
+    // console.log("Error: Can't login", error)
 
     const { errors, message } = error._data || {}
 
@@ -271,7 +277,7 @@ const saveSpin = async () => {
     sessionStorage.setItem('IS_QUOTA_AVAILABLE', data?.is_quota_available)
     sessionStorage.setItem('LOCATION_SLUG', data?.location_slug)
   } catch (error) {
-    console.log("Error: Can't save spin result")
+    // console.log("Error: Can't save spin result")
 
     throw error
   }
