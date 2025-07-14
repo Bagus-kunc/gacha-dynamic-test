@@ -1,9 +1,6 @@
 <template>
   <div
-    class="fixed bottom-0 left-0 right-0 z-50 w-full h-16 max-w-md mx-auto"
-    :style="{
-      background: settings?.global?.global_header_footer_color
-    }"
+    class="fixed bottom-0 left-0 right-0 z-50 w-full h-16 max-w-md mx-auto bg-white"
   >
     <div class="inline-flex w-full gap-3">
       <div
