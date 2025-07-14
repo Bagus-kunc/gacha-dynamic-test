@@ -8,7 +8,7 @@
       >
         <IconsBackgroundPointRounded :style="{color: settings.user_dashboard?.footers?.point_background_color?.background}" />
         <p
-          class="absolute top-2 text-white text-[10px] font-bold -ml-3 text-center whitespace-pre-line mt-9"
+          class="absolute top-2 text-white text-[11px] font-bold -ml-3 text-center whitespace-pre-line mt-9"
           :style="{color: settings.user_dashboard?.footers?.point_background_color?.color}"
         >
           {{ $t('currentPoints') }}
@@ -25,15 +25,15 @@
       </div>
 
       <div
-        class="inline-flex flex-row justify-around w-full ml-[28%] pt-2"
+        class="inline-flex flex-row ml-[27%] sm:ml-[24%] justify-around w-full pt-4 sm:pt-2"
       >
-        <BottomBarMenuIcon
-          v-for="(item, index) in dynamicItems"
-          :key="index"
-          :icon="item.icon"
-          :label="item.label"
-          :on-click="item.onClick"
-        />
+      <BottomBarMenuIcon
+        v-for="(item, index) in dynamicItems"
+        :key="index"
+        :icon="item.icon"
+        :label="item.label"
+        :on-click="item.onClick"
+      />
       </div>
     </div>
   </div>
@@ -49,6 +49,29 @@ import { useRouter } from 'vue-router'
 
 const router = useRouter()
 const settings = useState('settings')
+
+const menuItems = ref([
+  {
+    icon: iconStar,
+    label: 'listOfPrizesAndExchanges',
+    onClick: () => router.push('/prize'),
+  },
+  {
+    icon: collection,
+    label: 'collection',
+    onClick: () => router.push('/history'),
+  },
+  {
+    icon: iconPin,
+    label: 'targetSpot',
+    onClick: () => window.open('https://aichi-platform.com', '_blank'),
+  },
+  {
+    icon: iconPerson,
+    label: 'myPage',
+    onClick: () => router.push('/dashboard'),
+  },
+])
 
 const dynamicItems = ref([])
 
