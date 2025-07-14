@@ -79,8 +79,6 @@ const handleItems = () => {
     const label = item.footer_title_name?.value || '';
     const key = item.footer_title_name?.key;
 
-    console.log(item)
-
     const onClick = () => {
       if (isExternal) {
         window.open(item.external_url, '_blank');
