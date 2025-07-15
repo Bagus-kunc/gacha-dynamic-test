@@ -21,7 +21,7 @@
     </div>
 
     <div
-      class="relative inline-flex flex-col items-center justify-center gap-5"
+      class="relative inline-flex flex-col items-center justify-center gap-5 mb-5"
     >
       <div
         class="flex items-center justify-center w-full p-6 bg-white cursor-pointer rounded-xl h-exd-130"
@@ -70,13 +70,12 @@
       </div>
     </div>
     <div class="relative w-full">
-      
       <div v-for="(item, index) in subMenus" :key="index">
         <div
           v-if="item.text"
           class="inline-flex items-center justify-between w-full px-5 bg-white border-b-2 cursor-pointer h-exd-50 border-b-exd-light-grey"
           :class="{
-            'rounded-tl-xl rounded-tr-xl mt-5': index === 0,
+            'rounded-tl-xl rounded-tr-xl': index === 0,
             'rounded-bl-xl rounded-br-xl': index === subMenus.length - 1
           }"
           @click="handleSubMenuClick(item)"
@@ -201,9 +200,9 @@ const { t } = useI18n()
 const subMenus = computed(() => {
   const menu = settings.value?.user_dashboard?.my_account_settings
   return [
+    menu?.sub_menu_3,
     menu?.sub_menu_1,
     menu?.sub_menu_2,
-    menu?.sub_menu_3,
     menu?.sub_menu_4,
   ].filter(Boolean)
 })

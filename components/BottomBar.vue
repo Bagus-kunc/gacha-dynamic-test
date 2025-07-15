@@ -4,29 +4,36 @@
   >
     <div class="inline-flex w-full gap-3">
       <div
-        class="absolute -top-[40px] bg-[url('assets/images/point-navbar.png')] bg-cover bg-center w-[110px] md:w-[130px] h-[115px] flex flex-col justify-center items-center"
+        class="absolute -top-[40px] flex flex-col justify-center items-center"
       >
+        <IconsBackgroundPointRounded :style="{color: settings.user_dashboard?.footers?.point_background_color?.background}" />
         <p
-          class="text-white text-[11px] font-bold -ml-3 text-center whitespace-pre-line mt-9"
+          class="absolute top-2 text-white text-[11px] font-bold -ml-3 text-center whitespace-pre-line mt-9"
+          :style="{color: settings.user_dashboard?.footers?.point_background_color?.color}"
         >
           {{ $t('currentPoints') }}
         </p>
-        <Skeleton v-if="!store.point" class="!h-5 mt-2 bg-white !w-20 mr-4"/>
-        <p v-else class="relative -ml-3 font-bold text-white text-[30px] -top-1">
-          {{ store.point }}<span class="text-exd-1020">pt</span>
-        </p>
+        <div class="absolute -ml-3 bottom-2">
+          <Skeleton v-if="!store.point" class="!w-20 !h-7 bg-white mb-[6px]"/>
+          <p v-else 
+          class="font-bold text-white text-[25px]"
+          :style="{color: settings.user_dashboard?.footers?.point_background_color?.color}"
+          >
+            {{ store.point }}<span class="text-exd-1020">pt</span>
+          </p>
+        </div>
       </div>
 
       <div
-        class="inline-flex flex-row justify-around w-full ml-[28%] pt-2"
+        class="inline-flex flex-row ml-[27%] sm:ml-[24%] justify-around w-full pt-4 sm:pt-2"
       >
-        <BottomBarMenuIcon
-          v-for="(item, index) in dynamicItems"
-          :key="index"
-          :icon="item.icon"
-          :label="item.label"
-          :on-click="item.onClick"
-        />
+      <BottomBarMenuIcon
+        v-for="(item, index) in dynamicItems"
+        :key="index"
+        :icon="item.icon"
+        :label="item.label"
+        :on-click="item.onClick"
+      />
       </div>
     </div>
   </div>
