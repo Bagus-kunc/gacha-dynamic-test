@@ -2,7 +2,10 @@
   <Dialog
     :visible="isOpen"
     modal
-    class="!bg-white !w-exd-300 !max-w-sm border border-exd-gray-44 rounded-xl"
+    class="!w-exd-300 !max-w-sm border border-exd-gray-44 rounded-xl"
+    :style="{
+      background: settings?.global?.modal?.background_color
+    }"
     @update:visible="$emit('isOpen', $event)"
   >
     <template #container>
@@ -13,10 +16,15 @@
         width="30"
         height="30"
         preload
-        class="absolute right-1 top-1 cursor-pointer z-50"
+        class="absolute z-50 cursor-pointer right-1 top-1"
         @click="() => handleClose()"
       />
-      <div class="w-full h-full">
+      <div 
+        class="w-full h-full" 
+        :style="{
+          background: settings?.global?.modal?.text_color
+        }"
+      >
         <slot name="body" />
       </div>
     </template>
@@ -42,6 +50,7 @@ const props = defineProps({
   },
 })
 
+const settings = useState('settings')
 const emit = defineEmits(['update:isOpen'])
 
 const handleClose = () => {

@@ -3,9 +3,15 @@
     <template v-slot:body>
       <div
         class="flex flex-col items-center justify-end w-full gap-8 mt-2 h-exd-200"
+        :style="{
+          background: settings?.global?.modal?.background_color
+        }"
       >
         <p
-          class="p-5 font-bold text-center text-exd-1424 text-exd-gray-scorpion"
+          class="p-5 font-bold text-center text-exd-1424"
+          :style="{
+            color: settings?.global?.modal?.text_color
+          }"
         >
           {{ modalTitle }}
         </p>

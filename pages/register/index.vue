@@ -439,7 +439,10 @@
   <Dialog
     v-model:visible="isErrorMessage"
     modal
-    class="!bg-white !w-11/12 !max-w-sm border border-exd-gray-44"
+    class="!w-11/12 !max-w-sm border border-exd-gray-44"
+    :style="{
+          background: settings?.global?.modal?.background_color
+    }"
   >
     <template #container>
       <img
@@ -457,7 +460,10 @@
           <p
             v-for="(item, index) in errorScroll"
             :key="index"
-            class="font-bold text-exd-1424 text-exd-gray-scorpion"
+            class="font-bold text-exd-1424"
+            :style="{
+              color: settings?.global?.modal?.text_color
+            }"
           >
             {{ item }}
           </p>
