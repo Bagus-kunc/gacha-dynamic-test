@@ -12,7 +12,7 @@
         class="grow w-full flex flex-col items-center justify-center relative mb-4 mt-[15%]"
       >
         <img
-          src="/images/gacha-aichi.png"
+          :src="settings?.global?.gacha_machine_image"
           alt="gacha2"
           class="absolute left-1/2 top-[57%] sm:top-[53%] transform -translate-x-1/2 -translate-y-[47%] w-full h-auto max-h-[85%] sm:max-h-[90%] object-contain"
           preload
