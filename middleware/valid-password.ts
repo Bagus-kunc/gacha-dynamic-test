@@ -40,7 +40,7 @@ export default defineNuxtRouteMiddleware(async (to, from) => {
 
   if (data && data.before_spin_type === 3 && validSlug?.slug !== randomCode) {
     return navigateTo({
-      path: `/spin/${randomCode}`,
+      path: `/quiz/${randomCode}`,
     })
   }
 })
