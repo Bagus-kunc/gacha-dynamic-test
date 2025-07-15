@@ -43,29 +43,6 @@ import { useRouter } from 'vue-router'
 const router = useRouter()
 const settings = useState('settings')
 
-const menuItems = ref([
-  {
-    icon: iconStar,
-    label: 'listOfPrizesAndExchanges',
-    onClick: () => router.push('/prize'),
-  },
-  {
-    icon: collection,
-    label: 'collection',
-    onClick: () => router.push('/history'),
-  },
-  {
-    icon: iconPin,
-    label: 'targetSpot',
-    onClick: () => window.open('https://aichi-platform.com', '_blank'),
-  },
-  {
-    icon: iconPerson,
-    label: 'myPage',
-    onClick: () => router.push('/dashboard'),
-  },
-])
-
 const dynamicItems = ref([])
 
 const handleItems = () => {
@@ -78,8 +55,6 @@ const handleItems = () => {
     const isExternal = item.link_type === 'external';
     const label = item.footer_title_name?.value || '';
     const key = item.footer_title_name?.key;
-
-    console.log(item)
 
     const onClick = () => {
       if (isExternal) {

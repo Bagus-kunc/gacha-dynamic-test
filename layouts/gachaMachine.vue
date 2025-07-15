@@ -1,6 +1,6 @@
 <template>
   <main
-    class="w-full max-w-md mx-auto h-full overflow-hidden bg-white flex flex-col relative"
+    class="relative flex flex-col w-full h-full max-w-md mx-auto overflow-hidden bg-white"
   >
     <slot />
   </main>
@@ -10,23 +10,24 @@ import { useI18n } from 'vue-i18n'
 
 const config = useRuntimeConfig()
 const { t } = useI18n()
+const settings = useState('settings')
 
 useHead({
-  title: t('headTitle'),
+  title: settings.value?.global?.ogp?.title,
   meta: [
-    { name: 'description', content: config.public.META_TITLE },
+    { name: 'description', content: settings.value?.global?.ogp?.title },
     // Facebook
-    { name: 'og:title', content: config.public.META_TITLE },
-    { name: 'og:description', content: config.public.META_DESCRIPTION },
-    { name: 'og:image', content: config.public.META_IMAGE },
+    { name: 'og:title', content: settings.value?.global?.ogp?.title },
+    { name: 'og:description', content: settings.value?.global?.ogp?.description },
+    { name: 'og:image', content: settings.value?.global?.ogp?.image },
     { name: 'og:url', content: config.public.META_URL },
     { name: 'og:type', content: 'Website' },
     { name: 'og:image:width', content: '1200' },
     { name: 'og:image:height', content: '630' },
     // twitter
-    { name: 'twitter:title', content: config.public.META_TITLE },
-    { name: 'twitter:description', content: config.public.META_DESCRIPTION },
-    { name: 'twitter:image', content: config.public.META_IMAGE },
+    { name: 'twitter:title', content: settings.value?.global?.ogp?.title },
+    { name: 'twitter:description', content: settings.value?.global?.ogp?.description },
+    { name: 'twitter:image', content: settings.value?.global?.ogp?.image },
     { name: 'twitter:card', content: 'summary_large_image' },
     { name: 'twitter:image:width', content: '1200' },
     { name: 'twitter:image:height', content: '630' },
