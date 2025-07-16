@@ -461,7 +461,7 @@ definePageMeta({
       return navigateTo(`/spin/${location}`)
     }
     if (data && data.before_spin_type === 3) {
-      return navigateTo(`/spin/${location}`)
+      return navigateTo(`/quiz/${location}`)
     }
   },
 })

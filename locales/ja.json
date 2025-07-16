@@ -343,5 +343,7 @@
   "descCharacter": "ポイントと同時に、モリゾー・キッコロが出ます。獲得したキャラクターは、マイページから確認できます。",
   "normalMorizzoAndKiccoro": "通常のモリゾー・キッコロ",
   "localMorizzoAndKiccoro": "ゲームをプレイした各市町村の ご当地モリゾー・キッコロ",
-  "aniversaryMorizzoAndKiccoro": "愛・地球博20祭 モリゾー・キッコロ"
+  "aniversaryMorizzoAndKiccoro": "愛・地球博20祭 モリゾー・キッコロ",
+  "quiz": "クイズ",
+  "answer": "答え（ひらがな）"
 }
