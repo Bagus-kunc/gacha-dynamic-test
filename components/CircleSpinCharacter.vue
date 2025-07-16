@@ -2,9 +2,6 @@
 const props = defineProps(['imageSrc', 'raritySrc', 'headSrc', 'hideCharacterInfo', 'charTitleImage'])
 
 const rarityImg = ref('')
-const hideCharacterInfo = ref(false)
-const heightRarity = ref('')
-const widthRarity = ref('')
 const charTitleImage = ref('')
 
 const rarityImage = reactive({
@@ -19,18 +16,8 @@ const handleRarity = () => {
   charTitleImage.value = props.charTitleImage
 }
 
-const handleHeightRarity = () => {
-  if (props.hideCharacterInfo) {
-    heightRarity.value = '58.83%'
-  } else {
-    heightRarity.value = '56%'
-    widthRarity.value = '55%'
-  }
-}
-
 watchEffect(() => {
   handleRarity()
-  handleHeightRarity()
 })
 
 onMounted(() => {
