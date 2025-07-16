@@ -83,7 +83,7 @@
           <p class="inline-flex items-center gap-1 font-bold text-exd-gray-scorpion grow text-exd-1424">
             {{ item.text }}
             <span v-if="item.url">
-                <IconsExport class="text-[var(--global)] w-5 h-5" />
+                <IconsExport class="w-5 h-5 text-exd-gray-scorpion" />
             </span>
           </p>
           <img :src="arrow" alt="arrow" width="12" height="12" preload class="invert" />
