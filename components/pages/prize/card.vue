@@ -3,20 +3,9 @@
     class="max-w-sm overflow-hidden rounded-xl"
     v-if="body.length > 0"
   >
-    <div v-if="headColor && keyBody.includes('pt')"
+    <div v-if="headColor && keyBody"
     :style="{ backgroundColor: headColor }" :class="`flex justify-between w-full px-2 py-1 min-h-6`">
-      <template v-if="!isFetching">
-        <i18n-t
-          keypath="availablePoints"
-          tag="div"
-          scope="global"
-          class="font-bold text-white text-exd-1624"
-        >
-          <template v-slot:points>
-            <span class=""> {{ $t(keyBody) }}</span>
-          </template>
-        </i18n-t>
-      </template>
+      <p class="font-bold text-white text-exd-1624">{{ keyBody }}</p>
     </div>
     <template v-if="!isFetching">
       <ImageTextCard
