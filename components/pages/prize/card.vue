@@ -25,7 +25,10 @@
                 {{ item.name }}
               </p>
               <p
-                class="text-exd-red-500 text-[10px] sm:text-[12px] font-medium"
+                class="text-[10px] sm:text-[12px] font-medium"
+                :style="{
+                  color: settings?.global?.text_colors?.secondary
+                }"
               >
                 {{ $t('applicationPeriod') }}：{{ item.started_at }}〜{{
                   item.expired_at
@@ -71,6 +74,7 @@ const props = defineProps({
 const totalGift = ref(null)
 
 const router = useRouter()
+const settings = useState('settings')
 const handleGoToDetailRedeem = (id) => router.push(`/prize/${id}`)
 
 const formatDate = (datetime) => {
