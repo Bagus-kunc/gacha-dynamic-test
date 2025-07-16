@@ -18,7 +18,7 @@
 
               <div class="flex flex-col items-center justify-center w-full gap-1">
                 <p class="text-[2.5vw] xs:text-[12px] sm:text-[16px] text-[#341f15] text-center px-3 py-2 rounded-full font-bold ">{{ $t('answer') }}</p>
-                <InputTextArea name="answer" placeholder="Answer" class="w-[75%] h-[25vw] sm:h-28 border border-[#341f15] rounded-md" />
+                <InputTextArea name="answer" placeholder="Answer" class="w-[70%] h-[25vw] sm:h-28 border border-[#341f15] rounded-md" />
               </div>
               
               <div class="flex flex-col items-center w-full gap-0 px-3 py-2 text-white bg-exd-red-vermilion">
@@ -27,7 +27,7 @@
               </div>
             </div>
             <div class="bg-[#e8e7b5] w-full pb-24 flex-auto">
-                <div class="max-h-[25vh] sm:max-h-[31vh] md:max-h-[31vh] lg:max-h-[31vh] p-5 overflow-y-auto scrollable-content text-exd-gray-scorpion">
+                <div class="max-h-[28vh] sm:max-h-[31vh] md:max-h-[31vh] lg:max-h-[31vh] p-5 overflow-y-auto scrollable-content text-exd-gray-scorpion">
                   <h3>
                     注意事項
                   </h3>
