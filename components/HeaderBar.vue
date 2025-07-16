@@ -5,9 +5,7 @@
     @touchmove="(e) => e.preventDefault()"
   >
   <div class="pl-5" v-if="hasBack">
-    <svg width="40" height="40" viewBox="0 0 40 40" fill="none" xmlns="http://www.w3.org/2000/svg" class="cursor-pointer" @click="handleGoBack">
-      <path d="M24.4487 11.5L15.5 20.449L24.4487 29.3977" :stroke="settings.buttons[0].background" stroke-width="3"/>
-    </svg>
+    <IconsArrow :style="{ color: settings.global?.icon_color?.background }" @click="handleGoBack" class="cursor-pointer" />
 
     </div>
     <div
