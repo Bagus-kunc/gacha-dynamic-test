@@ -29,9 +29,9 @@
       />
       <div
         v-if="!showPointOnly"
-        class="absolute text-exd-dark-grey bg-white flex justify-center bottom-[17%] px-4 py-3 min-h-[50px] rounded-lg"
+        class="absolute text-exd-gray-scorpion bg-white flex justify-center bottom-[17%] px-4 py-3 h-auto rounded-lg w-[30vw] sm:w-[150px]"
       >
-        <p class="text-[17px] max-w-[278px] text-center">
+        <p class="text-[3.3vw] sm:text-[17px] max-w-[278px] text-center">
           {{ pointName }}
         </p>
       </div>

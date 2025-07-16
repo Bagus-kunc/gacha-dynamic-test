@@ -73,10 +73,12 @@ const checkCaches = () => {
     gacha.loading_screen.background.value,
     gacha.loading_screen?.gif,
     spin1.gacha_1_video,
-    spin1.before_gacha_1_screen.background.value,
-    spin1.after_gacha_1_screen.background.value,
+    spin1.before_gacha_1_screen?.background?.value,
+    spin1.after_gacha_1_screen?.background?.value,
     spin2.gacha_2_video,
-    spin2.after_gacha_2_screen.background.value
+    spin2.after_gacha_2_screen?.background?.value,
+    spin2.after_gacha_2_screen?.popup_icon,
+    spin2.after_gacha_2_screen?.get_character_title_image
 
   ]
   caches
