@@ -409,13 +409,9 @@
               class="text-exd-1220 font-medium leading-relaxed h-[84px] flex flex-col gap-1"
             >
               <p
-                v-for="i in 20"
-                :key="i"
                 class="flex flex-col gap-1 text-justify"
-              >
-                <span>{{ t(`dummyDummy.subTitle.term${i}`) }}</span>
-                {{ t(`dummyDummy.detail.term${i}`) }}
-              </p>
+                v-html="terms"
+              />
             </div>
           </div>
         </div>
@@ -525,6 +521,18 @@ const errorKeyPostCode = ref('')
 const errorPostCodeMessage = computed(() => errorKeyPostCode.value && t(errorKeyPostCode.value))
 
 const settings = useState('settings')
+const LOCALE = useCookie('LOCALE')
+
+const terms = ref('')
+
+const getTerms = async () => {
+  try {
+    terms.value = settings.value?.global?.terms?.[LOCALE.value] || ''
+  } catch (error) {
+    console.error("Error: Can't get terms", error)
+    terms.value = ''
+  }
+}
 
 const handleCloseDialog = () => (isErrorMessage.value = false)
 
@@ -796,6 +804,9 @@ const saveSpin = async () => {
   }
 }
 
+onMounted(() => {
+  getTerms()
+})
 </script>
 
 <style scoped>

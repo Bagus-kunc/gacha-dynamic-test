@@ -39,7 +39,7 @@
             >{{ $t('sex') }}
             <span
               class="text-exd-0910 px-1 py-[2px] rounded-sm"
-              :style="{ backgroundColor: settings?.user_dashboard?.member_information?.button_and_text_color?.background, color: settings?.user_dashboard?.member_information?.button_and_text_color?.color }"
+              :style="{ backgroundColor: settings?.user_dashboard?.member_information?.button_and_text_color?.background, color: 'var(--primary)' }"
               >{{ $t('required') }}</span
             >
           </label>
@@ -193,13 +193,9 @@
               class="text-exd-1220 font-medium leading-relaxed h-[84px] flex flex-col gap-1"
             >
               <p
-                v-for="i in 20"
-                :key="i"
                 class="flex flex-col gap-1 text-justify"
-              >
-                <span>{{ t(`dummyDummy.subTitle.term${i}`) }}</span>
-                {{ t(`dummyDummy.detail.term${i}`) }}
-              </p>
+                v-html="terms"
+              />
             </div>
           </div>
         </div>
@@ -222,7 +218,10 @@
   <Dialog
     v-model:visible="isErrorMessage"
     modal
-    class="!bg-white !w-11/12 !max-w-sm border border-exd-gray-44"
+    class="!w-11/12 !max-w-sm border border-exd-gray-44"
+    :style="{
+      background: settings?.global?.modal?.background_color
+    }"
   >
     <template #container>
       <img
@@ -241,6 +240,9 @@
             v-for="(item, index) in errorScroll"
             :key="index"
             class="font-bold text-exd-1424 text-exd-gray-scorpion"
+            :style="{
+              color: settings?.global?.modal?.text_color
+            }"
           >
             {{ item }}
           </p>
@@ -289,6 +291,18 @@ const errorEmailMessage = ref('')
 const errorNicknameMessage = ref('')
 const errorPasswordMessage = ref('')
 const settings = useState('settings')
+const LOCALE = useCookie('LOCALE')
+
+const terms = ref('')
+
+const getTerms = async () => {
+  try {
+    terms.value = settings.value?.global?.terms?.[LOCALE.value] || ''
+  } catch (error) {
+    console.error("Error: Can't get terms", error)
+    terms.value = ''
+  }
+}
 
 const handleCloseDialog = () => (isErrorMessage.value = false)
 
@@ -564,6 +578,10 @@ watch(
   },
   { deep: true }
 )
+
+onMounted(() => {
+  getTerms()
+})
 
 onMounted(async () => {
   await fetchGetUserData()

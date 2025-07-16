@@ -10,6 +10,14 @@ export default defineNuxtRouteMiddleware(async (to, from) => {
     }
 
     console.log('settings', settings.value)
+    if (import.meta.client) {
+      const root = document.documentElement
+      const textColors = settings.value?.global?.text_colors || {}
+      
+      Object.keys(textColors).forEach(key => {
+        root.style.setProperty(`--${key}`, textColors[key])
+      })
+    }
 
     if (!allowPaths.some(path => to.path.includes(path))) return
 
