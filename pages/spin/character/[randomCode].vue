@@ -8,26 +8,26 @@
     <Button
       v-if="!hideCharacterInfo"
       @click="handleBtnIntroduce"
-      class="bg-rainbow !absolute text-white font-bold flex justify-center bottom-[12%] items-center rounded-full px-4 py-3 h-[14.222vw] w-[41.522vw] max-w-[191px] max-h-[65px] text-[16px] !z-[100]"
+      class="bg-rainbow !absolute text-white font-bold flex justify-center bottom-[12%] items-center rounded-full px-4 py-3 h-[14.222vw] w-[41.522vw] max-w-[191px] max-h-[65px] text-[3vw] sm:text-[16px] !z-[100]"
     >
       {{ $t('characterIntroduction') }}
       <img
         :src="opIntro ? minusIcon : plusIcon"
         alt="plus icon"
-        width="20"
-        height="20"
+        width="15%"
+        height="15%"
       />
     </Button>
 
     <SparkleStart className="top-3 z-30" />
 
-    <div :class="{ notif: true, hide: isHiding }">
-      <img :src="iconGift" alt="icon gift" class="w-8 h-8" />
+    <div :class="{ notif: true, hide: isHiding }" class="flex items-center justify-center">
+      <img :src="settings?.gacha?.spin_gacha_2_screen?.after_gacha_2_screen?.popup_icon" alt="icon gift" class="w-8 h-8" />
       <p
         class="font-bold text-[12px] text-white"
         style="-webkit-text-fill-color: #ffffff"
       >
-        {{ $t('addToCollection') }}
+        {{ settings?.gacha?.spin_gacha_2_screen?.after_gacha_2_screen?.popup_text }}
       </p>
     </div>
 
@@ -50,15 +50,16 @@
         :imageSrc="characterImageUrl"
         :raritySrc="raritySrc"
         :hideCharacterInfo="hideCharacterInfo"
+        :charTitleImage="settings?.gacha?.spin_gacha_2_screen?.after_gacha_2_screen?.get_character_title_image"
         width="100%"
         height="100%"
       />
 
       <div
-        class="absolute text-exd-dark-grey bg-white flex justify-center px-4 py-3 min-h-[50px] rounded-lg"
+        class="absolute text-exd-gray-scorpion bg-white flex justify-center bottom-[17%] px-4 py-3 h-auto rounded-lg w-[30vw] sm:w-[150px]"
         :class="hideCharacterInfo ? 'sm:bottom-[15%] bottom-[14.5%]' : 'sm:bottom-[23%] bottom-[21.5%]'"
       >
-        <p class="text-[17px] max-w-[278px] text-center">{{ charName }}</p>
+        <p class="text-[3.3vw] sm:text-[17px] max-w-[278px] text-center">{{ charName }}</p>
       </div>
     </div>
 

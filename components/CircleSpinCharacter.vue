@@ -1,25 +1,23 @@
 <script setup>
-const props = defineProps(['imageSrc', 'raritySrc', 'headSrc', 'hideCharacterInfo'])
+const props = defineProps(['imageSrc', 'raritySrc', 'headSrc', 'hideCharacterInfo', 'charTitleImage'])
 
 const rarityImg = ref('')
-const hideCharacterInfo = ref(false)
-const heightRarity = ref('')
+const charTitleImage = ref('')
+
+const rarityImage = reactive({
+  x: 50,
+  y: 360,
+  width: 300,
+  height: 120,
+})
 
 const handleRarity = () => {
   rarityImg.value = props.raritySrc
-}
-
-const handleHeightRarity = () => {
-  if (props.hideCharacterInfo) {
-    heightRarity.value = '58.83%'
-  } else {
-    heightRarity.value = '55.83%'
-  }
+  charTitleImage.value = props.charTitleImage
 }
 
 watchEffect(() => {
   handleRarity()
-  handleHeightRarity()
 })
 
 onMounted(() => {
@@ -32,6 +30,17 @@ onMounted(() => {
       const delay = getRandom(0, 3) + 's'
       star.style.animationDelay = delay
     })
+
+    const logViewportHeight = () => {
+      const isShortScreen = window.innerHeight <= 667
+
+      if (isShortScreen) {
+        rarityImage.y = 340
+      }
+    }
+
+    logViewportHeight()
+    window.addEventListener('resize', logViewportHeight)
   })
 })
 </script>
@@ -104,7 +113,7 @@ onMounted(() => {
       <image
         height="70"
         width="270"
-        href="~/public/images/text-char.png"
+        :href="charTitleImage"
         x="65"
         y="-5"
       />
@@ -123,10 +132,10 @@ onMounted(() => {
       <svg viewBox="0 0 400 600" class="w-full h-auto">
         <image
           :href="rarityImg"
-          x="22.5%"
-          :y="heightRarity"
-          width="55%"
-          height="21%"
+          :x="rarityImage.x"
+          :y="rarityImage.y"
+          :width="rarityImage.width"
+          :height="rarityImage.height"
           preserveAspectRatio="xMidYMid meet"
         />
       </svg>
