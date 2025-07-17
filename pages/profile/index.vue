@@ -193,7 +193,7 @@
               class="text-exd-1220 font-medium leading-relaxed h-[84px] flex flex-col gap-1"
             >
               <p
-                class="flex flex-col gap-1 text-justify"
+                class="flex flex-col gap-1 text-justify text-exd-gray-scorpion"
                 v-html="terms"
               />
             </div>
