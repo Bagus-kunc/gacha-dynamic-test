@@ -1,6 +1,6 @@
 <template>
   <div
-    class="grow flex flex-col overflow-hidden"
+    class="flex flex-col overflow-hidden grow"
     @touchmove="onTouchmove"
     style="touch-action: none"
   >
@@ -13,10 +13,10 @@
       </p>
     </HeaderBar>
     <div
-      class="scan-content flex flex-col grow items-center justify-center mt-20 small:mt-14"
+      class="flex flex-col items-center justify-center mt-20 scan-content grow small:mt-14"
     >
       <div
-        class="scan-otp flex flex-col gap-4 pt-exd-81 pb-exd-60 justify-center items-center"
+        class="flex flex-col items-center justify-center gap-4 scan-otp pt-exd-81 pb-exd-60"
       >
         <p class="text-exd-gray-scorpion">{{ $t('pleaseEnterPassword') }}</p>
         <OtpInput
@@ -25,36 +25,36 @@
           :clear-field="isNotAllowed || wrongPassword || stepAllowLocation"
         />
       </div>
-      <div class="grow w-full flex flex-col gap-5 small:gap-2">
+      <div class="flex flex-col w-full gap-5 grow small:gap-2">
         <div
-          class="password-inform bg-exd-banana mx-3 font-bold text-exd-orange-700 text-exd-1424 p-5 flex justify-center"
+          class="flex justify-center p-5 mx-3 font-bold password-inform bg-exd-banana text-exd-orange-700 text-exd-1424"
         >
           <span class="underline cursor-pointer" @click="() => toggleModal()">{{
             $t('passwordIsHere')
           }}</span>
         </div>
-        <div class="w-full grow bg-gray-100 relative flex flex-col">
+        <div class="relative flex flex-col w-full bg-gray-100 grow">
           <div class="grow p-5 small:p-[15px]">
             <ul
               ref="refsNotes"
-              class="uiHeight list-disc list-inside overflow-y-auto"
+              class="overflow-y-auto list-disc list-inside uiHeight"
               style="touch-action: pan-y"
             >
               <p
-                class="scan-title font-bold text-exd-1424 text-exd-gray-scorpion mb-1"
+                class="mb-1 font-bold scan-title text-exd-1424 text-exd-gray-scorpion"
               >
                 {{ $t('scanNotesTitle') }}
               </p>
               <li
                 v-for="i in 16"
                 :key="i"
-                class="text-exd-1220 text-exd-gray-scorpion font-medium text-justify"
+                class="font-medium text-justify text-exd-1220 text-exd-gray-scorpion"
               >
                 {{ $t(`scanNotesDescription.note${i}`) }}
               </li>
             </ul>
           </div>
-          <div class="fixed bottom-0 w-full max-w-md mx-auto px-8 mb-1 z-50">
+          <div class="fixed bottom-0 z-50 w-full max-w-md px-8 mx-auto mb-1">
             <SolidButton
               label="GO!"
               :has-loading="isLoading"
@@ -76,7 +76,7 @@
   >
     <template v-slot:body>
       <div
-        class="w-full flex flex-col justify-center items-center gap-5 py-6 px-4 relative"
+        class="relative flex flex-col items-center justify-center w-full gap-5 px-4 py-6"
       >
         <img
           :src="close"
@@ -84,7 +84,7 @@
           width="30"
           height="30"
           preload
-          class="absolute right-2 top-3 cursor-pointer z-50"
+          class="absolute z-50 cursor-pointer right-2 top-3"
           @click="() => toggleModal()"
         />
 
@@ -103,7 +103,7 @@
                       width="20"
                       height="20"
                       preload
-                      class="text-exd-red-vermilion inline" /></span></a
+                      class="inline text-exd-red-vermilion" /></span></a
               ></span>
               右下の「<span class="font-extrabold">もっと見る</span
               >」から「<span class="font-extrabold">イベント</span
@@ -123,7 +123,7 @@
                     width="20"
                     height="20"
                     preload
-                    class="text-exd-red-vermilion inline" /></span></a
+                    class="inline text-exd-red-vermilion" /></span></a
               >Select "<span class="font-extrabold">Events</span>" from "<span
                 class="font-extrabold"
                 >See more</span
@@ -174,14 +174,19 @@
     :is-hidden-close="checkRadiusFailed || locationBlocked || isHiddenClose"
   >
     <template v-slot:body>
-      <div class="w-full flex flex-col justify-center items-center gap-4 py-6">
+      <div class="flex flex-col items-center justify-center w-full gap-4 py-6">
         <img :src="warning" alt="warning" width="40" height="40" preload />
-        <div v-if="errorLink || locationBlocked" class="text-center w-10/12">
-          <p class="font-bold text-exd-1424 text-exd-gray-scorpion">
+        <div v-if="errorLink || locationBlocked" class="w-10/12 text-center">
+          <p 
+            class="font-bold text-exd-1424"
+            :style="{
+              color: settings?.global?.modal?.text_color
+            }"
+          >
             {{ errorMessages }}
           </p>
         </div>
-        <div v-else class="text-center w-10/12">
+        <div v-else class="w-10/12 text-center">
           <p
             class="font-bold text-exd-1424 text-exd-gray-scorpion vhtml-desc"
             v-html="checkRadiusMessage"
@@ -213,7 +218,7 @@
           width="30"
           height="30"
           preload
-          class="absolute right-2 top-3 cursor-pointer z-50"
+          class="absolute z-50 cursor-pointer right-2 top-3"
           @click="() => closeStepAllowLocation()"
         /> -->
         <h3
@@ -457,8 +462,11 @@ definePageMeta({
     const location = to.params.randomCode
     const { data } = await useFetchApi('GET', '/location/password/' + location)
 
-    if (data && data.not_required_pin === 1) {
+    if (data && data.before_spin_type === 1) {
       return navigateTo(`/spin/${location}`)
+    }
+    if (data && data.before_spin_type === 3) {
+      return navigateTo(`/quiz/${location}`)
     }
   },
 })

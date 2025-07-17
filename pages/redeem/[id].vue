@@ -61,6 +61,8 @@
                 'input-error': !form.nickName && validateOnSubmit,
               }"
               :border="true"
+              :bgColor="settings.buttons[0].background"
+              :textColor="settings.buttons[0].color"
             />
             <InputText
               bold
@@ -78,6 +80,8 @@
                 'input-error': !form.firstName && validateOnSubmit,
               }"
               :border="true"
+              :bgColor="settings.buttons[0].background"
+              :textColor="settings.buttons[0].color"
             />
           </div>
 
@@ -125,6 +129,8 @@
                   'opacity-50': isLoadingPostalCode,
                 }"
                 :border="true"
+                :bgColor="settings.buttons[0].background"
+              :textColor="settings.buttons[0].color"
               />
             </div>
             <p class="font-normal text-exd-1320 text-exd-gray-scorpion">
@@ -157,6 +163,8 @@
                 'input-error': !form.prefecture && validateOnSubmit,
               }"
               :border="true"
+              :bgColor="settings.buttons[0].background"
+              :textColor="settings.buttons[0].color"
             />
 
             <InputText
@@ -182,6 +190,8 @@
                 'input-error': !form.municipalities && validateOnSubmit,
               }"
               :border="true"
+              :bgColor="settings.buttons[0].background"
+              :textColor="settings.buttons[0].color"
             />
 
             <InputText
@@ -205,6 +215,8 @@
                 'input-error': !form.streetAddressEtc && validateOnSubmit,
               }"
               :border="true"
+              :bgColor="settings.buttons[0].background"
+              :textColor="settings.buttons[0].color"
             />
             <p class="font-normal text-exd-1320 text-exd-gray-scorpion">
               {{ t('streetAddressInformation') }}
@@ -240,6 +252,8 @@
                     (!form.phoneNumber && validateOnSubmit) || errorPhoneNumber,
                 }"
                 :border="true"
+                :bgColor="settings.buttons[0].background"
+              :textColor="settings.buttons[0].color"
               />
               <Skeleton v-else class="!w-56 !h-10 bg-gray-200" />
             </div>
@@ -275,6 +289,8 @@
                     : errorEmailMessage,
               }"
               :border="true"
+              :bgColor="settings.buttons[0].background"
+              :textColor="settings.buttons[0].color"
             />
           </div>
 
@@ -305,6 +321,8 @@
                     : ''
                 "
                 required
+                :bgColor="settings.buttons[0].background"
+                :textColor="settings.buttons[0].color"
               />
             </template>
           </div>
@@ -336,6 +354,8 @@
                     : ''
                 "
                 required
+                :bgColor="settings.buttons[0].background"
+                :textColor="settings.buttons[0].color"
               />
             </template>
           </div>
@@ -428,6 +448,7 @@ const disableRedeem = ref(false)
 const LOCALE = useCookie('LOCALE')
 const validateOnSubmit = ref(false)
 const isLoadingPostalCode = ref(false)
+const settings = useState('settings')
 
 const handleToggleModal = () => {
   if (disableRedeem.value) return

@@ -5,13 +5,14 @@
     <HeaderBar withLogo />
 
     <div
-      class="flex flex-col grow bg-[url('/images/green_base.png')] bg-cover bg-center relative"
+      class="relative flex flex-col !bg-no-repeat !bg-cover !bg-center grow"
+      :style="{ background: settings?.gacha?.spin_gacha_1_screen?.before_gacha_1_screen?.background?.type === 'image' ? `url(${settings?.gacha?.spin_gacha_1_screen?.before_gacha_1_screen?.background?.value})` : settings?.gacha?.spin_gacha_1_screen?.before_gacha_1_screen?.background?.value }"
     >
       <div
         class="grow w-full flex flex-col items-center justify-center relative mb-4 mt-[15%]"
       >
         <img
-          src="/images/gacha-aichi.png"
+          :src="settings?.global?.gacha_machine_image"
           alt="gacha2"
           class="absolute left-1/2 top-[57%] sm:top-[53%] transform -translate-x-1/2 -translate-y-[47%] w-full h-auto max-h-[85%] sm:max-h-[90%] object-contain"
           preload
@@ -24,8 +25,9 @@
       </div>
 
       <SolidButton
-        :label="$t('spinTheGacha')"
-        variant="red-coral"
+        :label="settings?.gacha?.spin_gacha_1_screen?.before_gacha_1_screen?.button_text"
+        :bgColor="settings?.gacha?.spin_gacha_1_screen?.before_gacha_1_screen?.button_and_text_color?.background"
+        :textColor="settings?.gacha?.spin_gacha_1_screen?.before_gacha_1_screen?.button_and_text_color?.color"
         :disabled="isLoading"
         :has-loading="isLoading"
         :on-click="() => nextToSpin()"
@@ -36,7 +38,7 @@
 
   <AutoplayVideo
     v-if="playVideo"
-    src="/video/new-spin-point.mp4"
+    :src="settings.gacha.spin_gacha_1_screen.gacha_1_video"
     @ended="goToSpinPoint"
   />
 
@@ -49,7 +51,12 @@
       <div class="flex flex-col items-center justify-center w-full gap-4 py-6">
         <img :src="warning" alt="warning" width="40" height="40" preload />
         <div v-if="errorLink || locationBlocked" class="w-10/12 text-center">
-          <p class="font-bold text-exd-1424 text-exd-gray-scorpion">
+          <p 
+            class="font-bold text-exd-1424"
+            :style="{
+              color: settings?.global?.modal?.text_color
+            }"
+          >
             {{ errorMessages }}
           </p>
         </div>
@@ -309,7 +316,10 @@
   <Dialog
     v-model:visible="modalSpinWarning"
     modal
-    class="!bg-white !w-11/12 !max-w-sm border border-exd-gray-44"
+    class="!w-11/12 !max-w-sm border border-exd-gray-44"
+    :style="{
+      background: settings?.global?.modal?.background_color
+    }"
   >
     <template #container>
       <img
@@ -326,7 +336,12 @@
       >
         <img :src="warning" alt="warning" width="40" height="40" preload />
         <div class="w-10/12 text-center">
-          <p class="font-bold text-exd-1424 text-exd-gray-scorpion">
+          <p 
+            class="font-bold text-exd-1424"
+            :style="{
+              color: settings?.global?.modal?.text_color
+            }"
+          >
             {{ errorMessages }}
           </p>
         </div>
@@ -384,6 +399,8 @@ const isSplashComplete = ref(false)
 const modalSpinWarning = ref(false)
 const redirectLink = ref('')
 
+const settings = useState('settings')
+
 const aboutSpinItems = ref([
   { id: 1, name: 'R', percen: 30, desc: 'normalMorizzoAndKiccoro' },
   { id: 2, name: 'SR', percen: 65, desc: 'localMorizzoAndKiccoro' },
@@ -405,8 +422,8 @@ definePageMeta({
     const { data } = await useFetchApi('GET', '/location/password/' + location)
 
     if (data) {
-      const notRequiredPin = useState('not_required_pin', () => 0)
-      notRequiredPin.value = data.not_required_pin
+      const beforeSpinType = useState('before_spin_type', () => 1)
+      beforeSpinType.value = data.before_spin_type
 
       const notRequiredRadius = useState('not_required_radius', () => 0)
       notRequiredRadius.value = data.not_required_radius
@@ -422,19 +439,23 @@ definePageMeta({
 
     const validSlug = decryptData(validPassword.value || '{}')
 
-    if (data && data.not_required_pin === 0 && validSlug?.slug !== location) {
+    if (data && data.before_spin_type === 2 && validSlug?.slug !== location) {
       return navigateTo(`/scan/${location}`)
+    }
+
+    if (data && data.before_spin_type === 3 && validSlug?.slug !== location) {
+      return navigateTo(`/quiz/${location}`)
     }
   },
 })
 
 const nextToSpin = async () => {
-  const notRequiredPin = useState('not_required_pin')
+  const beforeSpinType = useState('before_spin_type')
   const notRequiredRadius = useState('not_required_radius')
 
   await checkSpinEligibility()
 
-  if (notRequiredPin.value) {
+  if (beforeSpinType.value) {
     const validPassword = useCookie('VALID_PASSWORD')
     validPassword.value = encryptData({ slug: route.params.randomCode })
   }

@@ -20,15 +20,27 @@ export default defineNuxtRouteMiddleware(async (to, from) => {
     }
   }
 
-  if (data && data.not_required_pin === 0 && validSlug?.slug !== randomCode) {
+  // 1. spin
+  // 2. pin
+  // 3. quiz
+  
+  // before_spin_type
+
+  if (data && data.before_spin_type === 2 && validSlug?.slug !== randomCode) {
     return navigateTo({
       path: `/scan/${randomCode}`,
     })
   }
 
-  if (data && data.not_required_pin === 1 && validSlug?.slug !== randomCode) {
+  if (data && data.before_spin_type === 1 && validSlug?.slug !== randomCode) {
     return navigateTo({
       path: `/spin/${randomCode}`,
+    })
+  }
+
+  if (data && data.before_spin_type === 3 && validSlug?.slug !== randomCode) {
+    return navigateTo({
+      path: `/quiz/${randomCode}`,
     })
   }
 })

@@ -68,7 +68,7 @@
     "enterYourNewPassword": "请输入新密码",
     "resetPasswordDescription": "我们将进行密码重设程序。请输入您注册的登录 ID（电子邮箱），然后点击“发送”按钮。",
     "resetPasswordRequirement1": "*密码重设邮件将发送至您注册的邮箱，请确认查收。",
-    "resetPasswordRequirement2": "*如果您设置了垃圾邮件拦截，请允许接收来自「{'no-reply@dela-kuji.jp'}」或域名「{'@dela-kuji.jp'}」的邮件。",
+    "resetPasswordRequirement2": "*如果您设置了垃圾邮件拦截，请允许接收来自「{'support@per-inc.com'}」或域名「{'@per-inc.com'}」的邮件。",
     "resetPasswordRequirement3": "*根据您的邮箱或邮件软件设置，邮件可能会自动被分类至垃圾邮件文件夹。",
     "send": "发送",
     "emailSentCompleted": "邮件发送完成",
@@ -342,6 +342,8 @@
     "descCharacter": "除了积分，Morizo 和 Kiccoro 也会出现！您可以在“我的页面”中查看已收集的角色。",
     "normalMorizzoAndKiccoro": "普通版 Morizo 和 Kiccoro",
     "localMorizzoAndKiccoro": "各访问城市的地方版 Morizo 和 Kiccoro",
-    "aniversaryMorizzoAndKiccoro": "Morizo 和 Kiccoro —— 2005 世博会 20 周年纪念版"
+    "aniversaryMorizzoAndKiccoro": "Morizo 和 Kiccoro —— 2005 世博会 20 周年纪念版",
+    "quiz": "小测验",
+    "answer": "答案 (平假名)"
   }
   

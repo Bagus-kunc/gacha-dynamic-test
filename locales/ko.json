@@ -68,7 +68,7 @@
   "enterYourNewPassword": "새 비밀번호를 입력하세요",
   "resetPasswordDescription": "비밀번호를 재설정하는 절차를 진행합니다. 등록된 로그인 ID(이메일 주소)를 입력하고 \"보내기\" 버튼을 눌러주세요.",
   "resetPasswordRequirement1": "*비밀번호 재설정 이메일이 등록된 이메일 주소로 전송되므로 확인해 주세요.",
-  "resetPasswordRequirement2": "*스팸 메일 차단 설정이 되어 있는 경우, \"{'no-reply@dela-kuji.jp'}\" 또는 도메인 \"{'@dela-kuji.jp'}\"에서 수신을 허용해 주세요.",
+  "resetPasswordRequirement2": "*스팸 메일 차단 설정이 되어 있는 경우, \"{'support@per-inc.com'}\" 또는 도메인 \"{'@per-inc.com'}\"에서 수신을 허용해 주세요.",
   "resetPasswordRequirement3": "*이메일 서비스나 소프트웨어에 따라 메일이 스팸 폴더로 분류될 수 있습니다.",
   "send": "보내기",
   "emailSentCompleted": "이메일 전송 완료",
@@ -342,5 +342,7 @@
   "descCharacter": "포인트와 함께, 모리조와 킷코로도 등장합니다! 마이페이지에서 수집한 캐릭터를 확인할 수 있어요.",
   "normalMorizzoAndKiccoro": "일반 모리조와 킷코로",
   "localMorizzoAndKiccoro": "방문한 각 지역의 로컬 버전 모리조와 킷코로",
-  "aniversaryMorizzoAndKiccoro": "모리조와 킷코로 – 2005 엑스포 20주년 버전"
+  "aniversaryMorizzoAndKiccoro": "모리조와 킷코로 – 2005 엑스포 20주년 버전",
+  "quiz": "퀴즈",
+  "answer": "답 (히라가나)"
 }

@@ -68,7 +68,7 @@
   "enterYourNewPassword": "Enter your new password",
   "resetPasswordDescription": "We will carry out the procedure to reset your password. Please enter your registered login ID (email address) and tap the \"Send\" button.",
   "resetPasswordRequirement1": "*A password reset email will be sent to your registered email address, so please check it.",
-  "resetPasswordRequirement2": "*If you have set your spam prevention settings, please allow receiving from \"{'no-reply@dela-kuji.jp'}\" or the domain \"{'@dela-kuji.jp'}\".",
+  "resetPasswordRequirement2": "*If you have set your spam prevention settings, please allow receiving from \"{'support@per-inc.com'}\" or the domain \"{'@per-inc.com'}\".",
   "resetPasswordRequirement3": "*Depending on your email and email software, the email may be automatically sorted into your spam folder.",
   "send": "Send",
   "emailSentCompleted": "Email sent completed",
@@ -342,5 +342,7 @@
   "descCharacter": "Along with the points, Morizo and Kiccoro will also appear! You can check the characters you've collected from your My Page.",
   "normalMorizzoAndKiccoro": "Normal Morizo ​​and Kikkoro",
   "localMorizzoAndKiccoro": "Local Versions of Morizo ​​& Kiccoro from Each Visited Municipality",
-  "aniversaryMorizzoAndKiccoro": "Morizo and Kiccoro – Expo 2005 20th Anniversary"
+  "aniversaryMorizzoAndKiccoro": "Morizo and Kiccoro – Expo 2005 20th Anniversary",
+  "quiz": "Quiz",
+  "answer": "Answer (Hiragana)"
 }

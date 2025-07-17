@@ -5,7 +5,7 @@
         style="text-shadow: 0 3px 3px rgba(0, 0, 0, 0.16)"
         class="text-exd-gray-scorpion text-exd-1824.52"
       >
-        {{ $t('membershipInformation') }}
+        {{ settings.user_dashboard?.member_information?.page_title }}
       </p>
     </HeaderBar>
 
@@ -38,7 +38,8 @@
             class="flex items-center gap-2 text-exd-gray-scorpion text-exd-1424"
             >{{ $t('sex') }}
             <span
-              class="bg-exd-red-coral text-white text-exd-0910 px-1 py-[2px] rounded-sm"
+              class="text-exd-0910 px-1 py-[2px] rounded-sm"
+              :style="{ backgroundColor: settings?.user_dashboard?.member_information?.button_and_text_color?.background, color: 'var(--primary)' }"
               >{{ $t('required') }}</span
             >
           </label>
@@ -106,6 +107,8 @@
                 'opacity-50': isLoading,
               }"
               :border="true"
+              :bgColor="settings?.user_dashboard?.member_information?.button_and_text_color?.background"
+              :textColor="settings?.user_dashboard?.member_information?.button_and_text_color?.color"
             />
           </div>
         </div>
@@ -137,6 +140,8 @@
                   : errorEmailMessage,
             }"
             :border="true"
+            :bgColor="settings?.user_dashboard?.member_information?.button_and_text_color?.background"
+            :textColor="settings?.user_dashboard?.member_information?.button_and_text_color?.color"
           />
         </div>
 
@@ -162,6 +167,8 @@
                 : t(errorPasswordMessage)
             "
             :border="true"
+            :bgColor="settings?.user_dashboard?.member_information?.button_and_text_color?.background"
+            :textColor="settings?.user_dashboard?.member_information?.button_and_text_color?.color"
           />
         </div>
 
@@ -186,13 +193,9 @@
               class="text-exd-1220 font-medium leading-relaxed h-[84px] flex flex-col gap-1"
             >
               <p
-                v-for="i in 20"
-                :key="i"
-                class="flex flex-col gap-1 text-justify"
-              >
-                <span>{{ t(`dummyDummy.subTitle.term${i}`) }}</span>
-                {{ t(`dummyDummy.detail.term${i}`) }}
-              </p>
+                class="flex flex-col gap-1 text-justify text-exd-gray-scorpion"
+                v-html="terms"
+              />
             </div>
           </div>
         </div>
@@ -200,11 +203,12 @@
       <div class="mt-16" />
       <div class="fixed bottom-0 z-50 w-full max-w-md mx-auto mb-2">
         <SolidButton
-          :label="$t('change')"
+          :label="settings.user_dashboard?.member_information?.button_text"
           :has-loading="isLoading"
           :disabled="!isButtonEnabled || !form.checked"
           :on-click="handleSubmit"
-          variant="red-coral"
+          :bgColor="settings.user_dashboard?.member_information?.button_and_text_color?.background"
+          :textColor="settings.user_dashboard?.member_information?.button_and_text_color?.color"
           has-bottom
         />
       </div>
@@ -214,7 +218,10 @@
   <Dialog
     v-model:visible="isErrorMessage"
     modal
-    class="!bg-white !w-11/12 !max-w-sm border border-exd-gray-44"
+    class="!w-11/12 !max-w-sm border border-exd-gray-44"
+    :style="{
+      background: settings?.global?.modal?.background_color
+    }"
   >
     <template #container>
       <img
@@ -233,6 +240,9 @@
             v-for="(item, index) in errorScroll"
             :key="index"
             class="font-bold text-exd-1424 text-exd-gray-scorpion"
+            :style="{
+              color: settings?.global?.modal?.text_color
+            }"
           >
             {{ item }}
           </p>
@@ -280,6 +290,19 @@ const errorScroll = ref([])
 const errorEmailMessage = ref('')
 const errorNicknameMessage = ref('')
 const errorPasswordMessage = ref('')
+const settings = useState('settings')
+const LOCALE = useCookie('LOCALE')
+
+const terms = ref('')
+
+const getTerms = async () => {
+  try {
+    terms.value = settings.value?.global?.terms?.[LOCALE.value] || ''
+  } catch (error) {
+    console.error("Error: Can't get terms", error)
+    terms.value = ''
+  }
+}
 
 const handleCloseDialog = () => (isErrorMessage.value = false)
 
@@ -555,6 +578,10 @@ watch(
   },
   { deep: true }
 )
+
+onMounted(() => {
+  getTerms()
+})
 
 onMounted(async () => {
   await fetchGetUserData()

@@ -1,6 +1,8 @@
 <script setup>
 const loading = ref(true)
 const isSupportSerWroker = ref(false)
+const settings = useState('settings')
+
 let checkCachesInterval
 let firstCount = 1
 
@@ -53,23 +55,32 @@ function completeLoading() {
   emit('finish')
 }
 
+const gacha = settings.value?.gacha
+const spin1 = gacha.spin_gacha_1_screen
+const spin2 = gacha.spin_gacha_2_screen
+
+const getImageValue = (obj) => {
+  return obj && obj.type === 'image' ? obj.value : "";
+};
+
 const checkCaches = () => {
   const urlsToCache = [
     '/favicon.ico',
-    '/video/new-spin-point.mp4',
-    '/video/new-spin-character.mp4',
     '/images/sparkling.png',
-    '/images/green_base.png',
     '/images/gacha-aichi.png',
-    '/images/bg-rainbow.png',
     '/images/warning.svg',
-    '/images/header-logo.png',
     '/images/close.svg',
     '/images/export.svg',
     '/images/intl-icon.png',
-    '/images/back-button.svg',
     '/images/text-char.png',
     '/icons/icon-gift.svg',
+    getImageValue(gacha?.loading_screen?.background),
+    gacha?.loading_screen?.gif || "",
+    spin1?.gacha_1_video || "",
+    getImageValue(spin1?.before_gacha_1_screen?.background),
+    getImageValue(spin1?.after_gacha_1_screen?.background),
+    spin2?.gacha_2_video || "",
+    getImageValue(spin2?.after_gacha_2_screen?.background)
   ]
   caches
     .open(`gacharary-aichi-gurutto-v2 - ${self.location.origin}`)
@@ -88,24 +99,30 @@ const checkCaches = () => {
       }
     })
 }
+
+onMounted(async () => {
+  
+})
 </script>
 
 <template>
   <div
     v-if="loading"
-    class="w-full max-w-md mx-auto h-screen overflow-hidden bg-[url('/images/green_base.png')] bg-cover bg-center flex flex-col fixed z-[2000]"
+    class="w-full max-w-md mx-auto h-screen overflow-hidden bg-cover bg-center flex flex-col fixed z-[2000]"
+    :style="{ backgroundImage: `url(${settings.gacha.loading_screen.background.value})` }"
   >
     <div
       class="flex flex-col items-center justify-center w-full h-full text-exd-red"
     >
       <img
-        src="~/assets/images/gacha-loading.gif"
+        :src="settings.gacha.loading_screen.gif"
         class="w-[100px] h-[100px]"
       />
-      <img
+      <h3 class="ml-5 text-xl font-bold" :style="{ color: settings.gacha.loading_screen.text_color }">LOADING...</h3>
+      <!-- <img
         src="~/assets/images/loading.png"
         class="mt-6 ml-5 w-[126px] h-[24px]"
-      />
+      /> -->
     </div>
   </div>
 </template>

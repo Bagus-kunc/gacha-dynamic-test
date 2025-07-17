@@ -71,7 +71,7 @@
   "enterYourNewPassword": "新しいパスワードを入力してください",
   "resetPasswordDescription": "パスワードの再設定手続きを行います。登録されたログインID（メールアドレス）をご入力の上「送信」ボタンをタップしてください。",
   "resetPasswordRequirement1": "※ご登録メールアドレスにパスワード再設定メールを送信しますので、ご確認ください。",
-  "resetPasswordRequirement2": "※迷惑メール防止設定をされている場合は「{'no-reply@dela-kuji.jp'}」または、ドメイン「{'@dela-kuji.jp'}」からの受信を許可してください。",
+  "resetPasswordRequirement2": "※迷惑メール防止設定をされている場合は「{'support@per-inc.com'}」または、ドメイン「{'@per-inc.com'}」からの受信を許可してください。",
   "resetPasswordRequirement3": "※お使いのメール及びメールソフトにより、自動的に迷惑メールフォルダに振り分けられる場合があります。",
   "send": "送信",
   "emailSentCompleted": "メール送信完了",
@@ -343,5 +343,7 @@
   "descCharacter": "ポイントと同時に、モリゾー・キッコロが出ます。獲得したキャラクターは、マイページから確認できます。",
   "normalMorizzoAndKiccoro": "通常のモリゾー・キッコロ",
   "localMorizzoAndKiccoro": "ゲームをプレイした各市町村の ご当地モリゾー・キッコロ",
-  "aniversaryMorizzoAndKiccoro": "愛・地球博20祭 モリゾー・キッコロ"
+  "aniversaryMorizzoAndKiccoro": "愛・地球博20祭 モリゾー・キッコロ",
+  "quiz": "クイズ",
+  "answer": "答え（ひらがな）"
 }

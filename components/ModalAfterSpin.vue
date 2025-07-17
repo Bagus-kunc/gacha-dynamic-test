@@ -104,6 +104,8 @@ const modalLogin = ref(false)
 const { decryptData } = useEncryption()
 const { setSourceFrom } = useRegister()
 
+const settings = useState('settings')
+
 const handleShowDialog = () => emit('update:visible', true)
 const handleCloseDialog = () => emit('update:visible', false)
 const handleToRedirect = async () => {

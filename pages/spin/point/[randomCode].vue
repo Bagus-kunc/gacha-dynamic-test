@@ -1,12 +1,13 @@
 <template>
   <div
-    class="grow bg-[url('/images/bg-rainbow.png')] bg-cover bg-center relative flex flex-col justify-center items-center"
+    class="relative flex flex-col items-center justify-center !bg-no-repeat !bg-cover !bg-center grow"
+    :style="{ background: settings?.gacha?.spin_gacha_1_screen?.after_gacha_1_screen?.background?.type === 'image' ? `url(${settings?.gacha?.spin_gacha_1_screen?.after_gacha_1_screen?.background?.value})` : settings?.gacha?.spin_gacha_1_screen?.after_gacha_1_screen?.background?.value }"
     @touchmove="(e) => e.preventDefault()"
   >
     <SparkleStart className="top-3 z-30" />
 
     <img
-      src="/images/gacha-tom.png"
+      :src="settings?.global?.gacha_machine_image"
       alt="gacha2"
       class="absolute left-1/2 top-1/2 transform -translate-x-1/2 -translate-y-1/2 w-[120%] max-w-none h-auto max-h-[96svh] object-contain"
       preload
@@ -28,9 +29,9 @@
       />
       <div
         v-if="!showPointOnly"
-        class="absolute text-exd-dark-grey bg-white flex justify-center bottom-[17%] px-4 py-3 min-h-[50px] rounded-lg"
+        class="absolute text-exd-gray-scorpion bg-white flex justify-center bottom-[17%] px-4 py-3 h-auto rounded-lg w-[30vw] sm:w-[150px]"
       >
-        <p class="text-[17px] max-w-[278px] text-center">
+        <p class="text-[3.3vw] sm:text-[17px] max-w-[278px] text-center">
           {{ pointName }}
         </p>
       </div>
@@ -38,16 +39,17 @@
     <!-- <div class="absolute-10 top-1/2 translate-y-[80%]"></div> -->
     <div class="w-full absolute bottom-0 z-[1100]">
       <SolidButton
-        :label="$t('toTheNext')"
+        :label="settings.gacha.spin_gacha_1_screen?.after_gacha_1_screen.button_text"
         :on-click="() => handleButton()"
         has-bottom
-        variant="red-coral"
+        :bgColor="settings.gacha.spin_gacha_1_screen?.after_gacha_1_screen.button_and_text_color?.background"
+        :textColor="settings.gacha.spin_gacha_1_screen?.after_gacha_1_screen.button_and_text_color?.color"
       />
     </div>
 
     <AutoplayVideo
       v-if="playVideo"
-      src="/video/new-spin-character.mp4"
+      :src="settings.gacha.spin_gacha_2_screen.gacha_2_video"
       @ended="handleGoToCharacter"
     />
 
@@ -96,7 +98,9 @@ const popupDescription = ref('')
 const popupImage = ref('')
 const pointCategoryIsFail = ref(false)
 const modalLogin = ref(false)
-const showPointOnly = ref(true)
+const showPointOnly = ref(false)
+
+const settings = useState('settings')
 
 const { t } = useI18n()
 
@@ -341,7 +345,6 @@ const fetchImageFromApi = async () => {
       USER.value = null
       fetchImageFromApi()
     }
-    console.error('Unexpected error:', e)
   }
 }
 const reportMultipleSpin = async ({ gift_id, character_id, location_id }) => {

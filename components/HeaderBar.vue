@@ -4,6 +4,9 @@
     style="box-shadow: 0px 3px 3px 0px rgba(0, 0, 0, 0.1608)"
     @touchmove="(e) => e.preventDefault()"
   >
+  <div class="pl-5" v-if="hasBack">
+    <IconsArrow :style="{ color: settings.global?.icon_color?.background }" @click="handleGoBack" class="cursor-pointer" />
+  </div>
 
     <div class="flex pl-5">
       <IconsArrowIcon v-if="hasBack" :handleGoBack="handleGoBack" :currentColor="settings?.global?.icon_color?.background" />
@@ -23,9 +26,9 @@
       v-else
     >
       <img
-        :src="headerLogo"
+        :src="settings.global.logo"
         alt="intl"
-        width="241"
+        width="95"
         height="58"
         preload
         class="absolute transform -translate-x-1/2 -translate-y-1/2 top-1/2 left-1/2"
@@ -34,7 +37,7 @@
     <div class="pr-5 shrink-0">
       <div class="relative flex">
         <button type="button" aria-haspopup="true" @click="langPanelToggle">
-          <IconsLangIcon :style="{color: settings.global.icon_color.background}" />
+          <IconsLang :style="{ color: settings.global?.icon_color?.background }" />
         </button>
         <LanguangePanel v-model:visible="langPanel" />
       </div>

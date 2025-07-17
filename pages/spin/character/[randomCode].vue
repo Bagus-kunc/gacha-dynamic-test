@@ -1,36 +1,38 @@
 <template>
   <div
-    class="grow bg-[url('/images/bg-rainbow.png')] bg-cover bg-center relative flex flex-col justify-center items-center"
+    class="relative flex flex-col items-center !bg-no-repeat justify-center !bg-center !bg-cover grow"
+    :style="{ background: settings?.gacha?.spin_gacha_2_screen?.after_gacha_2_screen?.background?.type === 'image' ? `url(${settings?.gacha?.spin_gacha_2_screen?.after_gacha_2_screen?.background?.value})`
+    : settings?.gacha?.spin_gacha_2_screen?.after_gacha_2_screen?.background?.value }"
     @touchmove="(e) => e.preventDefault()"
   >
     <Button
       v-if="!hideCharacterInfo"
       @click="handleBtnIntroduce"
-      class="bg-rainbow !absolute text-white font-bold flex justify-center bottom-[12%] items-center rounded-full px-4 py-3 h-[14.222vw] w-[41.522vw] max-w-[191px] max-h-[65px] text-[16px] !z-[100]"
+      class="bg-rainbow !absolute text-white font-bold flex justify-center bottom-[12%] items-center rounded-full px-4 py-3 h-[14.222vw] w-[41.522vw] max-w-[191px] max-h-[65px] text-[3vw] sm:text-[16px] !z-[100]"
     >
       {{ $t('characterIntroduction') }}
       <img
         :src="opIntro ? minusIcon : plusIcon"
         alt="plus icon"
-        width="20"
-        height="20"
+        width="15%"
+        height="15%"
       />
     </Button>
 
     <SparkleStart className="top-3 z-30" />
 
-    <div :class="{ notif: true, hide: isHiding }">
-      <img :src="iconGift" alt="icon gift" class="w-8 h-8" />
+    <div :class="{ notif: true, hide: isHiding }" class="flex items-center justify-center">
+      <img :src="settings?.gacha?.spin_gacha_2_screen?.after_gacha_2_screen?.popup_icon" alt="icon gift" class="w-8 h-8" />
       <p
         class="font-bold text-[12px] text-white"
         style="-webkit-text-fill-color: #ffffff"
       >
-        {{ $t('addToCollection') }}
+        {{ settings?.gacha?.spin_gacha_2_screen?.after_gacha_2_screen?.popup_text }}
       </p>
     </div>
 
     <img
-      src="/images/gacha-tom.png"
+      :src="settings?.global?.gacha_machine_image"
       alt="gacha2"
       class="absolute left-1/2 top-1/2 transform -translate-x-1/2 -translate-y-1/2 w-[120%] max-w-none h-auto max-h-[96svh] object-contain"
       preload
@@ -48,23 +50,25 @@
         :imageSrc="characterImageUrl"
         :raritySrc="raritySrc"
         :hideCharacterInfo="hideCharacterInfo"
+        :charTitleImage="settings?.gacha?.spin_gacha_2_screen?.after_gacha_2_screen?.get_character_title_image"
         width="100%"
         height="100%"
       />
 
       <div
-        class="absolute text-exd-dark-grey bg-white flex justify-center px-4 py-3 min-h-[50px] rounded-lg"
+        class="absolute text-exd-gray-scorpion bg-white flex justify-center bottom-[17%] px-4 py-3 h-auto rounded-lg w-[30vw] sm:w-[150px]"
         :class="hideCharacterInfo ? 'sm:bottom-[15%] bottom-[14.5%]' : 'sm:bottom-[23%] bottom-[21.5%]'"
       >
-        <p class="text-[17px] max-w-[278px] text-center">{{ charName }}</p>
+        <p class="text-[3.3vw] sm:text-[17px] max-w-[278px] text-center">{{ charName }}</p>
       </div>
     </div>
 
     <div class="absolute bottom-0 w-full">
       <SolidButton
-        :label="$t('toTheNext')"
         :on-click="handleButton"
-        variant="red-coral"
+        :label="settings.gacha.spin_gacha_2_screen?.after_gacha_2_screen.button_text"
+        :bgColor="settings.gacha.spin_gacha_2_screen?.after_gacha_2_screen.button_and_text_color?.background"
+        :textColor="settings.gacha.spin_gacha_2_screen?.after_gacha_2_screen.button_and_text_color?.color"
         has-bottom
       />
     </div>
@@ -88,6 +92,9 @@
     v-model:visible="isNotAllowed"
     modal
     class="!bg-white !w-11/12 !max-w-sm border border-exd-gray-44"
+    :style="{
+      background: settings?.global?.modal?.background_color
+    }"
   >
     <template #container>
       <img
@@ -110,7 +117,12 @@
           preload
         />
         <div class="w-10/12 text-center">
-          <p class="font-bold text-exd-1424 text-exd-gray-scorpion">
+          <p 
+            class="font-bold text-exd-1424"
+            :style="{
+              color: settings?.global?.modal?.text_color
+            }"
+          >
             {{ errorMessages }}
           </p>
         </div>
@@ -122,7 +134,7 @@
   <Transition name="fade-slide" mode="out-in">
     <div
       v-if="opIntro"
-      class="with-scroll fixed z-40 transform -translate-x-1/2 -translate-y-1/2 rounded-lg shadow w-[88.889vw] sm:w-[350px] bg-white/90 sm:bottom-[17%] bottom-[13%] left-1/2"
+      class="with-scroll fixed z-40 transform -translate-x-1/2 -translate-y-[78%] rounded-lg shadow w-[88.889vw] sm:w-[350px] bg-white/90 sm:bottom-[17%] bottom-[10%] left-1/2"
     >
       <div
         class="flex flex-col gap-2 p-5 max-h-[250px] overflow-y-auto scrollbar-thin scrollbar-thumb-exd-gray-scorpion scrollbar-track-transparent"
@@ -219,6 +231,8 @@ const popupLink = ref('')
 const popupDescription = ref('')
 const popupImage = ref('')
 const pointCategoryIsFail = ref(false)
+
+const settings = useState('settings')
 
 const handleClose = () => (isNotAllowed.value = false)
 const handleShowDialog = () => (hasModal.value = true)
@@ -399,7 +413,7 @@ onMounted(() => {
 .fade-slide-leave-active {
   transition: all 0.3s ease;
   opacity: 1;
-  transform: translate(-50%, -50%) scale(1);
+  transform: translate(-50%, -78%) scale(1);
 }
 
 .fade-slide-enter-from,
