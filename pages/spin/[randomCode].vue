@@ -444,7 +444,7 @@ definePageMeta({
     }
 
     if (data && data.before_spin_type === 3 && validSlug?.slug !== location) {
-      return navigateTo(`/spin/${location}`)
+      return navigateTo(`/quiz/${location}`)
     }
   },
 })
