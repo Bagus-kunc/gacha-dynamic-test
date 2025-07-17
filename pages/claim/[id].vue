@@ -7,10 +7,10 @@
       {{ $t('pleaseShowThisScreen') }}
     </p>
     <div
-      class="bg-exd-banana grow flex flex-col py-8 px-7 justify-between gap-5"
+      class="flex flex-col justify-between gap-5 py-8 bg-exd-banana grow px-7"
     >
       <div class="flex flex-col gap-5">
-        <div class="w-full h-auto bg-white rounded-lg relative mx-auto">
+        <div class="relative w-full h-auto mx-auto bg-white rounded-lg">
           <Skeleton v-if="isFetching" class="!w-full !h-full" />
 
           <CharacterCard
@@ -77,13 +77,13 @@
         width="30"
         height="30"
         preload
-        class="absolute right-1 top-1 cursor-pointer z-50"
+        class="absolute z-50 cursor-pointer right-1 top-1"
         @click="handleClose"
       />
       <div
-        class="w-full h-full flex flex-col justify-end items-center gap-4 p-5"
+        class="flex flex-col items-center justify-end w-full h-full gap-4 p-5"
       >
-        <div class="w-full flex flex-col justify-center items-center gap-8">
+        <div class="flex flex-col items-center justify-center w-full gap-8">
           <p class="font-bold text-exd-1424 text-exd-gray-scorpion">
             {{ redeemMessage }}
           </p>
@@ -101,7 +101,10 @@
   <Dialog
     v-model:visible="insufficientDialogVisible"
     modal
-    class="!bg-white !w-exd-300 h-exd-200 !max-w-sm border border-exd-gray-44 rounded-xl"
+    class="!w-exd-300 h-exd-200 !max-w-sm border border-exd-gray-44 rounded-xl"
+    :style="{
+      background: settings?.global?.modal?.background_color
+    }"
   >
     <template #container>
       <img
@@ -110,15 +113,20 @@
         width="30"
         height="30"
         preload
-        class="absolute right-1 top-1 cursor-pointer z-50"
+        class="absolute z-50 cursor-pointer right-1 top-1"
         @click="handleClose"
       />
       <div
-        class="w-full h-full flex flex-col justify-center items-center gap-4 p-5"
+        class="flex flex-col items-center justify-center w-full h-full gap-4 p-5"
       >
-        <div class="w-full flex flex-col justify-center items-center gap-8">
+        <div class="flex flex-col items-center justify-center w-full gap-8">
           <img :src="warning" alt="warning" width="40" height="40" preload />
-          <p class="font-bold text-exd-1424 text-exd-gray-scorpion">
+          <p 
+            class="font-bold text-exd-1424"
+            :style="{
+              color: settings?.global?.modal?.text_color
+            }"
+          >
             {{ errorMessage }}
           </p>
         </div>

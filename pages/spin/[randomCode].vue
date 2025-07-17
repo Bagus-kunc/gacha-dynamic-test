@@ -51,7 +51,12 @@
       <div class="flex flex-col items-center justify-center w-full gap-4 py-6">
         <img :src="warning" alt="warning" width="40" height="40" preload />
         <div v-if="errorLink || locationBlocked" class="w-10/12 text-center">
-          <p class="font-bold text-exd-1424 text-exd-gray-scorpion">
+          <p 
+            class="font-bold text-exd-1424"
+            :style="{
+              color: settings?.global?.modal?.text_color
+            }"
+          >
             {{ errorMessages }}
           </p>
         </div>
@@ -311,7 +316,10 @@
   <Dialog
     v-model:visible="modalSpinWarning"
     modal
-    class="!bg-white !w-11/12 !max-w-sm border border-exd-gray-44"
+    class="!w-11/12 !max-w-sm border border-exd-gray-44"
+    :style="{
+      background: settings?.global?.modal?.background_color
+    }"
   >
     <template #container>
       <img
@@ -328,7 +336,12 @@
       >
         <img :src="warning" alt="warning" width="40" height="40" preload />
         <div class="w-10/12 text-center">
-          <p class="font-bold text-exd-1424 text-exd-gray-scorpion">
+          <p 
+            class="font-bold text-exd-1424"
+            :style="{
+              color: settings?.global?.modal?.text_color
+            }"
+          >
             {{ errorMessages }}
           </p>
         </div>

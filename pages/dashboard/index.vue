@@ -4,17 +4,17 @@
       style="text-shadow: 0 3px 3px rgba(0, 0, 0, 0.16)"
       class="text-exd-gray-scorpion font-bold text-exd-1824.52"
     >
-      {{ settings?.user_dashboard?.my_account_settings?.page_title }}
+      {{ settings?.user_dashboard?.page_title }}
     </p>
   </HeaderBar>
   <div class="flex flex-col px-8 mt-[35%] sm:mt-[30%]">
     <div v-if="!hidePoint" class="flex flex-col items-center">
       <div class="flex flex-col mt-[5%] items-center">
-        <p class="font-bold text-white text-exd-1530">
+        <p class="font-bold text-[var(--secondary)] text-exd-1530">
           {{ $t('currentPoints') }}
         </p>
-        <Skeleton v-if="!store.point" class="!w-32 !h-12 bg-white mb-[50%]" />
-        <p v-else class="relative font-bold text-white text-exd-56112 -top-9">
+        <div v-if="!store.point" class="!w-32 !h-12 bg-white mb-[50%] rounded-md" />
+        <p v-else class="relative font-bold text-[var(--secondary)] text-exd-56112 -top-9">
           {{ store.point }}<span class="ml-1 text-exd-1530">pt</span>
         </p>
       </div>
@@ -83,7 +83,7 @@
           <p class="inline-flex items-center gap-1 font-bold text-exd-gray-scorpion grow text-exd-1424">
             {{ item.text }}
             <span v-if="item.url">
-              <img :src="exportIcon" alt="export" width="20" height="20" preload />
+                <IconsExport class="w-5 h-5 text-exd-gray-scorpion" />
             </span>
           </p>
           <img :src="arrow" alt="arrow" width="12" height="12" preload class="invert" />
@@ -121,7 +121,10 @@
   <Dialog
     v-model:visible="isNotAllowed"
     modal
-    class="!bg-white !w-11/12 !max-w-sm border border-exd-gray-44"
+    class="!w-11/12 !max-w-sm border border-exd-gray-44"
+    :style="{
+      background: settings?.global?.modal?.background_color
+    }"
   >
     <template #container>
       <img
@@ -138,7 +141,12 @@
       >
         <img :src="warning" alt="warning" width="40" height="40" preload />
         <div class="w-10/12 text-center">
-          <p class="font-bold text-exd-1424 text-exd-gray-scorpion">
+          <p 
+            class="font-bold text-exd-1424"
+            :style="{
+              color: settings?.global?.modal?.text_color
+            }"
+          >
             {{ errorMessages }}
           </p>
         </div>

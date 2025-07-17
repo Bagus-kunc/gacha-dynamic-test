@@ -14,7 +14,7 @@
           {{ $t('currentPoints') }}
         </p>
         <div class="absolute -ml-3 bottom-2">
-          <Skeleton v-if="!store.point" class="!w-20 !h-7 bg-white mb-[6px]"/>
+          <div v-if="!store.point" class="!w-20 !h-7 bg-white mb-[6px] rounded-md"/>
           <p v-else 
           class="font-bold text-white text-[25px]"
           :style="{color: settings.user_dashboard?.footers?.point_background_color?.color}"

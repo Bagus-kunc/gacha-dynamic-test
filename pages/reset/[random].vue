@@ -61,7 +61,10 @@
   <Dialog
     v-model:visible="isErrorMessage"
     modal
-    class="!bg-white !w-11/12 !max-w-sm border border-exd-gray-44"
+    class="!w-11/12 !max-w-sm border border-exd-gray-44"
+    :style="{
+      background: settings?.global?.modal?.background_color
+    }"
   >
     <template #container>
       <img
@@ -75,8 +78,12 @@
       />
       <div class="flex flex-col items-center justify-center w-full gap-4 py-6">
         <img :src="warning" alt="warning" width="40" height="40" preload />
-        <div class="w-10/12 text-center text-exd-gray-scorpion">
-          <p>
+        <div class="w-10/12 text-center">
+          <p 
+            :style="{
+              color: settings?.global?.modal?.text_color
+            }"
+          >
             {{ errorMessage }}
           </p>
         </div>
