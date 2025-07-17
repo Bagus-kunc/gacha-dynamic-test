@@ -27,7 +27,7 @@
               <p
                 class="text-[10px] sm:text-[12px] font-medium"
                 :style="{
-                  color: settings?.global?.text_colors?.secondary
+                  color: settings?.global?.text_colors?.primary
                 }"
               >
                 {{ $t('applicationPeriod') }}：{{ item.started_at }}〜{{
