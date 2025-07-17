@@ -14,7 +14,7 @@ const useFetchApi = async (method: any, url: string, opts = {}) => {
         options.headers = { Authorization: `Bearer ${TOKEN.value}` }
       }
 
-      options.params = { ...options?.params, lang: LOCALE.value }
+      options.query = { ...options?.params, lang: LOCALE.value }
     },
     onRequestError({ request, options, error }) {
       return Promise.reject(error)
