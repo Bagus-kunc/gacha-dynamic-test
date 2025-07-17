@@ -82,7 +82,7 @@
         @click="isErrorMessage = false"
       />
       <div class="flex flex-col items-center justify-center w-full gap-4 py-6">
-        <img :src="warning" alt="warning" width="40" height="40" preload />
+        <IconsWarning class="w-10 h-10" :style="{ color: settings?.global?.icon_color?.background }" />
         <div class="w-10/12 text-center">
           <p
             v-for="(item, index) in errorMessages"
@@ -103,8 +103,6 @@
 <script setup>
 import { useI18n } from 'vue-i18n'
 import close from '~/assets/images/close.svg'
-import arrow from '~/assets/images/arrow.svg'
-import warning from '~/assets/images/warning.svg'
 import InputText from '~/components/InputText.vue'
 import useRegister from '~/composables/useRegister'
 

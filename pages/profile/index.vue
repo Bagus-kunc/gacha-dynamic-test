@@ -234,7 +234,7 @@
         @click="handleCloseDialog"
       />
       <div class="flex flex-col items-center justify-center w-full gap-4 py-6">
-        <img :src="warning" alt="warning" width="40" height="40" preload />
+        <IconsWarning class="w-10 h-10" :style="{ color: settings?.global?.icon_color?.background }" />
         <div class="w-10/12 text-center">
           <p
             v-for="(item, index) in errorScroll"
@@ -253,7 +253,6 @@
 </template>
 
 <script setup>
-import warning from '~/assets/images/warning.svg'
 import close from '~/assets/images/close.svg'
 import Dropdown from '~/components/Dropdown.vue'
 import InputText from '~/components/InputText.vue'
