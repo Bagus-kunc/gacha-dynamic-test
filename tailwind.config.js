@@ -83,7 +83,7 @@ module.exports = {
           DEFAULT: 'hsla(var(--red-vermilion))', //#D44D20
         },
         'exd-gray-scorpion': {
-          DEFAULT: 'hsla(var(--gray-scorpion))', //#606060
+          DEFAULT: 'var(--global)', 
         },
         'exd-light-grey': {
           DEFAULT: 'hsla(var(--light-grey))', //#D0D0D0

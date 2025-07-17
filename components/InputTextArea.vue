@@ -2,12 +2,13 @@
   <div class="flex flex-col w-full">
     <label
       :for="`label-${label}`"
-      class="text-exd-gray-scorpion text-exd-1424 flex items-center gap-2"
+      class="flex items-center gap-2 text-exd-gray-scorpion text-exd-1424"
       v-if="label !== ''"
       >{{ label }}
       <span
         v-if="required"
-        class="bg-exd-red-vermilion text-white text-exd-0910 px-1 py-[2px] rounded-sm"
+        class="text-exd-0910 px-1 py-[2px] rounded-sm"
+        :style="{ backgroundColor: bgColor, color: 'var(--primary)' }"
         >{{ $t('required') }}</span
       ></label
     >
@@ -77,6 +78,14 @@ const props = defineProps({
   required: {
     type: Boolean,
     default: false,
+  },
+  bgColor: {
+    type: String,
+    default: 'gray',
+  },
+  textColor: {
+    type: String,
+    default: 'white',
   },
   validateOnSubmit: Boolean,
 })
