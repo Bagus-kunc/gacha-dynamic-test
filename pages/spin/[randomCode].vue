@@ -77,10 +77,12 @@
     class="!rounded-2xl !text-exd-gray-scorpion !bg-white !w-exd-300 !max-w-sm border border-exd-gray-44"
     pt:root:class="!border-none"
     pt:root:style="width: 21rem !important"
-    style="
-      font-family: -apple-system, 'Noto Sans JP', sans-serif;
-      font-size: 1rem;
-    "
+    :style="{
+      fontFamily: '-apple-system, Noto Sans JP, sans-serif',
+      fontSize: '1rem',
+      background: settings?.global?.modal?.background_color,
+      color: settings?.global?.modal?.text_color,
+    }"
   >
     <template #container>
       <div
@@ -274,10 +276,12 @@
     class="!rounded-2xl !text-exd-gray-scorpion !bg-white !w-exd-300 !max-w-sm border border-exd-gray-44"
     pt:root:class="!border-none"
     pt:root:style="width: 21rem !important"
-    style="
-      font-family: -apple-system, 'Noto Sans JP', sans-serif;
-      font-size: 1rem;
-    "
+    :style="{
+      fontFamily: '-apple-system, Noto Sans JP, sans-serif',
+      fontSize: '1rem',
+      background: settings?.global?.modal?.background_color,
+      color: settings?.global?.modal?.text_color,
+    }"
   >
     <template #container>
       <img

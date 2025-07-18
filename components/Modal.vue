@@ -22,7 +22,7 @@
       <div 
         class="w-full h-full" 
         :style="{
-          background: settings?.global?.modal?.text_color
+          color: settings?.global?.modal?.text_color
         }"
       >
         <slot name="body" />

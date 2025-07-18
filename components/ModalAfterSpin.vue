@@ -3,9 +3,12 @@
     :visible="visible"
     @update:visible="$emit('update:visible')"
     modal
-    class="!bg-white !w-11/12 !max-w-sm border border-exd-gray-44"
+    class="!w-11/12 !max-w-sm border border-exd-gray-44"
+    :style="{
+      background: settings?.global?.modal?.background_color
+    }"
   >
-    <template v-if="isRedirect" #container>
+    <template v-if="settings?.gacha?.after_gacha_screen?.option === '2'" #container>
       <img
         src="/images/close.svg"
         alt="close"
@@ -18,25 +21,31 @@
       <div
         class="w-full flex flex-col justify-center items-center py-6 !pb-8 relative"
       >
-        <div v-if="popupImage" class="w-auto h-24 mt-4">
-          <img :src="popupImage" class="object-contain w-full h-full" />
-        </div>
+        <!-- <div v-if="settings?.gacha?.after_gacha_screen?.data?.popup_image" class="flex items-center justify-center w-auto h-24 mt-4">
+          <img :src="settings?.gacha?.after_gacha_screen?.data?.popup_image" class="object-contain w-[90%] h-full" />
+        </div> -->
         <div
           :class="[
             'font-bold  px-4 text-exd-1530 text-center text-exd-gray-scorpion',
-            popupImage ? 'pt-3 pb-10' : 'py-10',
+            settings?.gacha?.after_gacha_screen?.data?.popup_image ? 'pt-3 pb-10' : 'py-10',
           ]"
           style="text-shadow: 0 3px 3px rgba(0, 0, 0, 0.16)"
         >
           <div
             class="max-h-[200px] overflow-auto leading-normal"
-            v-html="popupDescription"
-          ></div>
+            :style="{
+              color: settings?.global?.modal?.text_color
+            }"
+          >
+            <!-- v-html="popupDescription" -->
+            {{ settings?.gacha?.after_gacha_screen?.data?.modal_text }}
+        </div>
         </div>
         <SolidButton
-          :label="popupButton"
+          :label="settings?.gacha?.after_gacha_screen?.data?.button_text"
+          :bgColor="settings?.gacha?.after_gacha_screen?.data?.button_and_text_color?.background"
+          :textColor="settings?.gacha?.after_gacha_screen?.data?.button_and_text_color?.color"
           :on-click="() => handleToRedirect()"
-          variant="dark"
         />
       </div>
     </template>
@@ -60,21 +69,25 @@
           <p
             style="text-shadow: 0 3px 3px rgba(0, 0, 0, 0.16)"
             class="whitespace-pre-line"
-            v-html="$t('toExchangePrizes')"
-          ></p>
+          >
+            <!-- v-html="$t('toExchangePrizes')" -->
+            {{ settings?.gacha?.after_gacha_screen?.data?.popup_title }}
+        </p>
           <!-- <p style="text-shadow: 0 3px 3px rgba(0, 0, 0, 0.16)">
             {{ $t('mustBeMember') }}
           </p> -->
         </div>
         <SolidButton
-          :label="$t('newMemberRegistration')"
+          :label="settings?.gacha?.after_gacha_screen?.data?.button_1_text"
+          :bgColor="settings?.gacha?.after_gacha_screen?.data?.button_1_text_color?.background"
+          :textColor="settings?.gacha?.after_gacha_screen?.data?.button_1_text_color?.color"
           :on-click="handleToRegister"
-          variant="red-coral"
         />
         <SolidButton
-          :label="$t('loginToMyPage')"
+          :label="settings?.gacha?.after_gacha_screen?.data?.button_2_text"
+          :bgColor="settings?.gacha?.after_gacha_screen?.data?.button_2_text_color?.background"
+          :textColor="settings?.gacha?.after_gacha_screen?.data?.button_2_text_color?.color"
           :on-click="handleToLogin"
-          variant="green"
         />
       </div>
     </template>
@@ -117,7 +130,12 @@ const handleToRedirect = async () => {
 
     await navigateTo(`/spin/${slug}`)
   } else {
-    window.location.href = props.popupLink // Use self-navigation
+    const url = settings.value?.gacha?.after_gacha_screen?.data?.url_link
+    // window.location.href = props.popupLink
+
+    if (url) {
+      window.open(url, '_blank') 
+    }
   }
 }
 
