@@ -44,18 +44,11 @@
               preload
               class=""
             />
-            <i18n-t
+            <p
               v-else-if="prizeDetailData.rarity?.type === 'color'"
-              keypath="prize"
-              tag="div"
-              scope="global"
               class="font-bold text-exd-1824.52 text-white p-1 flex items-center justify-center rounded-full right-0 top-5 min-w-12 min-h-12"
               :style="{ backgroundColor: prizeDetailData.rarity.background_color, color: prizeDetailData.rarity.text_color }"
-            >
-              <template v-slot:rank>
-                {{ prizeDetailData.rarity.text.toUpperCase() }}
-              </template>
-            </i18n-t>
+            >{{ prizeDetailData.rarity.text.toUpperCase() }}</p>
           </div>
 
           <HeadingSection
@@ -84,7 +77,10 @@
   <Dialog
     v-model:visible="hasModal"
     modal
-    class="!bg-white w-11/12 md:!w-5/12 !max-w-sm border border-exd-gray-44"
+    class="w-11/12 md:!w-5/12 !max-w-sm border border-exd-gray-44"
+    :style="{
+      background: settings?.global?.modal?.background_color
+    }"
   >
     <template #container>
       <img
@@ -98,14 +94,17 @@
       />
       <div
         class="flex flex-col items-center justify-center w-full gap-1 px-5 py-8 my-2"
+        :style="{
+          color: settings?.global?.modal?.text_color
+        }"
       >
         <p
-          class="text-exd-gray-scorpion font-bold text-center text-exd-1424 small:w-[105%] w-[93%] max-w-w-[93%]"
+          class="font-bold text-center text-exd-1424 small:w-[105%] w-[93%] max-w-w-[93%]"
           style="text-shadow: 0 3px 3px rgba(0, 0, 0, 0.16)"
         >
           {{ $t('thePrizeWillBeAwarded') }}
         </p>
-        <p class="text-center text-exd-gray-scorpion text-exd-1424">
+        <p class="text-center text-exd-1424">
           {{ $t('winnerWillBeNotifed') }}
         </p>
       </div>
@@ -148,6 +147,8 @@ const config = useRuntimeConfig()
 const { t } = useI18n()
 const LOCALE = useCookie('LOCALE')
 const handleGoToClaim = () => router.push(`/claim/${route.params.id}`)
+const settings = useState('settings')
+
 const handleToggleModal = () => {
   if (disableRedeem.value) return
   hasModal.value = !hasModal.value

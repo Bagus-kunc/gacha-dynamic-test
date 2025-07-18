@@ -16,7 +16,7 @@
         <p class="font-medium truncate text-exd-gray-scorpion text-exd-1416">
           {{ data.title }}
         </p>
-        <p class="font-medium truncate text-exd-gray-scorpion text-exd-1014">
+        <p class="font-medium truncate text-[var(--secondary)] text-exd-1014">
           {{ data.date }}
         </p>
       </div>

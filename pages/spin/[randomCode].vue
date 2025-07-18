@@ -49,7 +49,7 @@
   >
     <template v-slot:body>
       <div class="flex flex-col items-center justify-center w-full gap-4 py-6">
-        <img :src="warning" alt="warning" width="40" height="40" preload />
+        <IconsWarning class="w-10 h-10" :style="{ color: settings?.global?.icon_color?.background }" />
         <div v-if="errorLink || locationBlocked" class="w-10/12 text-center">
           <p 
             class="font-bold text-exd-1424"
@@ -63,6 +63,9 @@
         <div v-else class="w-10/12 text-center">
           <p
             class="font-bold text-exd-1424 text-exd-gray-scorpion vhtml-desc"
+            :style="{
+              color: settings?.global?.modal?.text_color
+            }"
             v-html="checkRadiusMessage"
           ></p>
         </div>
@@ -77,10 +80,12 @@
     class="!rounded-2xl !text-exd-gray-scorpion !bg-white !w-exd-300 !max-w-sm border border-exd-gray-44"
     pt:root:class="!border-none"
     pt:root:style="width: 21rem !important"
-    style="
-      font-family: -apple-system, 'Noto Sans JP', sans-serif;
-      font-size: 1rem;
-    "
+    :style="{
+      fontFamily: '-apple-system, Noto Sans JP, sans-serif',
+      fontSize: '1rem',
+      background: settings?.global?.modal?.background_color,
+      color: settings?.global?.modal?.text_color,
+    }"
   >
     <template #container>
       <div
@@ -274,10 +279,12 @@
     class="!rounded-2xl !text-exd-gray-scorpion !bg-white !w-exd-300 !max-w-sm border border-exd-gray-44"
     pt:root:class="!border-none"
     pt:root:style="width: 21rem !important"
-    style="
-      font-family: -apple-system, 'Noto Sans JP', sans-serif;
-      font-size: 1rem;
-    "
+    :style="{
+      fontFamily: '-apple-system, Noto Sans JP, sans-serif',
+      fontSize: '1rem',
+      background: settings?.global?.modal?.background_color,
+      color: settings?.global?.modal?.text_color,
+    }"
   >
     <template #container>
       <img
@@ -334,7 +341,7 @@
       <div
         class="flex flex-col items-center justify-center w-full gap-4 px-6 py-6"
       >
-        <img :src="warning" alt="warning" width="40" height="40" preload />
+        <IconsWarning class="w-10 h-10" :style="{ color: settings?.global?.icon_color?.background }" />
         <div class="w-10/12 text-center">
           <p 
             class="font-bold text-exd-1424"
@@ -359,7 +366,6 @@
 </template>
 
 <script setup>
-import warning from '~/assets/images/warning.svg'
 import { useRouter } from 'vue-router'
 import { useI18n } from 'vue-i18n'
 import moment from 'moment'

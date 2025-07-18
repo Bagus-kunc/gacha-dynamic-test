@@ -145,7 +145,7 @@
         @click="handleCloseDialog"
       />
       <div class="flex flex-col items-center justify-center w-full gap-4 py-6">
-        <img :src="warning" alt="warning" width="40" height="40" preload />
+        <IconsWarning class="w-10 h-10" :style="{ color: settings?.global?.icon_color?.background }" />
         <div class="w-10/12 text-center">
           <p
             v-for="(item, index) in errorScroll"
@@ -168,7 +168,6 @@ import { useI18n } from 'vue-i18n'
 import close from '~/assets/images/close.svg'
 import JapanPostalCode from 'japan-postal-code'
 import Dropdown from '~/components/Dropdown.vue'
-import warning from '~/assets/images/warning.svg'
 import InputText from '~/components/InputText.vue'
 import InputTextArea from '~/components/InputTextArea.vue'
 import RadioButton from '~/components/RadioButton.vue'
