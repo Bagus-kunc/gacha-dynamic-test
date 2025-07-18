@@ -120,7 +120,7 @@
         class="flex flex-col items-center justify-center w-full h-full gap-4 p-5"
       >
         <div class="flex flex-col items-center justify-center w-full gap-8">
-          <img :src="warning" alt="warning" width="40" height="40" preload />
+          <IconsWarning class="w-10 h-10" :style="{ color: settings?.global?.icon_color?.background }" />
           <p 
             class="font-bold text-exd-1424"
             :style="{
@@ -137,7 +137,6 @@
 
 <script setup>
 import { useRouter } from 'vue-router'
-import warning from '~/assets/images/warning.svg'
 import close from '~/assets/images/close.svg'
 import rainbow from '~/assets/images/rainbow-circle.png'
 import gold from '~/assets/images/gold-circle.png'
