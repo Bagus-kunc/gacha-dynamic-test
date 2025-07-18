@@ -3,7 +3,10 @@
     :visible="modelValue"
     @update:visible="$emit('update:modelValue', $event)"
     modal
-    class="!bg-white !w-11/12 !max-w-sm border border-exd-gray-44"
+    class="!w-11/12 !max-w-sm border border-exd-gray-44"
+    :style="{
+      background: settings?.global?.modal?.background_color
+    }"
   >
     <template #container>
       <img
@@ -18,7 +21,12 @@
       <div
         class="relative flex flex-col items-center justify-center w-full gap-4 px-4 py-6"
       >
-        <div class="font-bold text-center text-exd-1424 text-exd-gray-scorpion">
+        <div 
+          class="font-bold text-center text-exd-1424"
+          :style="{
+            color: settings?.global?.modal?.text_color
+          }"
+        >
           <p style="text-shadow: 0 3px 3px rgba(0, 0, 0, 0.16)">
             {{ $t('loginOrRegister') }}
           </p>
@@ -40,7 +48,10 @@
         />
 
         <a
-          class="font-medium underline cursor-pointer text-exd-1220 text-exd-gray-scorpion"
+          class="font-medium underline cursor-pointer text-exd-1220"
+          :style="{
+            color: settings?.global?.modal?.text_color
+          }"
           style="text-shadow: 0 3px 3px rgba(0, 0, 0, 0.16)"
           @click="navigateTo('/forgot-password')"
         >

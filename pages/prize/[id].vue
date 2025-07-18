@@ -77,7 +77,10 @@
   <Dialog
     v-model:visible="hasModal"
     modal
-    class="!bg-white w-11/12 md:!w-5/12 !max-w-sm border border-exd-gray-44"
+    class="w-11/12 md:!w-5/12 !max-w-sm border border-exd-gray-44"
+    :style="{
+      background: settings?.global?.modal?.background_color
+    }"
   >
     <template #container>
       <img
@@ -91,14 +94,17 @@
       />
       <div
         class="flex flex-col items-center justify-center w-full gap-1 px-5 py-8 my-2"
+        :style="{
+          color: settings?.global?.modal?.text_color
+        }"
       >
         <p
-          class="text-exd-gray-scorpion font-bold text-center text-exd-1424 small:w-[105%] w-[93%] max-w-w-[93%]"
+          class="font-bold text-center text-exd-1424 small:w-[105%] w-[93%] max-w-w-[93%]"
           style="text-shadow: 0 3px 3px rgba(0, 0, 0, 0.16)"
         >
           {{ $t('thePrizeWillBeAwarded') }}
         </p>
-        <p class="text-center text-exd-gray-scorpion text-exd-1424">
+        <p class="text-center text-exd-1424">
           {{ $t('winnerWillBeNotifed') }}
         </p>
       </div>
@@ -141,6 +147,8 @@ const config = useRuntimeConfig()
 const { t } = useI18n()
 const LOCALE = useCookie('LOCALE')
 const handleGoToClaim = () => router.push(`/claim/${route.params.id}`)
+const settings = useState('settings')
+
 const handleToggleModal = () => {
   if (disableRedeem.value) return
   hasModal.value = !hasModal.value
