@@ -10,11 +10,11 @@
   <div class="flex flex-col px-8 mt-[35%] sm:mt-[30%]">
     <div v-if="!hidePoint" class="flex flex-col items-center">
       <div class="flex flex-col mt-[5%] items-center">
-        <p class="font-bold text-[var(--secondary)] text-exd-1530">
+        <p class="font-bold text-[var(--primary)] text-exd-1530">
           {{ $t('currentPoints') }}
         </p>
         <div v-if="!store.point" class="!w-32 !h-12 bg-white mb-[50%] rounded-md" />
-        <p v-else class="relative font-bold text-[var(--secondary)] text-exd-56112 -top-9">
+        <p v-else class="relative font-bold text-[var(--primary)] text-exd-56112 -top-9">
           {{ store.point }}<span class="ml-1 text-exd-1530">pt</span>
         </p>
       </div>
