@@ -68,7 +68,7 @@
     modal
     class=" !w-11/12 !max-w-sm border border-exd-gray-44"
     :style="{
-          background: settings?.global?.modal?.background_color
+      background: settings?.global?.modal?.background_color
     }"
   >
     <template #container>

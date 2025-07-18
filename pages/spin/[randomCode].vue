@@ -63,6 +63,9 @@
         <div v-else class="w-10/12 text-center">
           <p
             class="font-bold text-exd-1424 text-exd-gray-scorpion vhtml-desc"
+            :style="{
+              color: settings?.global?.modal?.text_color
+            }"
             v-html="checkRadiusMessage"
           ></p>
         </div>
