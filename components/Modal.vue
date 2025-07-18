@@ -21,9 +21,6 @@
       />
       <div 
         class="w-full h-full" 
-        :style="{
-          color: settings?.global?.modal?.text_color
-        }"
       >
         <slot name="body" />
       </div>
