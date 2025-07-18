@@ -320,7 +320,7 @@ const fetchingHistoryData = async () => {
       initializeMap(data.lat, data.long)
     }
 
-    handleRarity(data.character.rarity_image_in_gacha_history)
+    handleRarity(data.character_rarity_image_in_gacha_history)
   } catch (error) {
     console.log(error)
   } finally {

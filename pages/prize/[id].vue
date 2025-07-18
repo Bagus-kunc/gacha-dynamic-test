@@ -44,18 +44,11 @@
               preload
               class=""
             />
-            <i18n-t
+            <p
               v-else-if="prizeDetailData.rarity?.type === 'color'"
-              keypath="prize"
-              tag="div"
-              scope="global"
               class="font-bold text-exd-1824.52 text-white p-1 flex items-center justify-center rounded-full right-0 top-5 min-w-12 min-h-12"
               :style="{ backgroundColor: prizeDetailData.rarity.background_color, color: prizeDetailData.rarity.text_color }"
-            >
-              <template v-slot:rank>
-                {{ prizeDetailData.rarity.text.toUpperCase() }}
-              </template>
-            </i18n-t>
+            >{{ prizeDetailData.rarity.text.toUpperCase() }}</p>
           </div>
 
           <HeadingSection
