@@ -4,12 +4,8 @@
     style="box-shadow: 0px 3px 3px 0px rgba(0, 0, 0, 0.1608)"
     @touchmove="(e) => e.preventDefault()"
   >
-  <div class="pl-5" v-if="hasBack">
-    <IconsArrow :style="{ color: settings.global?.icon_color?.background }" @click="handleGoBack" class="cursor-pointer" />
-  </div>
-
-    <div class="flex pl-5">
-      <IconsArrowIcon v-if="hasBack" :handleGoBack="handleGoBack" :currentColor="settings?.global?.icon_color?.background" />
+    <div class="pl-5" v-if="hasBack">
+      <IconsArrow :style="{ color: settings.global?.icon_color?.background }" @click="handleGoBack" class="cursor-pointer" />
     </div>
 
     <div

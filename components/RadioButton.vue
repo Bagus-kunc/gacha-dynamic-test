@@ -110,11 +110,11 @@ const props = defineProps({
   },
   bgColor: {
     type: String,
-    default: 'gray',
+    default: null,
   },
   textColor: {
     type: String,
-    default: 'white',
+    default: null,
   },
 })
 

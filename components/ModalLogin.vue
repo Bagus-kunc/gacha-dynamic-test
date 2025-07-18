@@ -56,9 +56,9 @@
           :has-loading="isLoading"
         />
         <SolidButton
-          :label="settings?.register_login?.new_member_registration?.button_text"
-          :bgColor="settings?.register_login?.new_member_registration?.button_text_color.background"
-          :textColor="settings?.register_login?.new_member_registration?.button_text_color.color"
+          :label="settings?.register_login?.membership_registration_page?.button_text"
+          :bgColor="settings?.register_login?.membership_registration_page?.button_text_and_color.background"
+          :textColor="settings?.register_login?.membership_registration_page?.button_text_and_color.color"
           :onClick="handleToRegister"
         />
       </div>

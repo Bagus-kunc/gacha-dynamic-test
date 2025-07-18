@@ -5,11 +5,13 @@
         style="text-shadow: 0 3px 3px rgba(0, 0, 0, 0.16)"
         class="text-exd-gray-scorpion text-exd-1824.52"
       >
-        {{ $t('newMemberRegistration') }}
+        {{ settings?.register_login?.membership_registration_page?.page_title }}
       </p>
     </HeaderBar>
 
-    <div class="flex flex-col justify-between w-full gap-6 pb-3 mt-24 grow">
+    <div class="flex flex-col justify-between w-full gap-6 pb-3 mt-24 grow"
+      :style="{ background: settings?.register_login?.membership_registration_page?.background_page?.type === 'image' ? `url(${settings?.register_login?.membership_registration_page?.background_page?.value})` : settings?.register_login?.membership_registration_page?.background_page?.value, 'background-size': 'cover', 'background-repeat': 'no-repeat' }"
+    >
       <div class="flex flex-col px-3 grow">
 
         <div v-for="(item, index) in settings?.register_login?.register_fields" :key="index" class="!w-full p-0">
@@ -42,8 +44,8 @@
               }"
               :w230Px="item.name === 'phoneNumber' || item.name === 'postal_code' ? true : false"
               :border="true"
-              :bgColor="settings?.register_login?.new_member_registration?.button_text_color?.background"
-              :textColor="settings?.register_login?.new_member_registration?.button_text_color?.color"
+              :bgColor="settings?.register_login?.membership_registration_page?.button_text_and_color?.background"
+              :textColor="settings?.register_login?.membership_registration_page?.button_text_and_color?.color"
             />
 
             <GenderSelection
@@ -51,8 +53,8 @@
               v-model="form[item.name]"
               :label="item.label_translation_key_id"
               :required="item.required"
-              :bg-color="settings?.register_login?.new_member_registration?.button_text_color?.background"
-              :text-color="settings?.register_login?.new_member_registration?.button_text_color?.color"
+              :bg-color="settings?.register_login?.membership_registration_page?.button_text_and_color?.background"
+              :text-color="settings?.register_login?.membership_registration_page?.button_text_and_color?.color"
             />
 
             <InputDate 
@@ -61,9 +63,21 @@
               :placeholder="item.placeholder_translation_key_id"
               :required="item.required"
               v-model:model="form[item.name]" 
-              :bgColor="settings?.register_login?.new_member_registration?.button_text_color?.background"
-              :textColor="settings?.register_login?.new_member_registration?.button_text_color?.color"
+              :bgColor="settings?.register_login?.membership_registration_page?.button_text_and_color?.background"
+              :textColor="settings?.register_login?.membership_registration_page?.button_text_and_color?.color"
               border 
+            />
+
+            <RadioButton
+              v-if="item.type === 'radio'"
+              :label="t('questionnaire1')"
+              v-model:model="form[item.name]"
+              :options="questionnaire1Options"
+              :name="item.name"
+              :error="handleError(item.name)"
+              :bgColor="settings?.register_login?.membership_registration_page?.button_text_and_color?.background"
+              :textColor="settings?.register_login?.membership_registration_page?.button_text_and_color?.color"
+              :required="item.required"
             />
           </div>
         </div>
@@ -99,10 +113,10 @@
       <div class="mt-16" />
       <div class="fixed bottom-0 z-50 w-full max-w-md mx-auto mb-2">
         <SolidButton
-          :label="$t('register')"
+          :label="settings?.register_login?.membership_registration_page?.button_text"
           :has-loading="isLoading"
-          :bgColor="settings?.register_login?.new_member_registration?.button_text_color.background"
-          :textColor="settings?.register_login?.new_member_registration?.button_text_color.color"
+          :bgColor="settings?.register_login?.membership_registration_page?.button_text_and_color.background"
+          :textColor="settings?.register_login?.membership_registration_page?.button_text_and_color.color"
           :disabled="!form.checked || isLoading"
           :on-click="handleSubmit"
           has-bottom

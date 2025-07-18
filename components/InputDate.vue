@@ -14,7 +14,7 @@
             <span
             v-if="required"
             class="text-exd-0910 px-1 py-[2px] rounded-sm"
-            :style="{ backgroundColor: bgColor, color: textColor }"
+            :style="{ backgroundColor: bgColor, color: 'var(--primary)' }"
             >
             {{ $t('required') }}
             </span>
