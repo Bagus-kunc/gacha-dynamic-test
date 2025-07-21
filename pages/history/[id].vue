@@ -76,13 +76,13 @@
           class="flex flex-col gap-2 py-4 text-exd-gray-scorpion text-exd-1218"
         >
           <div class="w-full">
-            <p class="flex flex-row justify-between max-w-full">
+            <p v-if="star1" class="flex flex-row justify-between max-w-full">
               {{ star1Name }}<StarRating :value="star1" :show-value="false" />
             </p>
-            <p class="flex flex-row justify-between max-w-full">
+            <p v-if="star2" class="flex flex-row justify-between max-w-full">
               {{ star2Name }}<StarRating :value="star2" :show-value="false" />
             </p>
-            <p class="flex justify-between max-w-full">
+            <p v-if="star3" class="flex justify-between max-w-full">
               {{ star3Name }}
               <StarRating :value="star3" :show-value="false" />
             </p>
@@ -354,23 +354,23 @@ const initializeMap = async (lat, long) => {
 const updateMetaHead = () => {
   useHead({
     meta: [
-      { name: 'description', content: description },
+      { name: 'description', content: settings.value?.global?.ogp?.description },
       // Facebook
       { name: 'og:title', content: title },
-      { name: 'og:description', content: description },
+      { name: 'og:description', content: settings.value?.global?.ogp?.description },
       { name: 'og:image', content: image },
       { name: 'og:url', content: url },
       { name: 'og:type', content: 'Website' },
 
       // twitter
       { name: 'twitter:title', content: title },
-      { name: 'twitter:description', content: description },
+      { name: 'twitter:description', content: settings.value?.global?.ogp?.description },
       { name: 'twitter:image', content: image },
       { name: 'twitter:card', content: 'summary_large_image' },
 
       // // LINE
       { name: 'line:title', content: title },
-      { name: 'line:description', content: description },
+      { name: 'line:description', content: settings.value?.global?.ogp?.description },
       { name: 'line:image', content: image },
       { name: 'line:card', content: 'summary_large_image' },
     ],

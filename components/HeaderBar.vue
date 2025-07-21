@@ -43,8 +43,6 @@
 
 <script setup>
 import { useRouter, useRoute } from 'vue-router'
-import backIcon from '~/public/images/back-button.svg'
-import headerLogo from '~/public/images/header-logo.png'
 
 const router = useRouter()
 const settings = useState('settings')
