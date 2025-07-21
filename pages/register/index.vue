@@ -18,8 +18,44 @@
           <div 
           v-if="item.show"
           class="gap-4 px-5 py-5 border-b border-b-exd-light-grey">
+            <div
+              v-if="item.name === 'first_name' || item.name === 'last_name'"
+              class="inline-flex gap-4"
+            >
+              <InputText
+                :model="form[item.name]"
+                :label="$t('lastName')"
+                required
+                @update:model="updateModel(item.name, $event)"
+                @validate="validateInput(item.name, $event)"
+                :validate-on-submit="validateOnSubmit"
+                :error="handleError(item.name)"
+                :class="{
+                  'input-error': handleError(item.name),
+                }"
+                :border="true"
+                :bgColor="settings?.register_login?.membership_registration_page?.button_text_and_color?.background"
+                :textColor="settings?.register_login?.membership_registration_page?.button_text_and_color?.color"
+              />
+              <InputText
+                :model="form[item.name]"
+                :label="$t('firstName')"
+                required
+                :is-nick-name="true"
+                @update:model="updateModel(item.name, $event)"
+                @validate="validateInput(item.name, $event)"
+                :validate-on-submit="validateOnSubmit"
+                :error="handleError(item.name)"
+                :class="{
+                  'input-error': handleError(item.name),
+                }"
+                :border="true"
+                :bgColor="settings?.register_login?.membership_registration_page?.button_text_and_color?.background"
+                :textColor="settings?.register_login?.membership_registration_page?.button_text_and_color?.color"
+              />
+            </div>
             <InputText
-              v-if="item.type === 'text' || item.type === 'email' || item.type === 'password' || item.type === 'number' || item.type === 'tel'"
+              v-if="item.type === 'text' || item.type === 'email' || item.type === 'password' || item.type === 'number' || item.type === 'tel' || item.name !== 'first_name' || item.name !== 'last_name'"
               :onlyNumeric="item.name === 'postal_code' || item.type === 'number' || item.type === 'tel' ? true : false"
               :type="item.type"
               :model="form[item.name]"
