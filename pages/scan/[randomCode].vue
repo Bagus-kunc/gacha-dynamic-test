@@ -9,16 +9,24 @@
         style="text-shadow: 0 3px 3px rgba(0, 0, 0, 0.16)"
         class="header text-black font-bold text-exd-1824.52"
       >
-        {{ $t('passwordInput') }}
+        {{ settings?.pre_gacha?.password?.page_title }}
       </p>
     </HeaderBar>
     <div
       class="flex flex-col items-center justify-center mt-20 scan-content grow small:mt-14"
+      :style="{
+          background:
+            settings?.pre_gacha?.password?.background_page.type === 'image'
+              ? `url(${settings?.pre_gacha?.password?.background_page.value})`
+              : settings?.pre_gacha?.password?.background_page.value,
+          'background-size': 'cover',
+          'background-repeat': 'no-repeat',
+      }"
     >
       <div
         class="flex flex-col items-center justify-center gap-4 scan-otp pt-exd-81 pb-exd-60"
       >
-        <p class="text-exd-gray-scorpion">{{ $t('pleaseEnterPassword') }}</p>
+        <p class="text-exd-gray-scorpion">{{ settings?.pre_gacha?.quiz?.page_sub_title }}</p>
         <OtpInput
           v-model="value"
           :length="4"
@@ -29,8 +37,13 @@
         <div
           class="flex justify-center p-5 mx-3 font-bold password-inform bg-exd-banana text-exd-orange-700 text-exd-1424"
         >
-          <span class="underline cursor-pointer" @click="() => toggleModal()">{{
-            $t('passwordIsHere')
+          <span 
+            class="underline cursor-pointer"
+            :style="{
+              color: settings?.pre_gacha?.password?.label_color
+            }"
+           @click="() => toggleModal()">{{
+            settings?.pre_gacha?.password?.text
           }}</span>
         </div>
         <div class="relative flex flex-col w-full bg-gray-100 grow">
