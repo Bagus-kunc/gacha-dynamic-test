@@ -244,6 +244,8 @@ const star3 = ref(0)
 const colorBg = ref('')
 const rarityImg = ref('')
 
+const settings = useState('settings')
+
 const socialMediaLinks = ref([])
 
 const openLink = (url) => {
@@ -493,7 +495,6 @@ const downloadImage = async () => {
 }
 
 const handleRarity = (rarityChar) => {
-  console.log(rarityChar)
   rarityImg.value = rarityChar
 }
 
