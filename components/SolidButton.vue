@@ -20,13 +20,7 @@
       <span class="!text-center !w-full">{{ label }}</span>
       <div class="!absolute !right-6 !top-1/2 !transform !-translate-y-1/2">
         <LoadingIcon v-if="hasLoading && variant !== 'skip'" />
-        <img
-          v-if="hasIcon && !hasLoading && variant !== 'skip'"
-          :src="variant !== 'tom' ? arrow : arrowTom"
-          alt="arrow"
-          width="10"
-          height="10"
-        />
+        <IconsArrow v-if="hasIcon && !hasLoading && variant !== 'skip'" :style="{ color: textColor }" class="w-8 h-8 rotate-180" />
       </div>
       <div v-if="hasIcon && variant === 'skip'" class="flex pr-3">
         <img :src="arrowSkip" alt="arrow" width="16" height="10" />
