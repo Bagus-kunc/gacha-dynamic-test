@@ -29,21 +29,22 @@
           </p>
           <p
             class="text-[3.4vw] xs:text-[18px] sm:text-[22px] text-[#341f15] text-center px-3 py-2 rounded-full font-bold"
-          >
-            QUESTIONQUESTION QUESTIONQUESTION?
-          </p>
+            v-html="question"
+          />
         </div>
 
         <div class="flex flex-col items-center justify-center w-[68%] gap-1">
           <p
-            class="text-[2.5vw] xs:text-[12px] sm:text-[16px] text-[#341f15] text-center px-3 py-2 rounded-full font-bold"
+            class="text-[3.5vw] xs:text-[15px] sm:text-[16px] text-[#341f15] text-center px-3 py-2 rounded-full font-bold"
           >
             {{ settings?.pre_gacha?.quiz?.answer_box_text }}
           </p>
-          <InputTextArea
-            name="answer"
-            placeholder="Answer"
-            class="w-full h-[25vw] sm:h-28 border border-[#341f15] rounded-md"
+          <Textarea
+            v-model="answer"
+            rows="5"
+            cols="30"
+            style="resize: none"
+            class="w-full h-[25vw] sm:h-28 border bg-white text-exd-gray-scorpion border-[#341f15] rounded-md py-1 px-2 text-[3vw] xs:text-[14px] sm:text-[15px]"
           />
         </div>
 
@@ -69,10 +70,15 @@
         <div
           class="max-h-[28vh] sm:max-h-[31vh] md:max-h-[31vh] lg:max-h-[31vh] p-5 overflow-y-auto scrollable-content text-exd-gray-scorpion"
         >
-          <h3 class="text-[2.5vw] xs:text-[12px] sm:text-[16px] font-bold text-[#341f15] mb-2">
+          <h3
+            class="text-[2.5vw] xs:text-[12px] sm:text-[16px] font-bold text-[#341f15] mb-2"
+          >
             {{ settings?.pre_gacha?.quiz?.add_notes_title }}
           </h3>
-          <p class="flex flex-col gap-1 text-justify text-[2vw] xs:text-[11px] sm:text-[15px]" v-html="terms" />
+          <p
+            class="flex flex-col gap-1 text-justify text-[3vw] xs:text-[14px] sm:text-[15px]"
+            v-html="terms"
+          />
         </div>
       </div>
 
@@ -84,7 +90,7 @@
           "
           :textColor="settings?.pre_gacha?.quiz?.button_and_text_color?.color"
           :disabled="false"
-          :has-loading="false"
+          :has-loading="isLoading"
           :on-click="handleQuiz"
           has-bottom
         />
@@ -92,15 +98,17 @@
     </div>
   </div>
 
-  <Modal 
-    :is-open="showModal"
-    :on-close="() => toggleModal()"
-  >
+  <Modal :is-open="showModal" :on-close="() => toggleModal()">
     <template #body>
-      <div class="flex flex-col items-center justify-center p-5 text-center">
-        <IconsWarning class="w-8 h-8 xs:w-9 sm:h-9 md:w-10 md:h-10 " :style="{ color: settings?.global?.icon_color?.background }" />
-        <p class="font-bold text-[2.5vw] xs:text-[12px] sm:text-[14px] md:text-exd-1424">
-          {{ settings?.pre_gacha?.quiz?.warning_message }}
+      <div class="flex flex-col items-center justify-center p-5 text-center text-exd-gray-scorpion">
+        <IconsWarning
+          class="w-8 h-8 xs:w-9 sm:h-9 md:w-10 md:h-10"
+          :style="{ color: settings?.global?.icon_color?.background }"
+        />
+        <p
+          class="font-bold text-[2.5vw] xs:text-[12px] sm:text-[14px] md:text-exd-1424"
+        >
+          {{ errorMessages || settings?.pre_gacha?.quiz?.warning_message }}
         </p>
       </div>
     </template>
@@ -108,7 +116,6 @@
 </template>
 
 <script setup>
-import InputTextArea from '~/components/InputTextArea.vue'
 
 definePageMeta({
   middleware: async (to, from) => {
@@ -124,8 +131,16 @@ definePageMeta({
   },
 })
 
+const { encryptData } = useEncryption()
 const settings = useState('settings')
 const LOCALE = useCookie('LOCALE')
+
+const isLoading = ref(false)
+
+const terms = ref('')
+const answer = ref('')
+const question = ref('')
+const errorMessages = ref('')
 
 const route = useRoute()
 
@@ -134,25 +149,69 @@ const toggleModal = () => {
   showModal.value = !showModal.value
 }
 
-const handleQuiz = async () => {
-  showModal.value = true
+const checkAnswerQuiz = async (body) => {
+  isLoading.value = true
+  try {
+    const { status } = await useFetchApi('POST', 'gacha/quiz/validate', {
+      body,
+    })
 
-  const location = route.params.randomCode
-  console.log(location)
+    const validPassword = useCookie('VALID_PASSWORD')
+    validPassword.value = encryptData(body)
+
+    isLoading.value = false
+
+    return status
+  } catch (error) {
+    isLoading.value = false
+
+    if (error._data?.message) {
+      errorMessages.value = (error._data?.message)
+    }
+  }
 }
 
-const terms = ref('')
+const handleQuiz = async () => {
+  const status = await checkAnswerQuiz({
+    slug: route.params.randomCode,
+    answer: answer.value,
+  })
+
+  if (status) {
+    navigateTo(`/spin/${route.params.randomCode}`)
+  } else {
+    showModal.value = true
+  }
+}
 
 const getTerms = async () => {
   try {
     terms.value = settings.value?.pre_gacha?.quiz?.text1?.[LOCALE.value] || ''
+    console.log(settings.value.pre_gacha?.quiz.text1?.[LOCALE.value])
   } catch (error) {
     console.error("Error: Can't get terms", error)
     terms.value = ''
   }
 }
 
+const getQuestions = async () => {
+  try {
+    const res = await useFetchApi('GET', `gacha/quiz`, {
+      params: {
+        slug: route.params.randomCode,
+      },
+    })
+
+    console.log(res)
+    question.value = res?.data?.questions?.[LOCALE.value] || ''
+  } catch (error) {
+    console.error("Error: Can't get questions", error)
+  }
+}
+
+
 onMounted(() => {
+  getQuestions()
   getTerms()
 })
 </script>

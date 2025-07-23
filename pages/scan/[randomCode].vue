@@ -56,24 +56,22 @@
               <p
                 class="mb-1 font-bold scan-title text-exd-1424 text-exd-gray-scorpion"
               >
-                {{ $t('scanNotesTitle') }}
+                {{ settings?.pre_gacha?.password?.add_notes_title }}
               </p>
-              <li
-                v-for="i in 16"
-                :key="i"
-                class="font-medium text-justify text-exd-1220 text-exd-gray-scorpion"
-              >
-                {{ $t(`scanNotesDescription.note${i}`) }}
+              <li class="flex flex-col gap-1 font-medium text-justify text-[12px] sm:text-[13px] text-exd-gray-scorpion">
+                <span v-html="terms"></span>
               </li>
             </ul>
           </div>
           <div class="fixed bottom-0 z-50 w-full max-w-md px-8 mx-auto mb-1">
             <SolidButton
-              label="GO!"
+              :label="settings?.pre_gacha?.password?.button_text"
               :has-loading="isLoading"
               :on-click="goToScan"
               :disabled="isLoading"
               :has-bottom="true"
+              :bgColor="settings?.pre_gacha?.password?.button_and_text_color?.background"
+              :textColor="settings?.pre_gacha?.password?.button_and_text_color?.color"
               class="flex-none h-[56px]"
             />
           </div>
@@ -91,7 +89,7 @@
       <div
         class="relative flex flex-col items-center justify-center w-full gap-5 px-4 py-6"
       >
-        <img
+        <!-- <img
           :src="close"
           alt="close"
           width="30"
@@ -99,54 +97,13 @@
           preload
           class="absolute z-50 cursor-pointer right-2 top-3"
           @click="() => toggleModal()"
-        />
+        /> -->
 
-        <ModalContent :image="popup1" v-if="selectedContent === 1">
-          <template v-slot:content>
-            <p v-if="locale === 'ja'">
-              <span class="text text-exd-red-vermilion"
-                >名古<a
-                  href="https://nospot.new-ordinary.co.jp/maps/nagoya"
-                  target="_blank"
-                  ><span class="underline"
-                    >屋観光デジタルマップ
-                    <img
-                      :src="exportIcon"
-                      alt="exportIcon"
-                      width="20"
-                      height="20"
-                      preload
-                      class="inline text-exd-red-vermilion" /></span></a
-              ></span>
-              右下の「<span class="font-extrabold">もっと見る</span
-              >」から「<span class="font-extrabold">イベント</span
-              >」を選び、<span class="font-extrabold"
-                >赤枠で囲まれた現在のスポット</span
-              >をタップ！
-            </p>
-            <p v-else>
-              <a
-                href="https://nospot.new-ordinary.co.jp/maps/nagoya"
-                target="_blank"
-                ><span class="text text-exd-red-vermilion"
-                  >Nagoya Sightseeing Digital Map
-                  <img
-                    :src="exportIcon"
-                    alt="exportIcon"
-                    width="20"
-                    height="20"
-                    preload
-                    class="inline text-exd-red-vermilion" /></span></a
-              >Select "<span class="font-extrabold">Events</span>" from "<span
-                class="font-extrabold"
-                >See more</span
-              >" on the bottom right and tap the current spot surrounded by a
-              red frame!
-            </p>
-          </template>
-        </ModalContent>
+        <div>
+          <p v-html="settings?.pre_gacha?.password?.get_password_guide?.popup_content" class="text-exd-gray-scorpion"></p>
+        </div>
 
-        <ModalContent :image="popup2" v-if="selectedContent === 2">
+        <!-- <ModalContent :image="popup2" v-if="selectedContent === 2">
           <template v-slot:content>
             <p v-if="locale === 'ja'">
               スポット詳細ページ下のリンクをタップすると、このスポットのパスワードが表示されます。
@@ -168,12 +125,14 @@
               page and play the game! Collect points and get prizes!
             </p>
           </template>
-        </ModalContent>
+        </ModalContent> -->
 
         <div class="!w-full">
           <SolidButton
-            :label="selectedContent === 3 ? $t('close') : $t('toTheNext')"
+            :label="settings?.pre_gacha?.password?.get_password_guide?.popup_button_text"
             :on-click="handleNextButton"
+            :bgColor="settings?.pre_gacha?.password?.get_password_guide?.popup_button_and_text_color?.background"
+            :textColor="settings?.pre_gacha?.password?.get_password_guide?.popup_button_and_text_color?.color"
             class="!p-0"
           />
         </div>
@@ -486,6 +445,18 @@ definePageMeta({
   },
 })
 
+const terms = ref('')
+const LOCALE = useCookie('LOCALE')
+
+const getTerms = async () => {
+  try {
+    terms.value = settings.value?.pre_gacha?.password?.text2?.[LOCALE.value] || ''
+  } catch (error) {
+    console.error("Error: Can't get terms", error)
+    terms.value = ''
+  }
+}
+
 const checkPassword = async (params) => {
   isLoading.value = true
 
@@ -522,12 +493,12 @@ const closeStepAllowLocation = () => {
 
 const handleNextButton = () => {
   let currSelectedContent = selectedContent.value
-  if (currSelectedContent > 2) {
+  // if (currSelectedContent > 2) {
     toggleModal()
-    return
-  }
+  //   return
+  // }
 
-  selectedContent.value = currSelectedContent += 1
+  // selectedContent.value = currSelectedContent += 1
 }
 const toggleModal = () => {
   selectedContent.value = 1
@@ -709,6 +680,7 @@ const getBrowserInfo = computed(() => {
 onMounted(async () => {
   const location = route.params.randomCode
   await getPassword(location)
+  getTerms()
 })
 
 watch(isNotAllowed, (newValue) => {
