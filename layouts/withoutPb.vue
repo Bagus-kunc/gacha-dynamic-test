@@ -35,7 +35,7 @@ const settings = useState('settings')
 useHead({
   title: settings.value?.global?.ogp?.title,
   meta: [
-    { name: 'description', content: stripHtml(settings.value?.global?.ogp?.description) },
+    { name: 'description', content: stripHtml(settings.value?.global?.ogp?.title) },
     // Facebook
     { name: 'og:title', content: settings.value?.global?.ogp?.title },
     { name: 'og:description', content: stripHtml(settings.value?.global?.ogp?.description) },
