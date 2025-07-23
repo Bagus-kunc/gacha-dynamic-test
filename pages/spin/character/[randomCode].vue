@@ -109,13 +109,7 @@
       <div
         class="flex flex-col items-center justify-center w-full gap-4 px-6 py-6"
       >
-        <img
-          src="/images/warning.svg"
-          alt="warning"
-          width="40"
-          height="40"
-          preload
-        />
+        <IconsWarning class="w-10 h-10" :style="{ color: settings?.global?.icon_color?.background }" />
         <div class="w-10/12 text-center">
           <p 
             class="font-bold text-exd-1424"
@@ -164,14 +158,14 @@
           class="flex flex-col gap-2 py-4 text-exd-gray-scorpion text-exd-1424"
         >
           <div class="max-w-full">
-            <p class="flex flex-row justify-between w-full">
+            <p v-if="star1" class="flex flex-row justify-between w-full">
               {{ star1Name }}
               <StarRating :value="star1" :show-value="false" />
             </p>
-            <p class="flex flex-row justify-between w-full">
+            <p v-if="star2" class="flex flex-row justify-between w-full">
               {{ star2Name }}<StarRating :value="star2" :show-value="false" />
             </p>
-            <p class="flex justify-between w-full">
+            <p v-if="star3" class="flex justify-between w-full">
               {{ star3Name }}
               <StarRating :value="star3" :show-value="false" />
             </p>
