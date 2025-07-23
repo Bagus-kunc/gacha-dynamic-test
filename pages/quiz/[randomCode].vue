@@ -89,7 +89,7 @@
             settings?.pre_gacha?.quiz?.button_and_text_color?.background
           "
           :textColor="settings?.pre_gacha?.quiz?.button_and_text_color?.color"
-          :disabled="false"
+          :disabled="isLoading"
           :has-loading="isLoading"
           :on-click="handleQuiz"
           has-bottom
@@ -187,7 +187,6 @@ const handleQuiz = async () => {
 const getTerms = async () => {
   try {
     terms.value = settings.value?.pre_gacha?.quiz?.text1?.[LOCALE.value] || ''
-    console.log(settings.value.pre_gacha?.quiz.text1?.[LOCALE.value])
   } catch (error) {
     console.error("Error: Can't get terms", error)
     terms.value = ''
@@ -201,8 +200,6 @@ const getQuestions = async () => {
         slug: route.params.randomCode,
       },
     })
-
-    console.log(res)
     question.value = res?.data?.questions?.[LOCALE.value] || ''
   } catch (error) {
     console.error("Error: Can't get questions", error)
