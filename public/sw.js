@@ -2,13 +2,10 @@
 const CACHE_NAME = `gacharary-aichi-gurutto-v2 - ${self.location.origin}`
 const FOLLBACK_IMAGE = '/images/gacha-aichi.png'
 const urlsToCache = [
-  '/favicon.ico',
   '/images/sparkling.png',
   '/images/gacha-aichi.png',
-  '/images/warning.svg',
   '/images/close.svg',
   '/images/export.svg',
-  '/images/intl-icon.png',
   '/images/text-char.png',
   '/icons/icon-gift.svg',
 ]

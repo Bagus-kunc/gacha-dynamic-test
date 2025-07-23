@@ -65,15 +65,13 @@ const getImageValue = (obj) => {
 
 const checkCaches = () => {
   const urlsToCache = [
-    '/favicon.ico',
     '/images/sparkling.png',
     '/images/gacha-aichi.png',
-    '/images/warning.svg',
     '/images/close.svg',
     '/images/export.svg',
-    '/images/intl-icon.png',
     '/images/text-char.png',
     '/icons/icon-gift.svg',
+    settings.value?.global?.logo,
     getImageValue(gacha?.loading_screen?.background),
     gacha?.loading_screen?.gif || "",
     spin1?.gacha_1_video || "",
