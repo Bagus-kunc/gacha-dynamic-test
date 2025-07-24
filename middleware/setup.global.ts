@@ -1,6 +1,9 @@
 export default defineNuxtRouteMiddleware(async (to, from) => {
   const allowPaths = ['spin']
-
+  const LOCALE = useCookie('LOCALE')
+  
+  LOCALE.value ??= 'ja'
+  
   try {
     const settings = useState('settings', () => null)
     if (!settings.value) {
