@@ -5,47 +5,49 @@
         style="text-shadow: 0 3px 3px rgba(0, 0, 0, 0.16)"
         class="text-exd-gray-scorpion font-bold text-exd-1824.52"
       >
-        {{ $t('forgotPassword') }}
+        {{ settings?.forgot_password?.[steps]?.page_title }}
       </p>
     </HeaderBar>
 
     <div
       class="flex flex-col justify-between w-full gap-6 px-8 pt-32 pb-20 overflow-auto grow !bg-no-repeat !bg-cover !bg-center"
-      :style="{ background: settings?.forgot_password?.background.type === 'image' ? `url(${settings?.forgot_password?.background.value})` : settings?.forgot_password?.background.value, 'background-size': 'cover', 'background-repeat': 'no-repeat' }"
+      :style="{
+        background:
+          settings?.forgot_password?.[steps]?.background.type === 'image'
+            ? `url(${settings?.forgot_password?.[steps]?.background.value})`
+            : settings?.forgot_password?.[steps]?.background.value,
+        'background-size': 'cover',
+        'background-repeat': 'no-repeat',
+      }"
     >
       <template v-if="isSuccessSendLinkResetPassword">
         <div class="flex flex-col items-center gap-6 grow">
           <h1 class="font-bold text-exd-1424 text-exd-gray-scorpion">
-            {{ $t('emailSentCompleted') }}
+            {{ settings?.forgot_password?.step_2?.page_description }}
           </h1>
           <p class="font-medium text-exd-1424 text-exd-gray-scorpion">
-            {{ $t('emailSentCompletedMessage') }}
+            {{ settings?.forgot_password?.step_2?.field_title }}
           </p>
         </div>
       </template>
       <template v-else>
         <div class="flex flex-col gap-6 grow">
           <p class="font-medium text-exd-1424 text-exd-gray-scorpion">
-            {{ $t('resetPasswordDescription') }}
+            {{ settings?.forgot_password?.[steps]?.page_description }}
           </p>
           <InputText
             type="email"
             :model="form.email"
-            :label="$t('loginID')"
+            :label="settings?.forgot_password?.[steps]?.field_title"
             :error="emailError"
             @update:model="updateModel('email', $event)"
             @validate="validateInput('email', $event)"
           />
           <ul>
-            <li class="font-medium text-exd-1220 text-exd-gray-scorpion">
-              {{ $t('resetPasswordRequirement1') }}
-            </li>
-            <li class="font-medium text-exd-1220 text-exd-gray-scorpion">
-              {{ $t('resetPasswordRequirement2') }}
-            </li>
-            <li class="font-medium text-exd-1220 text-exd-gray-scorpion">
-              {{ $t('resetPasswordRequirement3') }}
-            </li>
+            <li
+              class="font-medium text-exd-1220 text-exd-gray-scorpion"
+              v-html="note"
+            />
           </ul>
           <div>
             <p>{{ message }}</p>
@@ -55,11 +57,15 @@
     </div>
     <div class="fixed bottom-0 w-full max-w-md px-8 mx-auto mb-3">
       <SolidButton
-        :label="!isSuccessSendLinkResetPassword ? $t('send') : 'TOP'"
+        :label="settings?.forgot_password?.[steps]?.button_text"
         :has-loading="isLoading"
         :on-click="handleSubmit"
-        :bgColor="settings?.forgot_password?.button_and_text_color?.background"
-        :textColor="settings?.forgot_password?.button_and_text_color?.color"
+        :bgColor="
+          settings?.forgot_password?.[steps]?.button_and_text_color?.background
+        "
+        :textColor="
+          settings?.forgot_password?.[steps]?.button_and_text_color?.color
+        "
         has-bottom
         :disabled="emailError !== '' || isLoading"
       />
@@ -71,7 +77,12 @@
 import InputText from '~/components/InputText.vue'
 import { useI18n } from 'vue-i18n'
 
+const route = useRoute()
+
+const note = ref('')
 const { t } = useI18n()
+const steps = ref('step_1')
+const LOCALE = useCookie('LOCALE')
 const settings = useState('settings')
 
 const form = ref({
@@ -79,8 +90,8 @@ const form = ref({
 })
 
 const message = ref(null)
-const isLoading = ref(false)
 const emailError = ref('')
+const isLoading = ref(false)
 const isSuccessSendLinkResetPassword = ref(false)
 const updateModel = (field, value) => {
   form.value[field] = value
@@ -108,6 +119,7 @@ const handleSubmit = async () => {
   }
 
   if (isSuccessSendLinkResetPassword.value) {
+    steps.value === 'step_2'
     navigateTo('/')
   } else {
     let payload = {
@@ -121,7 +133,10 @@ const handleSubmit = async () => {
       })
 
       if (status) {
-        isSuccessSendLinkResetPassword.value = true
+        navigateTo({
+          path: '/forgot-password',
+          query: { email_sent: 'success' },
+        })
       }
     } catch (error) {
       emailError.value = error._data.message
@@ -130,4 +145,25 @@ const handleSubmit = async () => {
     }
   }
 }
+
+const getNotes = async () => {
+  try {
+    note.value =
+      settings.value?.forgot_password?.step_1?.notes?.[LOCALE.value] || ''
+  } catch (error) {
+    console.error("Error: Can't get notes", error)
+    note.value = ''
+  }
+}
+
+watchEffect(() => {
+  if (route.query.email_sent) {
+    steps.value = 'step_2'
+    isSuccessSendLinkResetPassword.value = true
+  }
+})
+
+onMounted(() => {
+  getNotes()
+})
 </script>

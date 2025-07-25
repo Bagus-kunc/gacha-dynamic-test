@@ -5,59 +5,71 @@
         style="text-shadow: 0 3px 3px rgba(0, 0, 0, 0.16)"
         class="text-exd-gray-scorpion font-bold text-exd-1824.52"
       >
-        {{ $t('resetPassword') }}
+        {{ settings?.forgot_password?.[steps]?.page_title }}
       </p>
     </HeaderBar>
 
-    <div class="flex flex-col justify-between px-8 pb-3 mt-32 grow">
+    <div 
+      class="flex flex-col justify-between w-full gap-6 px-8 pt-32 pb-20 overflow-auto grow !bg-no-repeat !bg-cover !bg-center"
+      :style="{
+        background:
+          settings?.forgot_password?.[steps]?.background.type === 'image'
+            ? `url(${settings?.forgot_password?.[steps]?.background.value})`
+            : settings?.forgot_password?.[steps]?.background.value,
+      }"
+    >
       <template v-if="!isSuccessSendResetPassword">
         <div>
           <h1
             class="font-bold text-center text-exd-gray-scorpion text-exd-1424"
           >
-            {{ $t('enterYourNewPassword') }}
+            {{ settings?.forgot_password?.[steps]?.page_description }}
           </h1>
           <div class="flex flex-col gap-7 mt-14">
             <InputText
               :model="form.email"
-              :label="$t('loginID')"
+              :label="settings?.forgot_password?.[steps]?.field?.field_1"
               @validate="validateInput('email', $event)"
               disabled
             />
             <InputText
               type="password"
               :model="form.password"
-              :label="$t('password')"
+              :label="settings?.forgot_password?.[steps]?.field?.field_2"
               @validate="validateInput('password', $event)"
               @update:model="updateModel('password', $event)"
             />
-            <!-- <InputText
+            <InputText
+              v-if="settings?.forgot_password?.[steps]?.field?.field_3"
               type="password"
               :model="form.confirmPassword"
-              :label="$t('rePassword')"
+              :label="settings?.forgot_password?.[steps]?.field?.field_3"
               @validate="validateInput('confPassword', $event)"
               @update:model="updateModel('confirmPassword', $event)"
-            /> -->
+            />
           </div>
         </div>
       </template>
       <template v-else>
         <h1 class="font-bold text-center text-exd-gray-scorpion text-exd-1424">
-          {{ $t('passwordResetCompleted') }}
+          {{ settings?.forgot_password?.[steps]?.page_description }}
         </h1>
       </template>
-
+    </div>
+    
+    <div class="fixed bottom-0 w-full max-w-md px-8 mx-auto mb-3">
       <SolidButton
-        :label="!isSuccessSendResetPassword ? $t('send') : $t('myPage')"
+        :label="settings?.forgot_password?.[steps]?.button_text"
         :has-loading="isLoading"
         :disabled="isLoading"
-        :bgColor="settings?.forgot_password?.button_and_text_color?.background"
-        :textColor="settings?.forgot_password?.button_and_text_color?.color"
+        :bgColor="settings?.forgot_password?.[steps]?.button_and_text_color?.background"
+        :textColor="settings?.forgot_password?.[steps]?.button_and_text_color?.background.color"
         :on-click="handleSubmit"
         has-bottom
       />
     </div>
   </div>
+  
   <Dialog
     v-model:visible="isErrorMessage"
     modal
@@ -103,6 +115,7 @@ import HeaderBar from '~/components/HeaderBar.vue'
 const { t } = useI18n()
 const route = useRoute()
 const router = useRouter()
+const steps = ref('step_3')
 const isLoading = ref(false)
 const errorMessage = ref(null)
 const isErrorMessage = ref(false)
@@ -142,7 +155,7 @@ const handleSubmit = async () => {
 
       if (status) {
         isLoading.value = false
-        isSuccessSendResetPassword.value = true
+        navigateTo('/reset/complete')
       }
 
       // console.log(response)
@@ -182,5 +195,12 @@ const validateInput = (field, value) => {
 
 onMounted(() => {
   fetchingEmailData()
+})
+
+watchEffect(() => {
+  if (route.path.includes('complete')) {
+    steps.value = 'step_4'
+    isSuccessSendResetPassword.value = true
+  }
 })
 </script>
