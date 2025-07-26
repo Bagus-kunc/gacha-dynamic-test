@@ -5,7 +5,7 @@
         style="text-shadow: 0 3px 3px rgba(0, 0, 0, 0.16)"
         class="text-exd-gray-scorpion text-exd-1824.52"
       >
-        {{ settings.user_dashboard?.member_information?.page_title }}
+        {{ settings?.register_login?.change_membership_information_page_1?.page_title }}
       </p>
     </HeaderBar>
 
@@ -15,8 +15,7 @@
       <h1
         class="text-center flex flex-col text-1416 text-exd-gray-scorpion pb-4 w-full max-w-[360px] mx-auto"
       >
-        {{ $t('memberInformation1') }}
-        <span> {{ $t('memberInformation2') }}</span>
+        {{ settings?.register_login?.change_membership_information_page_1?.page_description }}
       </h1>
       <div
         class="inline-flex items-center justify-between gap-4 pb-5 border-b border-b-exd-light-grey px-7 text-exd-gray-scorpion text-1416"

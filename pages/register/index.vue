@@ -9,54 +9,42 @@
       </p>
     </HeaderBar>
 
-    <div class="flex flex-col justify-between w-full gap-6 pb-3 mt-24 grow"
-      :style="{ background: settings?.register_login?.membership_registration_page?.background_page?.type === 'image' ? `url(${settings?.register_login?.membership_registration_page?.background_page?.value})` : settings?.register_login?.membership_registration_page?.background_page?.value, 'background-size': 'cover', 'background-repeat': 'no-repeat' }"
+    <div
+      class="flex flex-col justify-between w-full gap-6 pb-3 mt-24 grow"
+      :style="{
+        background:
+          settings?.register_login?.membership_registration_page
+            ?.background_page?.type === 'image'
+            ? `url(${settings?.register_login?.membership_registration_page?.background_page?.value})`
+            : settings?.register_login?.membership_registration_page
+                ?.background_page?.value,
+        'background-size': 'cover',
+        'background-repeat': 'no-repeat',
+      }"
     >
       <div class="flex flex-col px-3 grow">
-
-        <div v-for="(item, index) in settings?.register_login?.register_fields" :key="index" class="!w-full p-0">
-          <div 
-          v-if="item.show"
-          class="gap-4 px-5 py-5 border-b border-b-exd-light-grey">
-            <div
-              v-if="item.name === 'first_name' || item.name === 'last_name'"
-              class="inline-flex gap-4"
-            >
-              <InputText
-                :model="form[item.name]"
-                :label="$t('lastName')"
-                required
-                @update:model="updateModel(item.name, $event)"
-                @validate="validateInput(item.name, $event)"
-                :validate-on-submit="validateOnSubmit"
-                :error="handleError(item.name)"
-                :class="{
-                  'input-error': handleError(item.name),
-                }"
-                :border="true"
-                :bgColor="settings?.register_login?.membership_registration_page?.button_text_and_color?.background"
-                :textColor="settings?.register_login?.membership_registration_page?.button_text_and_color?.color"
-              />
-              <InputText
-                :model="form[item.name]"
-                :label="$t('firstName')"
-                required
-                :is-nick-name="true"
-                @update:model="updateModel(item.name, $event)"
-                @validate="validateInput(item.name, $event)"
-                :validate-on-submit="validateOnSubmit"
-                :error="handleError(item.name)"
-                :class="{
-                  'input-error': handleError(item.name),
-                }"
-                :border="true"
-                :bgColor="settings?.register_login?.membership_registration_page?.button_text_and_color?.background"
-                :textColor="settings?.register_login?.membership_registration_page?.button_text_and_color?.color"
-              />
-            </div>
+        <div
+          v-for="(item, index) in settings?.register_login?.register_fields"
+          :key="index"
+          class="!w-full p-0"
+        >
+          <div
+            v-if="item.show"
+            class="gap-4 px-5 py-5 border-b border-b-exd-light-grey"
+          >
             <InputText
-              v-if="item.type === 'text' || item.type === 'email' || item.type === 'password' || item.type === 'number' || item.type === 'tel' || item.name !== 'first_name' || item.name !== 'last_name'"
-              :onlyNumeric="item.name === 'postal_code' || item.type === 'number' || item.type === 'tel' ? true : false"
+              v-if="
+                item.type !== 'gender' &&
+                item.type !== 'radio' &&
+                item.type !== 'date'
+              "
+              :onlyNumeric="
+                item.name === 'postal_code' ||
+                item.type === 'number' ||
+                item.type === 'tel'
+                  ? true
+                  : false
+              "
               :type="item.type"
               :model="form[item.name]"
               :label="item.label_translation_key_id"
@@ -78,30 +66,100 @@
               :class="{
                 'input-error': handleError(item.name),
               }"
-              :w230Px="item.name === 'phoneNumber' || item.name === 'postal_code' ? true : false"
+              :w230Px="
+                item.name === 'phoneNumber' || item.name === 'postal_code'
+                  ? true
+                  : false
+              "
               :border="true"
-              :bgColor="settings?.register_login?.membership_registration_page?.button_text_and_color?.background"
-              :textColor="settings?.register_login?.membership_registration_page?.button_text_and_color?.color"
+              :bgColor="
+                settings?.register_login?.membership_registration_page
+                  ?.button_text_and_color?.background
+              "
+              :textColor="
+                settings?.register_login?.membership_registration_page
+                  ?.button_text_and_color?.color
+              "
             />
+            
+          <!--
+            <div
+              v-if="item.name === 'first_name' || item.name === 'last_name'"
+              class="inline-flex gap-4"
+            >
+              <InputText
+                :model="form['last_name']"
+                :label="$t('lastName')"
+                required
+                @update:model="updateModel('last_name', $event)"
+                @validate="validateInput('last_name', $event)"
+                :validate-on-submit="validateOnSubmit"
+                :error="handleError('last_name')"
+                :class="{ 'input-error': handleError('last_name') }"
+                :border="true"
+                :bgColor="
+                  settings?.register_login?.membership_registration_page
+                    ?.button_text_and_color?.background
+                "
+                :textColor="
+                  settings?.register_login?.membership_registration_page
+                    ?.button_text_and_color?.color
+                "
+              />
+              <InputText
+                :model="form['first_name']"
+                :label="$t('firstName')"
+                required
+                :is-nick-name="true"
+                @update:model="updateModel('first_name', $event)"
+                @validate="validateInput('first_name', $event)"
+                :validate-on-submit="validateOnSubmit"
+                :error="handleError('first_name')"
+                :class="{ 'input-error': handleError('first_name') }"
+                :border="true"
+                :bgColor="
+                  settings?.register_login?.membership_registration_page
+                    ?.button_text_and_color?.background
+                "
+                :textColor="
+                  settings?.register_login?.membership_registration_page
+                    ?.button_text_and_color?.color
+                "
+              />
+            </div>
+          -->
 
             <GenderSelection
               v-if="item.type === 'gender'"
               v-model="form[item.name]"
               :label="item.label_translation_key_id"
               :required="item.required"
-              :bg-color="settings?.register_login?.membership_registration_page?.button_text_and_color?.background"
-              :text-color="settings?.register_login?.membership_registration_page?.button_text_and_color?.color"
+              :bg-color="
+                settings?.register_login?.membership_registration_page
+                  ?.button_text_and_color?.background
+              "
+              :text-color="
+                settings?.register_login?.membership_registration_page
+                  ?.button_text_and_color?.color
+              "
             />
 
-            <InputDate 
+            <InputDate
               v-if="item.type === 'date'"
               :label="item.label_translation_key_id"
               :placeholder="item.placeholder_translation_key_id"
               :required="item.required"
-              v-model:model="form[item.name]" 
-              :bgColor="settings?.register_login?.membership_registration_page?.button_text_and_color?.background"
-              :textColor="settings?.register_login?.membership_registration_page?.button_text_and_color?.color"
-              border 
+              v-model:model="form[item.name]"
+              :error="handleError(item.name)"
+              :bgColor="
+                settings?.register_login?.membership_registration_page
+                  ?.button_text_and_color?.background
+              "
+              :textColor="
+                settings?.register_login?.membership_registration_page
+                  ?.button_text_and_color?.color
+              "
+              border
             />
 
             <RadioButton
@@ -111,8 +169,14 @@
               :options="questionnaire1Options"
               :name="item.name"
               :error="handleError(item.name)"
-              :bgColor="settings?.register_login?.membership_registration_page?.button_text_and_color?.background"
-              :textColor="settings?.register_login?.membership_registration_page?.button_text_and_color?.color"
+              :bgColor="
+                settings?.register_login?.membership_registration_page
+                  ?.button_text_and_color?.background
+              "
+              :textColor="
+                settings?.register_login?.membership_registration_page
+                  ?.button_text_and_color?.color
+              "
               :required="item.required"
             />
           </div>
@@ -138,10 +202,7 @@
             <div
               class="text-exd-1220 font-medium leading-relaxed h-[84px] flex flex-col gap-1"
             >
-              <p
-                class="flex flex-col gap-1 text-justify"
-                v-html="terms"
-              />
+              <p class="flex flex-col gap-1 text-justify" v-html="terms" />
             </div>
           </div>
         </div>
@@ -149,10 +210,18 @@
       <div class="mt-16" />
       <div class="fixed bottom-0 z-50 w-full max-w-md mx-auto mb-2">
         <SolidButton
-          :label="settings?.register_login?.membership_registration_page?.button_text"
+          :label="
+            settings?.register_login?.membership_registration_page?.button_text
+          "
           :has-loading="isLoading"
-          :bgColor="settings?.register_login?.membership_registration_page?.button_text_and_color.background"
-          :textColor="settings?.register_login?.membership_registration_page?.button_text_and_color.color"
+          :bgColor="
+            settings?.register_login?.membership_registration_page
+              ?.button_text_and_color.background
+          "
+          :textColor="
+            settings?.register_login?.membership_registration_page
+              ?.button_text_and_color.color
+          "
           :disabled="!form.checked || isLoading"
           :on-click="handleSubmit"
           has-bottom
@@ -167,7 +236,7 @@
     modal
     class="!w-11/12 !max-w-sm border border-exd-gray-44"
     :style="{
-          background: settings?.global?.modal?.background_color
+      background: settings?.global?.modal?.background_color,
     }"
   >
     <template #container>
@@ -181,14 +250,17 @@
         @click="handleCloseDialog"
       />
       <div class="flex flex-col items-center justify-center w-full gap-4 py-6">
-        <IconsWarning class="w-10 h-10" :style="{ color: settings?.global?.icon_color?.background }" />
+        <IconsWarning
+          class="w-10 h-10"
+          :style="{ color: settings?.global?.icon_color?.background }"
+        />
         <div class="w-10/12 text-center">
           <p
             v-for="(item, index) in errorScroll"
             :key="index"
             class="font-bold text-exd-1424"
             :style="{
-              color: settings?.global?.modal?.text_color
+              color: settings?.global?.modal?.text_color,
             }"
           >
             {{ item }}
@@ -221,7 +293,9 @@ const isLoading = ref(false)
 const errorMessages = ref([])
 const errorAgeMessage = ref('')
 const emailErrorKey = ref('')
-const errorEmailMessage = computed(() => emailErrorKey.value && t(emailErrorKey.value))
+const errorEmailMessage = computed(
+  () => emailErrorKey.value && t(emailErrorKey.value)
+)
 const isErrorMessage = ref(false)
 const validateOnSubmit = ref(false)
 const errorNicknameMessage = ref('')
@@ -233,7 +307,9 @@ const { decryptData, encryptData } = useEncryption()
 
 const errorPhoneNumber = ref('')
 const errorKeyPostCode = ref('')
-const errorPostCodeMessage = computed(() => errorKeyPostCode.value && t(errorKeyPostCode.value))
+const errorPostCodeMessage = computed(
+  () => errorKeyPostCode.value && t(errorKeyPostCode.value)
+)
 
 const settings = useState('settings')
 const LOCALE = useCookie('LOCALE')
@@ -303,9 +379,7 @@ const handleError = (field) => {
   }
 }
 
-const validateInput = (field, value) => {
-  
-}
+const validateInput = (field, value) => {}
 
 const passwordValidate = () => {
   const password = form.value.password
@@ -380,7 +454,6 @@ const fetchRegister = async (payload) => {
       sessionStorage.setItem('EMAIL', payload.email)
       sessionStorage.setItem('PASSWORD', encryptData(payload.password))
 
-
       navigateTo('/#registration-complete')
       isLoading.value = false
     }
@@ -445,9 +518,8 @@ const buildPayload = () => {
 }
 
 const handleSubmit = async () => {
-
   errorScroll.value = []
-  
+
   validateOnSubmit.value = true
 
   const { checked, ...payload } = form.value
