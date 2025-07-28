@@ -10,7 +10,17 @@
     </HeaderBar>
 
     <div
-      class="flex flex-col justify-between w-full gap-6 pb-3 mt-32 font-bold grow"
+      class="flex flex-col justify-between w-full gap-6 pt-32 pb-3 font-bold grow"
+      :style="{
+        background:
+          settings?.register_login?.change_membership_information_page_1
+            ?.background_page?.type === 'image'
+            ? `url(${settings?.register_login?.change_membership_information_page_1?.background_page?.value})`
+            : settings?.register_login?.change_membership_information_page_1
+                ?.background_page?.value,
+        'background-size': 'cover',
+        'background-repeat': 'no-repeat',
+      }"
     >
       <h1
         class="text-center flex flex-col text-1416 text-exd-gray-scorpion pb-4 w-full max-w-[360px] mx-auto"
@@ -38,7 +48,7 @@
             >{{ $t('sex') }}
             <span
               class="text-exd-0910 px-1 py-[2px] rounded-sm"
-              :style="{ backgroundColor: settings?.user_dashboard?.member_information?.button_and_text_color?.background, color: 'var(--primary)' }"
+              :style="{ backgroundColor: settings?.register_login?.change_membership_information_page_1?.button_and_text_color?.background, color: 'var(--primary)' }"
               >{{ $t('required') }}</span
             >
           </label>
@@ -106,8 +116,7 @@
                 'opacity-50': isLoading,
               }"
               :border="true"
-              :bgColor="settings?.user_dashboard?.member_information?.button_and_text_color?.background"
-              :textColor="settings?.user_dashboard?.member_information?.button_and_text_color?.color"
+              :bgColor="settings?.register_login?.change_membership_information_page_1?.button_text_and_color?.background"
             />
           </div>
         </div>
@@ -139,8 +148,7 @@
                   : errorEmailMessage,
             }"
             :border="true"
-            :bgColor="settings?.user_dashboard?.member_information?.button_and_text_color?.background"
-            :textColor="settings?.user_dashboard?.member_information?.button_and_text_color?.color"
+            :bgColor="settings?.register_login?.change_membership_information_page_1?.button_text_and_color?.background"
           />
         </div>
 
@@ -166,8 +174,7 @@
                 : t(errorPasswordMessage)
             "
             :border="true"
-            :bgColor="settings?.user_dashboard?.member_information?.button_and_text_color?.background"
-            :textColor="settings?.user_dashboard?.member_information?.button_and_text_color?.color"
+            :bgColor="settings?.register_login?.change_membership_information_page_1?.button_text_and_color?.background"
           />
         </div>
 
@@ -202,12 +209,12 @@
       <div class="mt-16" />
       <div class="fixed bottom-0 z-50 w-full max-w-md mx-auto mb-2">
         <SolidButton
-          :label="settings.user_dashboard?.member_information?.button_text"
+          :label="settings?.register_login?.change_membership_information_page_1?.button_text"
           :has-loading="isLoading"
           :disabled="!isButtonEnabled || !form.checked"
           :on-click="handleSubmit"
-          :bgColor="settings.user_dashboard?.member_information?.button_and_text_color?.background"
-          :textColor="settings.user_dashboard?.member_information?.button_and_text_color?.color"
+          :bgColor="settings?.register_login?.change_membership_information_page_1?.button_text_and_color?.background"
+          :textColor="settings?.register_login?.change_membership_information_page_1?.button_text_and_color?.color"
           has-bottom
         />
       </div>
@@ -428,9 +435,12 @@ const fetchPostUserData = async (payload) => {
     const { data } = await useFetchApi('POST', 'user', {
       body: payload,
     })
+    
     if (validateForm()) {
       localStorage.setItem('USER_ID', data.user.id)
-
+      localStorage.setItem('PROFILE_SUBMITTED', 'true')
+      localStorage.setItem('PROFILE_SUBMIT_TIME', Date.now().toString())
+      
       navigateTo('/profile/complete')
     }
   } catch (error) {

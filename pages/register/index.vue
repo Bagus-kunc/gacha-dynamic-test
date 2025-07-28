@@ -10,7 +10,7 @@
     </HeaderBar>
 
     <div
-      class="flex flex-col justify-between w-full gap-6 pb-3 mt-24 grow"
+      class="flex flex-col justify-between w-full gap-6 pb-3 mt-32 grow"
       :style="{
         background:
           settings?.register_login?.membership_registration_page
@@ -22,6 +22,22 @@
         'background-repeat': 'no-repeat',
       }"
     >
+      <h1
+          class="text-center flex flex-col text-1416 text-exd-gray-scorpion pb-4 w-full max-w-[360px] mx-auto"
+        >
+          {{ settings?.register_login?.membership_registration_page?.page_description }}
+      </h1>
+      <div
+        class="inline-flex items-center justify-between gap-4 pb-5 border-b border-b-exd-light-grey px-7 text-exd-gray-scorpion text-1416"
+      >
+        <h1>{{ $t('member') }} <span class="font-bold">ID</span></h1>
+        <p v-if="userId" class="overflow-hidden font-bold text-right whitespace-nowrap">
+          {{ userId }}
+        </p>
+        <p v-else class="w-48 overflow-hidden font-bold text-right whitespace-nowrap">
+          00000000000
+        </p>
+      </div>
       <div class="flex flex-col px-3 grow">
         <div
           v-for="(item, index) in settings?.register_login?.register_fields"

@@ -59,10 +59,9 @@
         </a>
         
         <SolidButton
-          :label="settings.register_login?.login?.button_text"
+          :label="t('login')"
+          variant="vermilion"
           :onClick="handleSubmit"
-          :bgColor="settings?.register_login?.login?.button_text_color?.background"
-          :textColor="settings?.register_login?.login?.button_text_color?.color"
           :disabled="!isValidInput || isLoading"
           :has-loading="isLoading"
         />
