@@ -15,18 +15,20 @@
     <div
       class="flex flex-col items-center justify-center mt-20 scan-content grow small:mt-14"
       :style="{
-          background:
-            settings?.pre_gacha?.password?.background_page.type === 'image'
-              ? `url(${settings?.pre_gacha?.password?.background_page.value})`
-              : settings?.pre_gacha?.password?.background_page.value,
-          'background-size': 'cover',
-          'background-repeat': 'no-repeat',
+        background:
+          settings?.pre_gacha?.password?.background_page.type === 'image'
+            ? `url(${settings?.pre_gacha?.password?.background_page.value})`
+            : settings?.pre_gacha?.password?.background_page.value,
+        'background-size': 'cover',
+        'background-repeat': 'no-repeat',
       }"
     >
       <div
         class="flex flex-col items-center justify-center gap-4 scan-otp pt-exd-81 pb-exd-60"
       >
-        <p class="text-exd-gray-scorpion">{{ settings?.pre_gacha?.quiz?.page_sub_title }}</p>
+        <p class="text-exd-gray-scorpion">
+          {{ settings?.pre_gacha?.password?.page_sub_title }}
+        </p>
         <OtpInput
           v-model="value"
           :length="4"
@@ -37,14 +39,14 @@
         <div
           class="flex justify-center p-5 mx-3 font-bold password-inform bg-exd-banana text-exd-orange-700 text-exd-1424"
         >
-          <span 
+          <span
             class="underline cursor-pointer"
             :style="{
-              color: settings?.pre_gacha?.password?.label_color
+              color: settings?.pre_gacha?.password?.label_color,
             }"
-           @click="() => toggleModal()">{{
-            settings?.pre_gacha?.password?.text
-          }}</span>
+            @click="() => toggleModal()"
+            >{{ settings?.pre_gacha?.password?.text }}</span
+          >
         </div>
         <div class="relative flex flex-col w-full bg-gray-100 grow">
           <div class="grow p-5 small:p-[15px]">
@@ -58,7 +60,9 @@
               >
                 {{ settings?.pre_gacha?.password?.add_notes_title }}
               </p>
-              <li class="flex flex-col gap-1 font-medium text-justify text-[12px] sm:text-[13px] text-exd-gray-scorpion">
+              <li
+                class="flex flex-col gap-1 font-medium text-justify text-[12px] sm:text-[13px] text-exd-gray-scorpion"
+              >
                 <span v-html="terms"></span>
               </li>
             </ul>
@@ -70,8 +74,12 @@
               :on-click="goToScan"
               :disabled="isLoading"
               :has-bottom="true"
-              :bgColor="settings?.pre_gacha?.password?.button_and_text_color?.background"
-              :textColor="settings?.pre_gacha?.password?.button_and_text_color?.color"
+              :bgColor="
+                settings?.pre_gacha?.password?.button_and_text_color?.background
+              "
+              :textColor="
+                settings?.pre_gacha?.password?.button_and_text_color?.color
+              "
               class="flex-none h-[56px]"
             />
           </div>
@@ -87,53 +95,33 @@
   >
     <template v-slot:body>
       <div
-        class="relative flex flex-col items-center justify-center w-full gap-5 px-4 py-6"
+        class="relative max-h-[55vh] overflow-y-auto flex flex-col items-center justify-start w-full gap-5 px-4 py-6"
       >
-        <!-- <img
-          :src="close"
-          alt="close"
-          width="30"
-          height="30"
-          preload
-          class="absolute z-50 cursor-pointer right-2 top-3"
-          @click="() => toggleModal()"
-        /> -->
-
-        <div>
-          <p v-html="settings?.pre_gacha?.password?.get_password_guide?.popup_content" class="text-exd-gray-scorpion"></p>
+        <div class="w-full text-left">
+          <p
+            v-html="
+              settings?.pre_gacha?.password?.get_password_guide?.popup_content
+            "
+            class="text-exd-gray-scorpion"
+          ></p>
         </div>
 
-        <!-- <ModalContent :image="popup2" v-if="selectedContent === 2">
-          <template v-slot:content>
-            <p v-if="locale === 'ja'">
-              スポット詳細ページ下のリンクをタップすると、このスポットのパスワードが表示されます。
-            </p>
-            <p v-else>
-              Tap the link at the bottom of the spot details page to display the
-              password for this spot.
-            </p>
-          </template>
-        </ModalContent>
-
-        <ModalContent :image="popup3" v-if="selectedContent === 3">
-          <template v-slot:content>
-            <p v-if="locale === 'ja'">
-              現在のページに、デジタルマップに表示されたパスワードを入力してゲームをプレイ！ポイントを集めて景品をGET！
-            </p>
-            <p v-else>
-              Enter the password displayed on the digital map on the current
-              page and play the game! Collect points and get prizes!
-            </p>
-          </template>
-        </ModalContent> -->
-
-        <div class="!w-full">
+        <div class="w-full mt-auto">
           <SolidButton
-            :label="settings?.pre_gacha?.password?.get_password_guide?.popup_button_text"
+            :label="
+              settings?.pre_gacha?.password?.get_password_guide
+                ?.popup_button_text
+            "
             :on-click="handleNextButton"
-            :bgColor="settings?.pre_gacha?.password?.get_password_guide?.popup_button_and_text_color?.background"
-            :textColor="settings?.pre_gacha?.password?.get_password_guide?.popup_button_and_text_color?.color"
-            class="!p-0"
+            :bgColor="
+              settings?.pre_gacha?.password?.get_password_guide
+                ?.popup_button_and_text_color?.background
+            "
+            :textColor="
+              settings?.pre_gacha?.password?.get_password_guide
+                ?.popup_button_and_text_color?.color
+            "
+            class="w-full !p-0"
           />
         </div>
       </div>
@@ -147,12 +135,15 @@
   >
     <template v-slot:body>
       <div class="flex flex-col items-center justify-center w-full gap-4 py-6">
-        <IconsWarning class="w-10 h-10" :style="{ color: settings?.global?.icon_color?.background }" />
+        <IconsWarning
+          class="w-10 h-10"
+          :style="{ color: settings?.global?.icon_color?.background }"
+        />
         <div v-if="errorLink || locationBlocked" class="w-10/12 text-center">
-          <p 
+          <p
             class="font-bold text-exd-1424"
             :style="{
-              color: settings?.global?.modal?.text_color
+              color: settings?.global?.modal?.text_color,
             }"
           >
             {{ errorMessages }}
@@ -450,7 +441,8 @@ const LOCALE = useCookie('LOCALE')
 
 const getTerms = async () => {
   try {
-    terms.value = settings.value?.pre_gacha?.password?.text2?.[LOCALE.value] || ''
+    terms.value =
+      settings.value?.pre_gacha?.password?.text2?.[LOCALE.value] || ''
   } catch (error) {
     console.error("Error: Can't get terms", error)
     terms.value = ''
@@ -474,7 +466,7 @@ const checkPassword = async (params) => {
     console.log("Error: Can't check password")
 
     errorLink.value = true
-    errorMessages.value = t('wrongPassword')
+    errorMessages.value = settings.value?.pre_gacha?.password?.warning_message
 
     wrongPassword.value = true
 
@@ -494,7 +486,7 @@ const closeStepAllowLocation = () => {
 const handleNextButton = () => {
   let currSelectedContent = selectedContent.value
   // if (currSelectedContent > 2) {
-    toggleModal()
+  toggleModal()
   //   return
   // }
 
