@@ -62,6 +62,36 @@
             :title="$t('conditionsOfUse')"
             :body="prizeDetailData != null ? prizeDetailData?.terms_of_use : ''"
           />
+
+          <!-- <div class="w-full mb-5">
+            <Skeleton v-if="isFetching" class="!w-full !h-72" />
+            <div
+              v-show="!isFetching"
+              id="parentMap"
+              class="relative"
+              style="width: 100%; height: 300px"
+            >
+              <div id="map" style="width: 100%; height: 100%" />
+              <div class="absolute inset-0 z-10"></div>
+              <div
+                class="absolute inset-x-0 bottom-0 z-20 flex items-center h-8 bg-white"
+              >
+                <span
+                  class="flex items-center text-sm border-b cursor-pointer text-exd-gray-scorpion border-b-exd-gray-scorpion"
+                  @click="openGoogleMaps"
+                  >{{ $t('openGoogleMaps') }}
+                  <img
+                    src="~/assets/images/export.svg"
+                    alt="export"
+                    width="15"
+                    height="15"
+                    class="inline ml-1"
+                  />
+                </span>
+              </div>
+            </div>
+          </div> -->
+          
         </div>
       </div>
       <SolidButton
@@ -188,9 +218,9 @@ const fetchingPrizeData = async () => {
     const { data } = await useFetchApi('GET', 'prizes/' + id)
     prizeDetailData.value = data
     checkPoint(data.point)
-    // if (data.lat !== null && data.long !== null) {
-    //   initializeMap(data.location.lat, data.location.long)
-    // }
+    if (data.lat !== null && data.long !== null) {
+      initializeMap(data.lat, data.long)
+    }
     popupType.value = data.type
   } catch (error) {
     console.log(error)
