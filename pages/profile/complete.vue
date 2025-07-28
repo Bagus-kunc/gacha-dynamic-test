@@ -5,34 +5,40 @@
         style="text-shadow: 0 3px 3px rgba(0, 0, 0, 0.16)"
         class="text-exd-gray-scorpion font-bold text-exd-1824.52"
       >
-        {{ $t('membershipInformation') }}
+        {{ settings?.register_login?.change_membership_information_page_2?.page_title }}
       </p>
     </HeaderBar>
 
     <div
-      class="flex flex-col justify-between w-full gap-6 px-3 pb-3 mt-32 grow"
+      class="flex flex-col justify-between w-full gap-6 pt-32 pb-3 font-bold grow"
+      :style="{
+        background:
+          settings?.register_login?.change_membership_information_page_2
+            ?.background_page?.type === 'image'
+            ? `url(${settings?.register_login?.change_membership_information_page_2?.background_page?.value})`
+            : settings?.register_login?.change_membership_information_page_2
+                ?.background_page?.value,
+        'background-size': 'cover',
+        'background-repeat': 'no-repeat',
+      }"
     >
       <div class="flex flex-col grow">
         <p
           class="mt-8 font-normal text-center text-exd-gray-scorpion text-exd-1416"
         >
-          {{ $t('completed') }}
+          {{ settings?.register_login?.change_membership_information_page_2?.page_description }}
         </p>
       </div>
     </div>
   </div>
 
-  <div class="relative flex flex-col w-full gap-1">
-    <!-- <SolidButton
-      :on-click="() => goTo('external')"
-      :label="$t('digitalMapTop')"
-    />
-    <div class="w-full h-5" /> -->
+  <div class="fixed bottom-0 z-50 w-full max-w-md mx-auto mb-2">
     <SolidButton
-      variant="red-coral"
+      :label="settings.register_login?.change_membership_information_page_2?.button_text"
+      :bgColor="settings.register_login?.change_membership_information_page_2?.button_text_and_color?.background"
+      :textColor="settings.register_login?.change_membership_information_page_2?.button_text_and_color?.color"
       :on-click="() => goTo('top')"
       :has-loading="isLoading"
-      :label="$t('gachaTop')"
       has-bottom
     />
   </div>
@@ -42,10 +48,16 @@
 import useRegister from '~/composables/useRegister'
 import { useRouter } from 'vue-router'
 
+definePageMeta({
+  middleware: 'change-profile-complete'
+})
+
 const { isSpin } = useRegister()
 const { decryptData } = useEncryption()
 const router = useRouter()
 const isLoading = ref(false)
+
+const settings = useState('settings')
 
 const saveSpin = async () => {
   if (!isSpin) return
@@ -55,7 +67,7 @@ const saveSpin = async () => {
   const slugStorageName = `${slug}_GACHA`
   const slugStorage = decryptData(localStorage.getItem(slugStorageName))
   try {
-    const response = await useFetchApi('POST', 'gacha/save/temp', {
+    await useFetchApi('POST', 'gacha/save/temp', {
       body: {
         point_id: slugStorage?.point_id,
         location_id: slugStorage?.location_id,

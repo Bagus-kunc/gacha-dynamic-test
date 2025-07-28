@@ -5,387 +5,197 @@
         style="text-shadow: 0 3px 3px rgba(0, 0, 0, 0.16)"
         class="text-exd-gray-scorpion text-exd-1824.52"
       >
-        {{ $t('newMemberRegistration') }}
+        {{ settings?.register_login?.membership_registration_page?.page_title }}
       </p>
     </HeaderBar>
 
-    <div class="flex flex-col justify-between w-full gap-6 pb-3 mt-24 grow">
+    <div
+      class="flex flex-col justify-between w-full gap-6 pb-3 mt-32 grow"
+      :style="{
+        background:
+          settings?.register_login?.membership_registration_page
+            ?.background_page?.type === 'image'
+            ? `url(${settings?.register_login?.membership_registration_page?.background_page?.value})`
+            : settings?.register_login?.membership_registration_page
+                ?.background_page?.value,
+        'background-size': 'cover',
+        'background-repeat': 'no-repeat',
+      }"
+    >
+      <h1
+          class="text-center flex flex-col text-1416 text-exd-gray-scorpion pb-4 w-full max-w-[360px] mx-auto"
+        >
+          {{ settings?.register_login?.membership_registration_page?.page_description }}
+      </h1>
+      <div
+        class="inline-flex items-center justify-between gap-4 pb-5 border-b border-b-exd-light-grey px-7 text-exd-gray-scorpion text-1416"
+      >
+        <h1>{{ $t('member') }} <span class="font-bold">ID</span></h1>
+        <p v-if="userId" class="overflow-hidden font-bold text-right whitespace-nowrap">
+          {{ userId }}
+        </p>
+        <p v-else class="w-48 overflow-hidden font-bold text-right whitespace-nowrap">
+          00000000000
+        </p>
+      </div>
       <div class="flex flex-col px-3 grow">
-
-        <!-- * First Name & Last Name * -->
         <div
-            class="inline-flex gap-4 px-5 py-5 border-b border-b-exd-light-grey"
-          >
-          <InputText
-            :model="form.lastName"
-            :label="$t('lastName')"
-            required
-            @update:model="updateModel('lastName', $event)"
-            @validate="validateInput('lastName', $event)"
-            :validate-on-submit="validateOnSubmit"
-            :error="
-              !form.lastName && validateOnSubmit ? $t('fieldRequired') : ''
-            "
-            :class="{
-              'input-error': !form.lastName && validateOnSubmit,
-            }"
-            :border="true"
-            :bgColor="settings.buttons[0].background"
-            :textColor="settings.buttons[0].color"
-          />
-          <InputText
-            :model="form.firstName"
-            :label="$t('givenName')"
-            required
-            :is-nick-name="true"
-            @update:model="updateModel('firstName', $event)"
-            @validate="validateInput('firstName', $event)"
-            :validate-on-submit="validateOnSubmit"
-            :error="
-              !form.firstName && validateOnSubmit ? $t('fieldRequired') : ''
-            "
-            :class="{
-              'input-error': !form.firstName && validateOnSubmit,
-            }"
-            :border="true"
-            :bgColor="settings.buttons[0].background"
-            :textColor="settings.buttons[0].color"
-          />
-        </div>
-
-        <!-- * Gender * -->
-        <div
-          class="inline-flex flex-col px-4 py-5 border-b border-b-exd-light-grey"
+          v-for="(item, index) in settings?.register_login?.register_fields"
+          :key="index"
+          class="!w-full p-0"
         >
-          <label
-            :for="$t('sex')"
-            class="flex items-center gap-2 text-exd-gray-scorpion text-exd-1424"
-            >{{ $t('sex') }}
-            <span
-              class="text-exd-0910 px-1 py-[2px] rounded-sm"
-              :style="{ backgroundColor: settings.buttons[0].background, color: settings.buttons[0].color }"
-              >{{ $t('required') }}</span
+          <div
+            v-if="item.show"
+            class="gap-4 px-5 py-5 border-b border-b-exd-light-grey"
+          >
+            <InputText
+              v-if="
+                item.type !== 'gender' &&
+                item.type !== 'radio' &&
+                item.type !== 'date'
+              "
+              :onlyNumeric="
+                item.name === 'postal_code' ||
+                item.type === 'number' ||
+                item.type === 'tel'
+                  ? true
+                  : false
+              "
+              :type="item.type"
+              :model="form[item.name]"
+              :label="item.label_translation_key_id"
+              :required="item.required"
+              :placeholder="item.placeholder_translation_key_id"
+              @update:model="
+                ($event) => {
+                  updateModel(item.name, $event)
+                  if (item.name === 'postal_code') {
+                    checkPostalCode($event)
+                  }
+                }
+              "
+              @validate="validateInput(item.name, $event)"
+              :minLength="maxLengthMap(item.name)"
+              :validate-on-submit="validateOnSubmit"
+              :error="handleError(item.name)"
+              hasHelper
+              :class="{
+                'input-error': handleError(item.name),
+              }"
+              :w230Px="
+                item.name === 'phoneNumber' || item.name === 'postal_code'
+                  ? true
+                  : false
+              "
+              :border="true"
+              :bgColor="
+                settings?.register_login?.membership_registration_page
+                  ?.button_text_and_color?.background
+              "
+              :textColor="
+                settings?.register_login?.membership_registration_page
+                  ?.button_text_and_color?.color
+              "
+            />
+            
+          <!--
+            <div
+              v-if="item.name === 'first_name' || item.name === 'last_name'"
+              class="inline-flex gap-4"
             >
-          </label>
-          <ButtonGroup
-            class="w-full h-10 rounded-none text-exd-gray-scorpion"
-            style="box-shadow: 0px 3px 3px 0px rgba(0, 0, 0, 0.1608)"
-          >
-            <Button
-              @click="updateModel('gender', 'Male')"
-              :label="$t('male')"
-              :class="[
-                'bg-white w-4/12 h-full border border-exd-stone-300 rounded-none !text-exd-gray-scorpion sm:text-[16px] text-[12.5px]',
-                form.gender === 'Male' && '!bg-exd-banana',
-              ]"
-            />
-            <Button
-              @click="updateModel('gender', 'Female')"
-              :label="$t('female')"
-              :class="[
-                'bg-white w-4/12 h-full border-t border-b border-t-exd-stone-300 border-b-exd-stone-300 rounded-none !text-exd-gray-scorpion sm:text-[16px] text-[12.5px]',
-                form.gender === 'Female' && '!bg-exd-banana',
-              ]"
-            />
-            <Button
-              @click="updateModel('gender', 'No-Answer')"
-              :label="$t('noAnswer')"
-              :class="[
-                'bg-white w-4/12 h-full border border-exd-stone-300 rounded-none !text-exd-gray-scorpion sm:text-[16px] text-[12.5px]',
-                form.gender === 'No-Answer' && '!bg-exd-banana',
-              ]"
-            />
-          </ButtonGroup>
-        </div>
+              <InputText
+                :model="form['last_name']"
+                :label="$t('lastName')"
+                required
+                @update:model="updateModel('last_name', $event)"
+                @validate="validateInput('last_name', $event)"
+                :validate-on-submit="validateOnSubmit"
+                :error="handleError('last_name')"
+                :class="{ 'input-error': handleError('last_name') }"
+                :border="true"
+                :bgColor="
+                  settings?.register_login?.membership_registration_page
+                    ?.button_text_and_color?.background
+                "
+                :textColor="
+                  settings?.register_login?.membership_registration_page
+                    ?.button_text_and_color?.color
+                "
+              />
+              <InputText
+                :model="form['first_name']"
+                :label="$t('firstName')"
+                required
+                :is-nick-name="true"
+                @update:model="updateModel('first_name', $event)"
+                @validate="validateInput('first_name', $event)"
+                :validate-on-submit="validateOnSubmit"
+                :error="handleError('first_name')"
+                :class="{ 'input-error': handleError('first_name') }"
+                :border="true"
+                :bgColor="
+                  settings?.register_login?.membership_registration_page
+                    ?.button_text_and_color?.background
+                "
+                :textColor="
+                  settings?.register_login?.membership_registration_page
+                    ?.button_text_and_color?.color
+                "
+              />
+            </div>
+          -->
 
-        <!-- * Postal Code * -->
-        <div
-          class="inline-flex flex-col gap-4 px-4 py-5 border-b border-b-exd-light-grey"
-        >
-          <div class="">
-            <InputText
-              onlyNumeric
-              :model="form.postCode"
-              :disabled="isLoading"
-              required
-              :label="$t('postalCodeNoHyphens')"
-              @update:model="
-                ($event) => {
-                  updateModel('postCode', $event)
-                  checkPostalCode($event)
-                }
+            <GenderSelection
+              v-if="item.type === 'gender'"
+              v-model="form[item.name]"
+              :label="item.label_translation_key_id"
+              :required="item.required"
+              :bg-color="
+                settings?.register_login?.membership_registration_page
+                  ?.button_text_and_color?.background
               "
-              @validate="validateInput('postCode', $event)"
-              :validate-on-submit="validateOnSubmit"
-              :error="
-                !form.postCode && validateOnSubmit
-                  ? $t('fieldRequired')
-                  : '' || (form.postCode.length > 0 && form.postCode.length < 7)
-                  ? $t('minLengthPostalCode')
-                  : '' || errorPostCodeMessage
+              :text-color="
+                settings?.register_login?.membership_registration_page
+                  ?.button_text_and_color?.color
               "
-              :class="{
-                'input-error':
-                  (!form.postCode && validateOnSubmit) ||
-                  (form.postCode.length > 0 && form.postCode.length < 7) ||
-                  errorPostCodeMessage,
-                'opacity-50': isLoading,
-              }"
-              :w230Px="true"
-              :border="true"
-              :bgColor="settings.buttons[0].background"
-              :textColor="settings.buttons[0].color"
             />
-          </div>
-        </div>
 
-        <!-- * Address * -->
-        <div
-            class="inline-flex flex-col gap-4 px-5 py-5 border-b border-b-exd-light-grey"
-          >
-          <InputText
-            :model="form.prefecture"
-            required
-            :label="$t('prefecture')"
-            disabled
-            @update:model="
-              ($event) => {
-                updateModel('prefecture', $event)
-                checkPostalCode($event)
-              }
-            "
-            @validate="validateInput('prefecture', $event)"
-            :validate-on-submit="validateOnSubmit"
-            :error="
-              !form.prefecture && validateOnSubmit ? $t('fieldRequired') : ''
-            "
-            :class="{
-              'input-error': !form.prefecture && validateOnSubmit,
-            }"
-            :border="true"
-            :bgColor="settings.buttons[0].background"
-            :textColor="settings.buttons[0].color"
-          />
-
-          <InputText
-            :model="form.municipalities"
-            disabled
-            required
-            :label="$t('municipalities')"
-            @update:model="
-              ($event) => {
-                updateModel('municipalities', $event)
-                checkPostalCode($event)
-              }
-            "
-            @validate="validateInput('municipalities', $event)"
-            :validate-on-submit="validateOnSubmit"
-            :error="
-              !form.municipalities && validateOnSubmit
-                ? $t('fieldRequired')
-                : ''
-            "
-            :class="{
-              'input-error': !form.municipalities && validateOnSubmit,
-            }"
-            :border="true"
-            :bgColor="settings.buttons[0].background"
-            :textColor="settings.buttons[0].color"
-          />
-
-          <InputText
-            :model="form.streetAddressEtc"
-            required
-            :label="$t('streetAddressEtc')"
-            @update:model="
-              ($event) => {
-                updateModel('streetAddressEtc', $event)
-              }
-            "
-            @validate="validateInput('streetAddressEtc', $event)"
-            :validate-on-submit="validateOnSubmit"
-            :error="
-              !form.streetAddressEtc && validateOnSubmit
-                ? $t('fieldRequired')
-                : ''
-            "
-            :class="{
-              'input-error': !form.streetAddressEtc && validateOnSubmit,
-            }"
-            :border="true"
-            :bgColor="settings.buttons[0].background"
-            :textColor="settings.buttons[0].color"
-          />
-          <p class="font-normal text-exd-1320 text-exd-gray-scorpion">
-            {{ t('streetAddressInformation') }}
-          </p>
-        </div>
-
-        <!-- * Phone Number * -->
-        <div
-            class="inline-flex flex-col gap-4 px-5 py-5 border-b border-b-exd-light-grey"
-          >
-          <div class="">
-            <InputText
-              type="number"
-              :model="form.phoneNumber"
-              required
-              :label="$t('phoneNumberNoHyphens')"
-              @update:model="
-                ($event) => {
-                  updateModel('phoneNumber', $event)
-                }
+            <InputDate
+              v-if="item.type === 'date'"
+              :label="item.label_translation_key_id"
+              :placeholder="item.placeholder_translation_key_id"
+              :required="item.required"
+              v-model:model="form[item.name]"
+              :error="handleError(item.name)"
+              :bgColor="
+                settings?.register_login?.membership_registration_page
+                  ?.button_text_and_color?.background
               "
-              @validate="validateInput('phoneNumber', $event)"
-              :maxLength="12"
-              :validate-on-submit="validateOnSubmit"
-              :error="
-                !form.phoneNumber && validateOnSubmit
-                  ? $t('fieldRequired')
-                  : '' || errorPhoneNumber
+              :textColor="
+                settings?.register_login?.membership_registration_page
+                  ?.button_text_and_color?.color
               "
-              :class="{
-                'input-error':
-                  (!form.phoneNumber && validateOnSubmit) || errorPhoneNumber,
-              }"
-              :w230Px="true"
-              :border="true"
-              :bgColor="settings.buttons[0].background"
-              :textColor="settings.buttons[0].color"
+              border
             />
-          </div>
-        </div>
 
-        <!-- * Email * -->
-        <div
-          class="inline-flex gap-4 px-4 py-5 border-b border-b-exd-light-grey"
-        >
-          <InputText
-            type="email"
-            :model="form.email"
-            required
-            :label="$t('emailAddress')"
-            @update:model="updateModel('email', $event)"
-            @validate="validateInput('email', $event)"
-            :validate-on-submit="validateOnSubmit"
-            :is-email-error="true"
-            hasHelper
-            :error="
-              !form.email && validateOnSubmit
-                ? t('fieldRequired')
-                : '' || (form.email && !emailRegex(form.email))
-                ? t('emailFormat')
-                : errorEmailMessage
-            "
-            :class="{
-              'input-error':
-                !form.email && validateOnSubmit
-                  ? t('fieldRequired')
-                  : '' || (form.email && !emailRegex(form.email))
-                  ? t('emailFormat')
-                  : errorEmailMessage,
-            }"
-            :border="true"
-            :bgColor="settings.buttons[0].background"
-            :textColor="settings.buttons[0].color"
-          />
-        </div>
-
-        <!-- * Password * -->
-        <div
-          class="flex flex-col gap-4 px-4 py-5 border-b border-b-exd-light-grey"
-        >
-          <InputText
-            type="password"
-            :model="form.password"
-            :isPassword="true"
-            required
-            :minLength="8"
-            :label="$t('loginPassword')"
-            inform="passwordMin"
-            @update:model="updateModel('password', $event)"
-            @validate="validateInput('password', $event)"
-            :validate-on-submit="validateOnSubmit"
-            :error="
-              !form.password && validateOnSubmit
-                ? t('fieldRequired')
-                : '' || errorPasswordMessage === ''
-                ? ''
-                : t(errorPasswordMessage)
-            "
-            :class="{
-              'input-error': errorPasswordMessage,
-            }"
-            :border="true"
-            :bgColor="settings.buttons[0].background"
-            :textColor="settings.buttons[0].color"
-          />
-
-          <InputText
-            type="password"
-            :model="form.confPassword"
-            :isPassword="true"
-            required
-            :isConfPassword="true"
-            :minLength="8"
-            :label="$t('reenterPassword')"
-            @update:model="updateModel('confPassword', $event)"
-            @validate="validateInput('confPassword', $event)"
-            :validate-on-submit="validateOnSubmit"
-            :error="
-              !form.confPassword && validateOnSubmit
-                ? t('fieldRequired')
-                : '' || errorConfPasswordMessage === ''
-                ? ''
-                : t(errorConfPasswordMessage)
-            "
-            :class="{
-              'input-error': errorConfPasswordMessage,
-            }"
-            :border="true"
-            :bgColor="settings.buttons[0].background"
-            :textColor="settings.buttons[0].color"
-          />
-        </div>
-
-        <!-- * Questionnaire1 * -->
-        <div
-            class="flex flex-col gap-4 px-4 py-5 border-b border-b-exd-light-grey"
-          >
             <RadioButton
-              :label="$t('questionnaire1')"
-              v-model="form.questionnaire1"
+              v-if="item.type === 'radio'"
+              :label="t('questionnaire1')"
+              v-model:model="form[item.name]"
               :options="questionnaire1Options"
-              name="questionnaire1"
-              :error="
-                !form.questionnaire1 && validateOnSubmit
-                  ? $t('fieldRequired')
-                  : ''
+              :name="item.name"
+              :error="handleError(item.name)"
+              :bgColor="
+                settings?.register_login?.membership_registration_page
+                  ?.button_text_and_color?.background
               "
-              :bgColor="settings.buttons[0].background"
-              :textColor="settings.buttons[0].color"
-              required
-            />
-        </div>
-
-        <!-- * Questionnaire2 * -->
-        <div
-          class="flex flex-col gap-4 px-4 py-5 border-b border-b-exd-light-grey"
-        >
-            <RadioButton
-              :label="$t('questionnaire2')"
-              v-model="form.questionnaire2"
-              :options="questionnaire2Options"
-              name="questionnaire2"
-              :error="
-                !form.questionnaire2 && validateOnSubmit
-                  ? $t('fieldRequired')
-                  : ''
+              :textColor="
+                settings?.register_login?.membership_registration_page
+                  ?.button_text_and_color?.color
               "
-              :bgColor="settings.buttons[0].background"
-              :textColor="settings.buttons[0].color"
-              required
+              :required="item.required"
             />
+          </div>
         </div>
 
         <div class="inline-flex items-center justify-center w-full gap-2 mt-7">
@@ -408,10 +218,7 @@
             <div
               class="text-exd-1220 font-medium leading-relaxed h-[84px] flex flex-col gap-1"
             >
-              <p
-                class="flex flex-col gap-1 text-justify"
-                v-html="terms"
-              />
+              <p class="flex flex-col gap-1 text-justify" v-html="terms" />
             </div>
           </div>
         </div>
@@ -419,10 +226,18 @@
       <div class="mt-16" />
       <div class="fixed bottom-0 z-50 w-full max-w-md mx-auto mb-2">
         <SolidButton
-          :label="$t('register')"
+          :label="
+            settings?.register_login?.membership_registration_page?.button_text
+          "
           :has-loading="isLoading"
-          :bgColor="settings.buttons[0].background"
-          :textColor="settings.buttons[0].color"
+          :bgColor="
+            settings?.register_login?.membership_registration_page
+              ?.button_text_and_color.background
+          "
+          :textColor="
+            settings?.register_login?.membership_registration_page
+              ?.button_text_and_color.color
+          "
           :disabled="!form.checked || isLoading"
           :on-click="handleSubmit"
           has-bottom
@@ -437,7 +252,7 @@
     modal
     class="!w-11/12 !max-w-sm border border-exd-gray-44"
     :style="{
-          background: settings?.global?.modal?.background_color
+      background: settings?.global?.modal?.background_color,
     }"
   >
     <template #container>
@@ -451,14 +266,17 @@
         @click="handleCloseDialog"
       />
       <div class="flex flex-col items-center justify-center w-full gap-4 py-6">
-        <IconsWarning class="w-10 h-10" :style="{ color: settings?.global?.icon_color?.background }" />
+        <IconsWarning
+          class="w-10 h-10"
+          :style="{ color: settings?.global?.icon_color?.background }"
+        />
         <div class="w-10/12 text-center">
           <p
             v-for="(item, index) in errorScroll"
             :key="index"
             class="font-bold text-exd-1424"
             :style="{
-              color: settings?.global?.modal?.text_color
+              color: settings?.global?.modal?.text_color,
             }"
           >
             {{ item }}
@@ -483,20 +301,6 @@ import {
 } from '~/data/questionnaire'
 
 const form = ref({
-  firstName: '',
-  lastName: '',
-  gender: 'No-Answer',
-  postCode: '',
-  prefecture: '',
-  address: '',
-  // city: '',
-  // area: '',
-  phoneNumber: '',
-  email: '',
-  password: '',
-  confPassword: '',
-  questionnaire1: '',
-  questionnaire2: '',
   checked: false,
 })
 const { t } = useI18n()
@@ -505,7 +309,9 @@ const isLoading = ref(false)
 const errorMessages = ref([])
 const errorAgeMessage = ref('')
 const emailErrorKey = ref('')
-const errorEmailMessage = computed(() => emailErrorKey.value && t(emailErrorKey.value))
+const errorEmailMessage = computed(
+  () => emailErrorKey.value && t(emailErrorKey.value)
+)
 const isErrorMessage = ref(false)
 const validateOnSubmit = ref(false)
 const errorNicknameMessage = ref('')
@@ -517,7 +323,9 @@ const { decryptData, encryptData } = useEncryption()
 
 const errorPhoneNumber = ref('')
 const errorKeyPostCode = ref('')
-const errorPostCodeMessage = computed(() => errorKeyPostCode.value && t(errorKeyPostCode.value))
+const errorPostCodeMessage = computed(
+  () => errorKeyPostCode.value && t(errorKeyPostCode.value)
+)
 
 const settings = useState('settings')
 const LOCALE = useCookie('LOCALE')
@@ -550,9 +358,44 @@ const filterPostalCodeInput = (event) => {
   form.value.postCode = event.target.value
 }
 
-const validateInput = (field, value) => {
-  //console.log(`Validated ${field}:`, value)
+const maxLengthMap = (field) => {
+  switch (field) {
+    case 'postal_code':
+      return 7
+    case 'phone_number':
+      return 12
+    case 'password':
+      return 20
+    case 'confPassword':
+      return 20
+    default:
+      return null
+  }
 }
+
+const handleError = (field) => {
+  const value = form.value[field] || ''
+
+  if (!value && validateOnSubmit.value) {
+    return t('fieldRequired')
+  } else if (field === 'email') {
+    if (value && !emailRegex(value)) {
+      return t('emailFormat')
+    } else {
+      return errorEmailMessage.value
+    }
+  } else if (field === 'postal_code') {
+    if (value?.length > 0 && value?.length < 7) {
+      return t('minLengthPostalCode')
+    } else if (errorPostCodeMessage.value) {
+      return errorPostCodeMessage.value
+    }
+  } else if (field === 'phone_number') {
+    return errorPhoneNumber.value
+  }
+}
+
+const validateInput = (field, value) => {}
 
 const passwordValidate = () => {
   const password = form.value.password
@@ -627,7 +470,6 @@ const fetchRegister = async (payload) => {
       sessionStorage.setItem('EMAIL', payload.email)
       sessionStorage.setItem('PASSWORD', encryptData(payload.password))
 
-
       navigateTo('/#registration-complete')
       isLoading.value = false
     }
@@ -674,28 +516,29 @@ const handleApiError = (error) => {
 
 const buildPayload = () => {
   const payload = {
-    gender: form.value.gender,
-    nickname: 'Kunc',
-    password_confirmation: form.value.password,
-    email: form.value.email,
-    password: form.value.password,
-    postal_code: form.value.postCode,
-    prefecture: form.value.prefecture,
-    city: form.value.city,
-    area: form.value.area,
-    address: form.value.area
+    email: form.value?.email,
+    gender: form.value?.gender,
+    address: form.value?.address,
+    password: form.value?.password,
+    first_name: form.value?.firstName,
+    last_name: form.value?.lastName,
+    postal_code: form.value?.postCode,
+    prefecture: form.value?.prefecture,
+    date_of_birth: form.value?.birthday,
+    password_confirmation: form.value?.password,
+    questionnaire_1: form.value?.questionnaire1,
+    questionnaire_2: form.value?.questionnaire2,
   }
 
   return payload
 }
 
 const handleSubmit = async () => {
-
   errorScroll.value = []
-  
+
   validateOnSubmit.value = true
 
-  const payload = buildPayload()
+  const { checked, ...payload } = form.value
 
   await fetchRegister(payload)
 

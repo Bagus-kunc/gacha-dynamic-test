@@ -28,7 +28,7 @@
           }"
         >
           <p style="text-shadow: 0 3px 3px rgba(0, 0, 0, 0.16)">
-            {{ $t('loginOrRegister') }}
+            {{ settings?.register_login?.registration_login_pop_up_title }}
           </p>
         </div>
 
@@ -59,15 +59,16 @@
         </a>
         
         <SolidButton
-          :label="$t('login')"
+          :label="t('login')"
+          variant="vermilion"
           :onClick="handleSubmit"
-          variant="red-coral"
           :disabled="!isValidInput || isLoading"
           :has-loading="isLoading"
         />
         <SolidButton
-          :label="$t('newMemberRegistration')"
-          variant="green"
+          :label="settings?.register_login?.membership_registration_page?.button_text"
+          :bgColor="settings?.register_login?.membership_registration_page?.button_text_and_color.background"
+          :textColor="settings?.register_login?.membership_registration_page?.button_text_and_color.color"
           :onClick="handleToRegister"
         />
       </div>
