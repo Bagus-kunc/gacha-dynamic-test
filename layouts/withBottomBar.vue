@@ -29,8 +29,9 @@ const layoutCustomProps = useAttrs()
 const hasBack = ref(layoutCustomProps.hasBack ?? false)
 const title = ref(layoutCustomProps.title)
 
-const config = useRuntimeConfig()
 const { t } = useI18n()
+const route = useRoute()
+const config = useRuntimeConfig()
 
 const settings = useState('settings')
 
@@ -59,4 +60,13 @@ useHead({
 function stripHtml(html = '') {
   return html.replace(/<\/?[^>]+(>|$)/g, '').trim()
 }
+
+onMounted(() => {
+  if (!route.path.includes('quiz')) {
+    localStorage.removeItem('answer-quiz')
+  }
+  if (!route.path.includes('scan')) {
+    localStorage.removeItem('answer-password')
+  }
+})
 </script>

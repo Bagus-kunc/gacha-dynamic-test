@@ -97,53 +97,6 @@
                   ?.button_text_and_color?.color
               "
             />
-            
-          <!--
-            <div
-              v-if="item.name === 'first_name' || item.name === 'last_name'"
-              class="inline-flex gap-4"
-            >
-              <InputText
-                :model="form['last_name']"
-                :label="$t('lastName')"
-                required
-                @update:model="updateModel('last_name', $event)"
-                @validate="validateInput('last_name', $event)"
-                :validate-on-submit="validateOnSubmit"
-                :error="handleError('last_name')"
-                :class="{ 'input-error': handleError('last_name') }"
-                :border="true"
-                :bgColor="
-                  settings?.register_login?.membership_registration_page
-                    ?.button_text_and_color?.background
-                "
-                :textColor="
-                  settings?.register_login?.membership_registration_page
-                    ?.button_text_and_color?.color
-                "
-              />
-              <InputText
-                :model="form['first_name']"
-                :label="$t('firstName')"
-                required
-                :is-nick-name="true"
-                @update:model="updateModel('first_name', $event)"
-                @validate="validateInput('first_name', $event)"
-                :validate-on-submit="validateOnSubmit"
-                :error="handleError('first_name')"
-                :class="{ 'input-error': handleError('first_name') }"
-                :border="true"
-                :bgColor="
-                  settings?.register_login?.membership_registration_page
-                    ?.button_text_and_color?.background
-                "
-                :textColor="
-                  settings?.register_login?.membership_registration_page
-                    ?.button_text_and_color?.color
-                "
-              />
-            </div>
-          -->
 
             <GenderSelection
               v-if="item.type === 'gender'"
@@ -332,6 +285,7 @@ const settings = useState('settings')
 const LOCALE = useCookie('LOCALE')
 
 const terms = ref('')
+const alphanumericRegex = /^[a-zA-Z0-9]{8,}$/
 
 const getTerms = async () => {
   try {
@@ -375,7 +329,7 @@ const maxLengthMap = (field) => {
 }
 
 const handleError = (field, required) => {
-  const value = form[field] || ''
+  const value = form.value[field] || ''
 
   if (!value && validateOnSubmit.value && required) {
     return t('fieldRequired')
@@ -392,7 +346,6 @@ const handleError = (field, required) => {
   if (field === 'password') {
     if (!value) return ''
 
-    // Panjang minimal
     if (value.length < 8) {
       return t('passwordMin') 
     }
@@ -403,7 +356,7 @@ const handleError = (field, required) => {
   }
 
   if (field === 'password_confirmation') {
-    if (value && value !== form.password) {
+    if (value && value !== form.value.password) {
       return t('passwordNotMatch');
     }
   }
@@ -440,9 +393,17 @@ const passwordValidate = () => {
 
 const validateForm = () => {
   const requiredFields = []
+  let isValid = true
+
+  if (!emailRegex(form.value.email)) {
+    isValid = false
+  } else {
+    errorEmailMessage.value = ''
+  }
+
   const firstErrorElement = document.querySelector('.input-error')
 
-  if (errorEmailMessage.value) {
+  if (!isValid && firstErrorElement) {
     firstErrorElement.style.paddingTop = '80px'
     firstErrorElement.style.marginTop = '-80px'
 
@@ -458,7 +419,7 @@ const validateForm = () => {
 
   for (const field of requiredFields) {
     if (!form.value[field]) {
-      console.log('Field must be filled:', field)
+      console.log('Field must be filled:', field.value)
       return false
     }
   }
@@ -497,6 +458,8 @@ const fetchRegister = async (payload) => {
 
       sessionStorage.setItem('EMAIL', payload.email)
       sessionStorage.setItem('PASSWORD', encryptData(payload.password))
+
+      localStorage.removeItem('registerForm')
 
       navigateTo('/#registration-complete')
       isLoading.value = false
@@ -542,26 +505,9 @@ const handleApiError = (error) => {
   }
 }
 
-const buildPayload = () => {
-  const payload = {
-    email: form.value?.email,
-    gender: form.value?.gender,
-    address: form.value?.address,
-    password: form.value?.password,
-    first_name: form.value?.firstName,
-    last_name: form.value?.lastName,
-    postal_code: form.value?.postCode,
-    prefecture: form.value?.prefecture,
-    date_of_birth: form.value?.birthday,
-    password_confirmation: form.value?.password,
-    questionnaire_1: form.value?.questionnaire1,
-    questionnaire_2: form.value?.questionnaire2,
-  }
-
-  return payload
-}
-
 const handleSubmit = async () => {
+  if (!validateForm()) return
+  
   errorScroll.value = []
 
   validateOnSubmit.value = true
@@ -674,8 +620,17 @@ const saveSpin = async () => {
   }
 }
 
+watch(form, (newVal) => {
+  localStorage.setItem('registerForm', JSON.stringify(newVal))
+}, { deep: true })
+
+
 onMounted(() => {
+  const savedForm = localStorage.getItem('registerForm')
   getTerms()
+  if (savedForm) {
+    form.value = JSON.parse(savedForm)
+  }
 })
 </script>
 

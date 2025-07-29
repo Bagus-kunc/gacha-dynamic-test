@@ -451,6 +451,8 @@ const checkPassword = async (params) => {
     const validPassword = useCookie('VALID_PASSWORD')
     validPassword.value = encryptData(params)
 
+    localStorage.removeItem('answer-password')
+
     isLoading.value = false
     return status
   } catch (error) {
@@ -664,10 +666,20 @@ const getBrowserInfo = computed(() => {
   }
 })
 
+watch(value, (newVal) => {
+  localStorage.setItem('answer-password', newVal)
+}, { deep: true })
+
 onMounted(async () => {
   const location = route.params.randomCode
+  const savedAnswer = localStorage.getItem('answer-password')
+
   await getPassword(location)
   getTerms()
+
+  if (savedAnswer) {
+    value.value = savedAnswer
+  }
 })
 
 watch(isNotAllowed, (newValue) => {
