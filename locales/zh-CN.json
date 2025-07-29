@@ -344,6 +344,7 @@
     "localMorizzoAndKiccoro": "各访问城市的地方版 Morizo 和 Kiccoro",
     "aniversaryMorizzoAndKiccoro": "Morizo 和 Kiccoro —— 2005 世博会 20 周年纪念版",
     "quiz": "小测验",
-    "answer": "答案 (平假名)"
+    "answer": "答案 (平假名)",
+    "answerRequired": "答案栏是必填项。"
   }
   

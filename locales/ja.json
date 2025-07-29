@@ -345,5 +345,6 @@
   "localMorizzoAndKiccoro": "ゲームをプレイした各市町村の ご当地モリゾー・キッコロ",
   "aniversaryMorizzoAndKiccoro": "愛・地球博20祭 モリゾー・キッコロ",
   "quiz": "クイズ",
-  "answer": "答え（ひらがな）"
+  "answer": "答え（ひらがな）",
+  "answerRequired": "回答欄は必須です。"
 }

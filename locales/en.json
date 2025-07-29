@@ -344,5 +344,6 @@
   "localMorizzoAndKiccoro": "Local Versions of Morizo ​​& Kiccoro from Each Visited Municipality",
   "aniversaryMorizzoAndKiccoro": "Morizo and Kiccoro – Expo 2005 20th Anniversary",
   "quiz": "Quiz",
-  "answer": "Answer (Hiragana)"
+  "answer": "Answer (Hiragana)",
+  "answerRequired": "The answer field is required"
 }
