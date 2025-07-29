@@ -5,7 +5,10 @@
         style="text-shadow: 0 3px 3px rgba(0, 0, 0, 0.16)"
         class="text-exd-gray-scorpion text-exd-1824.52"
       >
-        {{ settings?.register_login?.change_membership_information_page_1?.page_title }}
+        {{
+          settings?.register_login?.change_membership_information_page_1
+            ?.page_title
+        }}
       </p>
     </HeaderBar>
 
@@ -25,157 +28,182 @@
       <h1
         class="text-center flex flex-col text-1416 text-exd-gray-scorpion pb-4 w-full max-w-[360px] mx-auto"
       >
-        {{ settings?.register_login?.change_membership_information_page_1?.page_description }}
+        {{
+          settings?.register_login?.change_membership_information_page_1
+            ?.page_description
+        }}
       </h1>
       <div
         class="inline-flex items-center justify-between gap-4 pb-5 border-b border-b-exd-light-grey px-7 text-exd-gray-scorpion text-1416"
       >
         <h1>{{ $t('member') }} <span class="font-bold">ID</span></h1>
-        <p v-if="userId" class="overflow-hidden font-bold text-right whitespace-nowrap">
+        <p
+          v-if="userId"
+          class="overflow-hidden font-bold text-right whitespace-nowrap"
+        >
           {{ userId }}
         </p>
-        <p v-else class="w-48 overflow-hidden font-bold text-right whitespace-nowrap">
+        <p
+          v-else
+          class="w-48 overflow-hidden font-bold text-right whitespace-nowrap"
+        >
           00000000000
         </p>
       </div>
       <div class="flex flex-col px-3 grow">
         <div
-          class="inline-flex flex-col px-4 py-5 border-b border-b-exd-light-grey"
+          v-for="(item, index) in settings?.register_login?.register_fields"
+          :key="index"
+          class="!w-full p-0"
         >
-          <label
-            :for="$t('sex')"
-            class="flex items-center gap-2 text-exd-gray-scorpion text-exd-1424"
-            >{{ $t('sex') }}
-            <span
-              class="text-exd-0910 px-1 py-[2px] rounded-sm"
-              :style="{ backgroundColor: settings?.register_login?.change_membership_information_page_1?.button_and_text_color?.background, color: 'var(--primary)' }"
-              >{{ $t('required') }}</span
-            >
-          </label>
-          <ButtonGroup
-            class="w-full h-10 rounded-none text-exd-gray-scorpion"
-            style="box-shadow: 0px 3px 3px 0px rgba(0, 0, 0, 0.1608)"
+          <div
+            v-if="item.show"
+            class="gap-4 px-5 py-5 border-b border-b-exd-light-grey"
           >
-            <Button
-              @click="updateModel('gender', 'Male')"
-              :label="$t('male')"
-              :class="[
-                'bg-white w-4/12 h-full border border-exd-stone-300 rounded-none !text-exd-gray-scorpion',
-                form.gender === 'Male' && '!bg-exd-banana',
-              ]"
-            />
-            <Button
-              @click="updateModel('gender', 'Female')"
-              :label="$t('female')"
-              :class="[
-                'bg-white w-4/12 h-full border-t border-b border-t-exd-stone-300 border-b-exd-stone-300 rounded-none !text-exd-gray-scorpion',
-                form.gender === 'Female' && '!bg-exd-banana',
-              ]"
-            />
-            <Button
-              @click="updateModel('gender', 'No-Answer')"
-              :label="$t('noAnswer')"
-              :class="[
-                'bg-white w-4/12 h-full border border-exd-stone-300 rounded-none !text-exd-gray-scorpion',
-                form.gender === 'No-Answer' && '!bg-exd-banana',
-              ]"
-            />
-          </ButtonGroup>
-        </div>
-
-        <div
-          class="inline-flex flex-col gap-4 px-4 py-5 border-b border-b-exd-light-grey"
-        >
-          <div class="max-w-[270px]">
             <InputText
-              onlyNumeric
-              :model="form.postCode"
-              :disabled="isLoading"
-              required
-              :label="$t('postalCodeNoHyphens')"
+              v-if="
+                item.type !== 'gender' &&
+                item.type !== 'radio' &&
+                item.type !== 'date'
+              "
+              :onlyNumeric="
+                item.name === 'postal_code' ||
+                item.type === 'number' ||
+                item.type === 'tel'
+                  ? true
+                  : false
+              "
+              :type="item.type"
+              :model="form[item.name]"
+              :label="item.label_translation_key_id"
+              :required="item.required"
+              :placeholder="item.placeholder_translation_key_id"
               @update:model="
                 ($event) => {
-                  updateModel('postCode', $event)
-                  checkPostalCode($event)
+                  updateModel(item.name, $event)
+                  if (item.name === 'postal_code') {
+                    checkPostalCode($event)
+                  }
                 }
               "
-              @validate="validateInput('postCode', $event)"
+              @validate="validateInput(item.name, $event)"
+              :minLength="maxLengthMap(item.name)"
               :validate-on-submit="validateOnSubmit"
-              :error="
-                !form.postCode && validateOnSubmit
-                  ? $t('fieldRequired')
-                  : '' || (form.postCode.length > 0 && form.postCode.length < 7)
-                  ? $t('minLengthPostalCode')
-                  : '' || errorPostCodeMessage
-              "
+              :error="handleError(item.name, item.required)"
+              hasHelper
               :class="{
-                'input-error':
-                  (!form.postCode && validateOnSubmit) ||
-                  (form.postCode.length > 0 && form.postCode.length < 7) ||
-                  errorPostCodeMessage,
-                'opacity-50': isLoading,
+                'input-error': handleError(item.name, item.required),
               }"
+              :w230Px="
+                item.name === 'phoneNumber' || item.name === 'postal_code'
+                  ? true
+                  : false
+              "
               :border="true"
-              :bgColor="settings?.register_login?.change_membership_information_page_1?.button_text_and_color?.background"
+              :bgColor="
+                settings?.register_login?.membership_registration_page
+                  ?.button_text_and_color?.background
+              "
+              :textColor="
+                settings?.register_login?.membership_registration_page
+                  ?.button_text_and_color?.color
+              "
+            />
+
+            <!--
+            <div
+              v-if="item.name === 'first_name' || item.name === 'last_name'"
+              class="inline-flex gap-4"
+            >
+              <InputText
+                :model="form['last_name']"
+                :label="$t('lastName')"
+                required
+                @update:model="updateModel('last_name', $event)"
+                @validate="validateInput('last_name', $event)"
+                :validate-on-submit="validateOnSubmit"
+                :error="handleError('last_name')"
+                :class="{ 'input-error': handleError('last_name') }"
+                :border="true"
+                :bgColor="
+                  settings?.register_login?.membership_registration_page?.button_text_and_color?.background
+                "
+                :textColor="
+                  settings?.register_login?.membership_registration_page?.button_text_and_color?.color
+                "
+              />
+              <InputText
+                :model="form['first_name']"
+                :label="$t('firstName')"
+                required
+                :is-nick-name="true"
+                @update:model="updateModel('first_name', $event)"
+                @validate="validateInput('first_name', $event)"
+                :validate-on-submit="validateOnSubmit"
+                :error="handleError('first_name')"
+                :class="{ 'input-error': handleError('first_name') }"
+                :border="true"
+                :bgColor="
+                  settings?.register_login?.membership_registration_page?.button_text_and_color?.background
+                "
+                :textColor="
+                  settings?.register_login?.membership_registration_page?.button_text_and_color?.color
+                "
+              />
+            </div>
+          -->
+
+            <GenderSelection
+              v-if="item.type === 'gender'"
+              v-model="form[item.name]"
+              :label="item.label_translation_key_id"
+              :required="item.required"
+              :bg-color="
+                settings?.register_login?.membership_registration_page
+                  ?.button_text_and_color?.background
+              "
+              :text-color="
+                settings?.register_login?.membership_registration_page
+                  ?.button_text_and_color?.color
+              "
+            />
+
+            <InputDate
+              v-if="item.type === 'date'"
+              :label="item.label_translation_key_id"
+              :placeholder="item.placeholder_translation_key_id"
+              :required="item.required"
+              v-model:model="form[item.name]"
+              :error="handleError(item.name, item.required)"
+              :bgColor="
+                settings?.register_login?.membership_registration_page
+                  ?.button_text_and_color?.background
+              "
+              :textColor="
+                settings?.register_login?.membership_registration_page
+                  ?.button_text_and_color?.color
+              "
+              border
+            />
+
+            <RadioButton
+              v-if="item.type === 'radio'"
+              :label="t('questionnaire1')"
+              v-model:model="form[item.name]"
+              :options="questionnaire1Options"
+              :name="item.name"
+              :error="handleError(item.name, item.required)"
+              :bgColor="
+                settings?.register_login?.membership_registration_page
+                  ?.button_text_and_color?.background
+              "
+              :textColor="
+                settings?.register_login?.membership_registration_page
+                  ?.button_text_and_color?.color
+              "
+              :required="item.required"
             />
           </div>
-        </div>
-        <div
-          class="inline-flex gap-4 px-4 py-5 border-b border-b-exd-light-grey"
-        >
-          <InputText
-            type="email"
-            :model="form.email"
-            required
-            :label="$t('emailAddress')"
-            @update:model="updateModel('email', $event)"
-            @validate="validateInput('email', $event)"
-            :validate-on-submit="validateOnSubmit"
-            :is-email-error="true"
-            :error="
-              !form.email && validateOnSubmit
-                ? t('fieldRequired')
-                : form.email && !emailRegex(form.email)
-                ? t('emailFormat')
-                : errorEmailMessage
-            "
-            :class="{
-              'input-error':
-                !form.email && validateOnSubmit
-                  ? t('fieldRequired')
-                  : form.email && !emailRegex(form.email)
-                  ? t('emailFormat')
-                  : errorEmailMessage,
-            }"
-            :border="true"
-            :bgColor="settings?.register_login?.change_membership_information_page_1?.button_text_and_color?.background"
-          />
-        </div>
-
-        <div
-          class="flex flex-col gap-4 px-4 py-5 border-b border-b-exd-light-grey"
-        >
-          <InputText
-            type="password"
-            :model="form.password"
-            :isPassword="true"
-            required
-            :minLength="8"
-            :label="$t('loginPassword')"
-            inform="passwordMin"
-            @update:model="updateModel('password', $event)"
-            @validate="validateInput('password', $event)"
-            :validate-on-submit="validateOnSubmit"
-            :error="
-              !form.password && validateOnSubmit
-                ? t('fieldRequired')
-                : '' || errorPasswordMessage === ''
-                ? ''
-                : t(errorPasswordMessage)
-            "
-            :border="true"
-            :bgColor="settings?.register_login?.change_membership_information_page_1?.button_text_and_color?.background"
-          />
         </div>
 
         <div class="inline-flex items-center justify-center w-full gap-2 mt-7">
@@ -209,12 +237,21 @@
       <div class="mt-16" />
       <div class="fixed bottom-0 z-50 w-full max-w-md mx-auto mb-2">
         <SolidButton
-          :label="settings?.register_login?.change_membership_information_page_1?.button_text"
+          :label="
+            settings?.register_login?.change_membership_information_page_1
+              ?.button_text
+          "
           :has-loading="isLoading"
           :disabled="!isButtonEnabled || !form.checked"
           :on-click="handleSubmit"
-          :bgColor="settings?.register_login?.change_membership_information_page_1?.button_text_and_color?.background"
-          :textColor="settings?.register_login?.change_membership_information_page_1?.button_text_and_color?.color"
+          :bgColor="
+            settings?.register_login?.change_membership_information_page_1
+              ?.button_text_and_color?.background
+          "
+          :textColor="
+            settings?.register_login?.change_membership_information_page_1
+              ?.button_text_and_color?.color
+          "
           has-bottom
         />
       </div>
@@ -226,7 +263,7 @@
     modal
     class="!w-11/12 !max-w-sm border border-exd-gray-44"
     :style="{
-      background: settings?.global?.modal?.background_color
+      background: settings?.global?.modal?.background_color,
     }"
   >
     <template #container>
@@ -240,14 +277,17 @@
         @click="handleCloseDialog"
       />
       <div class="flex flex-col items-center justify-center w-full gap-4 py-6">
-        <IconsWarning class="w-10 h-10" :style="{ color: settings?.global?.icon_color?.background }" />
+        <IconsWarning
+          class="w-10 h-10"
+          :style="{ color: settings?.global?.icon_color?.background }"
+        />
         <div class="w-10/12 text-center">
           <p
             v-for="(item, index) in errorScroll"
             :key="index"
             class="font-bold text-exd-1424 text-exd-gray-scorpion"
             :style="{
-              color: settings?.global?.modal?.text_color
+              color: settings?.global?.modal?.text_color,
             }"
           >
             {{ item }}
@@ -278,15 +318,7 @@ const isButtonEnabled = ref(false)
 const errorKeyPostCode = ref('')
 const errorPostCodeMessage = computed(() => t(errorKeyPostCode.value))
 
-const form = reactive({
-  gender: 'No-Answer',
-  postCode: '',
-  prefecture: '',
-  address: '',
-  city: '',
-  area: '',
-  email: '',
-  password: '',
+const form = ref({
   checked: false,
 })
 
@@ -338,6 +370,28 @@ const updateModel = (field, value) => {
   }
 }
 
+const handleError = (field, required) => {
+  const value = form.value[field] || ''
+
+  if (!value && validateOnSubmit.value && required) {
+    return t('fieldRequired')
+  } else if (field === 'email') {
+    if (value && !emailRegex(value)) {
+      return t('emailFormat')
+    } else {
+      return errorEmailMessage.value
+    }
+  } else if (field === 'postal_code') {
+    if (value?.length > 0 && value?.length < 7) {
+      return t('minLengthPostalCode')
+    } else if (errorPostCodeMessage.value) {
+      return errorPostCodeMessage.value
+    }
+  } else if (field === 'phone_number') {
+    return errorPhoneNumber.value
+  }
+}
+
 const passwordValidate = () => {
   const password = form.password
   const alphanumericRegex = /^[a-zA-Z0-9]{8,}$/
@@ -355,6 +409,21 @@ const validateInput = (field, value) => {
   //console.log(`Validated ${field}:`, value)
 }
 
+const maxLengthMap = (field) => {
+  switch (field) {
+    case 'postal_code':
+      return 7
+    case 'phone_number':
+      return 12
+    case 'password':
+      return 20
+    case 'confPassword':
+      return 20
+    default:
+      return null
+  }
+}
+
 const emailRegex = (email) => {
   return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)
 }
@@ -366,8 +435,9 @@ const isFormChanged = () => {
 }
 
 const validateForm = () => {
-  const requiredFields = ['email', 'password', 'postCode']
   let isValid = true
+  const requiredFields = ['email', 'password', 'postal_code']
+  const firstErrorElement = document.querySelector('.input-error')
 
   if (!emailRegex(form.email)) {
     isValid = false
@@ -377,7 +447,6 @@ const validateForm = () => {
 
   // Pastikan email valid
   if (!isValid) {
-    const firstErrorElement = document.querySelector('.input-error')
     firstErrorElement.style.paddingTop = '80px'
     firstErrorElement.style.marginTop = '-80px'
 
@@ -401,11 +470,20 @@ const validateForm = () => {
 }
 
 const populateForm = (data) => {
-  form.gender = data.gender || 'No-Answer'
-  form.postCode = data.postal_code.name || ''
-  form.email = data.email || ''
-  form.password = data.password || ''
-}
+  const forms = settings.value?.register_login?.register_fields;
+
+  if (!forms) return;
+
+  const shownKeys = Object.keys(forms).filter(key => forms[key].show);
+
+  shownKeys.forEach(key => {
+    if (data[key] !== undefined) {
+      form.value[key] = data[key];
+    }
+  });
+
+  console.log('Form setelah autofill:', form.value);
+};
 
 const fetchGetUserData = async () => {
   errorMessages.value = []
@@ -419,7 +497,6 @@ const fetchGetUserData = async () => {
     populateForm(data)
 
     initialForm = JSON.parse(JSON.stringify(form))
-
   } catch (error) {
     console.log(error)
   } finally {
@@ -435,12 +512,12 @@ const fetchPostUserData = async (payload) => {
     const { data } = await useFetchApi('POST', 'user', {
       body: payload,
     })
-    
+
     if (validateForm()) {
       localStorage.setItem('USER_ID', data.user.id)
       localStorage.setItem('PROFILE_SUBMITTED', 'true')
       localStorage.setItem('PROFILE_SUBMIT_TIME', Date.now().toString())
-      
+
       navigateTo('/profile/complete')
     }
   } catch (error) {
@@ -478,27 +555,21 @@ const handleApiError = (error) => {
 }
 
 const buildPayload = () => {
-  const payload = {
-    gender: form.gender,
-    email: form.email,
-    password: form.password,
-    postal_code: form.postCode,
-    prefecture: form.prefecture,
-    city: form.city,
-    area: form.area,
-    address: form.area
-  }
+  const { checked, ...payload } = form.value
 
   return payload
 }
 
 const handleSubmit = async () => {
-    
   if (!validateForm()) return
-  if (!form.postCode || form.postCode.length < 7 || errorPostCodeMessage.value) {
+  if (
+    !form.postCode ||
+    form.postCode.length < 7 ||
+    errorPostCodeMessage.value
+  ) {
     return
   }
-  
+
   errorScroll.value = []
 
   isLoading.value = true
@@ -531,9 +602,13 @@ let postCodeBounds
 
 const checkPostalCode = async (code) => {
   if (!code || code.length < 7) {
-    form.prefecture = ''
-    form.city = ''
-
+    form.value.prefecture = ''
+    form.value.city = ''
+    if (code && code.length > 0 && code.length < 7) {
+      errorKeyPostCode.value = 'minLengthPostalCode'
+    } else {
+      errorKeyPostCode.value = ''
+    }
     return
   }
 
@@ -554,6 +629,7 @@ const checkPostalCode = async (code) => {
 
         if (!address || !address.prefecture || !address.city || !address.area) {
           errorKeyPostCode.value = 'postalCodeNotFound'
+
           reject(new Error('Invalid postal code or incomplete address data'))
         } else {
           resolve(address)
@@ -561,15 +637,16 @@ const checkPostalCode = async (code) => {
       })
     })
 
-    // Success case
-    form.prefecture = address.prefecture
-    form.city = address.city
-    form.area = address.area
+    form.value.prefecture = address.prefecture
+    // form.value.city = address.city
+    // form.value.area = address.area
+    form.value.municipalities = `${address.city}, ${address.area}`
     errorKeyPostCode.value = ''
   } catch (error) {
     console.error('Postal code error:', error)
-    form.prefecture = ''
-    form.city = ''
+
+    form.value.prefecture = ''
+    form.value.city = ''
 
     if (error.message.includes('timeout')) {
       errorKeyPostCode.value = 'postalCodeNotFound'
