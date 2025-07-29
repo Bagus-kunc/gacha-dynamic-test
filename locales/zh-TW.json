@@ -344,6 +344,7 @@
     "localMorizzoAndKiccoro": "各訪問城市的在地版 Morizo 與 Kiccoro",
     "aniversaryMorizzoAndKiccoro": "Morizo 與 Kiccoro - 愛知萬博 2005 20 周年紀念版",
     "quiz": "小測驗",
-    "answer": "答案 (平假名)"
+    "answer": "答案 (平假名)",
+    "answerRequired": "答案欄為必填項目。"
   }
   

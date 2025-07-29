@@ -236,20 +236,8 @@ const handleSubmit = async () => {
     isLoading.value = false
 
   } catch (error) {
-
-    // console.log("Error: Can't login", error)
-
-    const { errors, message } = error._data || {}
-
-    if (errors) {
-      const message = Object.keys(errors).map((item) => errors[item][0])
-      errorMessages.value = message
-      isErrorMessage.value = true
-    }
-    if (message && !errors) {
-      errorMessages.value = [message]
-      isErrorMessage.value = true
-    }
+    errorMessages.value = [settings.value?.register_login?.registration_login_pop_up_title]
+    isErrorMessage.value = true
   } finally {
     isLoading.value = false
   }

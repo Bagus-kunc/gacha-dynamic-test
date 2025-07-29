@@ -108,7 +108,7 @@
         <p
           class="font-bold text-[2.5vw] xs:text-[12px] sm:text-[14px] md:text-exd-1424"
         >
-          {{ errorMessages || settings?.pre_gacha?.quiz?.warning_message }}
+          {{ errorMessages }}
         </p>
       </div>
     </template>
@@ -116,6 +116,8 @@
 </template>
 
 <script setup>
+import { useI18n } from 'vue-i18n'
+
 
 definePageMeta({
   middleware: async (to, from) => {
@@ -134,6 +136,7 @@ definePageMeta({
 const { encryptData } = useEncryption()
 const settings = useState('settings')
 const LOCALE = useCookie('LOCALE')
+const { t } = useI18n()
 
 const isLoading = ref(false)
 
@@ -151,6 +154,7 @@ const toggleModal = () => {
 
 const checkAnswerQuiz = async (body) => {
   isLoading.value = true
+
   try {
     const { status } = await useFetchApi('POST', 'gacha/quiz/validate', {
       body,
@@ -164,14 +168,17 @@ const checkAnswerQuiz = async (body) => {
     return status
   } catch (error) {
     isLoading.value = false
-
-    if (error._data?.message) {
-      errorMessages.value = (error._data?.message)
-    }
+      errorMessages.value = settings.value?.pre_gacha?.quiz?.warning_message
   }
 }
 
 const handleQuiz = async () => {
+  if (!answer.value) {
+    errorMessages.value = t('answerRequired')
+    showModal.value = true
+    return
+  }
+
   const status = await checkAnswerQuiz({
     slug: route.params.randomCode,
     answer: answer.value,
