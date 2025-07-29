@@ -10,7 +10,7 @@
     </HeaderBar>
 
     <div
-      class="flex flex-col justify-between w-full gap-6 pb-3 mt-32 grow"
+      class="flex flex-col justify-between w-full gap-6 pt-32 pb-3 grow"
       :style="{
         background:
           settings?.register_login?.membership_registration_page
@@ -77,13 +77,13 @@
               @validate="validateInput(item.name, $event)"
               :minLength="maxLengthMap(item.name)"
               :validate-on-submit="validateOnSubmit"
-              :error="handleError(item.name)"
+              :error="handleError(item.name, item.required)"
               hasHelper
               :class="{
-                'input-error': handleError(item.name),
+                'input-error': handleError(item.name, item.required),
               }"
               :w230Px="
-                item.name === 'phoneNumber' || item.name === 'postal_code'
+                item.name === 'phone_number' || item.name === 'postal_code'
                   ? true
                   : false
               "
@@ -166,7 +166,7 @@
               :placeholder="item.placeholder_translation_key_id"
               :required="item.required"
               v-model:model="form[item.name]"
-              :error="handleError(item.name)"
+              :error="handleError(item.name, item.required)"
               :bgColor="
                 settings?.register_login?.membership_registration_page
                   ?.button_text_and_color?.background
@@ -184,7 +184,7 @@
               v-model:model="form[item.name]"
               :options="questionnaire1Options"
               :name="item.name"
-              :error="handleError(item.name)"
+              :error="handleError(item.name, item.required)"
               :bgColor="
                 settings?.register_login?.membership_registration_page
                   ?.button_text_and_color?.background
@@ -304,6 +304,7 @@ const form = ref({
   checked: false,
 })
 const { t } = useI18n()
+const userId = ref(null)
 const errorScroll = ref([])
 const isLoading = ref(false)
 const errorMessages = ref([])
@@ -373,26 +374,53 @@ const maxLengthMap = (field) => {
   }
 }
 
-const handleError = (field) => {
-  const value = form.value[field] || ''
+const handleError = (field, required) => {
+  const value = form[field] || ''
 
-  if (!value && validateOnSubmit.value) {
+  if (!value && validateOnSubmit.value && required) {
     return t('fieldRequired')
-  } else if (field === 'email') {
+  }
+
+  if (field === 'email') {
     if (value && !emailRegex(value)) {
       return t('emailFormat')
-    } else {
+    } else if (errorEmailMessage.value) {
       return errorEmailMessage.value
     }
-  } else if (field === 'postal_code') {
+  }
+
+  if (field === 'password') {
+    if (!value) return ''
+
+    // Panjang minimal
+    if (value.length < 8) {
+      return t('passwordMin') 
+    }
+
+    if (!alphanumericRegex.test(value)) {
+      return t('validPassword')
+    }
+  }
+
+  if (field === 'password_confirmation') {
+    if (value && value !== form.password) {
+      return t('passwordNotMatch');
+    }
+  }
+
+  if (field === 'postal_code') {
     if (value?.length > 0 && value?.length < 7) {
       return t('minLengthPostalCode')
     } else if (errorPostCodeMessage.value) {
       return errorPostCodeMessage.value
     }
-  } else if (field === 'phone_number') {
+  }
+
+  if (field === 'phone_number') {
     return errorPhoneNumber.value
   }
+
+  return ''
 }
 
 const validateInput = (field, value) => {}

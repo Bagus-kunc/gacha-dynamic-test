@@ -1,7 +1,7 @@
 <template>
   <header
-    class="pt-[39px] pb-3 flex justify-between items-center top-0 left-0 right-0 z-40 fixed w-full max-w-md mx-auto bg-white"
-    style="box-shadow: 0px 3px 3px 0px rgba(0, 0, 0, 0.1608)"
+    class="pt-[39px] pb-3 flex justify-between items-center top-0 left-0 right-0 z-40 fixed w-full max-w-md mx-auto "
+    :style="{ 'box-shadow': '0px 3px 3px 0px rgba(0, 0, 0, 0.1608)', 'background': settings.global?.global_header_footer_color }"
     @touchmove="(e) => e.preventDefault()"
   >
     <div class="pl-5" v-if="hasBack">
