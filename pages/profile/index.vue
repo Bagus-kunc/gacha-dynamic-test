@@ -349,7 +349,6 @@ const handleError = (field, required) => {
   if (field === 'password') {
     if (!value) return ''
 
-    // Panjang minimal
     if (value.length < 8) {
       return t('passwordMin') 
     }

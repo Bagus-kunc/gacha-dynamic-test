@@ -162,6 +162,8 @@ const checkAnswerQuiz = async (body) => {
 
     const validPassword = useCookie('VALID_PASSWORD')
     validPassword.value = encryptData(body)
+    
+    localStorage.removeItem('answer-quiz')
 
     isLoading.value = false
 
@@ -213,10 +215,20 @@ const getQuestions = async () => {
   }
 }
 
+watch(answer, (newVal) => {
+  localStorage.setItem('answer-quiz', newVal)
+}, { deep: true })
+
 
 onMounted(() => {
+  const savedAnswer = localStorage.getItem('answer-quiz')
+  
   getQuestions()
   getTerms()
+
+  if (savedAnswer) {
+    answer.value = savedAnswer
+  }
 })
 </script>
 

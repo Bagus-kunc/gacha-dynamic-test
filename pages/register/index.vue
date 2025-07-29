@@ -346,7 +346,6 @@ const handleError = (field, required) => {
   if (field === 'password') {
     if (!value) return ''
 
-    // Panjang minimal
     if (value.length < 8) {
       return t('passwordMin') 
     }
@@ -357,7 +356,7 @@ const handleError = (field, required) => {
   }
 
   if (field === 'password_confirmation') {
-    if (value && value !== form.password) {
+    if (value && value !== form.value.password) {
       return t('passwordNotMatch');
     }
   }
@@ -396,7 +395,7 @@ const validateForm = () => {
   const requiredFields = []
   let isValid = true
 
-  if (!emailRegex(form.email)) {
+  if (!emailRegex(form.value.email)) {
     isValid = false
   } else {
     errorEmailMessage.value = ''
