@@ -109,50 +109,6 @@
                   ?.button_text_and_color?.color
               "
             />
-
-            <!--
-            <div
-              v-if="item.name === 'first_name' || item.name === 'last_name'"
-              class="inline-flex gap-4"
-            >
-              <InputText
-                :model="form['last_name']"
-                :label="$t('lastName')"
-                required
-                @update:model="updateModel('last_name', $event)"
-                @validate="validateInput('last_name', $event)"
-                :validate-on-submit="validateOnSubmit"
-                :error="handleError('last_name')"
-                :class="{ 'input-error': handleError('last_name') }"
-                :border="true"
-                :bgColor="
-                  settings?.register_login?.membership_registration_page?.button_text_and_color?.background
-                "
-                :textColor="
-                  settings?.register_login?.membership_registration_page?.button_text_and_color?.color
-                "
-              />
-              <InputText
-                :model="form['first_name']"
-                :label="$t('firstName')"
-                required
-                :is-nick-name="true"
-                @update:model="updateModel('first_name', $event)"
-                @validate="validateInput('first_name', $event)"
-                :validate-on-submit="validateOnSubmit"
-                :error="handleError('first_name')"
-                :class="{ 'input-error': handleError('first_name') }"
-                :border="true"
-                :bgColor="
-                  settings?.register_login?.membership_registration_page?.button_text_and_color?.background
-                "
-                :textColor="
-                  settings?.register_login?.membership_registration_page?.button_text_and_color?.color
-                "
-              />
-            </div>
-          -->
-
             <GenderSelection
               v-if="item.type === 'gender'"
               v-model="form[item.name]"
