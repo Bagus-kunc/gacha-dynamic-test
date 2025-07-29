@@ -83,7 +83,7 @@
                 'input-error': handleError(item.name, item.required),
               }"
               :w230Px="
-                item.name === 'phoneNumber' || item.name === 'postal_code'
+                item.name === 'phone_number' || item.name === 'postal_code'
                   ? true
                   : false
               "
@@ -375,25 +375,52 @@ const maxLengthMap = (field) => {
 }
 
 const handleError = (field, required) => {
-  const value = form.value[field] || ''
+  const value = form[field] || ''
 
   if (!value && validateOnSubmit.value && required) {
     return t('fieldRequired')
-  } else if (field === 'email') {
+  }
+
+  if (field === 'email') {
     if (value && !emailRegex(value)) {
       return t('emailFormat')
-    } else {
+    } else if (errorEmailMessage.value) {
       return errorEmailMessage.value
     }
-  } else if (field === 'postal_code') {
+  }
+
+  if (field === 'password') {
+    if (!value) return ''
+
+    // Panjang minimal
+    if (value.length < 8) {
+      return t('passwordMin') 
+    }
+
+    if (!alphanumericRegex.test(value)) {
+      return t('validPassword')
+    }
+  }
+
+  if (field === 'password_confirmation') {
+    if (value && value !== form.password) {
+      return t('passwordNotMatch');
+    }
+  }
+
+  if (field === 'postal_code') {
     if (value?.length > 0 && value?.length < 7) {
       return t('minLengthPostalCode')
     } else if (errorPostCodeMessage.value) {
       return errorPostCodeMessage.value
     }
-  } else if (field === 'phone_number') {
+  }
+
+  if (field === 'phone_number') {
     return errorPhoneNumber.value
   }
+
+  return ''
 }
 
 const validateInput = (field, value) => {}

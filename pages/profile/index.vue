@@ -95,7 +95,7 @@
                 'input-error': handleError(item.name, item.required),
               }"
               :w230Px="
-                item.name === 'phoneNumber' || item.name === 'postal_code'
+                item.name === 'phone_number' || item.name === 'postal_code'
                   ? true
                   : false
               "
@@ -317,14 +317,17 @@ const isErrorMessage = ref(false)
 const isButtonEnabled = ref(false)
 const errorKeyPostCode = ref('')
 const errorPostCodeMessage = computed(() => t(errorKeyPostCode.value))
+const emailErrorKey = ref('')
+const errorEmailMessage = computed(
+  () => emailErrorKey.value && t(emailErrorKey.value)
+)
 
-const form = ref({
+const form = reactive({
   checked: false,
 })
 
-const errorMessages = ref([])
+const errorMessages = ref({})
 const errorScroll = ref([])
-const errorEmailMessage = ref('')
 const errorNicknameMessage = ref('')
 const errorPasswordMessage = ref('')
 const settings = useState('settings')
@@ -353,6 +356,8 @@ const getAgeOptions = () => [
   { value: 7, label: t('70') },
 ]
 
+const alphanumericRegex = /^[a-zA-Z0-9]{8,}$/
+
 const updateModel = (field, value) => {
   form[field] = value
 
@@ -371,42 +376,52 @@ const updateModel = (field, value) => {
 }
 
 const handleError = (field, required) => {
-  const value = form.value[field] || ''
+  const value = form[field] || ''
 
   if (!value && validateOnSubmit.value && required) {
     return t('fieldRequired')
-  } else if (field === 'email') {
+  }
+
+  if (field === 'email') {
     if (value && !emailRegex(value)) {
       return t('emailFormat')
-    } else {
+    } else if (errorEmailMessage.value) {
       return errorEmailMessage.value
     }
-  } else if (field === 'postal_code') {
+  }
+
+  if (field === 'password') {
+    if (!value) return ''
+
+    // Panjang minimal
+    if (value.length < 8) {
+      return t('passwordMin') 
+    }
+
+    if (!alphanumericRegex.test(value)) {
+      return t('validPassword')
+    }
+  }
+
+  if (field === 'password_confirmation') {
+    if (value && value !== form.password) {
+      return t('passwordNotMatch');
+    }
+  }
+
+  if (field === 'postal_code') {
     if (value?.length > 0 && value?.length < 7) {
       return t('minLengthPostalCode')
     } else if (errorPostCodeMessage.value) {
       return errorPostCodeMessage.value
     }
-  } else if (field === 'phone_number') {
+  }
+
+  if (field === 'phone_number') {
     return errorPhoneNumber.value
   }
-}
 
-const passwordValidate = () => {
-  const password = form.password
-  const alphanumericRegex = /^[a-zA-Z0-9]{8,}$/
-
-  if (password.length > 0 && password.length < 8) {
-    errorPasswordMessage.value = 'passwordMin'
-  } else if (!alphanumericRegex.test(password)) {
-    errorPasswordMessage.value = 'validPassword'
-  } else {
-    errorPasswordMessage.value = ''
-  }
-}
-
-const validateInput = (field, value) => {
-  //console.log(`Validated ${field}:`, value)
+  return ''
 }
 
 const maxLengthMap = (field) => {
@@ -424,6 +439,22 @@ const maxLengthMap = (field) => {
   }
 }
 
+const passwordValidate = () => {
+  const password = form.password
+
+  if (password.length > 0 && password.length < 8) {
+    errorPasswordMessage.value = 'passwordMin'
+  } else if (!alphanumericRegex.test(password)) {
+    errorPasswordMessage.value = 'validPassword'
+  } else {
+    errorPasswordMessage.value = ''
+  }
+}
+
+const validateInput = (field, value) => {
+  //console.log(`Validated ${field}:`, value)
+}
+
 const emailRegex = (email) => {
   return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)
 }
@@ -435,9 +466,8 @@ const isFormChanged = () => {
 }
 
 const validateForm = () => {
+  const requiredFields = []
   let isValid = true
-  const requiredFields = ['email', 'password', 'postal_code']
-  const firstErrorElement = document.querySelector('.input-error')
 
   if (!emailRegex(form.email)) {
     isValid = false
@@ -445,8 +475,9 @@ const validateForm = () => {
     errorEmailMessage.value = ''
   }
 
-  // Pastikan email valid
-  if (!isValid) {
+  const firstErrorElement = document.querySelector('.input-error')
+
+  if (!isValid && firstErrorElement) {
     firstErrorElement.style.paddingTop = '80px'
     firstErrorElement.style.marginTop = '-80px'
 
@@ -456,6 +487,7 @@ const validateForm = () => {
       firstErrorElement.style.paddingTop = ''
       firstErrorElement.style.marginTop = ''
     }, 3000)
+
     return false
   }
 
@@ -470,20 +502,18 @@ const validateForm = () => {
 }
 
 const populateForm = (data) => {
-  const forms = settings.value?.register_login?.register_fields;
+  const forms = settings.value?.register_login?.register_fields
 
-  if (!forms) return;
+  if (!forms) return
 
-  const shownKeys = Object.keys(forms).filter(key => forms[key].show);
+  const shownKeys = Object.keys(forms).filter((key) => forms[key].show)
 
-  shownKeys.forEach(key => {
+  shownKeys.forEach((key) => {
     if (data[key] !== undefined) {
-      form.value[key] = data[key];
+      form[key] = data[key]
     }
-  });
-
-  console.log('Form setelah autofill:', form.value);
-};
+  })
+}
 
 const fetchGetUserData = async () => {
   errorMessages.value = []
@@ -497,8 +527,8 @@ const fetchGetUserData = async () => {
     populateForm(data)
 
     initialForm = JSON.parse(JSON.stringify(form))
-  } catch (error) {
-    console.log(error)
+  } catch (err) {
+    console.log(err)
   } finally {
     isLoading.value = false
   }
@@ -555,20 +585,20 @@ const handleApiError = (error) => {
 }
 
 const buildPayload = () => {
-  const { checked, ...payload } = form.value
+  const { checked, ...payload } = form
 
   return payload
 }
 
 const handleSubmit = async () => {
   if (!validateForm()) return
-  if (
-    !form.postCode ||
-    form.postCode.length < 7 ||
-    errorPostCodeMessage.value
-  ) {
-    return
-  }
+  // if (
+  //   !form.postCode ||
+  //   form.postCode.length < 7 ||
+  //   errorPostCodeMessage.value
+  // ) {
+  //   return
+  // }
 
   errorScroll.value = []
 
@@ -602,13 +632,9 @@ let postCodeBounds
 
 const checkPostalCode = async (code) => {
   if (!code || code.length < 7) {
-    form.value.prefecture = ''
-    form.value.city = ''
-    if (code && code.length > 0 && code.length < 7) {
-      errorKeyPostCode.value = 'minLengthPostalCode'
-    } else {
-      errorKeyPostCode.value = ''
-    }
+    form.prefecture = ''
+    form.city = ''
+
     return
   }
 
@@ -629,7 +655,6 @@ const checkPostalCode = async (code) => {
 
         if (!address || !address.prefecture || !address.city || !address.area) {
           errorKeyPostCode.value = 'postalCodeNotFound'
-
           reject(new Error('Invalid postal code or incomplete address data'))
         } else {
           resolve(address)
@@ -637,16 +662,15 @@ const checkPostalCode = async (code) => {
       })
     })
 
-    form.value.prefecture = address.prefecture
-    // form.value.city = address.city
-    // form.value.area = address.area
-    form.value.municipalities = `${address.city}, ${address.area}`
+    // Success case
+    form.prefecture = address.prefecture
+    form.city = address.city
+    form.area = address.area
     errorKeyPostCode.value = ''
   } catch (error) {
     console.error('Postal code error:', error)
-
-    form.value.prefecture = ''
-    form.value.city = ''
+    form.prefecture = ''
+    form.city = ''
 
     if (error.message.includes('timeout')) {
       errorKeyPostCode.value = 'postalCodeNotFound'
