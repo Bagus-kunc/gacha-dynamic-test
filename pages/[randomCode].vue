@@ -6,23 +6,16 @@
       class="flex-1 items-center flex flex-col pt-[2rem] pb-20 px-8 overflow-y-auto overflow-x-hidden"
     >
       <div class="relative w-full text-right -right-4">
-        <button type="button" aria-haspopup="true" @click="langPanelToggle">
-          <img
-            src="/images/intl-icon.svg"
-            alt="intl"
-            width="40"
-            height="40"
-            preload
-            class="bg-white rounded-full cursor-pointer"
-          />
+        <button type="button" aria-haspopup="true" class="bg-white rounded-full" @click="langPanelToggle">
+          <IconsLang :style="{ color: settings.global?.icon_color?.background }" />
         </button>
         <LanguangePanel v-model:visible="langPanel" />
       </div>
       <img
-        src="/images/header-logo.png"
+        :src="settings.global.logo"
         alt="logo"
-        width="190"
-        height="71"
+        width="95"
+        height="58"
         preload
         class="mb-8"
       />
@@ -84,6 +77,7 @@
 <script setup>
 import emptyImage from '~/assets/images/no-image.svg'
 
+const settings = useState('settings')
 const langPanel = ref(false)
 const langPanelToggle = (event) => {
   langPanel.value = !langPanel.value

@@ -5,6 +5,7 @@
   >
     <div class="inline-flex w-full gap-3">
       <div
+        v-if="settings?.flow?.screens?.show_point_in_footer"
         class="absolute -top-[40px] flex flex-col justify-center items-center"
       >
         <IconsBackgroundPointRounded
@@ -43,6 +44,7 @@
 
       <div
         class="inline-flex flex-row ml-[27%] sm:ml-[24%] justify-around w-full pt-4 sm:pt-2"
+        :class="settings?.flow?.screens?.show_point_in_footer ? 'ml-[27%] sm:ml-[24%]' : 'ml-0 sm:ml-0'"
       >
         <BottomBarMenuIcon
           v-for="(item, index) in dynamicItems"

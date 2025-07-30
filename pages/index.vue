@@ -58,6 +58,10 @@ import tapScreen from '~/assets/images/tap-screen.png'
 import { nextTick } from 'vue'
 import WarningPopUp from '~/components/WarningPopUp.vue'
 
+definePageMeta({
+  middleware: 'navigation-guard',
+})
+
 const route = useRoute()
 const router = useRouter()
 const { setSourceFrom } = useRegister()

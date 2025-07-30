@@ -13,8 +13,14 @@
         <p class="font-bold text-[var(--primary)] text-exd-1530">
           {{ $t('currentPoints') }}
         </p>
-        <div v-if="!store.point" class="!w-32 !h-12 bg-white mb-[50%] rounded-md" />
-        <p v-else class="relative font-bold text-[var(--primary)] text-exd-56112 -top-9">
+        <div
+          v-if="!store.point"
+          class="!w-32 !h-12 bg-white mb-[50%] rounded-md"
+        />
+        <p
+          v-else
+          class="relative font-bold text-[var(--primary)] text-exd-56112 -top-9"
+        >
           {{ store.point }}<span class="ml-1 text-exd-1530">pt</span>
         </p>
       </div>
@@ -24,12 +30,15 @@
       class="relative inline-flex flex-col items-center justify-center gap-5 mb-5"
     >
       <div
+        v-if="settings?.flow?.screens?.user_dashboard_screen?.show_prize_collection"
         class="flex items-center justify-center w-full p-6 bg-white cursor-pointer rounded-xl h-exd-130"
         :style="{
           boxShadow: '0px 3px 3px 0px rgba(0, 0, 0, 0.1608)',
-          background: settings.user_dashboard.prize_collections.background.type === 'color'
-            ? settings?.user_dashboard?.prize_collections?.background.value
-            : `url(${settings?.user_dashboard?.prize_collections?.background.value})`
+          background:
+            settings.user_dashboard.prize_collections.background.type ===
+            'color'
+              ? settings?.user_dashboard?.prize_collections?.background.value
+              : `url(${settings?.user_dashboard?.prize_collections?.background.value})`,
         }"
         @click="handleGoToPrize"
       >
@@ -47,12 +56,15 @@
       </div>
 
       <div
+        v-if="settings?.flow?.screens?.user_dashboard_screen?.show_gacha_collections"
         class="flex items-center justify-center w-full p-6 bg-white cursor-pointer rounded-xl h-exd-130"
         :style="{
           boxShadow: '0px 3px 3px 0px rgba(0, 0, 0, 0.1608)',
-          background: settings.user_dashboard.gacha_collections.background.type === 'color'
-            ? settings?.user_dashboard?.gacha_collections?.background.value
-            : `url(${settings?.user_dashboard?.gacha_collections?.background.value})`
+          background:
+            settings.user_dashboard.gacha_collections.background.type ===
+            'color'
+              ? settings?.user_dashboard?.gacha_collections?.background.value
+              : `url(${settings?.user_dashboard?.gacha_collections?.background.value})`,
         }"
         @click="handleGoToHistory"
       >
@@ -69,32 +81,30 @@
         </p>
       </div>
     </div>
-    <div class="relative w-full">
-      <div v-for="(item, index) in subMenus" :key="index">
-        <div
-          v-if="item.text"
-          class="inline-flex items-center justify-between w-full px-5 bg-white border-b-2 cursor-pointer h-exd-50 border-b-exd-light-grey"
-          :class="{
-            'rounded-tl-xl rounded-tr-xl': index === 0,
-            'rounded-bl-xl rounded-br-xl': index === subMenus.length - 1
-          }"
-          @click="handleSubMenuClick(item)"
+    <div class="relative w-full border-b-exd-light-grey">
+      <div
+        v-for="(item, index) in visibleSubMenus"
+        :key="item.key"
+        class="inline-flex items-center justify-between w-full px-5 bg-white border-b-2 cursor-pointer h-exd-50 border-b-exd-light-grey"
+        :class="{
+          'rounded-tl-xl rounded-tr-xl': index === 0,
+          'rounded-bl-xl rounded-br-xl': index === visibleSubMenus.length - 1,
+        }"
+        @click="item.action"
+      >
+        <p
+          class="inline-flex items-center gap-1 font-bold text-exd-gray-scorpion grow text-exd-1424"
         >
-          <p class="inline-flex items-center gap-1 font-bold text-exd-gray-scorpion grow text-exd-1424">
-            {{ item.text }}
-            <span v-if="item.url">
-                <IconsExport class="w-5 h-5 text-exd-gray-scorpion" />
-            </span>
-          </p>
-          <img :src="arrow" alt="arrow" width="12" height="12" preload class="invert" />
-        </div>
+          {{ item.text }}
+          <span v-if="item.url">
+            <IconsExport class="w-5 h-5 text-exd-gray-scorpion" />
+          </span>
+        </p>
+        <img :src="arrow" alt="arrow" width="12" height="12" class="invert" />
       </div>
-
     </div>
 
-    <div
-      class="relative inline-flex flex-col w-full mx-auto mt-5"
-    >
+    <div v-if="settings?.flow?.screens?.show_banner" class="relative inline-flex flex-col w-full mx-auto mt-5">
       <Swiper
         :spaceBetween="30"
         :centeredSlides="true"
@@ -109,7 +119,11 @@
         :modules="[Autoplay, Pagination, Navigation]"
         class=""
       >
-        <SwiperSlide v-for="(item, index) in bannerList" :key="index" class="!items-start">
+        <SwiperSlide
+          v-for="(item, index) in bannerList"
+          :key="index"
+          class="!items-start"
+        >
           <a :href="item.banner_url" target="_blank" class="w-full">
             <img :src="item.banner_image" />
           </a>
@@ -123,7 +137,7 @@
     modal
     class="!w-11/12 !max-w-sm border border-exd-gray-44"
     :style="{
-      background: settings?.global?.modal?.background_color
+      background: settings?.global?.modal?.background_color,
     }"
   >
     <template #container>
@@ -139,12 +153,15 @@
       <div
         class="flex flex-col items-center justify-center w-full gap-4 px-6 py-6"
       >
-        <IconsWarning class="w-10 h-10" :style="{ color: settings?.global?.icon_color?.background }" />
+        <IconsWarning
+          class="w-10 h-10"
+          :style="{ color: settings?.global?.icon_color?.background }"
+        />
         <div class="w-10/12 text-center">
-          <p 
+          <p
             class="font-bold text-exd-1424"
             :style="{
-              color: settings?.global?.modal?.text_color
+              color: settings?.global?.modal?.text_color,
             }"
           >
             {{ errorMessages }}
@@ -184,9 +201,10 @@ const router = useRouter()
 const config = useRuntimeConfig()
 
 definePageMeta({
-  middleware: 'auth',
+  middleware: ['auth', 'navigation-guard'],
   layout: 'with-bottom-bar',
 })
+
 
 const handleGoToHistory = () => router.push('/history')
 const handleGoToPrize = () => router.push('/prize')
@@ -204,46 +222,44 @@ const redirectLink = ref('')
 const hidePoint = ref(false)
 const { t } = useI18n()
 
-const subMenus = computed(() => {
-  const menu = settings.value?.user_dashboard?.my_account_settings
-  return [
-    menu?.sub_menu_3,
-    menu?.sub_menu_1,
-    menu?.sub_menu_2,
-    menu?.sub_menu_4,
-  ].filter(Boolean)
+const visibleSubMenus = computed(() => {
+  const menu = settings.value?.user_dashboard?.my_account_settings || {}
+  const flow = settings.value?.flow?.screens?.sub_menus || {}
+
+  const items = [
+    {
+      key: 'sub_menu_3',
+      show: flow?.show_sub_menu_3_change_member_information,
+      text: menu?.sub_menu_3?.text,
+      action: () => navigateTo('/profile'),
+    },
+    {
+      key: 'sub_menu_2',
+      show: flow?.show_sub_menu_1_help_inquiries,
+      text: menu?.sub_menu_2?.text,
+      url: menu?.sub_menu_2?.url,
+      action: () => handleSubMenuClick(menu?.sub_menu_2?.url),
+    },
+    {
+      key: 'sub_menu_1',
+      show: flow?.show_sub_menu_2_user_manual,
+      text: menu?.sub_menu_1?.text,
+      url: menu?.sub_menu_1?.url,
+      action: () => handleSubMenuClick(menu?.sub_menu_1?.url),
+    },
+    {
+      key: 'sub_menu_4',
+      show: flow?.show_sub_menu_4_logout,
+      text: menu?.sub_menu_4?.text,
+      action: logout,
+    },
+  ]
+
+  return items.filter((item) => item.show && item.text)
 })
 
-const handleSubMenuClick = (item) => {
-  const text = (item?.text || '').toLowerCase()
-
-  const matchTexts = [
-    'membership information', // EN
-    '会員情報',                 // JA
-    '회원 정보',                 // KO
-    'informasi member',       // ID 
-    '会员信息',                 // CH
-    '會員資訊'                  // TW
-  ]
-
-  const matchLogoutTexts = [
-    'logout',                 // EN
-    'ログアウト',               // JA
-    '로그아웃',                 // KO
-    'keluar',                 // ID 
-    '登出',                   // CH
-    '登出'                    // TW
-  ]
-
-  if (matchTexts.includes(text)) {
-    profile()
-  } else if (matchLogoutTexts.includes(text)) {
-    logout()
-  } else if (item?.url) {
-    item.url.startsWith('http')
-      ? window.open(item.url, '_blank')
-      : router.push(item.url)
-  }
+const handleSubMenuClick = (url) => {
+  window.open(url, '_blank')
 }
 
 const handleClose = () => {
@@ -266,7 +282,6 @@ const clearSessionExcept = (whitelist) => {
 
   Object.entries(keep).forEach(([k, v]) => sessionStorage.setItem(k, v))
 }
-
 
 const logout = async () => {
   try {
@@ -381,10 +396,13 @@ const goToSpin = async (url) => {
   return await navigateTo(url)
 }
 
-const bannerList = ref(settings.value?.user_dashboard?.my_account_settings?.banners)
+const bannerList = ref(
+  settings.value?.user_dashboard?.my_account_settings?.banners
+)
 
 onMounted(() => {
   checkSpinEligibility()
+  hidePoint.value = !settings.value?.flow?.screens?.show_current_point
 })
 </script>
 
