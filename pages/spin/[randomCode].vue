@@ -474,7 +474,9 @@ const nextToSpin = async () => {
     return
   }
 
-  playVideo.value = true
+  if (settings.value?.flow?.screens?.spin_gacha_1_screen?.show_spin_gacha_1_video) {
+    playVideo.value = true
+  }
 }
 
 const goToSpinPoint = async () => {
@@ -726,7 +728,10 @@ function countdown(targetDate) {
 }
 
 const continueToSpin = async (url) => {
-  playVideo.value = true
+  if (settings.value?.flow?.screens?.spin_gacha_1_screen?.show_spin_gacha_1_video) {
+    playVideo.value = true
+    return
+  }
 }
 
 watch(isNotAllowed, (newValue) => {

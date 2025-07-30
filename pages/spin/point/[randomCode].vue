@@ -1,5 +1,6 @@
 <template>
   <div
+    v-if="settings?.flow?.screens?.spin_gacha_1_screen?.show_point_screen"
     class="relative flex flex-col items-center justify-center !bg-no-repeat !bg-cover !bg-center grow"
     :style="{ background: settings?.gacha?.spin_gacha_1_screen?.after_gacha_1_screen?.background?.type === 'image' ? `url(${settings?.gacha?.spin_gacha_1_screen?.after_gacha_1_screen?.background?.value})` : settings?.gacha?.spin_gacha_1_screen?.after_gacha_1_screen?.background?.value }"
     @touchmove="(e) => e.preventDefault()"
@@ -28,7 +29,7 @@
         :showPointOnly="showPointOnly"
       />
       <div
-        v-if="!showPointOnly"
+        v-if="settings?.flow?.screens?.spin_gacha_1_screen?.show_point_title"
         class="absolute text-exd-gray-scorpion bg-white flex justify-center bottom-[17%] px-4 py-3 h-auto rounded-lg w-[30vw] sm:w-[150px]"
       >
         <p class="text-[3.3vw] sm:text-[17px] max-w-[278px] text-center">
@@ -47,12 +48,6 @@
       />
     </div>
 
-    <AutoplayVideo
-      v-if="playVideo"
-      :src="settings.gacha.spin_gacha_2_screen.gacha_2_video"
-      @ended="handleGoToCharacter"
-    />
-
     <ModalAfterSpin
       v-model:visible="hasModal"
       :is-redirect="isRedirect"
@@ -65,6 +60,12 @@
     />
     <ModalLogin v-model="modalLogin" />
   </div>
+
+  <AutoplayVideo
+    v-if="playVideo"
+    :src="settings.gacha.spin_gacha_2_screen.gacha_2_video"
+    @ended="handleGoToCharacter"
+    />
 </template>
 
 <script setup>
@@ -172,8 +173,8 @@ const fetchImageFromApi = async () => {
         button_name: data.button_name,
         popup_description: data.popup_description,
         redirect_link: data.redirect_link,
-        hide_character: data.hide_character,
-        hide_character_info: data?.hide_character_info,
+        hide_character: !settings.value?.flow?.screens?.spin_gacha_2_screen?.show_character_screen,
+        hide_character_info: !settings.value?.flow?.screens?.spin_gacha_2_screen?.show_character_details,
       }
 
       localStorage.setItem(slugStorageName, encryptData(storage))
@@ -312,8 +313,8 @@ const fetchImageFromApi = async () => {
         redirect_link: data.point.point_category_link,
         point_category_is_fail: !!data.point.point_category_is_fail,
         spin_date: new Date().toLocaleString(),
-        hide_character: data?.hide_character,
-        hide_character_info: data?.hide_character_info,
+        hide_character: !settings.value?.flow?.screens?.spin_gacha_2_screen?.show_character_screen,
+        hide_character_info: !settings.value?.flow?.screens?.spin_gacha_2_screen?.show_character_details,
       }
 
       localStorage.setItem(slugStorageName, encryptData(storage))
@@ -358,21 +359,29 @@ const reportMultipleSpin = async ({ gift_id, character_id, location_id }) => {
 }
 
 const handleButton = async () => {
-  if (!hideCharacter.value) {
-  playVideo.value = true
+  const showVideo = settings.value?.flow?.screens?.spin_gacha_2_screen?.show_spin_gacha_2_video
+  
+  if (showVideo) {
+    playVideo.value = true
     return
   }
 
+  await handleGoToCharacter()
+}
+
+
+const handleGoToCharacter = async () => {
   if (!TOKEN.value && !USER.value) {
     handleShowDialog()
   } else {
-    await navigateTo('/dashboard')
+    if (settings.value?.flow?.screens?.spin_gacha_2_screen?.show_character_screen) {
+      await navigateTo(`/spin/character/${route.params.randomCode}`)
+    } else {
+      navigateTo('/dashboard')
+    }
   }
 }
 
-const handleGoToCharacter = async () => {
-  await navigateTo(`/spin/character/${route.params.randomCode}`)
-}
 
 const futureDateFromMinutes = (minutes) => {
   const now = new Date()
