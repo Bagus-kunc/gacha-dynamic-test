@@ -1406,9 +1406,9 @@
   resolved "https://registry.npmjs.org/@primevue/metadata/-/metadata-4.0.1.tgz"
   integrity sha512-iVgEioi81JNdUb7PG28RXu0XxYj0OUcR+JcCv7adsvDyoZENuupHysnic4BFVsmKnhaSBQxFVhBh5kbQVK1eIw==
 
-"@primevue/nuxt-module@^4.0.1":
+"@primevue/nuxt-module@4.0.1":
   version "4.0.1"
-  resolved "https://registry.npmjs.org/@primevue/nuxt-module/-/nuxt-module-4.0.1.tgz"
+  resolved "https://registry.yarnpkg.com/@primevue/nuxt-module/-/nuxt-module-4.0.1.tgz#fe6b21ae40591e973c0f30ff28c1588e17eb62ee"
   integrity sha512-xc/AH8smfHWB+PGOksL9suRL3db5XlVOzuU8UocgdhnjkoHSR2qfVm9BTlayqM4D+RhuVEhPcOrJBgfUjChR4g==
   dependencies:
     "@nuxt/kit" "^3.7.3"
@@ -1420,9 +1420,9 @@
     primevue "4.0.1"
     unplugin-vue-components "0.27.0"
 
-"@primevue/themes@^4.0.1":
+"@primevue/themes@4.0.1":
   version "4.0.1"
-  resolved "https://registry.npmjs.org/@primevue/themes/-/themes-4.0.1.tgz"
+  resolved "https://registry.yarnpkg.com/@primevue/themes/-/themes-4.0.1.tgz#c1d9961a5fad4dd2bfce306c6b9780fe65b359b8"
   integrity sha512-DIfQTH/SMY5/ekZM3wnAaC2Te69X9fwVmyxjyAf6yS3e8V9l/jj1BGjinHPlDE0n1G6daHC6qruX4QIR6Jtpwg==
   dependencies:
     "@primeuix/styled" "^0.0.5"
@@ -5870,7 +5870,7 @@ pretty-bytes@^6.1.1:
   resolved "https://registry.npmjs.org/pretty-bytes/-/pretty-bytes-6.1.1.tgz"
   integrity sha512-mQUvGU6aUFQ+rNvTIAcZuWGRT9a6f6Yrg9bHs4ImKF+HZCEK+plBvnAZYSIQztknZF2qnzNtr6F8s0+IuptdlQ==
 
-primevue@4.0.1, primevue@^4.0.1:
+primevue@4.0.1:
   version "4.0.1"
   resolved "https://registry.npmjs.org/primevue/-/primevue-4.0.1.tgz"
   integrity sha512-mAIoOcx7pnqPOhohw+JYyuVO46R4hUMComFTNzjHabEIsUIyIgTXNtWqiSwbn7zE4hEhnPwNa9XX97XE4Cz+1g==

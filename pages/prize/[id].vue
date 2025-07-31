@@ -296,6 +296,10 @@ const openGoogleMaps = () => {
 onMounted(async () => {
   await loadGoogleMaps()
   await fetchingPrizeData()
+
+  if (!settings.value?.flow?.screens?.user_dashboard_screen?.redeem_prize) {
+    disableRedeem.value = true
+  }
 })
 
 watch(LOCALE, async (val) => {

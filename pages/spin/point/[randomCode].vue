@@ -43,6 +43,7 @@
         :label="settings.gacha.spin_gacha_1_screen?.after_gacha_1_screen.button_text"
         :on-click="() => handleButton()"
         has-bottom
+        :disabled="disabledButton"
         :bgColor="settings.gacha.spin_gacha_1_screen?.after_gacha_1_screen.button_and_text_color?.background"
         :textColor="settings.gacha.spin_gacha_1_screen?.after_gacha_1_screen.button_and_text_color?.color"
       />
@@ -88,6 +89,7 @@ const giftType = ref(null)
 const spinInterval = useState('spin_interval')
 
 const hideCharacter = ref(false)
+const disabledButton = ref(false)
 const hasModal = ref(false)
 const handleShowDialog = () => (hasModal.value = true)
 const handleCloseDialog = () => (hasModal.value = false)
@@ -319,7 +321,7 @@ const fetchImageFromApi = async () => {
 
       localStorage.setItem(slugStorageName, encryptData(storage))
 
-      pointImageUrl.value = storage.point_image
+      pointImageUrl.value = storage.character_image
       categoryImageUrl.value = storage.popup_image
       pointName.value = storage.point_name
       hideCharacter.value = storage.hide_character
@@ -359,10 +361,15 @@ const reportMultipleSpin = async ({ gift_id, character_id, location_id }) => {
 }
 
 const handleButton = async () => {
-  const showVideo = settings.value?.flow?.screens?.spin_gacha_2_screen?.show_spin_gacha_2_video
+  const showVideo = settings.value?.flow?.screens?.spin_gacha_2_screen?.show_character_screen
   
   if (showVideo) {
     playVideo.value = true
+    return
+  }
+
+  if (!TOKEN.value && !USER.value) {
+    handleShowDialog()
     return
   }
 
@@ -371,14 +378,10 @@ const handleButton = async () => {
 
 
 const handleGoToCharacter = async () => {
-  if (!TOKEN.value && !USER.value) {
-    handleShowDialog()
+  if (!hideCharacter.value) {
+    await navigateTo(`/spin/character/${route.params.randomCode}`)
   } else {
-    if (settings.value?.flow?.screens?.spin_gacha_2_screen?.show_character_screen) {
-      await navigateTo(`/spin/character/${route.params.randomCode}`)
-    } else {
-      navigateTo('/dashboard')
-    }
+    navigateTo('/dashboard')
   }
 }
 
@@ -390,7 +393,19 @@ const futureDateFromMinutes = (minutes) => {
 }
 
 onMounted(() => {
+  const showVideo = settings.value?.flow?.screens?.spin_gacha_2_screen?.show_spin_gacha_2_video
+  const showPointScreen = settings.value?.flow?.screens?.spin_gacha_1_screen?.show_point_screen
+
   fetchImageFromApi()
+
+  if (!settings.value?.flow?.screens?.show_user_tap_screen && hideCharacter.value) {
+    disabledButton.value = true
+  }
+  
+  if (!hideCharacter.value && showVideo && !showPointScreen) {
+    playVideo.value = true
+    return
+  }
 })
 </script>
 
