@@ -14,11 +14,7 @@ export default defineNuxtRouteMiddleware((to) => {
   }
 
   const allowed = accessRules[to.path]
-
-  if (process.env.NODE_ENV === 'development') {
-    console.log('[Middleware] Route:', to.path, '| Allowed:', allowed)
-  }
-
+  
   if (allowed === false) {
     return navigateTo('/not-found')
   }

@@ -109,9 +109,7 @@ const getPassword = async (id) => {
 
     isLoading.value = false
   } catch (error) {
-    if (route.path !== '/not-found') {
       navigateTo('/')
-    }
   }
 }
 
@@ -122,12 +120,7 @@ const displayImage = computed(() => {
 onMounted(async () => {
   const location = route.params.randomCode
 
-  if (
-    settings.value?.flow?.screens?.show_user_tap_screen === true &&
-    location
-  ) {
-    await getPassword(location)
-  }
+  await getPassword(location)
 })
 
 </script>
