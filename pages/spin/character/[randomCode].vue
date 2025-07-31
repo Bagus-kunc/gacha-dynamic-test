@@ -70,6 +70,7 @@
         :label="settings.gacha.spin_gacha_2_screen?.after_gacha_2_screen.button_text"
         :bgColor="settings.gacha.spin_gacha_2_screen?.after_gacha_2_screen.button_and_text_color?.background"
         :textColor="settings.gacha.spin_gacha_2_screen?.after_gacha_2_screen.button_and_text_color?.color"
+        :disabled="disabledButton"
         has-bottom
       />
     </div>
@@ -219,6 +220,7 @@ const star2Name = ref(null)
 const star3 = ref(null)
 const star3Name = ref(null)
 const hideCharacterInfo = ref(true)
+const disabledButton = ref(false)
 
 const isRedirect = ref(false)
 const popupButton = ref('')
@@ -324,6 +326,10 @@ const handleBtnIntroduce = () => {
 
 onMounted(() => {
   fetchImage()
+
+  if (!settings.value?.flow?.screens?.show_user_tap_screen) {
+    disabledButton.value = true
+  }
 })
 </script>
 

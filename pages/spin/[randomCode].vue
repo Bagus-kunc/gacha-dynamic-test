@@ -475,8 +475,10 @@ const nextToSpin = async () => {
   }
 
   if (settings.value?.flow?.screens?.show_before_gacha_screen) { 
-    if (settings.value?.flow?.screens?.spin_gacha_1_screen?.show_spin_gacha_1_video) {
+    if (settings.value?.flow?.screens?.spin_gacha_1_screen?.show_point_screen && settings.value?.flow?.screens?.spin_gacha_1_screen?.show_spin_gacha_1_video) {
       playVideo.value = true
+    } else {
+      await navigateTo(`/spin/point/${route.params.randomCode}`)
     }
   }
 }

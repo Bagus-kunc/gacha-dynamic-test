@@ -205,7 +205,6 @@ definePageMeta({
   layout: 'with-bottom-bar',
 })
 
-
 const handleGoToHistory = () => router.push('/history')
 const handleGoToPrize = () => router.push('/prize')
 const profile = () => router.push('/profile')
