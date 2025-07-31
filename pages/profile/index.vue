@@ -286,6 +286,7 @@ const errorMessages = ref({})
 const errorScroll = ref([])
 const errorNicknameMessage = ref('')
 const errorPasswordMessage = ref('')
+const errorPhoneNumber = ref('')
 const settings = useState('settings')
 const LOCALE = useCookie('LOCALE')
 

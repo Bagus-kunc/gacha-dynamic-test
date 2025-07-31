@@ -1,7 +1,7 @@
 <template>
-  <SplashScreen @finish="isSplashComplete = true" />
+  <SplashScreen v-if="settings?.flow?.screens?.show_loading_screen" @finish="isSplashComplete = true" />
 
-  <div v-show="isSplashComplete" class="flex flex-col grow">
+  <div v-show="!settings?.flow?.screens?.show_loading_screen || settings?.flow?.screens?.show_before_gacha_screen || isSplashComplete" class="flex flex-col grow">
     <HeaderBar withLogo />
 
     <div
@@ -474,7 +474,11 @@ const nextToSpin = async () => {
     return
   }
 
-  playVideo.value = true
+  if (settings.value?.flow?.screens?.show_before_gacha_screen) { 
+    if (settings.value?.flow?.screens?.spin_gacha_1_screen?.show_spin_gacha_1_video) {
+      playVideo.value = true
+    }
+  }
 }
 
 const goToSpinPoint = async () => {
@@ -726,7 +730,10 @@ function countdown(targetDate) {
 }
 
 const continueToSpin = async (url) => {
-  playVideo.value = true
+  if (settings.value?.flow?.screens?.spin_gacha_1_screen?.show_spin_gacha_1_video) {
+    playVideo.value = true
+    return
+  }
 }
 
 watch(isNotAllowed, (newValue) => {

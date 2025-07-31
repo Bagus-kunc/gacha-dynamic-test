@@ -1,6 +1,6 @@
 <script setup>
 const props = defineProps(['imageSrc', 'raritySrc', 'headSrc', 'hideCharacterInfo', 'charTitleImage'])
-
+const settings = useState('settings')
 const rarityImg = ref('')
 const charTitleImage = ref('')
 
@@ -111,6 +111,7 @@ onMounted(() => {
     />
     <g filter="url(#filter0_b_19_69)" class="relative p-8">
       <image
+        v-if="charTitleImage"
         height="70"
         width="270"
         :href="charTitleImage"
@@ -127,9 +128,8 @@ onMounted(() => {
           damydamy
         </div>
       </foreignObject> -->
-      <image height="260" width="260" :href="props.imageSrc" x="70" y="70" />
-      <!-- <image height="126" width="230" :href="rarityImg" x="85" y="335" /> -->
-      <svg viewBox="0 0 400 600" class="w-full h-auto">
+      <image v-if="settings?.flow?.screens?.spin_gacha_2_screen?.show_character" height="260" width="260" :href="props.imageSrc" x="70" y="70" />
+      <svg v-if="settings?.flow?.screens?.spin_gacha_2_screen?.show_character_rarity" viewBox="0 0 400 600" class="w-full h-auto">
         <image
           :href="rarityImg"
           :x="rarityImage.x"

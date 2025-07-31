@@ -1,5 +1,6 @@
 <script setup>
 const props = defineProps(['imageSrc', 'categorySrc', 'showPointOnly'])
+const settings = useState('settings')
 const giftType = reactive({
   x: 50,
   y: 270,
@@ -126,10 +127,10 @@ onMounted(() => {
       <!-- <ellipse cx="200" cy="198" rx="200" ry="198" fill="white" /> -->
     </g>
     
-    <image :x="pointType.x" :y="pointType.y" :width="pointType.width" :height="pointType.height" :href="props.imageSrc" />
+    <image v-if="settings?.flow?.screens?.spin_gacha_1_screen?.show_point" :x="pointType.x" :y="pointType.y" :width="pointType.width" :height="pointType.height" :href="props.imageSrc" />
 
     <image
-      v-if="!props.showPointOnly"
+      v-if="settings?.flow?.screens?.spin_gacha_1_screen?.show_point_category"
       :x="giftType.x"
       :y="giftType.y"
       :width="giftType.width"

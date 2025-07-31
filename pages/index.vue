@@ -1,6 +1,6 @@
 <template>
   <div
-    @touchmove="(e) => e.preventDefault()"
+    @touchmove.prevent
     class="flex flex-col grow bg-[url('/images/green_base.png')] bg-cover bg-center justify-between relative overflow-hidden cursor-pointer"
     @click="handleShowModal"
   >
@@ -18,8 +18,9 @@
 
         <p
           class="font-semibold text-center underline cursor-pointer text-exd-gray-scorpion text-exd-1320"
+          @click.stop="openBookmarkLink"
         >
-          {{ $t('addToBookmarks') }}
+          {{ settings?.gacha?.user_tap_splash_screen?.url?.url_text }}
         </p>
       </div>
     </div>
@@ -57,6 +58,10 @@ import tapScreen from '~/assets/images/tap-screen.png'
 import { nextTick } from 'vue'
 import WarningPopUp from '~/components/WarningPopUp.vue'
 
+definePageMeta({
+  middleware: 'navigation-guard',
+})
+
 const route = useRoute()
 const router = useRouter()
 const { setSourceFrom } = useRegister()
@@ -68,7 +73,7 @@ const emailVerified = ref('')
 const TOKEN = useCookie('TOKEN')
 const USER = useCookie('USER')
 const VALID_PASSWORD = useCookie('VALID_PASSWORD')
-const langPanel = ref(false)
+const settings = useState('settings')
 
 const handleShowModal = () => {
   hasModal.value = true
@@ -92,28 +97,6 @@ const form = ref({
   password: '',
 })
 
-const updateModel = (field, value) => {
-  form.value[field] = value
-}
-
-const validateInput = (field, value) => {
-  console.log(`Validated ${field}:`, value)
-}
-
-const langPanelToggle = (event) => {
-  langPanel.value = !langPanel.value
-}
-
-const handleTouchMove = (e) => {
-  const scrollableElement = e.currentTarget
-  const scrollTop = scrollableElement.scrollTop
-  const scrollHeight = scrollableElement.scrollHeight
-  const offsetHeight = scrollableElement.offsetHeight
-
-  if (scrollHeight > offsetHeight) {
-    e.stopPropagation()
-  }
-}
 const checkVerified = async (verified) => {
   try {
     const { status, data } = await useFetchApi(
@@ -127,6 +110,10 @@ const checkVerified = async (verified) => {
   } catch (error) {
     console.log(error)
   }
+}
+
+const openBookmarkLink = () => {
+  window.open(settings.value?.gacha?.user_tap_splash_screen?.url?.url_link, '_blank')
 }
 
 onMounted(async () => {
