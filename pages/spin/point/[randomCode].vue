@@ -393,20 +393,33 @@ const futureDateFromMinutes = (minutes) => {
 }
 
 onMounted(() => {
-  const showVideo = settings.value?.flow?.screens?.spin_gacha_2_screen?.show_spin_gacha_2_video
-  const showPointScreen = settings.value?.flow?.screens?.spin_gacha_1_screen?.show_point_screen
+  const screens = settings.value?.flow?.screens || {}
 
-  fetchImageFromApi()
+  const showVideo = screens.spin_gacha_2_screen?.show_spin_gacha_2_video
+  const showPointScreen = screens.spin_gacha_1_screen?.show_point_screen
+  const showCharScreen = screens.spin_gacha_2_screen?.show_character_screen
+  const showTapScreen = screens.show_user_tap_screen
 
-  if (!settings.value?.flow?.screens?.show_user_tap_screen && hideCharacter.value) {
-    disabledButton.value = true
+  if (!showPointScreen && !showCharScreen) {
+    if (showTapScreen) {
+      navigateTo('/')
+      return
+    } else {
+      navigateTo('/not-found')
+      return
+    }
   }
-  
+
   if (!hideCharacter.value && showVideo && !showPointScreen) {
     playVideo.value = true
     return
   }
+
+  fetchImageFromApi()
+
+  disabledButton.value = !(showTapScreen || showCharScreen)
 })
+
 </script>
 
 <style scoped>
