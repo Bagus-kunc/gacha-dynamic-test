@@ -20,8 +20,8 @@
 
       </div>
       
-      <div class="flex flex-col items-center justify-center w-full gap-4 px-6 py-6 mb-8">
-        <p class="underline cursor-pointer sm:text-exd-1424 text-exd-1218 text-exd-gray-scorpion" @click="handleAboutSpin">{{ $t('aboutSpin') }}</p>
+      <div v-if="settings?.gacha?.spin_gacha_1_screen?.before_gacha_1_screen?.popup?.popup_needed === '1'" class="flex flex-col items-center justify-center w-full gap-4 px-6 py-6 mb-8">
+        <p class="underline cursor-pointer sm:text-exd-1424 text-exd-1218 text-exd-gray-scorpion" @click="handleAboutSpin">{{ settings?.gacha?.spin_gacha_1_screen?.before_gacha_1_screen?.popup?.popup_text }}</p>
       </div>
 
       <SolidButton
@@ -273,52 +273,25 @@
     </template>
   </Dialog>
 
-  <Dialog
-    :visible="showAboutSpin"
-    modal
-    class="!rounded-2xl !text-exd-gray-scorpion !bg-white !w-exd-300 !max-w-sm border border-exd-gray-44"
-    pt:root:class="!border-none"
-    pt:root:style="width: 21rem !important"
-    :style="{
-      fontFamily: '-apple-system, Noto Sans JP, sans-serif',
-      fontSize: '1rem',
-      background: settings?.global?.modal?.background_color,
-      color: settings?.global?.modal?.text_color,
-    }"
+  <Modal
+    :is-open="showAboutSpin"
+    :on-close="() => closeShowAboutSpin()"
   >
-    <template #container>
-      <img
-        :src="close"
-        alt="close"
-        width="30"
-        height="30"
-        preload
-        class="absolute z-50 cursor-pointer right-1 top-1"
-        @click="closeShowAboutSpin"
-      />
+    <template v-slot:body>
       <div
-        class="relative flex flex-col items-center justify-center w-full gap-2 px-6 py-6 overflow-hidden"
+        class="relative max-h-[55vh] overflow-y-auto flex flex-col items-center justify-start w-full gap-5 px-4 py-6"
       >
-       <h1 class="font-medium text-exd-1424">{{ $t('aboutSpin') }}</h1>
-        <div class="flex flex-col gap-1">
-          <p class="py-1 text-center text-white text-exd-1416 bg-exd-red-coral">{{ t('point') }}</p>
-          <p class="text-exd-1424">{{ t('descPoint') }}</p>
-        </div>
-        <div class="flex flex-col gap-1">
-          <p class="py-1 text-center text-white text-exd-1416 bg-exd-red-coral">{{ t('character') }}</p>
-          <p class="text-exd-1424">{{ t('descCharacter') }}</p>
-        </div>
-        
-        <div class="w-full border divide-y rounded-md divide-exd-gray-scorpion divide-solid border-exd-gray-scorpion">
-          <div v-for="item in aboutSpinItems" :key="item.id" class="flex font-medium text-exd-1320 ">
-            <p class="divide-x divide-exd-gray-scorpion divide-solid min-w-[50px] p-1 flex items-center justify-center h-auto bg-[#919191] text-white"><span>{{ item.name }}</span></p>
-            <p class="divide-x divide-exd-gray-scorpion divide-solid flex items-center justify-center min-w-[40px] bg-gray-300"><span>{{ item.percen }}%</span></p>
-            <p class="flex items-center justify-center px-1 divide-x divide-exd-gray-scorpion divide-solid "><span>{{ t(item.desc) }}</span></p>
-          </div>
+        <div class="w-full text-left">
+          <p
+            v-html="
+              settings?.gacha?.spin_gacha_1_screen?.before_gacha_1_screen?.popup?.popup_content
+            "
+            class="text-exd-gray-scorpion"
+          ></p>
         </div>
       </div>
     </template>
-  </Dialog>
+  </Modal>
 
   <Dialog
     v-model:visible="modalSpinWarning"

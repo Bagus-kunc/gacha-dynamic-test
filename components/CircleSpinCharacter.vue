@@ -1,5 +1,11 @@
 <script setup>
-const props = defineProps(['imageSrc', 'raritySrc', 'headSrc', 'hideCharacterInfo', 'charTitleImage'])
+const props = defineProps([
+  'imageSrc',
+  'raritySrc',
+  'headSrc',
+  'hideCharacterInfo',
+  'charTitleImage',
+])
 const settings = useState('settings')
 const rarityImg = ref('')
 const charTitleImage = ref('')
@@ -32,9 +38,17 @@ onMounted(() => {
     })
 
     const logViewportHeight = () => {
-      const isShortScreen = window.innerHeight <= 667
+      const width = window.innerWidth
+      const height = window.innerHeight
+      const dpr = window.devicePixelRatio
 
-      if (isShortScreen) {
+      const isShortScreen = height <= 667
+
+      const is15ProScreen = width === 393 && height <= 852 && dpr === 3
+
+      if (is15ProScreen) {
+        rarityImage.height = 90
+      } else if (isShortScreen) {
         rarityImage.y = 340
       }
     }
@@ -128,8 +142,21 @@ onMounted(() => {
           damydamy
         </div>
       </foreignObject> -->
-      <image v-if="settings?.flow?.screens?.spin_gacha_2_screen?.show_character" height="260" width="260" :href="props.imageSrc" x="70" y="70" />
-      <svg v-if="settings?.flow?.screens?.spin_gacha_2_screen?.show_character_rarity" viewBox="0 0 400 600" class="w-full h-auto">
+      <image
+        v-if="settings?.flow?.screens?.spin_gacha_2_screen?.show_character"
+        height="260"
+        width="260"
+        :href="props.imageSrc"
+        x="70"
+        y="70"
+      />
+      <svg
+        v-if="
+          settings?.flow?.screens?.spin_gacha_2_screen?.show_character_rarity
+        "
+        viewBox="0 0 400 600"
+        class="w-full h-auto"
+      >
         <image
           :href="rarityImg"
           :x="rarityImage.x"

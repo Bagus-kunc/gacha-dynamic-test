@@ -321,7 +321,7 @@ const fetchImageFromApi = async () => {
 
       localStorage.setItem(slugStorageName, encryptData(storage))
 
-      pointImageUrl.value = storage.character_image
+      pointImageUrl.value = storage.point_image
       categoryImageUrl.value = storage.popup_image
       pointName.value = storage.point_name
       hideCharacter.value = storage.hide_character
