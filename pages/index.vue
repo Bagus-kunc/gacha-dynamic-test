@@ -1,20 +1,26 @@
 <template>
   <div
     @touchmove.prevent
-    class="flex flex-col grow bg-[url('/images/green_base.png')] bg-cover bg-center justify-between relative overflow-hidden cursor-pointer"
+    class="flex flex-col grow !bg-no-repeat !bg-cover !bg-center justify-between relative overflow-hidden cursor-pointer"
+    :style="{
+      background:
+        settings?.gacha?.user_tap_splash_screen?.background.type === 'image'
+          ? `url(${settings?.gacha?.user_tap_splash_screen?.background.value})`
+          : settings?.gacha?.user_tap_splash_screen?.background.value
+    }"
     @click="handleShowModal"
   >
-    <div class="flex flex-col items-center justify-between h-full">
-      <div
+    <div class="flex flex-col items-center justify-end h-full">
+      <!-- <div
         class="bg-[url(~/assets/images/top-char.png)] w-full h-[550px] bg-origin-border bg-center bg-no-repeat bg-contain"
-      />
+      /> -->
       
-      <img :src="headLogo" alt="Logo" class="w-[90%]" />
+      <!-- <img :src="headLogo" alt="Logo" class="w-[90%]" /> -->
 
       <div
-        class="bg-exd-green-light w-full h-[150px] flex flex-col justify-center items-center gap-3"
+        class="w-full h-[150px] flex flex-col justify-end pb-10 items-center gap-3"
       >
-        <img :src="tapScreen" alt="intl" width="280" class="" preload />
+        <!-- <img :src="tapScreen" alt="intl" width="280" class="" preload /> -->
 
         <p
           class="font-semibold text-center underline cursor-pointer text-exd-gray-scorpion text-exd-1320"

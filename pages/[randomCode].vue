@@ -1,6 +1,12 @@
 <template>
   <div
-    class="grow bg-[url('/images/green_base.png')] bg-cover bg-center justify-between items-center flex flex-col overflow-hidden"
+    class="grow !bg-no-repeat !bg-cover !bg-center justify-between items-center flex flex-col overflow-hidden"
+    :style="{
+      background:
+        settings?.gacha?.user_tap_splash_screen?.background.type === 'image'
+          ? `url(${settings?.gacha?.user_tap_splash_screen?.background.value})`
+          : settings?.gacha?.user_tap_splash_screen?.background.value
+    }"
   >
     <div
       class="flex-1 items-center flex flex-col pt-[2rem] pb-20 px-8 overflow-y-auto overflow-x-hidden"
