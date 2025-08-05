@@ -23,7 +23,7 @@
       <CircleSpinPoint
         class="relative top-1/2 -translate-y-[60%]"
         :imageSrc="pointImageUrl"
-        categorySrc="/images/gacha-ball.png"
+        :categorySrc="categoryImageUrl"
         width="100%"
         height="800"
         :showPointOnly="showPointOnly"
@@ -173,6 +173,7 @@ const fetchImageFromApi = async () => {
         // gift_type_image: data.userPoint.gift.typeImage,
         is_redirect: data.is_redirect,
         button_name: data.button_name,
+        popup_image: data.userPoint?.point?.point_category_image,
         popup_description: data.popup_description,
         redirect_link: data.redirect_link,
         hide_character: !settings.value?.flow?.screens?.spin_gacha_2_screen?.show_character_screen,
