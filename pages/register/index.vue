@@ -40,7 +40,7 @@
       </div>
       <div class="flex flex-col px-3 grow">
         <div
-          v-for="(item, index) in settings?.register_login?.register_fields"
+          v-for="(item, index) in visibleRegisterFields"
           :key="index"
           class="!w-full p-0"
         >
@@ -63,9 +63,9 @@
               "
               :type="item.type"
               :model="form[item.name]"
-              :label="item.label_translation_key_id"
+              :label="item.label"
               :required="item.required"
-              :placeholder="item.placeholder_translation_key_id"
+              :placeholder="item.placeholder"
               @update:model="
                 ($event) => {
                   updateModel(item.name, $event)
@@ -101,7 +101,7 @@
             <GenderSelection
               v-if="item.type === 'gender'"
               v-model="form[item.name]"
-              :label="item.label_translation_key_id"
+              :label="item.label"
               :required="item.required"
               :bg-color="
                 settings?.register_login?.membership_registration_page
@@ -115,8 +115,8 @@
 
             <InputDate
               v-if="item.type === 'date'"
-              :label="item.label_translation_key_id"
-              :placeholder="item.placeholder_translation_key_id"
+              :label="item.label"
+              :placeholder="item.placeholder"
               :required="item.required"
               v-model:model="form[item.name]"
               :error="handleError(item.name, item.required)"
@@ -286,6 +286,21 @@ const LOCALE = useCookie('LOCALE')
 
 const terms = ref('')
 const alphanumericRegex = /^[a-zA-Z0-9]{8,}$/
+
+const registerFields = settings.value?.register_login?.register_fields || []
+
+const visibleRegisterFields = computed(() =>
+  registerFields
+    .map((item) => {
+      const name = Object.keys(item)[0]
+      const fieldData = item[name]
+      return {
+        name,
+        ...fieldData,
+      }
+    })
+    .filter((field) => field.show)
+)
 
 const getTerms = async () => {
   try {
