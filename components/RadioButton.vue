@@ -2,7 +2,7 @@
   <div class="flex flex-col gap-2">
     <label
       :for="`label-${label}`"
-      class="flex items-center gap-2 py-0 text-exd-gray-scorpion text-exd-1424"
+      class="flex items-center gap-2 text-exd-gray-scorpion text-exd-1424"
       v-if="label !== ''"
       >{{ label }}
       <span
@@ -22,9 +22,9 @@
           :model-value="modelValue"
           @update:model-value="updateValue"
           :inputId="option.label"
-          :name="name"
+          :name="label"
           @blur="validate"
-          :value="option.label"
+          :value="option.value"
           :pt="{
             root: {
               class: 'cursor-pointer w-[20px] h-[20px] flex items-center justify-center'
@@ -45,7 +45,7 @@
           :for="option.label"
           class="ml-1 font-semibold cursor-pointer text-exd-gray-scorpion text-exd-1424"
         >
-          {{ t(option.label) }}
+          {{ option.label }}
         </label>
       </div>
     </div>
@@ -78,7 +78,7 @@ const props = defineProps({
   },
   modelValue: {
     type: [String, Number, Boolean],
-    required: true,
+    required: false,
   },
   model: {
     type: [String, Number],
@@ -87,10 +87,11 @@ const props = defineProps({
   options: {
     type: Array,
     required: true,
+    default: [],
   },
   name: {
     type: String,
-    required: true,
+    default: '',
   },
   label: {
     type: String,

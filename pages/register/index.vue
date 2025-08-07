@@ -23,18 +23,27 @@
       }"
     >
       <h1
-          class="text-center flex flex-col text-1416 text-exd-gray-scorpion pb-4 w-full max-w-[360px] mx-auto"
-        >
-          {{ settings?.register_login?.membership_registration_page?.page_description }}
+        class="text-center flex flex-col text-1416 text-exd-gray-scorpion pb-4 w-full max-w-[360px] mx-auto"
+      >
+        {{
+          settings?.register_login?.membership_registration_page
+            ?.page_description
+        }}
       </h1>
       <div
         class="inline-flex items-center justify-between gap-4 pb-5 border-b border-b-exd-light-grey px-7 text-exd-gray-scorpion text-1416"
       >
         <h1>{{ $t('member') }} <span class="font-bold">ID</span></h1>
-        <p v-if="userId" class="overflow-hidden font-bold text-right whitespace-nowrap">
+        <p
+          v-if="userId"
+          class="overflow-hidden font-bold text-right whitespace-nowrap"
+        >
           {{ userId }}
         </p>
-        <p v-else class="w-48 overflow-hidden font-bold text-right whitespace-nowrap">
+        <p
+          v-else
+          class="w-48 overflow-hidden font-bold text-right whitespace-nowrap"
+        >
           00000000000
         </p>
       </div>
@@ -50,9 +59,12 @@
           >
             <InputText
               v-if="
-                item.text_type !== 'gender' &&
-                item.text_type !== 'radio' &&
-                item.text_type !== 'date' && item.text !== 'date'
+                item.type !== 'checkbox' &&
+                item.type !== 'date' &&
+                item.type !== 'select_button' &&
+                item.type !== 'radio' &&
+                item.type !== 'dropdown' &&
+                item.type !== 'textarea'
               "
               :onlyNumeric="
                 item.name === 'postal_code' ||
@@ -61,14 +73,14 @@
                   ? true
                   : false
               "
-              :type="item.type"
+              :type="item.text_type"
               :model="form[item.name]"
               :label="item.label"
               :required="item.required"
               :placeholder="item.placeholder"
               @update:model="
                 ($event) => {
-                  updateModel(item.name, $event)
+                  updateModel(item.name, item.type, $event)
                   if (item.name === 'postal_code') {
                     checkPostalCode($event)
                   }
@@ -97,12 +109,20 @@
                   ?.button_text_and_color?.color
               "
             />
-<!--
+
+            <p
+              v-if="item.name === 'postal_code'"
+              class="mt-2 font-normal text-exd-1320 text-exd-gray-scorpion"
+            >
+              {{ t('postalCodeInformation') }}
+            </p>
+
             <GenderSelection
-              v-if="item.type === 'gender'"
+              v-if="item.type === 'select_button'"
               v-model="form[item.name]"
               :label="item.label"
               :required="item.required"
+              :options="optionsMap(item.options)"
               :bg-color="
                 settings?.register_login?.membership_registration_page
                   ?.button_text_and_color?.background
@@ -112,14 +132,16 @@
                   ?.button_text_and_color?.color
               "
             />
--->
+
             <InputDate
               v-if="item.type === 'date'"
               :label="item.label"
               :placeholder="item.placeholder"
               :required="item.required"
-              v-model="form[item.name]"
+              v-model:model="form[item.name]"
               :error="handleError(item.name, item.required)"
+              @update:model="updateModel(item.name, item.type, $event)"
+              :manualInput="false"
               :bgColor="
                 settings?.register_login?.membership_registration_page
                   ?.button_text_and_color?.background
@@ -130,13 +152,33 @@
               "
               border
             />
-<!--
+
+            <InputTextArea
+              v-show="item?.type === 'textarea'"
+              v-model="form[item.name]"
+              :label="item.label"
+              :placeholder="item.placeholder"
+              :required="item.required"
+              :error="handleError(item.name, item.required)"
+              hasHelper
+              helperText="Tulis deskripsi singkat"
+              :validateOnSubmit="validateOnSubmit"
+              :bgColor="
+                settings?.register_login?.membership_registration_page
+                  ?.button_text_and_color?.background
+              "
+              :textColor="
+                settings?.register_login?.membership_registration_page
+                  ?.button_text_and_color?.color
+              "
+            />
+
             <RadioButton
-              v-if="item.type === 'radio'"
-              :label="t('questionnaire1')"
-              v-model:model="form[item.name]"
-              :options="questionnaire1Options"
-              :name="item.name"
+              v-if="item?.type === 'radio'"
+              :label="item.label || ''"
+              v-model="form[item.name]"
+              @update:modelValue="updateModel(item.name, item.type, $event)"
+              :options="optionsMap(item.options)"
               :error="handleError(item.name, item.required)"
               :bgColor="
                 settings?.register_login?.membership_registration_page
@@ -148,7 +190,51 @@
               "
               :required="item.required"
             />
--->
+
+            <Dropdown
+              v-if="item?.type === 'dropdown'"
+              :model="form[item.name]"
+              @update:model="updateModel(item.name, item.type, $event)"
+              @validate="validateInput(item.name, $event)"
+              :label="item.label"
+              :options="optionsMap(item.options)"
+              optionValue="value"
+              optionLabel="label"
+              :placeholder="item.placeholder"
+              :hasHelper="true"
+              :validate-on-submit="validateOnSubmit"
+              :error="handleError(item.name, item.required)"
+              :class="{
+                'input-error': handleError(item.name, item.required),
+              }"
+              :bgColor="
+                settings?.register_login?.membership_registration_page
+                  ?.button_text_and_color?.background
+              "
+              :textColor="
+                settings?.register_login?.membership_registration_page
+                  ?.button_text_and_color?.color
+              "
+            />
+
+            <InputMultipleSelect 
+              v-if="item?.type === 'checkbox'"
+              :label="item.label"
+              :placeholder="item.placeholder"
+              :required="item.required"
+              v-model:model="form[item.name]"
+              :options="optionsMap(item.options)"
+              :error="handleError(item.name, item.required)"
+              @update:model="updateModel(item.name, item.type, $event)"
+              :bgColor="
+                settings?.register_login?.membership_registration_page
+                  ?.button_text_and_color?.background
+              "
+              :textColor="
+                settings?.register_login?.membership_registration_page
+                  ?.button_text_and_color?.color
+              "
+            />
           </div>
 
           <template
@@ -157,10 +243,9 @@
             "
           >
             <div
-              class="inline-flex flex-col gap-4 px-5 py-5 border-b border-b-exd-light-grey"
+              class="inline-flex flex-col w-full gap-4 px-5 py-5 border-b border-b-exd-light-grey"
             >
               <InputText
-                bold
                 :model="form.prefecture"
                 required
                 :label="item.prefecture.label || $t('prefecture')"
@@ -194,12 +279,13 @@
               />
 
               <InputText
-                bold
                 :model="form.municipality"
                 disabled
                 required
                 :label="item.municipality.label || $t('municipality')"
-                :placeholder="item.municipality.placeholder || $t('municipality')"
+                :placeholder="
+                  item.municipality.placeholder || $t('municipality')
+                "
                 @update:model="
                   ($event) => {
                     updateModel('municipality', $event)
@@ -228,7 +314,6 @@
               />
             </div>
           </template>
-          
         </div>
 
         <div class="inline-flex items-center justify-center w-full gap-2 mt-7">
@@ -328,10 +413,9 @@ import Dropdown from '~/components/Dropdown.vue'
 import InputText from '~/components/InputText.vue'
 import InputTextArea from '~/components/InputTextArea.vue'
 import RadioButton from '~/components/RadioButton.vue'
-import {
-  questionnaire1Options,
-  questionnaire2Options,
-} from '~/data/questionnaire'
+import InputMultipleSelect from '~/components/InputMultipleSelect.vue'
+
+const config = useRuntimeConfig()
 
 const form = ref({
   checked: false,
@@ -393,10 +477,32 @@ const getTerms = async () => {
 
 const handleCloseDialog = () => (isErrorMessage.value = false)
 
-const updateModel = (field, value) => {
+const formatDate = (date) => {
+  return new Date(date).toLocaleDateString('en-CA', {
+    year: 'numeric',
+    month: '2-digit',
+    day: '2-digit',
+    timeZone: config.public.TIME_ZONE,
+  })
+}
+
+const optionsMap = (rawOptions) => {
+  if (!rawOptions || typeof rawOptions !== 'object') return []
+
+  return Object.entries(rawOptions)
+    .filter(([value, label]) => !!value && !!label)
+    .map(([value, label]) => ({
+      label,
+      value,
+    }))
+}
+
+const updateModel = (field, type, value) => {
   form.value[field] = value
 
-  const password = form.value.password
+  if (type === 'date') {
+    form.value[field] = formatDate(value)
+  }
 
   if (field === 'password') {
     passwordValidate()
@@ -441,8 +547,8 @@ const handleError = (field, required) => {
   if (field === 'password') {
     if (!value) return ''
 
-    if (value.length < 8) {
-      return t('passwordMin') 
+    if (value?.length < 8) {
+      return t('passwordMin')
     }
 
     if (!alphanumericRegex.test(value)) {
@@ -452,7 +558,7 @@ const handleError = (field, required) => {
 
   if (field === 'password_confirmation') {
     if (value && value !== form.value.password) {
-      return t('passwordNotMatch');
+      return t('passwordNotMatch')
     }
   }
 
@@ -477,7 +583,7 @@ const passwordValidate = () => {
   const password = form.value.password
   const alphanumericRegex = /^[a-zA-Z0-9]{8,}$/
 
-  if (password.length > 0 && password.length < 8) {
+  if (password?.length > 0 && password?.length < 8) {
     errorPasswordMessage.value = 'passwordMin'
   } else if (!alphanumericRegex.test(password)) {
     errorPasswordMessage.value = 'validPassword'
@@ -556,7 +662,7 @@ const fetchRegister = async (payload) => {
 
       localStorage.removeItem('registerForm')
 
-      navigateTo('/#registration-complete')
+      navigateTo('/register/complete')
       isLoading.value = false
     }
   } catch (error) {
@@ -602,7 +708,7 @@ const handleApiError = (error) => {
 
 const handleSubmit = async () => {
   if (!validateForm()) return
-  
+
   errorScroll.value = []
 
   validateOnSubmit.value = true
@@ -670,7 +776,7 @@ const checkPostalCode = async (code) => {
     form.value.prefecture = address.prefecture
     form.value.city = address.city
     form.value.area = address.area
-    form.value.municipalities = `${address.city}, ${address.area}`
+    form.value.municipality = `${address.city}, ${address.area}`
     errorKeyPostCode.value = ''
   } catch (error) {
     console.error('Postal code error:', error)
@@ -715,10 +821,13 @@ const saveSpin = async () => {
   }
 }
 
-watch(form, (newVal) => {
-  localStorage.setItem('registerForm', JSON.stringify(newVal))
-}, { deep: true })
-
+watch(
+  form,
+  (newVal) => {
+    localStorage.setItem('registerForm', JSON.stringify(newVal))
+  },
+  { deep: true }
+)
 
 onMounted(() => {
   const savedForm = localStorage.getItem('registerForm')
