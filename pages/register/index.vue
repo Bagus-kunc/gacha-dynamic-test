@@ -161,7 +161,6 @@
               :required="item.required"
               :error="handleError(item.name, item.required)"
               hasHelper
-              helperText="Tulis deskripsi singkat"
               :validateOnSubmit="validateOnSubmit"
               :bgColor="
                 settings?.register_login?.membership_registration_page
