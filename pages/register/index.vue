@@ -50,14 +50,14 @@
           >
             <InputText
               v-if="
-                item.type !== 'gender' &&
-                item.type !== 'radio' &&
-                item.type !== 'date'
+                item.text_type !== 'gender' &&
+                item.text_type !== 'radio' &&
+                item.text_type !== 'date' && item.text !== 'date'
               "
               :onlyNumeric="
                 item.name === 'postal_code' ||
-                item.type === 'number' ||
-                item.type === 'tel'
+                item.text_type === 'number' ||
+                item.text_type === 'tel'
                   ? true
                   : false
               "
@@ -97,7 +97,7 @@
                   ?.button_text_and_color?.color
               "
             />
-
+<!--
             <GenderSelection
               v-if="item.type === 'gender'"
               v-model="form[item.name]"
@@ -112,13 +112,13 @@
                   ?.button_text_and_color?.color
               "
             />
-
+-->
             <InputDate
               v-if="item.type === 'date'"
               :label="item.label"
               :placeholder="item.placeholder"
               :required="item.required"
-              v-model:model="form[item.name]"
+              v-model="form[item.name]"
               :error="handleError(item.name, item.required)"
               :bgColor="
                 settings?.register_login?.membership_registration_page
@@ -130,7 +130,7 @@
               "
               border
             />
-
+<!--
             <RadioButton
               v-if="item.type === 'radio'"
               :label="t('questionnaire1')"
@@ -148,7 +148,87 @@
               "
               :required="item.required"
             />
+-->
           </div>
+
+          <template
+            v-if="
+              item.name === 'postal_code' && item.prefecture_and_municipality
+            "
+          >
+            <div
+              class="inline-flex flex-col gap-4 px-5 py-5 border-b border-b-exd-light-grey"
+            >
+              <InputText
+                bold
+                :model="form.prefecture"
+                required
+                :label="item.prefecture.label || $t('prefecture')"
+                :placeholder="item.prefecture.placeholder || $t('prefecture')"
+                disabled
+                @update:model="
+                  ($event) => {
+                    updateModel('prefecture', $event)
+                    checkPostalCode($event)
+                  }
+                "
+                @validate="validateInput('prefecture', $event)"
+                :validate-on-submit="validateOnSubmit"
+                :error="
+                  !form.prefecture && validateOnSubmit
+                    ? $t('fieldRequired')
+                    : ''
+                "
+                :class="{
+                  'input-error': !form.prefecture && validateOnSubmit,
+                }"
+                :border="true"
+                :bgColor="
+                  settings?.register_login?.membership_registration_page
+                    ?.button_text_and_color?.background
+                "
+                :textColor="
+                  settings?.register_login?.membership_registration_page
+                    ?.button_text_and_color?.color
+                "
+              />
+
+              <InputText
+                bold
+                :model="form.municipality"
+                disabled
+                required
+                :label="item.municipality.label || $t('municipality')"
+                :placeholder="item.municipality.placeholder || $t('municipality')"
+                @update:model="
+                  ($event) => {
+                    updateModel('municipality', $event)
+                    checkPostalCode($event)
+                  }
+                "
+                @validate="validateInput('municipality', $event)"
+                :validate-on-submit="validateOnSubmit"
+                :error="
+                  !form.municipality && validateOnSubmit
+                    ? $t('fieldRequired')
+                    : ''
+                "
+                :class="{
+                  'input-error': !form.municipality && validateOnSubmit,
+                }"
+                :border="true"
+                :bgColor="
+                  settings?.register_login?.membership_registration_page
+                    ?.button_text_and_color?.background
+                "
+                :textColor="
+                  settings?.register_login?.membership_registration_page
+                    ?.button_text_and_color?.color
+                "
+              />
+            </div>
+          </template>
+          
         </div>
 
         <div class="inline-flex items-center justify-center w-full gap-2 mt-7">
@@ -588,8 +668,8 @@ const checkPostalCode = async (code) => {
     })
 
     form.value.prefecture = address.prefecture
-    // form.value.city = address.city
-    // form.value.area = address.area
+    form.value.city = address.city
+    form.value.area = address.area
     form.value.municipalities = `${address.city}, ${address.area}`
     errorKeyPostCode.value = ''
   } catch (error) {
