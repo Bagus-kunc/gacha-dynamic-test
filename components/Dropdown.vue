@@ -171,13 +171,15 @@ watch(
   color: hlsa(var(--gray-scorpion)) !important;
 }
 
-:global(.p-select-option.p-focus) {
-  color: hlsa(var(--gray-scorpion)) !important;
-  /* background-color: var(--secondary); */
+:global(.p-select-list .p-select-option-selected) {
+  @apply !bg-[var(--register-bg-color)];
+}
+
+:global(.p-select-list .p-select-option.p-focus) {
+  @apply !bg-[var(--register-bg-color)] !text-[var(--register-text-color)];
 }
 
 :global(.p-select-option.p-select-option-selected.p-focus) {
-  /* background-color: var(--secondary); */
   color: hlsa(var(--gray-scorpion)) !important;
 }
 </style>
