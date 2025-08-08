@@ -130,12 +130,12 @@ onMounted(() => {
     <image v-if="settings?.flow?.screens?.spin_gacha_1_screen?.show_point" :x="pointType.x" :y="pointType.y" :width="pointType.width" :height="pointType.height" :href="props.imageSrc" />
 
     <image
-      v-if="settings?.flow?.screens?.spin_gacha_1_screen?.show_point_category"
+      v-if="settings?.flow?.screens?.spin_gacha_1_screen?.show_point_category || settings?.gacha?.spin_gacha_1_screen?.after_gacha_1_screen?.image?.select_image !== 'none'"
       :x="giftType.x"
       :y="giftType.y"
       :width="giftType.width"
       :height="giftType.height"
-      :href="props.categorySrc"
+      :href="settings?.gacha?.spin_gacha_1_screen?.after_gacha_1_screen?.image?.select_image === 'point_category' ? props.categorySrc : settings?.gacha?.spin_gacha_1_screen?.after_gacha_1_screen?.image?.image"
     />
 
     <defs>
