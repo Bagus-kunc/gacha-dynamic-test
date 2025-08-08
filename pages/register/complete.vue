@@ -1,5 +1,5 @@
 <template>
-  <div class="grow flex flex-col">
+  <div class="flex flex-col grow">
     <HeaderBar hasBack>
       <p
         style="text-shadow: 0 3px 3px rgba(0, 0, 0, 0.16)"
@@ -10,16 +10,16 @@
     </HeaderBar>
 
     <div
-      class="flex flex-col grow px-3 mt-32 pb-3 justify-between gap-6 w-full"
+      class="flex flex-col justify-between w-full gap-6 px-3 pb-3 mt-32 grow"
     >
       <div class="flex flex-col grow">
         <p
-          class="text-exd-gray-scorpion font-bold text-exd-1416 text-center mt-8"
+          class="mt-8 font-bold text-center text-exd-gray-scorpion text-exd-1416"
         >
           {{ $t('registrationComplete') }}
         </p>
         <div
-          class="text-exd-gray-scorpion font-normal text-exd-1416 text-start mt-8 max-w-xs mx-auto flex flex-col leading-loose"
+          class="flex flex-col max-w-xs mx-auto mt-8 font-normal leading-loose text-exd-gray-scorpion text-exd-1416 text-start"
         >
           <p>{{ $t('registrationCompleteInformation1') }}</p>
 
@@ -28,14 +28,31 @@
       </div>
     </div>
   </div>
+
+  <div class="fixed bottom-0 z-50 w-full max-w-md mx-auto mb-2">
+    <SolidButton
+      :label="settings.register_login?.change_membership_information_page_2?.button_text"
+      :bgColor="settings.register_login?.change_membership_information_page_2?.button_text_and_color?.background"
+      :textColor="settings.register_login?.change_membership_information_page_2?.button_text_and_color?.color"
+      :on-click="() => goTo('top')"
+      :has-loading="isLoading"
+      has-bottom
+    />
+  </div>
 </template>
 
 <script setup>
 import useRegister from '~/composables/useRegister'
 
+definePageMeta({
+  middleware: 'navigation-guard',
+})
+
+const router = useRouter()
 const register = useRegister()
 const { isSpin } = storeToRefs(register)
 const { decryptData } = useEncryption()
+const settings = useState('settings')
 
 const saveSpin = async () => {
   if (!isSpin.value) return
@@ -60,7 +77,24 @@ const saveSpin = async () => {
   }
 }
 
+const goTo = (type) => {
+  switch (type) {
+    case 'top':
+      // router.push('/dashboard')
+      navigateTo('/#registration-complete')
+      break
+    case 'external':
+      window.open('https://nospot.new-ordinary.co.jp/maps/nagoya')
+      break
+
+    default:
+      break
+  }
+}
+
 onMounted(() => {
   saveSpin()
+  localStorage.removeItem('REGISTER_SUBMITTED')
+
 })
 </script>

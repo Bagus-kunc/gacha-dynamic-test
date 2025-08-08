@@ -13,9 +13,8 @@
       ></label
     >
     <Textarea
-      rows="2"
+      :rows="2"
       :autoResize="false"
-      :id="`id-${model}`"
       :value="modelValue"
       @input="updateValue($event.target.value)"
       @blur="validate"
@@ -39,7 +38,6 @@
 </template>
 
 <script setup>
-import { computed } from 'vue'
 import Textarea from 'primevue/textarea'
 
 const props = defineProps({

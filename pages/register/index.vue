@@ -142,6 +142,9 @@
               :error="handleError(item.name, item.required)"
               @update:model="updateModel(item.name, item.type, $event)"
               :manualInput="false"
+              :class="{
+                'input-error': handleError(item.name, item.required),
+              }"
               :bgColor="
                 settings?.register_login?.membership_registration_page
                   ?.button_text_and_color?.background
@@ -155,13 +158,16 @@
 
             <InputTextArea
               v-show="item?.type === 'textarea'"
-              v-model="form[item.name]"
+              v-model:model="form[item.name]"
               :label="item.label"
               :placeholder="item.placeholder"
               :required="item.required"
+              @validate="validateInput(item.name, $event)"
               :error="handleError(item.name, item.required)"
-              hasHelper
-              :validateOnSubmit="validateOnSubmit"
+              :validate-on-submit="validateOnSubmit"
+              :class="{
+                'input-error': handleError(item.name, item.required),
+              }"
               :bgColor="
                 settings?.register_login?.membership_registration_page
                   ?.button_text_and_color?.background
@@ -179,6 +185,9 @@
               @update:modelValue="updateModel(item.name, item.type, $event)"
               :options="optionsMap(item.options)"
               :error="handleError(item.name, item.required)"
+              :class="{
+                'input-error': handleError(item.name, item.required),
+              }"
               :bgColor="
                 settings?.register_login?.membership_registration_page
                   ?.button_text_and_color?.background
@@ -216,15 +225,20 @@
               "
             />
 
-            <InputMultipleSelect 
+            <InputMultipleSelect
               v-if="item?.type === 'checkbox'"
               :label="item.label"
               :placeholder="item.placeholder"
               :required="item.required"
               v-model:model="form[item.name]"
+              @validate="validateInput(item.name, $event)"
               :options="optionsMap(item.options)"
               :error="handleError(item.name, item.required)"
+              :validate-on-submit="validateOnSubmit"
               @update:model="updateModel(item.name, item.type, $event)"
+              :class="{
+                'input-error': handleError(item.name, item.required),
+              }"
               :bgColor="
                 settings?.register_login?.membership_registration_page
                   ?.button_text_and_color?.background
@@ -659,6 +673,8 @@ const fetchRegister = async (payload) => {
       sessionStorage.setItem('EMAIL', payload.email)
       sessionStorage.setItem('PASSWORD', encryptData(payload.password))
 
+      localStorage.setItem('REGISTER_SUBMITTED', 'true')
+
       localStorage.removeItem('registerForm')
 
       navigateTo('/register/complete')
@@ -713,6 +729,17 @@ const handleSubmit = async () => {
   validateOnSubmit.value = true
 
   const { checked, ...payload } = form.value
+
+  for (const key in payload) {
+    if (
+      Array.isArray(payload[key]) &&
+      payload[key].length > 0 &&
+      typeof payload[key][0] === 'object' &&
+      'value' in payload[key][0]
+    ) {
+      payload[key] = payload[key].map((item) => item.value)
+    }
+  }
 
   await fetchRegister(payload)
 
@@ -820,21 +847,27 @@ const saveSpin = async () => {
   }
 }
 
+onMounted(() => {
+  if (import.meta.client) {
+    const savedForm = localStorage.getItem('registerForm')
+    if (savedForm) {
+      const parsed = JSON.parse(savedForm)
+      form.value = { ...parsed, ...form.value } 
+      // urutannya parsed dulu supaya data localStorage menang
+    }
+    getTerms()
+  }
+})
+
 watch(
   form,
   (newVal) => {
-    localStorage.setItem('registerForm', JSON.stringify(newVal))
+    const current = JSON.parse(localStorage.getItem('registerForm') || '{}')
+    localStorage.setItem('registerForm', JSON.stringify({ ...current, ...newVal }))
   },
   { deep: true }
 )
 
-onMounted(() => {
-  const savedForm = localStorage.getItem('registerForm')
-  getTerms()
-  if (savedForm) {
-    form.value = JSON.parse(savedForm)
-  }
-})
 </script>
 
 <style scoped>

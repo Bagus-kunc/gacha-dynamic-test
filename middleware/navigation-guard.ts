@@ -1,4 +1,5 @@
 export default defineNuxtRouteMiddleware((to) => {
+
   const settings = useState('settings')
   const screens = settings.value?.flow?.screens
 
@@ -18,6 +19,19 @@ export default defineNuxtRouteMiddleware((to) => {
   if (allowed === false) {
     return navigateTo('/not-found')
   }
+
+  if (import.meta.client) {
+    const hasSubmittedProfile = localStorage.getItem('PROFILE_SUBMITTED')
+    const hasSubmittedRegister = localStorage.getItem('REGISTER_SUBMITTED')
+    const userId = localStorage.getItem('USER_ID')
+
+    if (to.path === '/profile/complete' && (!hasSubmittedProfile || !userId)) {
+      return navigateTo('/profile')
+    }
+    if (to.path === '/register/complete' && (!hasSubmittedRegister)) {
+      return navigateTo('/register')
+    }
+}
 
 })
 
