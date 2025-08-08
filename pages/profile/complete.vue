@@ -49,7 +49,7 @@ import useRegister from '~/composables/useRegister'
 import { useRouter } from 'vue-router'
 
 definePageMeta({
-  middleware: 'change-profile-complete'
+  middleware: 'navigation-guard',
 })
 
 const { isSpin } = useRegister()

@@ -16,10 +16,18 @@ export default defineNuxtRouteMiddleware(async (to, from) => {
     if (import.meta.client) {
       const root = document.documentElement
       const textColors = settings.value?.global?.text_colors || {}
+      const regisBgColor = settings.value?.register_login?.membership_registration_page?.button_text_and_color?.background || ''
+      const regisTextColor = settings.value?.register_login?.membership_registration_page?.button_text_and_color?.color || ''
       
       Object.keys(textColors).forEach(key => {
         root.style.setProperty(`--${key}`, textColors[key])
       })
+      if (regisBgColor) {
+        root.style.setProperty('--register-bg-color', regisBgColor)
+      }
+      if (regisTextColor) {
+        root.style.setProperty('--register-text-color', regisTextColor)
+      }
     }
 
     if (!allowPaths.some(path => to.path.includes(path))) return

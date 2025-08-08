@@ -2,11 +2,10 @@
   <div class="flex flex-col w-full">
     <label
       :for="`label-${label}`"
-      class="text-exd-gray-scorpion font-bold text-exd-1424"
+      class="font-bold text-exd-gray-scorpion text-exd-1424"
       v-if="label !== ''"
       >{{ label }}</label
     >
-
     <Select
       :inputId="`id-${model}`"
       :modelValue="modelValue"
@@ -30,7 +29,7 @@
       overlayClass="bg-white"
       :ptOptions="{ mergeSections: true, mergeProps: true }"
       :pt="{
-        option: '!text-gray-500 hover:text-white',
+        option: `!text-gray-500 hover:text-white !bg-${bgColor}`,
         dropdown: { class: locale === 'en' && '!text-xs px-2 !w-auto' },
       }"
     >
@@ -113,10 +112,16 @@ const props = defineProps({
     type: Boolean,
     default: false,
   },
+  bgColor: {
+    type: String,
+    default: '#ffffff',
+  },
+  textColor: {
+    type: String,
+    default: '#000000',
+  },
   validateOnSubmit: Boolean,
 })
-
-const { t } = useI18n()
 
 const emit = defineEmits(['update:model', 'validate'])
 const isLengthValid = ref(true)
@@ -130,10 +135,23 @@ const updateValue = (value) => {
   validate()
   emit('validate', value)
 }
+
 const validate = () => {
-  isLengthValid.value = modelValue.value.length > 0
-  emit('validate', modelValue.value)
+  const value = modelValue.value
+
+  if (typeof value === 'string' || Array.isArray(value)) {
+    isLengthValid.value = value.length > 0
+  } else if (typeof value === 'number') {
+    isLengthValid.value = true 
+  } else if (value === null || value === undefined) {
+    isLengthValid.value = false
+  } else {
+    isLengthValid.value = !!value
+  }
+
+  emit('validate', value)
 }
+
 watch(
   () => props.validateOnSubmit,
   (newValue) => {
@@ -155,11 +173,11 @@ watch(
 
 :global(.p-select-option.p-focus) {
   color: hlsa(var(--gray-scorpion)) !important;
-  background-color: #d44d20;
+  /* background-color: var(--secondary); */
 }
 
 :global(.p-select-option.p-select-option-selected.p-focus) {
-  background-color: #d44d20;
+  /* background-color: var(--secondary); */
   color: hlsa(var(--gray-scorpion)) !important;
 }
 </style>

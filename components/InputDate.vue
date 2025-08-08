@@ -49,6 +49,8 @@
             showIcon
             iconDisplay="input"
             variant="filled"
+            :manualInput="manualInput"
+            formatDate="dd-MM-yyyy"
             :disabled="disabled"
         />
 
@@ -78,7 +80,6 @@
   <script setup>
   import { computed } from 'vue'
   import { useI18n } from 'vue-i18n'
-  import DatePicker from 'primevue/datepicker'
   
   const props = defineProps({
     prefix: {
@@ -162,24 +163,18 @@
       type: String,
       default: 'white',
     },
+    manualInput: {
+      type: Boolean,
+      default: true,
+    },
   })
   
-  const { t } = useI18n()
-  
   const emit = defineEmits(['update:model', 'validate'])
-  
-  const isValid = ref(true)
-  const value3 = ref(props.model)
   
   const modelValue = computed({
     get: () => props.model,
     set: (value) => emit('update:model', value),
   })
-  const updateValue = (value) => {
-    modelValue.value = value
-    validate()
-    emit('validate', value)
-  }
   
   watch(
     () => props.validateOnSubmit,
