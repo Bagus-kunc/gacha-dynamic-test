@@ -79,6 +79,7 @@
   "member": "회원",
   "required": "필수",
   "minLength": "{number}자 이상 입력해 주세요",
+  "maxLength": "최대 {number}자 이하로 입력해주세요",
   "update": "업데이트",
   "fieldRequired": "이 항목은 필수입니다",
   "validPassword": "반각 영문자 및 숫자만 사용할 수 있습니다.",

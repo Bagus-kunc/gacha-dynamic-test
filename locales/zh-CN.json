@@ -79,6 +79,7 @@
     "member": "会员",
     "required": "必填",
     "minLength": "请至少输入 {number} 个字符",
+    "maxLength": "请最多输入{number}个字符",
     "update": "更新",
     "fieldRequired": "该字段为必填项",
     "validPassword": "仅可使用半角英数字符。",
