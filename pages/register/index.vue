@@ -87,12 +87,11 @@
                 }
               "
               @validate="validateInput(item.name, $event)"
-              :minLength="maxLengthMap(item.name)"
               :validate-on-submit="validateOnSubmit"
-              :error="handleError(item.name, item.required)"
+              :error="handleError(item.name, item.required, item?.min, item?.max)"
               hasHelper
               :class="{
-                'input-error': handleError(item.name, item.required),
+                'input-error': handleError(item.name, item.required, item?.min, item?.max),
               }"
               :w230Px="
                 item.name === 'phone_number' || item.name === 'postal_code'
@@ -163,10 +162,10 @@
               :placeholder="item.placeholder"
               :required="item.required"
               @validate="validateInput(item.name, $event)"
-              :error="handleError(item.name, item.required)"
+              :error="handleError(item.name, item.required, item?.min, item?.max)"
               :validate-on-submit="validateOnSubmit"
               :class="{
-                'input-error': handleError(item.name, item.required),
+                'input-error': handleError(item.name, item.required, item?.min, item?.max),
               }"
               :bgColor="
                 settings?.register_login?.membership_registration_page
@@ -542,11 +541,19 @@ const maxLengthMap = (field) => {
   }
 }
 
-const handleError = (field, required) => {
+const handleError = (field, required, min, max) => {
   const value = form.value[field] || ''
 
   if (!value && validateOnSubmit.value && required) {
     return t('fieldRequired')
+  }
+
+  if (min && value.length > 0 && value.length < min) {
+    return t('minLength', { number: min })
+  }
+
+  if (max && value.length > max) {
+    return t('maxLength', { number: max })
   }
 
   if (field === 'email') {

@@ -79,6 +79,7 @@
     "member": "Anggota",
     "required": "Wajib",
     "minLength": "Gunakan setidaknya {number} karakter",
+    "maxLength": "Gunakan maksimal {number} karakter",
     "update": "Perbarui",
     "fieldRequired": "Kolom ini wajib diisi",
     "validPassword": "Hanya karakter alfanumerik setengah lebar yang diperbolehkan.",

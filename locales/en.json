@@ -79,6 +79,7 @@
   "member": "Member",
   "required": "Required",
   "minLength": "Please use at least {number} characters",
+  "maxLength": "Please use at most {number} characters",
   "update": "Update",
   "fieldRequired": "This field is required",
   "validPassword": "Only half-width alphanumeric characters can be used.",

@@ -82,6 +82,7 @@
   "member": "会員",
   "required": "必須",
   "minLength": "{number}文字以上で作成してください。",
+  "maxLength": "{number}文字以内で入力してください",
   "fieldRequired": "必須項目です",
   "validEmail": "正しい形式でメールアドレスを入力してください。",
   "emailIsAlreadyRegistered": "emailはすでに使用されています。",

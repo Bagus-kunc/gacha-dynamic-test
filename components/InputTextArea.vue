@@ -22,14 +22,14 @@
       :aria-describedby="`${model}-help`"
       :class="[
         'grow w-full bg-gray-100 text-exd-gray-scorpion px-4 py-2 resize-none focus:!outline-none focus:!ring-0 border-1 !rounded-lg selection:!bg-gray-300 selection:!border-none',
-        validateOnSubmit && !isLengthValid && !modelValue
+        (error !== '') || (validateOnSubmit && !isLengthValid && !modelValue)
           ? '!border-2 border-exd-red-vermilion'
           : '!border-none',
       ]"
     />
     <small v-if="hasHelper" :id="`${model}-help`">{{ helperText }}</small>
     <small
-      v-if="validateOnSubmit && !isLengthValid && !modelValue"
+      v-if="error !== '' || (validateOnSubmit && !isLengthValid && !modelValue)"
       :id="`${model}-error`"
       :class="['p-error']"
       >{{ error }}</small
