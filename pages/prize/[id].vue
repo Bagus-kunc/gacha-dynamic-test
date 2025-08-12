@@ -95,10 +95,15 @@
         </div>
       </div>
       <SolidButton
-        :label="disableRedeem ? $t('cannotBeExchanged') : $t('exchange')"
+        :label="disableRedeem ? $t('cannotBeExchanged') : settings?.prize?.step_1?.button_text"
         :disabled="disableRedeem || isFetching"
         :on-click="handleToggleModal"
-        :variant="`red-coral`"
+        :bgColor="
+          settings?.prize?.step_1?.button_and_text_color?.background
+        "
+        :textColor="
+          settings?.prize?.step_1?.button_and_text_color?.color
+        "
         has-bottom
       />
     </div>
@@ -132,17 +137,21 @@
           class="font-bold text-center text-exd-1424 small:w-[105%] w-[93%] max-w-w-[93%]"
           style="text-shadow: 0 3px 3px rgba(0, 0, 0, 0.16)"
         >
-          {{ $t('thePrizeWillBeAwarded') }}
+          {{ settings?.prize?.step_1?.pop_up_title }}
         </p>
         <p class="text-center text-exd-1424">
-          {{ $t('winnerWillBeNotifed') }}
+          {{ settings?.prize?.step_1?.pop_up_text }}
         </p>
       </div>
       <div class="py-3">
         <SolidButton
-          :label="$t('applyNow')"
+          :label="settings?.prize?.step_1?.pop_up_button_text"
           :on-click="handleGoToRedeem"
-          variant="red-coral"
+          :bgColor="
+            settings?.prize?.step_1?.pop_up_button_and_text_color?.background"
+          :textColor="
+            settings?.prize?.step_1?.pop_up_button_and_text_color?.color
+          "
           has-bottom
         />
       </div>

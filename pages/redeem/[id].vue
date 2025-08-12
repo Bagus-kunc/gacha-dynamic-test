@@ -429,7 +429,7 @@ import {
 import RadioButton from '~/components/RadioButton.vue'
 
 definePageMeta({
-  middleware: ['auth', 'navigation-guard'],
+  // middleware: ['auth', 'navigation-guard'],
   layout: 'default',
 })
 

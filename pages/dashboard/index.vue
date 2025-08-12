@@ -40,6 +40,7 @@
               ? settings?.user_dashboard?.prize_collections?.background.value
               : `url(${settings?.user_dashboard?.prize_collections?.background.value})`,
         }"
+        @mouseenter="imagePreload(settings?.prize?.step_1?.background_page, 'prize')"
         @click="handleGoToPrize"
       >
         <img
@@ -220,6 +221,14 @@ const errorMessages = ref('')
 const redirectLink = ref('')
 const hidePoint = ref(false)
 const { t } = useI18n()
+
+const imagePreload = (url, name) => {
+  if (url.type !== 'image') return
+    useState(name, () => url.value)
+
+    console.log(url.value, name)
+}
+
 
 const visibleSubMenus = computed(() => {
   const menu = settings.value?.user_dashboard?.my_account_settings || {}
