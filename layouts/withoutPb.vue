@@ -13,7 +13,11 @@
 
     <slot name="header"></slot>
 
-    <section class="min-h-dvh max-h-[calc(100dvh-30%)] overflow-y-auto">
+    <section class="min-h-dvh max-h-[calc(100dvh-30%)] overflow-y-auto"
+    :style="{
+      background: bgPrize
+    }"
+    >
       <slot />
     </section>
     <BottomBar />
@@ -32,6 +36,7 @@ const { t } = useI18n()
 const route = useRoute()
 const config = useRuntimeConfig()
 const settings = useState('settings')
+const bgPrize = ref('')
 
 useHead({
   title: settings.value?.global?.ogp?.title,
@@ -66,5 +71,9 @@ onMounted(() => {
   if (!route.path.includes('scan')) {
     localStorage.removeItem('answer-password')
   }
+})
+
+onBeforeMount(async () => {
+  bgPrize.value = settings.value?.prize?.step_1?.background_page?.type === 'image' ? `url(${settings.value?.prize?.step_1?.background_page?.value})` : settings.value?.prize?.step_1?.background_page?.value
 })
 </script>

@@ -521,26 +521,6 @@ const updateModel = (field, type, value) => {
   }
 }
 
-const filterPostalCodeInput = (event) => {
-  event.target.value = event.target.value.replace(/[^0-9]/g, '')
-  form.value.postCode = event.target.value
-}
-
-const maxLengthMap = (field) => {
-  switch (field) {
-    case 'postal_code':
-      return 7
-    case 'phone_number':
-      return 12
-    case 'password':
-      return 20
-    case 'confPassword':
-      return 20
-    default:
-      return null
-  }
-}
-
 const handleError = (field, required, min, max) => {
   const value = form.value[field] || ''
 

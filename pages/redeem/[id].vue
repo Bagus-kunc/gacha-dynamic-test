@@ -40,325 +40,299 @@
           <Skeleton class="!w-44 !h-6 bg-gray-200" />
         </div>
       </div>
-      <div class="flex flex-col w-full gap-10">
-        <div class="flex flex-col grow text-[19px] font-bold !text-exd-1624">
+      <div class="flex flex-col px-3 grow">
+        <div
+          v-for="(item, index) in visibleRedeemFields"
+          :key="index"
+          class="!w-full p-0"
+        >
           <div
-            v-if="type"
-            class="inline-flex gap-4 px-5 pb-5 border-b border-b-exd-light-grey"
+            v-if="item.show"
+            class="gap-4 px-5 py-5 border-b border-b-exd-light-grey"
           >
             <InputText
-              bold
-              :model="form.lastName"
-              :label="$t('lastName')"
-              required
-              @update:model="updateModel('lastName', $event)"
-              @validate="validateInput('lastName', $event)"
+              v-if="
+                item.type !== 'checkbox' &&
+                item.type !== 'date' &&
+                item.type !== 'select_button' &&
+                item.type !== 'radio' &&
+                item.type !== 'dropdown' &&
+                item.type !== 'textarea'
+              "
+              :onlyNumeric="
+                item.name === 'postal_code' ||
+                item.text_type === 'number' ||
+                item.text_type === 'tel'
+                  ? true
+                  : false
+              "
+              :type="item.text_type"
+              :model="form[item.name]"
+              :label="item.label"
+              :required="item.required"
+              :placeholder="item.placeholder"
+              @update:model="
+                ($event) => {
+                  updateModel(item.name, item.type, $event)
+                  if (item.name === 'postal_code') {
+                    checkPostalCode($event)
+                  }
+                }
+              "
+              @validate="validateInput(item.name, $event)"
               :validate-on-submit="validateOnSubmit"
               :error="
-                !form.lastName && validateOnSubmit ? $t('fieldRequired') : ''
+                handleError(item.name, item.required, item?.min, item?.max)
               "
+              hasHelper
               :class="{
-                'input-error': !form.nickName && validateOnSubmit,
+                'input-error': handleError(
+                  item.name,
+                  item.required,
+                  item?.min,
+                  item?.max
+                ),
               }"
+              :w230Px="
+                item.name === 'phone_number' || item.name === 'postal_code'
+                  ? true
+                  : false
+              "
               :border="true"
-              :bgColor="settings.buttons[0].background"
-              :textColor="settings.buttons[0].color"
+              :bgColor="
+                settings?.register_login?.membership_registration_page
+                  ?.button_text_and_color?.background
+              "
+              :textColor="
+                settings?.register_login?.membership_registration_page
+                  ?.button_text_and_color?.color
+              "
             />
-            <InputText
-              bold
-              :model="form.firstName"
-              :label="$t('givenName')"
-              required
-              :is-nick-name="true"
-              @update:model="updateModel('firstName', $event)"
-              @validate="validateInput('firstName', $event)"
-              :validate-on-submit="validateOnSubmit"
-              :error="
-                !form.firstName && validateOnSubmit ? $t('fieldRequired') : ''
+
+            <p
+              v-if="item.name === 'postal_code'"
+              class="mt-2 font-normal text-exd-1320 text-exd-gray-scorpion"
+            >
+              {{ t('postalCodeInformation') }}
+            </p>
+
+            <GenderSelection
+              v-if="item.type === 'select_button'"
+              v-model="form[item.name]"
+              :label="item.label"
+              :required="item.required"
+              :options="optionsMap(item.options)"
+              :bg-color="
+                settings?.register_login?.membership_registration_page
+                  ?.button_text_and_color?.background
               "
+              :text-color="
+                settings?.register_login?.membership_registration_page
+                  ?.button_text_and_color?.color
+              "
+            />
+
+            <InputDate
+              v-if="item.type === 'date'"
+              :label="item.label"
+              :placeholder="item.placeholder"
+              :required="item.required"
+              v-model:model="form[item.name]"
+              :error="handleError(item.name, item.required)"
+              @update:model="updateModel(item.name, item.type, $event)"
+              :manualInput="false"
               :class="{
-                'input-error': !form.firstName && validateOnSubmit,
+                'input-error': handleError(item.name, item.required),
               }"
-              :border="true"
-              :bgColor="settings.buttons[0].background"
-              :textColor="settings.buttons[0].color"
+              :bgColor="
+                settings?.register_login?.membership_registration_page
+                  ?.button_text_and_color?.background
+              "
+              :textColor="
+                settings?.register_login?.membership_registration_page
+                  ?.button_text_and_color?.color
+              "
+              border
+            />
+
+            <InputTextArea
+              v-show="item?.type === 'textarea'"
+              v-model:model="form[item.name]"
+              :label="item.label"
+              :placeholder="item.placeholder"
+              :required="item.required"
+              @validate="validateInput(item.name, $event)"
+              :error="
+                handleError(item.name, item.required, item?.min, item?.max)
+              "
+              :validate-on-submit="validateOnSubmit"
+              :class="{
+                'input-error': handleError(
+                  item.name,
+                  item.required,
+                  item?.min,
+                  item?.max
+                ),
+              }"
+              :bgColor="
+                settings?.register_login?.membership_registration_page
+                  ?.button_text_and_color?.background
+              "
+              :textColor="
+                settings?.register_login?.membership_registration_page
+                  ?.button_text_and_color?.color
+              "
+            />
+
+            <RadioButton
+              v-if="item?.type === 'radio'"
+              :label="item.label || ''"
+              v-model="form[item.name]"
+              @update:modelValue="updateModel(item.name, item.type, $event)"
+              :options="optionsMap(item.options)"
+              :error="handleError(item.name, item.required)"
+              :class="{
+                'input-error': handleError(item.name, item.required),
+              }"
+              :bgColor="
+                settings?.register_login?.membership_registration_page
+                  ?.button_text_and_color?.background
+              "
+              :textColor="
+                settings?.register_login?.membership_registration_page
+                  ?.button_text_and_color?.color
+              "
+              :required="item.required"
+            />
+
+            <Dropdown
+              v-if="item?.type === 'dropdown'"
+              :model="form[item.name]"
+              @update:model="updateModel(item.name, item.type, $event)"
+              @validate="validateInput(item.name, $event)"
+              :label="item.label"
+              :options="optionsMap(item.options)"
+              optionValue="value"
+              optionLabel="label"
+              :placeholder="item.placeholder"
+              :hasHelper="true"
+              :validate-on-submit="validateOnSubmit"
+              :error="handleError(item.name, item.required)"
+              :class="{
+                'input-error': handleError(item.name, item.required),
+              }"
+              :bgColor="
+                settings?.register_login?.membership_registration_page
+                  ?.button_text_and_color?.background
+              "
+              :textColor="
+                settings?.register_login?.membership_registration_page
+                  ?.button_text_and_color?.color
+              "
+            />
+
+            <InputMultipleSelect
+              v-if="item?.type === 'checkbox'"
+              :label="item.label"
+              :placeholder="item.placeholder"
+              :required="item.required"
+              v-model:model="form[item.name]"
+              @validate="validateInput(item.name, $event)"
+              :options="optionsMap(item.options)"
+              :error="handleError(item.name, item.required)"
+              :validate-on-submit="validateOnSubmit"
+              @update:model="updateModel(item.name, item.type, $event)"
+              :class="{
+                'input-error': handleError(item.name, item.required),
+              }"
+              :bgColor="
+                settings?.register_login?.membership_registration_page
+                  ?.button_text_and_color?.background
+              "
+              :textColor="
+                settings?.register_login?.membership_registration_page
+                  ?.button_text_and_color?.color
+              "
             />
           </div>
 
-          <div
-            v-else
-            class="inline-flex gap-4 px-5 pb-5 mt-10 border-b border-b-exd-light-grey"
+          <template
+            v-if="
+              item.name === 'postal_code' && item.prefecture_and_municipality
+            "
           >
-            <Skeleton class="!w-56 !h-10 bg-gray-200" />
-            <Skeleton class="!w-56 !h-10 bg-gray-200" />
-          </div>
-
-          <div
-            v-if="type === 'b'"
-            class="inline-flex flex-col gap-4 px-5 py-5 border-b border-b-exd-light-grey"
-          >
-            <div class="max-w-[270px]">
+            <div
+              class="inline-flex flex-col w-full gap-4 px-5 py-5 border-b border-b-exd-light-grey"
+            >
               <InputText
-                onlyNumeric
-                bold
-                :model="form.postCode"
+                :model="form.prefecture"
                 required
-                :label="$t('postalCodeNoHyphens')"
-                :disabled="isLoadingPostalCode"
+                :label="item.prefecture.label || $t('prefecture')"
+                :placeholder="item.prefecture.placeholder || $t('prefecture')"
+                disabled
                 @update:model="
                   ($event) => {
-                    updateModel('postCode', $event)
+                    updateModel('prefecture', $event)
                     checkPostalCode($event)
                   }
                 "
-                @validate="validateInput('postCode', $event)"
+                @validate="validateInput('prefecture', $event)"
                 :validate-on-submit="validateOnSubmit"
                 :error="
-                  !form.postCode && validateOnSubmit
+                  !form.prefecture && validateOnSubmit
                     ? $t('fieldRequired')
-                    : '' ||
-                      (form.postCode.length > 0 && form.postCode.length < 7)
-                    ? $t('minLengthPostalCode')
-                    : '' || errorPostCodeMessage
+                    : ''
                 "
                 :class="{
-                  'input-error':
-                    (!form.postCode && validateOnSubmit) ||
-                    (form.postCode.length > 0 && form.postCode.length < 7) ||
-                    errorPostCodeMessage,
-                  'opacity-50': isLoadingPostalCode,
+                  'input-error': !form.prefecture && validateOnSubmit,
                 }"
                 :border="true"
-                :bgColor="settings.buttons[0].background"
-              :textColor="settings.buttons[0].color"
+                :bgColor="
+                  settings?.register_login?.membership_registration_page
+                    ?.button_text_and_color?.background
+                "
+                :textColor="
+                  settings?.register_login?.membership_registration_page
+                    ?.button_text_and_color?.color
+                "
               />
-            </div>
-            <p class="font-normal text-exd-1320 text-exd-gray-scorpion">
-              {{ t('postalCodeInformation') }}
-            </p>
-          </div>
 
-          <div
-            v-if="type === 'b'"
-            class="inline-flex flex-col gap-4 px-5 py-5 border-b border-b-exd-light-grey"
-          >
-            <InputText
-              bold
-              :model="form.prefecture"
-              required
-              :label="$t('prefecture')"
-              disabled
-              @update:model="
-                ($event) => {
-                  updateModel('prefecture', $event)
-                  checkPostalCode($event)
-                }
-              "
-              @validate="validateInput('prefecture', $event)"
-              :validate-on-submit="validateOnSubmit"
-              :error="
-                !form.prefecture && validateOnSubmit ? $t('fieldRequired') : ''
-              "
-              :class="{
-                'input-error': !form.prefecture && validateOnSubmit,
-              }"
-              :border="true"
-              :bgColor="settings.buttons[0].background"
-              :textColor="settings.buttons[0].color"
-            />
-
-            <InputText
-              bold
-              :model="form.municipalities"
-              disabled
-              required
-              :label="$t('municipalities')"
-              @update:model="
-                ($event) => {
-                  updateModel('municipalities', $event)
-                  checkPostalCode($event)
-                }
-              "
-              @validate="validateInput('municipalities', $event)"
-              :validate-on-submit="validateOnSubmit"
-              :error="
-                !form.municipalities && validateOnSubmit
-                  ? $t('fieldRequired')
-                  : ''
-              "
-              :class="{
-                'input-error': !form.municipalities && validateOnSubmit,
-              }"
-              :border="true"
-              :bgColor="settings.buttons[0].background"
-              :textColor="settings.buttons[0].color"
-            />
-
-            <InputText
-              bold
-              :model="form.streetAddressEtc"
-              required
-              :label="$t('streetAddressEtc')"
-              @update:model="
-                ($event) => {
-                  updateModel('streetAddressEtc', $event)
-                }
-              "
-              @validate="validateInput('streetAddressEtc', $event)"
-              :validate-on-submit="validateOnSubmit"
-              :error="
-                !form.streetAddressEtc && validateOnSubmit
-                  ? $t('fieldRequired')
-                  : ''
-              "
-              :class="{
-                'input-error': !form.streetAddressEtc && validateOnSubmit,
-              }"
-              :border="true"
-              :bgColor="settings.buttons[0].background"
-              :textColor="settings.buttons[0].color"
-            />
-            <p class="font-normal text-exd-1320 text-exd-gray-scorpion">
-              {{ t('streetAddressInformation') }}
-            </p>
-          </div>
-
-          <div
-            class="inline-flex flex-col gap-4 px-5 py-5 border-b border-b-exd-light-grey"
-          >
-            <div class="max-w-[270px]">
               <InputText
-                v-if="type"
-                type="number"
-                bold
-                :model="form.phoneNumber"
+                :model="form.municipality"
+                disabled
                 required
-                :label="$t('phoneNumberNoHyphens')"
+                :label="item.municipality.label || $t('municipality')"
+                :placeholder="
+                  item.municipality.placeholder || $t('municipality')
+                "
                 @update:model="
                   ($event) => {
-                    updateModel('phoneNumber', $event)
+                    updateModel('municipality', $event)
+                    checkPostalCode($event)
                   }
                 "
-                @validate="validateInput('phoneNumber', $event)"
-                :maxLength="12"
+                @validate="validateInput('municipality', $event)"
                 :validate-on-submit="validateOnSubmit"
                 :error="
-                  !form.phoneNumber && validateOnSubmit
+                  !form.municipality && validateOnSubmit
                     ? $t('fieldRequired')
-                    : '' || errorPhoneNumber
+                    : ''
                 "
                 :class="{
-                  'input-error':
-                    (!form.phoneNumber && validateOnSubmit) || errorPhoneNumber,
+                  'input-error': !form.municipality && validateOnSubmit,
                 }"
                 :border="true"
-                :bgColor="settings.buttons[0].background"
-              :textColor="settings.buttons[0].color"
+                :bgColor="
+                  settings?.register_login?.membership_registration_page
+                    ?.button_text_and_color?.background
+                "
+                :textColor="
+                  settings?.register_login?.membership_registration_page
+                    ?.button_text_and_color?.color
+                "
               />
-              <Skeleton v-else class="!w-56 !h-10 bg-gray-200" />
             </div>
-          </div>
-
-          <div
-            v-if="type === 'a'"
-            class="inline-flex gap-4 px-4 py-5 border-b border-b-exd-light-grey"
-          >
-            <InputText
-              type="email"
-              :model="form.email"
-              required
-              :label="$t('emailAddress')"
-              @update:model="updateModel('email', $event)"
-              @validate="validateInput('email', $event)"
-              :validate-on-submit="validateOnSubmit"
-              :is-email-error="true"
-              hasHelper
-              :error="
-                !form.email && validateOnSubmit
-                  ? t('fieldRequired')
-                  : '' || (form.email && !emailRegex(form.email))
-                  ? t('emailFormat')
-                  : errorEmailMessage
-              "
-              :class="{
-                'input-error':
-                  !form.email && validateOnSubmit
-                    ? t('fieldRequired')
-                    : '' || (form.email && !emailRegex(form.email))
-                    ? t('emailFormat')
-                    : errorEmailMessage,
-              }"
-              :border="true"
-              :bgColor="settings.buttons[0].background"
-              :textColor="settings.buttons[0].color"
-            />
-          </div>
-
-          <div
-            class="flex flex-col gap-4 px-4 py-5 border-b border-b-exd-light-grey"
-          >
-            <template v-if="!type">
-              <Skeleton width="10rem" height="1rem" class="mb-2 bg-gray-200" />
-              <div class="flex flex-col gap-2">
-                <Skeleton
-                  v-for="n in 3"
-                  :key="n"
-                  width="100%"
-                  height="1.5rem"
-                  class="bg-gray-200"
-                />
-              </div>
-            </template>
-            <template v-else>
-              <RadioButton
-                :label="$t('questionnaire1')"
-                v-model="form.questionnaire1"
-                :options="questionnaire1Options"
-                name="questionnaire1"
-                :error="
-                  !form.questionnaire1 && validateOnSubmit
-                    ? $t('fieldRequired')
-                    : ''
-                "
-                required
-                :bgColor="settings.buttons[0].background"
-                :textColor="settings.buttons[0].color"
-              />
-            </template>
-          </div>
-
-          <div
-            class="flex flex-col gap-4 px-4 py-5 border-b border-b-exd-light-grey"
-          >
-            <template v-if="!type">
-              <Skeleton width="10rem" height="1rem" class="mb-2 bg-gray-200" />
-              <div class="flex flex-col gap-2">
-                <Skeleton
-                  v-for="n in 3"
-                  :key="n"
-                  width="100%"
-                  height="1.5rem"
-                  class="bg-gray-200"
-                />
-              </div>
-            </template>
-            <template v-else>
-              <RadioButton
-                :label="$t('questionnaire2')"
-                v-model="form.questionnaire2"
-                :options="questionnaire2Options"
-                name="questionnaire2"
-                :error="
-                  !form.questionnaire2 && validateOnSubmit
-                    ? $t('fieldRequired')
-                    : ''
-                "
-                required
-                :bgColor="settings.buttons[0].background"
-                :textColor="settings.buttons[0].color"
-              />
-            </template>
-          </div>
+          </template>
         </div>
       </div>
     </div>
@@ -420,13 +394,12 @@ import { useRoute } from 'vue-router'
 import { useRouter } from 'vue-router'
 import close from '~/assets/images/close.svg'
 import { store } from '~/stores/dashboard.js'
-import InputText from '~/components/InputText.vue'
 import JapanPostalCode from 'japan-postal-code'
-import {
-  questionnaire1Options,
-  questionnaire2Options,
-} from '~/data/questionnaire'
+import Dropdown from '~/components/Dropdown.vue'
+import InputText from '~/components/InputText.vue'
+import InputTextArea from '~/components/InputTextArea.vue'
 import RadioButton from '~/components/RadioButton.vue'
+import InputMultipleSelect from '~/components/InputMultipleSelect.vue'
 
 definePageMeta({
   // middleware: ['auth', 'navigation-guard'],
@@ -459,22 +432,165 @@ const errorKeyPostCode = ref('')
 const errorPostCodeMessage = computed(() => t(errorKeyPostCode.value))
 const errorPhoneNumber = ref('')
 const errorEmailMessage = ref('')
+const errorPasswordMessage = ref('')
 
-const form = ref({
-  lastName: '',
-  firstName: '',
-  phoneNumber: '',
-  address: '',
-  postCode: '',
-  prefecture: '',
-  municipalities: '',
-  streetAddressEtc: '',
-  questionnaire1: '',
-  questionnaire2: '',
-})
+const form = ref({})
 
 const emailRegex = (email) => {
   return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)
+}
+
+const registerFields =
+  settings.value?.prize?.step_2?.data?.redeem_prize_form || []
+
+const visibleRedeemFields = computed(() =>
+  registerFields
+    .map((item) => {
+      const name = Object.keys(item)[0]
+      const fieldData = item[name]
+      return {
+        name,
+        ...fieldData,
+      }
+    })
+    .filter((field) => field.show)
+)
+
+const formatDate = (date) => {
+  return new Date(date).toLocaleDateString('en-CA', {
+    year: 'numeric',
+    month: '2-digit',
+    day: '2-digit',
+    timeZone: config.public.TIME_ZONE,
+  })
+}
+
+const optionsMap = (rawOptions) => {
+  if (!rawOptions || typeof rawOptions !== 'object') return []
+
+  return Object.entries(rawOptions)
+    .filter(([value, label]) => !!value && !!label)
+    .map(([value, label]) => ({
+      label,
+      value,
+    }))
+}
+
+const updateModel = (field, type, value) => {
+  form.value[field] = value
+
+  if (type === 'date') {
+    form.value[field] = formatDate(value)
+  }
+
+  if (field === 'password') {
+    passwordValidate()
+  }
+}
+
+const handleError = (field, required, min, max) => {
+  const value = form.value[field] || ''
+
+  if (!value && validateOnSubmit.value && required) {
+    return t('fieldRequired')
+  }
+
+  if (min && value.length > 0 && value.length < min) {
+    return t('minLength', { number: min })
+  }
+
+  if (max && value.length > max) {
+    return t('maxLength', { number: max })
+  }
+
+  if (field === 'email') {
+    if (value && !emailRegex(value)) {
+      return t('emailFormat')
+    } else if (errorEmailMessage.value) {
+      return errorEmailMessage.value
+    }
+  }
+
+  if (field === 'password') {
+    if (!value) return ''
+
+    if (value?.length < 8) {
+      return t('passwordMin')
+    }
+
+    if (!alphanumericRegex.test(value)) {
+      return t('validPassword')
+    }
+  }
+
+  if (field === 'password_confirmation') {
+    if (value && value !== form.value.password) {
+      return t('passwordNotMatch')
+    }
+  }
+
+  if (field === 'postal_code') {
+    if (value?.length > 0 && value?.length < 7) {
+      return t('minLengthPostalCode')
+    } else if (errorPostCodeMessage.value) {
+      return errorPostCodeMessage.value
+    }
+  }
+
+  if (field === 'phone_number') {
+    return errorPhoneNumber.value
+  }
+
+  return ''
+}
+
+const passwordValidate = () => {
+  const password = form.value.password
+  const alphanumericRegex = /^[a-zA-Z0-9]{8,}$/
+
+  if (password?.length > 0 && password?.length < 8) {
+    errorPasswordMessage.value = 'passwordMin'
+  } else if (!alphanumericRegex.test(password)) {
+    errorPasswordMessage.value = 'validPassword'
+  } else {
+    errorPasswordMessage.value = ''
+  }
+}
+
+const validateForm = () => {
+  const requiredFields = []
+  let isValid = true
+
+  if (!emailRegex(form.value.email)) {
+    isValid = false
+  } else {
+    errorEmailMessage.value = ''
+  }
+
+  const firstErrorElement = document.querySelector('.input-error')
+
+  if (!isValid && firstErrorElement) {
+    firstErrorElement.style.paddingTop = '80px'
+    firstErrorElement.style.marginTop = '-80px'
+
+    firstErrorElement.scrollIntoView({ behavior: 'smooth' })
+
+    setTimeout(() => {
+      firstErrorElement.style.paddingTop = ''
+      firstErrorElement.style.marginTop = ''
+    }, 3000)
+
+    return false
+  }
+
+  for (const field of requiredFields) {
+    if (!form.value[field]) {
+      console.log('Field must be filled:', field.value)
+      return false
+    }
+  }
+
+  return true
 }
 
 const fetchingPrizeData = async () => {
@@ -491,17 +607,12 @@ const fetchingPrizeData = async () => {
 }
 
 const checkPoint = (point) => {
-
-try {
-  const currentPoint = parseInt(store.point)
-  if (currentPoint < point) {
-    disableRedeem.value = true
-  }
-} catch (error) {}
-}
-
-const updateModel = (field, value) => {
-  form.value[field] = value
+  try {
+    const currentPoint = parseInt(store.point)
+    if (currentPoint < point) {
+      disableRedeem.value = true
+    }
+  } catch (error) {}
 }
 
 const validateInput = (field, value) => {
@@ -533,45 +644,6 @@ const handleApiError = (error) => {
     errorMessages.value.push(response)
     console.log('errorMessages', errorMessages.value)
   }
-}
-
-const validateForm = () => {
-  const requiredFields = [
-    'lastName',
-    'firstName',
-    'phoneNumber',
-    'postCode',
-    'prefecture',
-    'municipalities',
-    'streetAddressEtc',
-    'questionnaire1',
-    'questionnaire2',
-  ]
-
-  for (const field of requiredFields) {
-    if (!form.value[field]) {
-      console.log('Field must be filled:', field)
-      return false
-    }
-  }
-
-  if (form.value.postCode.length < 7) {
-    errorKeyPostCode.value = 'minLengthPostalCode'
-    return false
-  }
-
-  if (
-    form.value.phoneNumber.length < 10 ||
-    form.value.phoneNumber.length > 12
-  ) {
-    errorPhoneNumber.value = t('validPhoneNumber')
-    return false
-  }
-
-  errorKeyPostCode.value = ''
-  errorPhoneNumber.value = ''
-
-  return true
 }
 
 const fetchRedeem = async (payload) => {
@@ -712,7 +784,15 @@ onMounted(async () => {
 })
 </script>
 
-<style>
+<style scoped>
+::v-deep(.p-checkbox-box) {
+  @apply !bg-white !size-5 !border !border-exd-gray-44 !rounded-none;
+}
+
+::v-deep(.p-checkbox-checked .p-checkbox-icon) {
+  @apply !text-black;
+}
+
 .opacity-50 {
   opacity: 0.5;
   pointer-events: none;

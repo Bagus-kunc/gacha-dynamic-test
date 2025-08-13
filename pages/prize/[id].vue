@@ -4,7 +4,7 @@
       style="text-shadow: 0 3px 3px rgba(0, 0, 0, 0.16)"
       class="text-exd-gray-scorpion font-bold text-exd-1824.52"
     >
-      {{ $t('listOfPrizesAndApplication') }}
+      {{ settings?.prize?.step_1?.page_title }}
     </p>
   </HeaderBar>
 
@@ -22,7 +22,9 @@
       </div>
       <div class="flex flex-col justify-between w-full p-5">
         <div class="flex flex-col gap-4">
-          <div class="relative inline-flex items-center justify-between w-full gap-5">
+          <div
+            class="relative inline-flex items-center justify-between w-full gap-5"
+          >
             <Skeleton v-if="isFetching" class="!h-3" width="15rem"></Skeleton>
             <p
               v-else
@@ -35,7 +37,7 @@
               class="!h-3 !rounded-full !bg-exd-orange-700"
               width="2rem"
             ></Skeleton>
-            <img 
+            <img
               v-else-if="prizeDetailData.rarity?.type === 'image'"
               :src="prizeDetailData.rarity?.image"
               alt="arrow"
@@ -47,23 +49,42 @@
             <p
               v-else-if="prizeDetailData.rarity?.type === 'color'"
               class="font-bold text-exd-1824.52 text-white p-1 flex items-center justify-center rounded-full right-0 top-5 min-w-12 min-h-12"
-              :style="{ backgroundColor: prizeDetailData.rarity.background_color, color: prizeDetailData.rarity.text_color }"
-            >{{ prizeDetailData.rarity.text.toUpperCase() }}</p>
+              :style="{
+                backgroundColor: prizeDetailData.rarity.background_color,
+                color: prizeDetailData.rarity.text_color,
+              }"
+            >
+              {{ prizeDetailData.rarity.text.toUpperCase() }}
+            </p>
           </div>
 
           <HeadingSection
+            v-if="
+              settings?.prize?.step_1?.prize_description
+                ?.show_how_to_get_prizes === '1'
+            "
             :is-fetching="isFetching"
             :title="$t('howToGetPrizes')"
             :body="prizeDetailData != null ? prizeDetailData?.how_to_win : ''"
           />
 
           <HeadingSection
+            v-if="
+              settings?.prize?.step_1?.prize_description
+                ?.show_terms_of_use === '1'
+            "
             :is-fetching="isFetching"
             :title="$t('conditionsOfUse')"
             :body="prizeDetailData != null ? prizeDetailData?.terms_of_use : ''"
           />
 
-          <!-- <div class="w-full mb-5">
+          <div
+            v-if="
+              settings?.prize?.step_1?.prize_description
+                ?.show_redemption_location === '1'
+            "
+            class="w-full mb-5"
+          >
             <Skeleton v-if="isFetching" class="!w-full !h-72" />
             <div
               v-show="!isFetching"
@@ -80,30 +101,25 @@
                   class="flex items-center text-sm border-b cursor-pointer text-exd-gray-scorpion border-b-exd-gray-scorpion"
                   @click="openGoogleMaps"
                   >{{ $t('openGoogleMaps') }}
-                  <img
-                    src="~/assets/images/export.svg"
-                    alt="export"
-                    width="15"
-                    height="15"
-                    class="inline ml-1"
+                  <IconsExport
+                    class="w-5 h-5 ml-[2px] cursor-pointer"
                   />
                 </span>
               </div>
             </div>
-          </div> -->
-          
+          </div>
         </div>
       </div>
       <SolidButton
-        :label="disableRedeem ? $t('cannotBeExchanged') : settings?.prize?.step_1?.button_text"
+        :label="
+          disableRedeem
+            ? $t('cannotBeExchanged')
+            : settings?.prize?.step_1?.button_text
+        "
         :disabled="disableRedeem || isFetching"
         :on-click="handleToggleModal"
-        :bgColor="
-          settings?.prize?.step_1?.button_and_text_color?.background
-        "
-        :textColor="
-          settings?.prize?.step_1?.button_and_text_color?.color
-        "
+        :bgColor="settings?.prize?.step_1?.button_and_text_color?.background"
+        :textColor="settings?.prize?.step_1?.button_and_text_color?.color"
         has-bottom
       />
     </div>
@@ -114,7 +130,7 @@
     modal
     class="w-11/12 md:!w-5/12 !max-w-sm border border-exd-gray-44"
     :style="{
-      background: settings?.global?.modal?.background_color
+      background: settings?.global?.modal?.background_color,
     }"
   >
     <template #container>
@@ -130,7 +146,7 @@
       <div
         class="flex flex-col items-center justify-center w-full gap-1 px-5 py-8 my-2"
         :style="{
-          color: settings?.global?.modal?.text_color
+          color: settings?.global?.modal?.text_color,
         }"
       >
         <p
@@ -148,7 +164,8 @@
           :label="settings?.prize?.step_1?.pop_up_button_text"
           :on-click="handleGoToRedeem"
           :bgColor="
-            settings?.prize?.step_1?.pop_up_button_and_text_color?.background"
+            settings?.prize?.step_1?.pop_up_button_and_text_color?.background
+          "
           :textColor="
             settings?.prize?.step_1?.pop_up_button_and_text_color?.color
           "
@@ -157,7 +174,6 @@
       </div>
     </template>
   </Dialog>
-
 </template>
 
 <script setup>
@@ -192,8 +208,7 @@ const handleToggleModal = () => {
   if (disableRedeem.value) return
   hasModal.value = !hasModal.value
 }
-const handleGoToRedeem = () =>
-  router.push(`/redeem/${route.params.id}`)
+const handleGoToRedeem = () => router.push(`/redeem/${route.params.id}`)
 
 const colorBg = ref('')
 
@@ -247,7 +262,6 @@ const checkType = (type) => {
 }
 
 const checkPoint = (point) => {
-
   try {
     const currentPoint = parseInt(store.point)
     if (currentPoint < point) {

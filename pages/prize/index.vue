@@ -11,9 +11,6 @@
   <div
     ref="prizeCards"
     class="relative flex flex-col w-full h-full bg-center bg-no-repeat bg-cover scroll-container"
-    :style="{
-      background: bgPrize
-    }"
   >
     <div class="flex flex-col sm:mt-[30%] mt-[36%] items-center"></div>
 
@@ -129,7 +126,7 @@ const redeems = ref([])
 const prizeCards = ref(null)
 const isFetching = ref(false)
 const settings = useState('settings')
-const bgPrize = useState('prize')
+const bgPrize = ref('')
 
 const prizeHistory = ref(null)
 
