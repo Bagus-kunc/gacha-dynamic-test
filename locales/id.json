@@ -346,6 +346,7 @@
     "aniversaryMorizzoAndKiccoro": "Morizo dan Kiccoro – Peringatan 20 Tahun Expo 2005",
     "quiz": "Kuis",
     "answer": "Jawaban (Hiragana)",
-    "answerRequired": "Kolom jawaban harus diisi"
+    "answerRequired": "Kolom jawaban harus diisi",
+    "textOnlyAllowed": "Hanya teks yang diizinkan"
   }
   

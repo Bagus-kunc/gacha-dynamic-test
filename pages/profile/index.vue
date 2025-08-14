@@ -92,10 +92,24 @@
               @validate="validateInput(item.name, $event)"
               :minLength="maxLengthMap(item.name)"
               :validate-on-submit="validateOnSubmit"
-              :error="handleError(item.name, item.required)"
+              :error="
+                handleError(
+                  item.name,
+                  item.required,
+                  item?.min,
+                  item?.max,
+                  item.text_type
+                )
+              "
               hasHelper
               :class="{
-                'input-error': handleError(item.name, item.required),
+                'input-error': handleError(
+                  item.name,
+                  item.required,
+                  item?.min,
+                  item?.max,
+                  item.text_type
+                ),
               }"
               :w230Px="
                 item.name === 'phone_number' || item.name === 'postal_code'
@@ -142,11 +156,25 @@
               :placeholder="item.placeholder"
               :required="item.required"
               v-model:model="form[item.name]"
-              :error="handleError(item.name, item.required)"
+              :error="
+                handleError(
+                  item.name,
+                  item.required,
+                  item?.min,
+                  item?.max,
+                  item.text_type
+                )
+              "
               @update:model="updateModel(item.name, item.type, $event)"
               :manualInput="false"
               :class="{
-                'input-error': handleError(item.name, item.required),
+                'input-error': handleError(
+                  item.name,
+                  item.required,
+                  item?.min,
+                  item?.max,
+                  item.text_type
+                ),
               }"
               :bgColor="
                 settings?.register_login?.membership_registration_page
@@ -166,10 +194,24 @@
               :placeholder="item.placeholder"
               :required="item.required"
               @validate="validateInput(item.name, $event)"
-              :error="handleError(item.name, item.required)"
+              :error="
+                handleError(
+                  item.name,
+                  item.required,
+                  item?.min,
+                  item?.max,
+                  item.text_type
+                )
+              "
               :validate-on-submit="validateOnSubmit"
               :class="{
-                'input-error': handleError(item.name, item.required),
+                'input-error': handleError(
+                  item.name,
+                  item.required,
+                  item?.min,
+                  item?.max,
+                  item.text_type
+                ),
               }"
               :bgColor="
                 settings?.register_login?.membership_registration_page
@@ -187,9 +229,23 @@
               v-model="form[item.name]"
               @update:modelValue="updateModel(item.name, item.type, $event)"
               :options="optionsMap(item.options)"
-              :error="handleError(item.name, item.required)"
+              :error="
+                handleError(
+                  item.name,
+                  item.required,
+                  item?.min,
+                  item?.max,
+                  item.text_type
+                )
+              "
               :class="{
-                'input-error': handleError(item.name, item.required),
+                'input-error': handleError(
+                  item.name,
+                  item.required,
+                  item?.min,
+                  item?.max,
+                  item.text_type
+                ),
               }"
               :bgColor="
                 settings?.register_login?.membership_registration_page
@@ -214,9 +270,23 @@
               :placeholder="item.placeholder"
               :hasHelper="true"
               :validate-on-submit="validateOnSubmit"
-              :error="handleError(item.name, item.required)"
+              :error="
+                handleError(
+                  item.name,
+                  item.required,
+                  item?.min,
+                  item?.max,
+                  item.text_type
+                )
+              "
               :class="{
-                'input-error': handleError(item.name, item.required),
+                'input-error': handleError(
+                  item.name,
+                  item.required,
+                  item?.min,
+                  item?.max,
+                  item.text_type
+                ),
               }"
               :bgColor="
                 settings?.register_login?.membership_registration_page
@@ -236,11 +306,25 @@
               v-model:model="form[item.name]"
               @validate="validateInput(item.name, $event)"
               :options="optionsMap(item.options)"
-              :error="handleError(item.name, item.required)"
+              :error="
+                handleError(
+                  item.name,
+                  item.required,
+                  item?.min,
+                  item?.max,
+                  item.text_type
+                )
+              "
               :validate-on-submit="validateOnSubmit"
               @update:model="updateModel(item.name, item.type, $event)"
               :class="{
-                'input-error': handleError(item.name, item.required),
+                'input-error': handleError(
+                  item.name,
+                  item.required,
+                  item?.min,
+                  item?.max,
+                  item.text_type
+                ),
               }"
               :bgColor="
                 settings?.register_login?.membership_registration_page
@@ -530,14 +614,24 @@ const updateModel = (field, type, value) => {
   }
 }
 
-const handleError = (field, required) => {
+const textOnlyRegex = /^[A-Za-z\s]+$/
+
+const handleError = (field, required, min, max, type) => {
   const value = form[field] || ''
 
   if (!value && validateOnSubmit.value && required) {
     return t('fieldRequired')
   }
 
-  if (field === 'email') {
+  if (min && value.length > 0 && value.length < min) {
+    return t('minLength', { number: min })
+  }
+
+  if (max && value.length > max) {
+    return t('maxLength', { number: max })
+  }
+
+  if (type === 'email') {
     if (value && !emailRegex(value)) {
       return t('emailFormat')
     } else if (errorEmailMessage.value) {
@@ -545,7 +639,7 @@ const handleError = (field, required) => {
     }
   }
 
-  if (field === 'password') {
+  if (type === 'password') {
     if (!value) return ''
 
     if (value?.length < 8) {
@@ -558,7 +652,7 @@ const handleError = (field, required) => {
   }
 
   if (field === 'password_confirmation') {
-    if (value && value !== form.password) {
+    if (value && value !== form.value.password) {
       return t('passwordNotMatch')
     }
   }
@@ -573,6 +667,18 @@ const handleError = (field, required) => {
 
   if (field === 'phone_number') {
     return errorPhoneNumber.value
+  }
+
+  if (type === 'number') {
+    if (value && !/^\d+$/.test(value)) {
+      return t('validNumber')
+    }
+  }
+
+  if (type === 'text_only') {
+    if (value && !textOnlyRegex.test(value)) {
+      return t('textOnlyAllowed')
+    }
   }
 
   return ''
@@ -659,14 +765,14 @@ function initForm(fields) {
   return fields.reduce((acc, field) => {
     const key = Object.keys(field)[0]
     console.log(key)
-    acc[key] = '' 
+    acc[key] = ''
     return acc
   }, {})
 }
 
 const form = reactive({
   checked: false,
-  ...initForm(settings.value?.register_login?.register_fields || [])
+  ...initForm(settings.value?.register_login?.register_fields || []),
 })
 
 const populateForm = (data) => {

@@ -346,5 +346,6 @@
   "aniversaryMorizzoAndKiccoro": "Morizo and Kiccoro – Expo 2005 20th Anniversary",
   "quiz": "Quiz",
   "answer": "Answer (Hiragana)",
-  "answerRequired": "The answer field is required"
+  "answerRequired": "The answer field is required",
+  "textOnlyAllowed": "Only text is allowed"
 }
