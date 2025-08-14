@@ -201,14 +201,28 @@ const disableRedeem = ref(false)
 const config = useRuntimeConfig()
 const { t } = useI18n()
 const LOCALE = useCookie('LOCALE')
-const handleGoToClaim = () => router.push(`/claim/${route.params.id}`)
 const settings = useState('settings')
+const redeemType = ref('form')
 
 const handleToggleModal = () => {
+  const isSwipeExchange = settings.value?.prize?.step_2?.redeem_prize 
+  if (isSwipeExchange === 'swipe_exchange') {
+    redeemType.value = 'swipe'
+  }
+
   if (disableRedeem.value) return
   hasModal.value = !hasModal.value
 }
-const handleGoToRedeem = () => router.push(`/redeem/${route.params.id}`)
+
+const handleGoToRedeem = () => {
+  if (disableRedeem.value) return
+
+  if (redeemType.value === 'swipe') {
+    router.push(`/claim/${id}`)
+  } else {
+    router.push(`/redeem/${id}`)
+  }
+}
 
 const colorBg = ref('')
 

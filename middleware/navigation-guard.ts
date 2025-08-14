@@ -23,6 +23,8 @@ export default defineNuxtRouteMiddleware((to) => {
   if (import.meta.client) {
     const hasSubmittedProfile = localStorage.getItem('PROFILE_SUBMITTED')
     const hasSubmittedRegister = localStorage.getItem('REGISTER_SUBMITTED')
+    const hasClaimed = localStorage.getItem('CLAIM_SUCCESS')
+    const hasRedeemed = localStorage.getItem('REDEEM_SUCCESS')
     const userId = localStorage.getItem('USER_ID')
 
     if (to.path === '/profile/complete' && (!hasSubmittedProfile || !userId)) {
@@ -30,6 +32,12 @@ export default defineNuxtRouteMiddleware((to) => {
     }
     if (to.path === '/register/complete' && (!hasSubmittedRegister)) {
       return navigateTo('/register')
+    }
+    if (to.path === '/claim/success' && !hasClaimed) {
+      return navigateTo('/dashboard')
+    }
+    if (to.path === '/redeem/complete' && !hasRedeemed) {
+      return navigateTo('/dashboard')
     }
 }
 
