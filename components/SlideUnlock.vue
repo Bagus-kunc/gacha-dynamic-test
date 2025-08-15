@@ -31,7 +31,6 @@
 <script lang="ts">
 import ease from 'easy-ease'
 import debounce from 'lodash.debounce'
-import { computed, defineComponent, reactive, watch } from 'vue'
 
 export default defineComponent({
   name: 'SlideUnlock',
@@ -76,7 +75,12 @@ export default defineComponent({
       type: Number,
       default: 0,
     },
+    bgColor: {
+      type: String,
+      default: '',
+    },
   },
+
   setup(props, { emit }) {
     const Slider = reactive({
       CanMove: false,
@@ -249,6 +253,18 @@ export default defineComponent({
       }
     }
 
+    const encodeSVGColor = (color: string): string => {
+      const encoded = color.replace('#', '%23')
+      return `url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' fill='none' stroke='${encoded}' viewBox='0 0 13 22'%3E%3Cpath stroke-linecap='round' stroke-linejoin='round' stroke-width='3' d='M1.50049 2.00153L10.5 11.0005L1.50049 19.9996'/%3E%3C/svg%3E")`
+    }
+
+    onMounted(() => {
+      document.documentElement.style.setProperty(
+        '--su-icon-handler',
+        encodeSVGColor(props.bgColor)
+      )
+    })
+
     watch(
       () => props.position,
       () => {
@@ -301,13 +317,20 @@ export default defineComponent({
 .slideunlock {
   --su-size-text: 18px;
   --su-size-padding: 5px;
-  --su-color-bg: #FF5331;
-  --su-color-progress-normal-bg: #ffc0b4;
-  --su-color-progress-complete-bg: #ffc0b4;
+  --su-color-bg: var(--claim-bg-color);
+  --su-color-progress-normal-bg: color-mix(
+    in srgb,
+    var(--claim-bg-color) 50%,
+    white
+  );
+  --su-color-progress-complete-bg: color-mix(
+    in srgb,
+    var(--claim-bg-color) 50%,
+    white
+  );
   --su-color-text-normal: #4f4f4f;
-  --su-color-text-complete: #FF5331;
+  --su-color-text-complete: var(--claim-bg-color);
   --su-color-handler-bg: #ffffff;
-  --su-icon-handler: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' fill='none' stroke='%23FF5331' viewBox='0 0 13 22'%3E%3Cpath stroke-linecap='round' stroke-linejoin='round' stroke-width='3' d='M1.50049 2.00153L10.5 11.0005L1.50049 19.9996'/%3E%3C/svg%3E");
 
   display: flex;
   position: relative;

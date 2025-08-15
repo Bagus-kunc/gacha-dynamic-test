@@ -20,11 +20,13 @@
           <div class="inline-flex justify-between pr-4 w-100" :class="item.disabled ? 'opacity-50' : ''">
             <div class="flex flex-col justify-center gap-1">
               <p
+                v-if="showTitle"
                 class="text-exd-gray-scorpion font-semibold text-[12px] sm:text-[14px] line-clamp-2"
               >
                 {{ item.name }}
               </p>
               <p
+                v-if="showPeriod"
                 class="text-[10px] sm:text-[12px] font-medium"
                 :style="{
                   color: settings?.global?.text_colors?.secondary
@@ -68,6 +70,14 @@ const props = defineProps({
   currentPoint: {
     type: [Number, String],
     default: 0,
+  },
+  showTitle: {
+    type: Boolean,
+    default: true
+  },
+  showPeriod: {
+    type: Boolean,
+    default: true
   }
 })
 

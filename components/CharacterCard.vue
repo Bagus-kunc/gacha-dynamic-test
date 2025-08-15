@@ -17,7 +17,6 @@
 </template>
 
 <script setup>
-import { ref, computed, watch } from 'vue'
 import notImage from '~/assets/images/notimage.png'
 
 const props = defineProps({

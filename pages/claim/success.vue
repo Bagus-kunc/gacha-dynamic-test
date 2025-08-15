@@ -1,45 +1,53 @@
 <template>
   <HeaderBar withLogo />
-  <div class="flex flex-col mt-20 grow justify-between px-8">
+  <div
+    class="flex flex-col justify-between px-8 mt-20 !h-full grow !bg-no-repeat !bg-cover !bg-center"
+    :style="{
+      background:
+        settings?.prize?.step_2?.data?.background_page_2.type === 'image'
+          ? `url(${settings?.prize?.step_2?.data?.background_page_2.value})`
+          : settings?.prize?.step_2?.data?.background_page_2.value,
+    }"
+  >
     <p
-      class="text-exd-gray-scorpion text-exd-1424 text-center font-bold max-w-44 my-8 mx-auto"
+      class="mx-auto my-8 font-bold text-center text-exd-gray-scorpion text-exd-1424 max-w-44"
     >
-      {{ $t('done') }}
+      {{ settings?.prize?.step_2?.data?.page_sub_title_2 }}
     </p>
-    <div class="flex-1 w-full relative">
+    <div class="relative flex-1 w-full">
       <div
-        class="border-4 border-exd-red-coral flex-1 w-5/6 text-center absolute top-8 left-1/2 transform -translate-x-1/2 px-6 py-2 text-exd-red-coral !font-extrabold rounded-lg text-[38px]"
+        class="border-4 flex-1 w-5/6 text-center absolute top-8 left-1/2 transform -translate-x-1/2 px-6 py-2 !font-extrabold rounded-lg text-[38px]"
+        :style="{
+          color: settings?.prize?.step_2?.data?.text_1_color,
+          borderColor: settings?.prize?.step_2?.data?.text_1_color,
+        }"
       >
-        {{ $t('replaced') }}
+        {{ settings?.prize?.step_2?.data?.text_3 || '' }}
       </div>
     </div>
   </div>
-  <div class="flex flex-col w-full relative gap-1">
-    <!-- <SolidButton
-      :on-click="() => goTo('external')"
-      :label="$t('digitalMapTop')"
-    /> -->
-    <div class="h-5 w-full" />
+  <div class="fixed bottom-0 w-full max-w-md px-8 mx-auto">
     <SolidButton
-      variant="red-coral"
       :on-click="() => goTo('top')"
-      :label="$t('gachaTop')"
+      :label="settings?.prize?.step_2?.data?.button_text_2"
       has-bottom
+      :bg-color="
+        settings?.prize?.step_2?.data?.button_and_text_color?.background
+      "
+      :text-color="settings?.prize?.step_2?.data?.button_and_text_color?.color"
     />
   </div>
 </template>
 
 <script setup>
-import duck from '~/assets/images/duck.svg'
-import arrow from '~/assets/images/arrow.svg'
-import { useRouter } from 'vue-router'
 
 definePageMeta({
-  middleware: 'auth',
+  middleware: ['auth', 'navigation-guard'],
   layout: 'default',
 })
 
 const router = useRouter()
+const settings = useState('settings')
 
 const goTo = (type) => {
   switch (type) {

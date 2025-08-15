@@ -8,7 +8,7 @@ export default defineNuxtRouteMiddleware(async (to, from) => {
     const settings = useState('settings', () => null)
     if (!settings.value) {
       const res = await useFetchApi('GET', 'settings')
-      if (!res || !res.data) return
+      if (!res || !res.data) return navigateTo('/not-found')
       settings.value = res.data
     }
 
@@ -18,6 +18,8 @@ export default defineNuxtRouteMiddleware(async (to, from) => {
       const textColors = settings.value?.global?.text_colors || {}
       const regisBgColor = settings.value?.register_login?.membership_registration_page?.button_text_and_color?.background || ''
       const regisTextColor = settings.value?.register_login?.membership_registration_page?.button_text_and_color?.color || ''
+      const claimBgColor = settings.value?.prize?.step_2?.data?.button_and_text_color?.background || ''
+      const claimTextColor = settings.value?.prize?.step_2?.data?.button_and_text_color?.color || ''
       
       Object.keys(textColors).forEach(key => {
         root.style.setProperty(`--${key}`, textColors[key])
@@ -27,6 +29,12 @@ export default defineNuxtRouteMiddleware(async (to, from) => {
       }
       if (regisTextColor) {
         root.style.setProperty('--register-text-color', regisTextColor)
+      }
+      if (claimBgColor) {
+        root.style.setProperty('--claim-bg-color', claimBgColor)
+      }
+      if (claimTextColor) {
+        root.style.setProperty('--claim-text-color', claimTextColor)
       }
     }
 

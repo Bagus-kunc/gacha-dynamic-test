@@ -1,52 +1,73 @@
 <template>
   <HeaderBar hasBack withLogo />
-  <div class="flex flex-col mt-20 grow">
+  <div
+    class="flex flex-col mt-20 grow"
+    :style="{
+      background:
+        settings?.prize?.step_2?.data?.background_page.type === 'image'
+          ? `url(${settings?.prize?.step_2?.data?.background_page.value})`
+          : settings?.prize?.step_2?.data?.background_page.value,
+      'background-size': 'cover',
+      'background-repeat': 'no-repeat',
+    }"
+  >
     <p
       class="text-exd-red-coral text-exd-1724 text-center font-extrabold max-w-[356px] mx-auto p-4 my-4"
     >
-      {{ $t('pleaseShowThisScreen') }}
+      {{ step2Data.page_sub_title }}
     </p>
+
     <div
       class="flex flex-col justify-between gap-5 py-8 bg-exd-banana grow px-7"
     >
       <div class="flex flex-col gap-5">
         <div class="relative w-full h-auto mx-auto bg-white rounded-lg">
-          <Skeleton v-if="isFetching" class="!w-full !h-full" />
-
-          <CharacterCard
-            v-else
-            :image="prizeDetailData.gift.image"
+          <LazyCharacterCard
+            :image="prizeDetailData.image"
             variant="without-background"
           />
         </div>
         <div class="flex flex-col gap-4">
           <div class="inline-flex justify-between w-full gap-5">
-            <Skeleton v-if="isFetching" class="!h-3" width="15rem"></Skeleton>
-            <p v-else class="font-bold text-exd-1424 text-exd-gray-scorpion">
-              {{ prizeDetailData.gift.name }}
-            </p>
+            <div class="flex flex-col" :style="{ color: textColor }">
+              <template v-for="(text, index) in step2Texts" :key="index">
+                <Skeleton v-if="isFetching" class="!h-5 mb-1" :style="{ background: textColor }" width="10rem" />
+                <p v-else class="font-bold text-exd-1424">
+                  {{ text }}
+                </p>
+              </template>
+            </div>
+            <template v-if="isFetching">
+              <Skeleton
+                class="!rounded-full bg-gray-100"
+                width="3rem"
+                height="3rem"
+              />
+            </template>
+            <img
+              v-else-if="prizeDetailData.rarity?.type === 'image'"
+              :src="prizeDetailData.rarity?.image"
+              alt="arrow"
+              width="50"
+              height="0"
+              class=""
+              loading="lazy"
+              preload
+            />
 
-            <Skeleton
-              v-if="isFetching"
-              class="!h-3 !rounded-full !bg-exd-orange-700"
-              width="2rem"
-            ></Skeleton>
             <p
               v-else
               class="font-bold text-exd-1824.52 text-white p-1 flex items-center justify-center rounded-full right-0 top-5 bg-no-repeat bg-cover bg-center w-12 h-12"
-              :style="colorBg ? { backgroundImage: `url(${colorBg})` } : {}"
+              :style="{ background: prizeBg }"
             >
               {{ prizeTypeText }}
             </p>
           </div>
 
-          <Skeleton v-if="isFetching" class="!w-full !h-full" />
-
           <HeadingSection
-            v-else
             :is-fetching="isFetching"
             :title="$t('conditionsOfUse')"
-            :body="prizeDetailData.gift.term_of_use"
+            :body="prizeDetailData.terms_of_use"
           />
         </div>
       </div>
@@ -57,10 +78,13 @@
         :circle="true"
         :width="400"
         :height="56"
-        :text="$t('swipe')"
+        :text="settings?.prize?.step_2?.data?.button_text"
         :success-text="$t('claimed')"
         name="slideunlock"
         @completed="handleSwipe()"
+        :bgColor="
+          settings?.prize?.step_2?.data?.button_and_text_color?.background
+        "
       />
     </div>
   </div>
@@ -103,7 +127,7 @@
     modal
     class="!w-exd-300 h-exd-200 !max-w-sm border border-exd-gray-44 rounded-xl"
     :style="{
-      background: settings?.global?.modal?.background_color
+      background: settings?.global?.modal?.background_color,
     }"
   >
     <template #container>
@@ -120,11 +144,14 @@
         class="flex flex-col items-center justify-center w-full h-full gap-4 p-5"
       >
         <div class="flex flex-col items-center justify-center w-full gap-8">
-          <IconsWarning class="w-10 h-10" :style="{ color: settings?.global?.icon_color?.background }" />
-          <p 
+          <IconsWarning
+            class="w-10 h-10"
+            :style="{ color: settings?.global?.icon_color?.background }"
+          />
+          <p
             class="font-bold text-exd-1424"
             :style="{
-              color: settings?.global?.modal?.text_color
+              color: settings?.global?.modal?.text_color,
             }"
           >
             {{ errorMessage }}
@@ -138,11 +165,6 @@
 <script setup>
 import { useRouter } from 'vue-router'
 import close from '~/assets/images/close.svg'
-import rainbow from '~/assets/images/rainbow-circle.png'
-import gold from '~/assets/images/gold-circle.png'
-import silver from '~/assets/images/silver-circle.png'
-import brown from '~/assets/images/brown-circle.png'
-import bronze from '~/assets/images/bronze-circle.png'
 import { useI18n } from 'vue-i18n'
 
 definePageMeta({
@@ -153,6 +175,7 @@ definePageMeta({
 const isFetching = ref(true)
 const route = useRoute()
 const router = useRouter()
+const settings = useState('settings')
 
 const { t } = useI18n()
 
@@ -167,6 +190,14 @@ const vueslideunlock = ref(null)
 const prizeTypeText = ref(null)
 const colorBg = ref('')
 
+const step2Data = computed(() => settings.value?.prize?.step_2?.data || {})
+const step2Texts = computed(() => [
+  step2Data.value?.text_1,
+  step2Data.value?.text_2,
+])
+const textColor = computed(() => step2Data.value.text_1_color)
+const prizeBg = computed(() => colorBg.value || '#000')
+
 const fetchRedeem = async () => {
   try {
     errorMessage.value = null
@@ -176,18 +207,17 @@ const fetchRedeem = async () => {
       'prizes/redeem-point',
       {
         params: {
-          user_point_id: prizeDetailData.value?.user_point_id,
+          user_point_id: prizeDetailData.value?.id,
         },
       }
     )
 
-    // Periksa apakah response memiliki properti _data
     if (status) {
-      // Ekstrak pesan dari _data
       redeemMessage.value = t('giftExchangeComplete')
       isRedeemDialogVisible.value = true
+      localStorage.setItem('CLAIM_SUCCESS', true)
       setTimeout(() => {
-        router.push('/claim/success') // Redirect ke halaman yang diinginkan
+        router.push('/claim/success') 
       }, 2000)
     } else {
       errorMessage.value = message
@@ -232,27 +262,10 @@ const fetchingPrizeData = async () => {
 }
 
 const handleRankColor = () => {
-  const rank = prizeDetailData.value.gift.type
-  if (rank == 6) {
-    colorBg.value = rainbow
-    prizeTypeText.value = '特賞'
-    return colorBg.value
-  } else if (rank == 1) {
-    colorBg.value = gold
-    prizeTypeText.value = '1等'
-    return colorBg.value
-  } else if (rank == 2) {
-    colorBg.value = silver
-    prizeTypeText.value = '2等'
-    return colorBg.value
-  } else if (rank == 3) {
-    colorBg.value = bronze
-    prizeTypeText.value = '3等'
-    return colorBg.value
-  } else if (rank == 4) {
-    colorBg.value = brown
-    prizeTypeText.value = '4等'
-    return colorBg.value
+  const rank = prizeDetailData.value.rarity
+  if (rank.type === 'color') {
+    colorBg.value = rank.background_color
+    prizeTypeText.value = rank.text
   }
 }
 

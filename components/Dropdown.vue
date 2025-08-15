@@ -2,41 +2,47 @@
   <div class="flex flex-col w-full">
     <label
       :for="`label-${label}`"
-      class="font-bold text-exd-gray-scorpion text-exd-1424"
+      :class="`text-exd-gray-scorpion text-exd-1424 flex gap-2 items-center py-0 ${
+          bold && 'font-bold'
+        }`"
       v-if="label !== ''"
       >{{ label }}</label
     >
-    <Select
-      :inputId="`id-${model}`"
-      :modelValue="modelValue"
-      @update:modelValue="($value) => updateValue($value)"
-      @blur="validate"
-      :options="options"
-      :optionLabel="optionLabel"
-      :optionValue="optionValue"
-      :invalid="error !== '' ? true : false"
-      :aria-describedby="`${model}-help`"
-      :placeholder="placeholder"
-      :editable="editable"
+    <div
       :class="[
-        'grow w-full bg-gray-100 !text-exd-gray-scorpion focus:!border-none focus:!outline-none selection:!rounded-none rounded-xl selection:!bg-gray-300',
-        (validateOnSubmit && !isLengthValid && !modelValue) || error !== ''
-          ? '!border-2 border-exd-red-vermilion'
-          : '!border-none',
-        bgWhite && '!bg-white',
+        'inline-flex rounded-xl bg-gray-100 text-exd-gray-scorpion px-4 h-10 items-center',
+        (validateOnSubmit && !isLengthValid && !modelValue) || error !== '' ? '!border-2 !border-exd-red-vermilion' : '',
+        border ? 'border border-gray-300 ' : '',
       ]"
-      inputClass="!text-exd-gray-scorpion"
-      overlayClass="bg-white"
-      :ptOptions="{ mergeSections: true, mergeProps: true }"
-      :pt="{
-        option: `!text-gray-500 hover:text-white !bg-${bgColor}`,
-        dropdown: { class: locale === 'en' && '!text-xs px-2 !w-auto' },
-      }"
     >
-      <template v-if="suffix !== ''" #dropdownicon>
-        {{ suffix }}
-      </template>
-    </Select>
+      <Select
+        :inputId="`id-${model}`"
+        :modelValue="modelValue"
+        @update:modelValue="($value) => updateValue($value)"
+        @blur="validate"
+        :options="options"
+        :optionLabel="optionLabel"
+        :optionValue="optionValue"
+        :invalid="error !== '' ? true : false"
+        :aria-describedby="`${model}-help`"
+        :placeholder="placeholder"
+        :editable="editable"
+        :class="[
+          'grow !w-full bg-transparent focus:!border-none focus:!outline-none selection:!rounded-none rounded-none !border-none font-normal'
+        ]"
+        inputClass="!text-exd-gray-scorpion"
+        overlayClass="bg-white"
+        :ptOptions="{ mergeSections: true, mergeProps: true }"
+        :pt="{
+          option: `!text-gray-500 hover:text-white !bg-${bgColor}`,
+          dropdown: { class: locale === 'en' && '!text-xs px-2 !w-auto' },
+        }"
+      >
+        <template v-if="suffix !== ''" #dropdownicon>
+          {{ suffix }}
+        </template>
+      </Select>
+    </div>
     <small v-if="hasHelper" :id="`${model}-help`">{{ helperText }}</small>
     <small v-if="error !== ''" :id="`${model}-error`" :class="['p-error']">{{
       error
@@ -108,6 +114,14 @@ const props = defineProps({
     type: Boolean,
     default: false,
   },
+  bold: {
+    type: Boolean,
+    default: false,
+  },
+  border: {
+    type: Boolean,
+    default: true,
+  },
   bgWhite: {
     type: Boolean,
     default: false,
@@ -163,6 +177,15 @@ watch(
 </script>
 
 <style scoped>
+:global(.p-select-overlay) {
+  @apply w-[35%] !important;
+}
+
+:global(.p-select-overlay .p-select-option-label) {
+  @apply block truncate max-w-full;
+}
+
+
 ::v-deep(.p-inputtext) {
   box-shadow: none !important;
 }

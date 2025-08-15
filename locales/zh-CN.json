@@ -346,6 +346,7 @@
     "aniversaryMorizzoAndKiccoro": "Morizo 和 Kiccoro —— 2005 世博会 20 周年纪念版",
     "quiz": "小测验",
     "answer": "答案 (平假名)",
-    "answerRequired": "答案栏是必填项。"
+    "answerRequired": "答案栏是必填项。",
+    "textOnlyAllowed": "仅允许文本"
   }
   

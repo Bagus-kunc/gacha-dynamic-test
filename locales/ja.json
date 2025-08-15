@@ -347,5 +347,6 @@
   "aniversaryMorizzoAndKiccoro": "愛・地球博20祭 モリゾー・キッコロ",
   "quiz": "クイズ",
   "answer": "答え（ひらがな）",
-  "answerRequired": "回答欄は必須です。"
+  "answerRequired": "回答欄は必須です。",
+  "textOnlyAllowed": "テキストのみ使用できます"
 }

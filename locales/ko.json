@@ -346,5 +346,6 @@
   "aniversaryMorizzoAndKiccoro": "모리조와 킷코로 – 2005 엑스포 20주년 버전",
   "quiz": "퀴즈",
   "answer": "답 (히라가나)",
-  "answerRequired": "답변란은 필수입니다"
+  "answerRequired": "답변란은 필수입니다",
+  "textOnlyAllowed": "텍스트만 허용됩니다"
 }

@@ -4,13 +4,13 @@
       style="text-shadow: 0 3px 3px rgba(0, 0, 0, 0.16)"
       class="text-exd-gray-scorpion font-bold text-exd-1824.52"
     >
-      {{ $t('listOfPrizesAndApplication') }}
+      {{ settings?.prize?.step_1?.page_title }}
     </p>
   </HeaderBar>
   
   <div
     ref="prizeCards"
-    class="relative flex flex-col w-full bg-center scroll-container"
+    class="relative flex flex-col w-full h-full bg-center bg-no-repeat bg-cover scroll-container"
   >
     <div class="flex flex-col sm:mt-[30%] mt-[36%] items-center"></div>
 
@@ -38,6 +38,8 @@
           :headColor="prize.color"
           :currentPoint="store.point"
           :is-fetching="isFetching"
+          :showTitle="settings?.prize?.step_1?.to_be_redeemed?.show_prize_title === '1'"
+          :showPeriod="settings?.prize?.step_1?.to_be_redeemed?.show_application_period === '1'"
         />
       </template>
     </div>
@@ -123,6 +125,8 @@ const prizes = ref([])
 const redeems = ref([])
 const prizeCards = ref(null)
 const isFetching = ref(false)
+const settings = useState('settings')
+const bgPrize = ref('')
 
 const prizeHistory = ref(null)
 
