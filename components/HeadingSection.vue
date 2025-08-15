@@ -1,8 +1,8 @@
 <template>
   <div class="flex flex-col gap-2 mb-2">
-    <div class="w-full bg-exd-gray-44 p-1" v-if="title != null">
-      <Skeleton v-if="isFetching" width="5rem" class="!h-2"></Skeleton>
-      <p v-else class="text-white text-exd-1220 font-bold">{{ title }}</p>
+    <div class="w-full p-1 bg-exd-gray-44" v-if="title != null">
+      <Skeleton v-if="isFetching" width="5rem" class="!h-5 rounded-full"></Skeleton>
+      <p v-else class="font-bold text-white text-exd-1220">{{ title }}</p>
     </div>
     <div v-if="isFetching" class="flex flex-col gap-3">
       <Skeleton class="!w-full !h-2"></Skeleton>
@@ -11,7 +11,7 @@
     </div>
     <div
       v-else
-      class="width-text text-exd-gray-scorpion font-medium text-exd-1218 vhtml-desc"
+      class="font-medium width-text text-exd-gray-scorpion text-exd-1218 vhtml-desc"
       v-html="body"
     />
   </div>

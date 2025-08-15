@@ -1,42 +1,35 @@
 <template>
   <HeaderBar hasBack>
-    <div v-if="!type" class="flex justify-center">
+    <div v-if="isFetching" class="flex justify-center">
       <Skeleton class="!w-32 !h-6 bg-gray-200" />
     </div>
     <p
-      v-if="settings?.prize?.step_2?.redeem_prize === 'online_prize'"
       style="text-shadow: 0 3px 3px rgba(0, 0, 0, 0.16)"
       class="text-exd-gray-scorpion font-bold text-exd-1824.52"
     >
       {{ settings?.prize?.step_2?.data?.page_title }}
     </p>
-    <p
-      v-if="settings?.prize?.step_2?.redeem_prize === 'mail_in_prize'"
-      style="text-shadow: 0 3px 3px rgba(0, 0, 0, 0.16)"
-      class="text-exd-gray-scorpion font-bold text-exd-1824.52"
-    >
-      {{ settings?.prize?.step_2?.data?.page_title_2 }}
-    </p>
   </HeaderBar>
 
-  <div class="flex flex-col h-auto text-black bg-center">
+  <div
+    class="flex flex-col text-black !bg-no-repeat h-full !bg-cover !bg-center"
+    :style="{
+      background:
+        settings?.prize?.step_2?.data?.background_page.type === 'image'
+          ? `url(${settings?.prize?.step_2?.data?.background_page.value})`
+          : settings?.prize?.step_2?.data?.background_page.value,
+    }"
+  >
     <div
-      class="relative w-full px-3 mb-24 overflow-y-auto bg-white border border-b-0 border-gray-200"
+      class="relative w-full px-3 mb-20 overflow-y-auto border border-b-0 border-gray-200"
     >
       <div class="w-full flex items-center justify-center text-[15px]">
         <h1
-          v-if="settings?.prize?.step_2?.redeem_prize === 'online_prize'"
-          class="flex justify-center w-full pt-32 pb-10 font-bold text-exd-gray-scorpion"
+          class="flex justify-center w-full pt-32 font-bold text-exd-gray-scorpion"
         >
-          {{ settings?.prize?.step_2?.data?.sub_title }}
+          {{ settings?.prize?.step_2?.data?.page_sub_title }}
         </h1>
-        <h1
-          v-if="settings?.prize?.step_2?.redeem_prize === 'mail_in_prize'"
-          class="flex justify-center w-full pt-32 pb-10 font-bold text-exd-gray-scorpion"
-        >
-          {{ settings?.prize?.step_2?.data?.sub_title_2 }}
-        </h1>
-        <div v-if="!type" class="flex justify-center pt-32">
+        <div v-if="isFetching" class="flex justify-center pt-32">
           <Skeleton class="!w-44 !h-6 bg-gray-200" />
         </div>
       </div>
@@ -82,7 +75,13 @@
               @validate="validateInput(item.name, $event)"
               :validate-on-submit="validateOnSubmit"
               :error="
-                handleError(item.name, item.required, item?.min, item?.max, item.text_type)
+                handleError(
+                  item.name,
+                  item.required,
+                  item?.min,
+                  item?.max,
+                  item.text_type
+                )
               "
               hasHelper
               :class="{
@@ -90,7 +89,8 @@
                   item.name,
                   item.required,
                   item?.min,
-                  item?.max, item.text_type
+                  item?.max,
+                  item.text_type
                 ),
               }"
               :w230Px="
@@ -100,12 +100,10 @@
               "
               :border="true"
               :bgColor="
-                settings?.register_login?.membership_registration_page
-                  ?.button_text_and_color?.background
+                settings?.prize?.step_2?.data?.button_and_text_color?.background
               "
               :textColor="
-                settings?.register_login?.membership_registration_page
-                  ?.button_text_and_color?.color
+                settings?.prize?.step_2?.data?.button_and_text_color?.color
               "
             />
 
@@ -123,12 +121,10 @@
               :required="item.required"
               :options="optionsMap(item.options)"
               :bg-color="
-                settings?.register_login?.membership_registration_page
-                  ?.button_text_and_color?.background
+                settings?.prize?.step_2?.data?.button_and_text_color?.background
               "
               :text-color="
-                settings?.register_login?.membership_registration_page
-                  ?.button_text_and_color?.color
+                settings?.prize?.step_2?.data?.button_and_text_color?.color
               "
             />
 
@@ -138,19 +134,31 @@
               :placeholder="item.placeholder"
               :required="item.required"
               v-model:model="form[item.name]"
-              :error="handleError(item.name, item.required, item?.min, item?.max, item.text_type)"
+              :error="
+                handleError(
+                  item.name,
+                  item.required,
+                  item?.min,
+                  item?.max,
+                  item.text_type
+                )
+              "
               @update:model="updateModel(item.name, item.type, $event)"
               :manualInput="false"
               :class="{
-                'input-error': handleError(item.name, item.required, item?.min, item?.max, item.text_type),
+                'input-error': handleError(
+                  item.name,
+                  item.required,
+                  item?.min,
+                  item?.max,
+                  item.text_type
+                ),
               }"
               :bgColor="
-                settings?.register_login?.membership_registration_page
-                  ?.button_text_and_color?.background
+                settings?.prize?.step_2?.data?.button_and_text_color?.background
               "
               :textColor="
-                settings?.register_login?.membership_registration_page
-                  ?.button_text_and_color?.color
+                settings?.prize?.step_2?.data?.button_and_text_color?.color
               "
               border
             />
@@ -163,19 +171,29 @@
               :required="item.required"
               @validate="validateInput(item.name, $event)"
               :error="
-              handleError(item.name, item.required, item?.min, item?.max, item.text_type)
+                handleError(
+                  item.name,
+                  item.required,
+                  item?.min,
+                  item?.max,
+                  item.text_type
+                )
               "
               :validate-on-submit="validateOnSubmit"
               :class="{
-                'input-error': handleError(item.name, item.required, item?.min, item?.max, item.text_type),
+                'input-error': handleError(
+                  item.name,
+                  item.required,
+                  item?.min,
+                  item?.max,
+                  item.text_type
+                ),
               }"
               :bgColor="
-                settings?.register_login?.membership_registration_page
-                  ?.button_text_and_color?.background
+                settings?.prize?.step_2?.data?.button_and_text_color?.background
               "
               :textColor="
-                settings?.register_login?.membership_registration_page
-                  ?.button_text_and_color?.color
+                settings?.prize?.step_2?.data?.button_and_text_color?.color
               "
             />
 
@@ -185,17 +203,29 @@
               v-model="form[item.name]"
               @update:modelValue="updateModel(item.name, item.type, $event)"
               :options="optionsMap(item.options)"
-              :error="handleError(item.name, item.required, item?.min, item?.max, item.text_type)"
+              :error="
+                handleError(
+                  item.name,
+                  item.required,
+                  item?.min,
+                  item?.max,
+                  item.text_type
+                )
+              "
               :class="{
-                'input-error': handleError(item.name, item.required, item?.min, item?.max, item.text_type),
+                'input-error': handleError(
+                  item.name,
+                  item.required,
+                  item?.min,
+                  item?.max,
+                  item.text_type
+                ),
               }"
               :bgColor="
-                settings?.register_login?.membership_registration_page
-                  ?.button_text_and_color?.background
+                settings?.prize?.step_2?.data?.button_and_text_color?.background
               "
               :textColor="
-                settings?.register_login?.membership_registration_page
-                  ?.button_text_and_color?.color
+                settings?.prize?.step_2?.data?.button_and_text_color?.color
               "
               :required="item.required"
             />
@@ -212,17 +242,29 @@
               :placeholder="item.placeholder"
               :hasHelper="true"
               :validate-on-submit="validateOnSubmit"
-              :error="handleError(item.name, item.required, item?.min, item?.max, item.text_type)"
+              :error="
+                handleError(
+                  item.name,
+                  item.required,
+                  item?.min,
+                  item?.max,
+                  item.text_type
+                )
+              "
               :class="{
-                'input-error': handleError(item.name, item.required, item?.min, item?.max, item.text_type),
+                'input-error': handleError(
+                  item.name,
+                  item.required,
+                  item?.min,
+                  item?.max,
+                  item.text_type
+                ),
               }"
               :bgColor="
-                settings?.register_login?.membership_registration_page
-                  ?.button_text_and_color?.background
+                settings?.prize?.step_2?.data?.button_and_text_color?.background
               "
               :textColor="
-                settings?.register_login?.membership_registration_page
-                  ?.button_text_and_color?.color
+                settings?.prize?.step_2?.data?.button_and_text_color?.color
               "
             />
 
@@ -234,19 +276,31 @@
               v-model:model="form[item.name]"
               @validate="validateInput(item.name, $event)"
               :options="optionsMap(item.options)"
-              :error="handleError(item.name, item.required, item?.min, item?.max, item.text_type)"
+              :error="
+                handleError(
+                  item.name,
+                  item.required,
+                  item?.min,
+                  item?.max,
+                  item.text_type
+                )
+              "
               :validate-on-submit="validateOnSubmit"
               @update:model="updateModel(item.name, item.type, $event)"
               :class="{
-                'input-error': handleError(item.name, item.required, item?.min, item?.max, item.text_type),
+                'input-error': handleError(
+                  item.name,
+                  item.required,
+                  item?.min,
+                  item?.max,
+                  item.text_type
+                ),
               }"
               :bgColor="
-                settings?.register_login?.membership_registration_page
-                  ?.button_text_and_color?.background
+                settings?.prize?.step_2?.data?.button_and_text_color?.background
               "
               :textColor="
-                settings?.register_login?.membership_registration_page
-                  ?.button_text_and_color?.color
+                settings?.prize?.step_2?.data?.button_and_text_color?.color
               "
             />
           </div>
@@ -331,12 +385,18 @@
         </div>
       </div>
     </div>
-    <div class="fixed bottom-0 z-50 w-full max-w-md px-8 mx-auto mb-1">
+    <div class="mt-2" />
+    <div class="fixed bottom-0 z-50 w-full max-w-md mx-auto mb-2">
       <SolidButton
-        :label="$t('applyNow')"
+        :label="settings?.prize?.step_2?.data?.button_text"
         :has-loading="isLoading"
         :disabled="disableRedeem || isLoading"
-        variant="red-coral"
+        :bgColor="
+          settings?.prize?.step_2?.data?.button_and_text_color?.background
+        "
+        :textColor="
+          settings?.prize?.step_2?.data?.button_and_text_color?.color
+        "
         :on-click="handleSubmit"
         has-bottom
       />
@@ -397,7 +457,7 @@ import RadioButton from '~/components/RadioButton.vue'
 import InputMultipleSelect from '~/components/InputMultipleSelect.vue'
 
 definePageMeta({
-  // middleware: ['auth', 'navigation-guard'],
+  middleware: ['auth', 'navigation-guard'],
   layout: 'default',
 })
 
@@ -546,7 +606,7 @@ const handleError = (field, required, min, max, type) => {
 
   if (type === 'text_only') {
     if (value && !textOnlyRegex.test(value)) {
-      return t('textOnlyAllowed') 
+      return t('textOnlyAllowed')
     }
   }
 
@@ -668,32 +728,16 @@ const fetchRedeem = async (payload) => {
       throw new Error(t('unexpectedResponse'))
     }
 
+    localStorage.setItem('REDEEM_SUCCESS', true)
+
     navigateTo('/redeem/complete')
+
+    localStorage.removeItem('redeemForm')
   } catch (error) {
     handleApiError(error)
   } finally {
     isLoading.value = false
   }
-}
-
-const buildPayload = () => {
-  const payload = {
-    prize_id: id,
-    last_name: form.value.lastName,
-    first_name: form.value.firstName,
-    phone_number: form.value.phoneNumber,
-    email: form.value.email,
-    find_event: form.value.questionnaire1,
-    coming_purpose: form.value.questionnaire2,
-  }
-
-  if (type.value === 'b') {
-    payload.postal_code = form.value.postCode
-    payload.prefecture = form.value.prefecture
-    payload.city = form.value.municipalities
-    payload.address = form.value.streetAddressEtc
-  }
-  return payload
 }
 
 const handleSubmit = async () => {
@@ -705,16 +749,20 @@ const handleSubmit = async () => {
 
   validateOnSubmit.value = true
 
-  const payload = buildPayload()
-  if (type.value === 'b') {
-    if (validateForm()) {
-      await fetchRedeem(payload)
-    } else {
-      isLoading.value = false
+  const payload = form.value
+
+  for (const key in payload) {
+    if (
+      Array.isArray(payload[key]) &&
+      payload[key].length > 0 &&
+      typeof payload[key][0] === 'object' &&
+      'value' in payload[key][0]
+    ) {
+      payload[key] = payload[key].map((item) => item.value)
     }
-  } else {
-    await fetchRedeem(payload)
   }
+
+  await fetchRedeem(payload)
 
   if (errorScroll.value.length > 0) {
     await nextTick()
@@ -791,6 +839,28 @@ onMounted(async () => {
   await store.fetchingDashboardData()
   await fetchingPrizeData()
 })
+
+onMounted(() => {
+  if (import.meta.client) {
+    const savedForm = localStorage.getItem('redeemForm')
+    if (savedForm) {
+      const parsed = JSON.parse(savedForm)
+      form.value = { ...parsed, ...form.value }
+    }
+  }
+})
+
+watch(
+  form,
+  (newVal) => {
+    const current = JSON.parse(localStorage.getItem('redeemForm') || '{}')
+    localStorage.setItem(
+      'redeemForm',
+      JSON.stringify({ ...current, ...newVal })
+    )
+  },
+  { deep: true }
+)
 </script>
 
 <style scoped>
