@@ -122,9 +122,36 @@ const openBookmarkLink = () => {
   window.open(settings.value?.gacha?.user_tap_splash_screen?.url?.url_link, '_blank')
 }
 
+const verifyToken = async (token) => {
+  try {
+    const { status, data } = await useFetchApi(
+      'GET',
+      `/login/decrypt/${token}`
+    )
+    if (status && data && data.email) {
+      emailVerified.value = data.email
+      handleShowModal()
+    }
+  } catch (error) {
+    console.log(error)
+  }
+}
+
+router.beforeEach(async (to) => {
+  const token = to;
+  console.log(token)
+  // if (to.path.startsWith('/email/verify/')) {
+  //   console.log(token)
+    // await verifyToken(token);
+    // return '#registration-complete';
+  // }
+});
+
 onMounted(async () => {
   const verified = route.query.verified
   const hash = window.location.hash
+
+  console.log(route.query.token)
 
   const clearSession = () => {
     localStorage.clear()

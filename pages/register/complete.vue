@@ -34,7 +34,7 @@
       :label="settings.register_login?.change_membership_information_page_2?.button_text"
       :bgColor="settings.register_login?.change_membership_information_page_2?.button_text_and_color?.background"
       :textColor="settings.register_login?.change_membership_information_page_2?.button_text_and_color?.color"
-      :on-click="() => goTo('top')"
+      :on-click="handleRedirect"
       :has-loading="isLoading"
       has-bottom
     />
@@ -77,24 +77,42 @@ const saveSpin = async () => {
   }
 }
 
+const handleRedirect = () => {
+  const needConfirmation = localStorage.getItem('NEED_CONFIRMATION');
+  
+  const needsConfirmation = needConfirmation === 'true';
+  
+  if (needsConfirmation) {
+    goTo('confirmation');
+  } else {
+    goTo('top');
+  }
+}
+
 const goTo = (type) => {
+  localStorage.removeItem('NEED_CONFIRMATION');
+
   switch (type) {
     case 'top':
-      // router.push('/dashboard')
-      navigateTo('/#registration-complete')
-      break
-    case 'external':
-      window.open('https://nospot.new-ordinary.co.jp/maps/nagoya')
-      break
-
+      navigateTo('/');
+      break;
+    case 'confirmation':
+      navigateTo('/#registration-complete');
+      break;
+    
+    // case 'external':
+    //   window.open('https://nospot.new-ordinary.co.jp/maps/nagoya');
+    //   break;
     default:
-      break
+      console.warn(`Unknown navigation type: ${type}`);
+      navigateTo('/'); 
+      break;
   }
+
+  localStorage.removeItem('REGISTER_SUBMITTED')
 }
 
 onMounted(() => {
   saveSpin()
-  localStorage.removeItem('REGISTER_SUBMITTED')
-
 })
 </script>

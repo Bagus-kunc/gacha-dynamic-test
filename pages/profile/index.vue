@@ -652,7 +652,7 @@ const handleError = (field, required, min, max, type) => {
   }
 
   if (field === 'password_confirmation') {
-    if (value && value !== form.value.password) {
+    if (value && value !== form.password) {
       return t('passwordNotMatch')
     }
   }
