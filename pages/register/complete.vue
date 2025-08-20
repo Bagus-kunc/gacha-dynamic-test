@@ -44,10 +44,6 @@
 <script setup>
 import useRegister from '~/composables/useRegister'
 
-definePageMeta({
-  middleware: 'navigation-guard',
-})
-
 const router = useRouter()
 const register = useRegister()
 const { isSpin } = storeToRefs(register)

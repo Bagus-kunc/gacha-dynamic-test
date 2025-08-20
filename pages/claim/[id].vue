@@ -45,7 +45,7 @@
                 class="!rounded-full"
                 :style="{
                   background:
-                    settings?.prize?.step_2?.data?.button_and_text_color
+                    step2Data.button_and_text_color
                       ?.background,
                 }"
                 width="3rem"
@@ -94,7 +94,7 @@
         name="slideunlock"
         @completed="handleSwipe()"
         :bgColor="
-          settings?.prize?.step_2?.data?.button_and_text_color?.background
+          step2Data?.button_and_text_color?.background
         "
       />
     </div>
@@ -175,12 +175,9 @@
 
 <script setup>
 import { useRouter } from 'vue-router'
-import close from '~/assets/images/close.svg'
-import rainbow from '~/assets/images/rainbow-circle.png'
-import gold from '~/assets/images/gold-circle.png'
-import silver from '~/assets/images/silver-circle.png'
-import brown from '~/assets/images/brown-circle.png'
-import bronze from '~/assets/images/bronze-circle.png'
+import SlideUnlock from '~/components/SlideUnlock.vue'
+import Skeleton from 'primevue/skeleton'
+import Dialog from 'primevue/dialog'
 import { useI18n } from 'vue-i18n'
 
 definePageMeta({
@@ -206,13 +203,13 @@ const vueslideunlock = ref(null)
 const prizeTypeText = ref(null)
 const colorBg = ref('')
 
-const step2Data = computed(() => settings.value?.prize?.step_2?.data || {})
-const step2Texts = computed(() => [
-  step2Data.value?.text_1,
-  step2Data.value?.text_2,
-])
+const step2Data = computed(() => settings.value?.prize?.step_2?.swipe_exchange?.data || {})
 const textColor = computed(() => step2Data.value.text_1_color)
 const prizeBg = computed(() => colorBg.value || '#000')
+const step2Texts = computed(() => [
+  step2Data.value.text_1,
+  step2Data.value.text_2
+])
 
 const fetchRedeem = async () => {
   try {

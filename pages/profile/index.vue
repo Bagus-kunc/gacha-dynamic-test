@@ -652,7 +652,7 @@ const handleError = (field, required, min, max, type) => {
   }
 
   if (field === 'password_confirmation') {
-    if (value && value !== form.value.password) {
+    if (value && value !== form.password) {
       return t('passwordNotMatch')
     }
   }
@@ -764,7 +764,6 @@ const validateForm = () => {
 function initForm(fields) {
   return fields.reduce((acc, field) => {
     const key = Object.keys(field)[0]
-    console.log(key)
     acc[key] = ''
     return acc
   }, {})

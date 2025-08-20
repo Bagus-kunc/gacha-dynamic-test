@@ -4,18 +4,10 @@
       <Skeleton class="!w-32 !h-6 bg-gray-200" />
     </div>
     <p
-      v-if="settings?.prize?.step_2?.redeem_prize === 'online_prize'"
       style="text-shadow: 0 3px 3px rgba(0, 0, 0, 0.16)"
       class="text-exd-gray-scorpion font-bold text-exd-1824.52"
     >
-      {{ settings?.prize?.step_2?.data?.page_title }}
-    </p>
-    <p
-      v-if="settings?.prize?.step_2?.redeem_prize === 'mail_in_prize'"
-      style="text-shadow: 0 3px 3px rgba(0, 0, 0, 0.16)"
-      class="text-exd-gray-scorpion font-bold text-exd-1824.52"
-    >
-      {{ settings?.prize?.step_2?.data?.page_title_2 }}
+      {{ settings?.prize?.step_2?.[type]?.data?.page_title }}
     </p>
   </HeaderBar>
 
@@ -25,17 +17,11 @@
     >
       <div class="w-full flex items-center justify-center text-[15px]">
         <h1
-          v-if="settings?.prize?.step_2?.redeem_prize === 'online_prize'"
           class="flex justify-center w-full pt-32 pb-10 font-bold text-exd-gray-scorpion"
         >
-          {{ settings?.prize?.step_2?.data?.sub_title }}
+          {{ settings?.prize?.step_2?.[type]?.data?.sub_title }}
         </h1>
-        <h1
-          v-if="settings?.prize?.step_2?.redeem_prize === 'mail_in_prize'"
-          class="flex justify-center w-full pt-32 pb-10 font-bold text-exd-gray-scorpion"
-        >
-          {{ settings?.prize?.step_2?.data?.sub_title_2 }}
-        </h1>
+        
         <div v-if="!type" class="flex justify-center pt-32">
           <Skeleton class="!w-44 !h-6 bg-gray-200" />
         </div>
@@ -397,7 +383,6 @@ import RadioButton from '~/components/RadioButton.vue'
 import InputMultipleSelect from '~/components/InputMultipleSelect.vue'
 
 definePageMeta({
-  // middleware: ['auth', 'navigation-guard'],
   layout: 'default',
 })
 
@@ -430,17 +415,16 @@ const errorEmailMessage = ref('')
 const errorPasswordMessage = ref('')
 
 const form = ref({})
+const redeemData = computed(() => settings.value?.prize?.step_2?.[type.value]?.data || {})
 
 const emailRegex = (email) => {
   return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)
 }
 
-const registerFields =
-  settings.value?.prize?.step_2?.data?.redeem_prize_form || []
+const redeemFields = ref([])
 
 const visibleRedeemFields = computed(() =>
-  registerFields
-    .map((item) => {
+  redeemFields.value?.redeem_prize_form?.map((item) => {
       const name = Object.keys(item)[0]
       const fieldData = item[name]
       return {
@@ -607,6 +591,9 @@ const fetchingPrizeData = async () => {
     const { data } = await useFetchApi('GET', 'prizes/' + id)
     sessionStorage.setItem('type', data.type)
     type.value = data.type
+
+    redeemFields.value = redeemData.value || []
+    
     checkPoint(data.point)
   } catch (error) {
     console.log(error)
@@ -661,7 +648,10 @@ const fetchRedeem = async (payload) => {
 
   try {
     const { status, data } = await useFetchApi('POST', 'prizes/redeem', {
-      body: payload,
+      body: {
+        prize_id: id,
+        ...payload
+      },
     })
 
     if (!status) {
@@ -677,22 +667,19 @@ const fetchRedeem = async (payload) => {
 }
 
 const buildPayload = () => {
-  const payload = {
-    prize_id: id,
-    last_name: form.value.lastName,
-    first_name: form.value.firstName,
-    phone_number: form.value.phoneNumber,
-    email: form.value.email,
-    find_event: form.value.questionnaire1,
-    coming_purpose: form.value.questionnaire2,
-  }
+  const payload = form.value
 
-  if (type.value === 'b') {
-    payload.postal_code = form.value.postCode
-    payload.prefecture = form.value.prefecture
-    payload.city = form.value.municipalities
-    payload.address = form.value.streetAddressEtc
+  for (const key in payload) {
+    if (
+      Array.isArray(payload[key]) &&
+      payload[key].length > 0 &&
+      typeof payload[key][0] === 'object' &&
+      'value' in payload[key][0]
+    ) {
+      payload[key] = payload[key].map((item) => item.value)
+    }
   }
+  
   return payload
 }
 
@@ -706,15 +693,8 @@ const handleSubmit = async () => {
   validateOnSubmit.value = true
 
   const payload = buildPayload()
-  if (type.value === 'b') {
-    if (validateForm()) {
-      await fetchRedeem(payload)
-    } else {
-      isLoading.value = false
-    }
-  } else {
-    await fetchRedeem(payload)
-  }
+  
+  await fetchRedeem(payload)
 
   if (errorScroll.value.length > 0) {
     await nextTick()
