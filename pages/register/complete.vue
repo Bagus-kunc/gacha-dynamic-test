@@ -34,11 +34,7 @@
       :label="settings.register_login?.change_membership_information_page_2?.button_text"
       :bgColor="settings.register_login?.change_membership_information_page_2?.button_text_and_color?.background"
       :textColor="settings.register_login?.change_membership_information_page_2?.button_text_and_color?.color"
-<<<<<<< HEAD
-      :on-click="handleRedirect"
-=======
       :on-click="goTo"
->>>>>>> 642e66d9c81dca6e67a3a08553537f6678f23805
       :has-loading="isLoading"
       has-bottom
     />
