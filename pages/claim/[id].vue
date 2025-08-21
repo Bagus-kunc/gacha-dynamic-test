@@ -118,9 +118,15 @@
           </p>
 
           <SolidButton
-            :on-click="() => handleDialog"
+            :on-click="handleDialog"
             :has-loading="isLoading"
             label="GO!"
+            :bgColor="
+              step2Data?.button_and_text_color?.background
+            "
+            :textColor="
+              step2Data?.button_and_text_color?.color
+            "
           />
         </div>
       </div>
@@ -205,16 +211,26 @@ const step2Texts = computed(() => [
   step2Data.value.text_2
 ])
 
+const handleDialog = () => {
+  const isSuccess = localStorage.getItem('CLAIM_SUCCESS')
+  if (isSuccess) {
+    navigateTo('/claim/success')
+  }
+}
+
 const fetchRedeem = async () => {
   try {
     errorMessage.value = null
     disableSwipe.value = true
     const { message, status } = await useFetchApi(
       'POST',
-      'prizes/redeem-point',
+      'prizes/redeem',
       {
-        params: {
-          user_point_id: prizeDetailData.value?.id,
+        // params: {
+        //   user_point_id: prizeDetailData.value?.id,
+        // },
+        body: {
+          prize_id: id,
         },
       }
     )
@@ -223,16 +239,12 @@ const fetchRedeem = async () => {
       redeemMessage.value = t('giftExchangeComplete')
       isRedeemDialogVisible.value = true
       localStorage.setItem('CLAIM_SUCCESS', true)
-      setTimeout(() => {
-        router.push('/claim/success') 
-      }, 2000)
     } else {
       errorMessage.value = message
       insufficientDialogVisible.value = true
       vueslideunlock.value.reset()
     }
 
-    // Tampilkan dialog dengan pesan
   } catch (error) {
     console.error(error)
     errorMessage.value = error._data.message

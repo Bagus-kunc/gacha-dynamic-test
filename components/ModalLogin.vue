@@ -5,7 +5,7 @@
     modal
     class="!w-11/12 !max-w-sm border border-exd-gray-44"
     :style="{
-      background: settings?.global?.modal?.background_color
+      background: settings?.global?.modal?.background_color,
     }"
   >
     <template #container>
@@ -21,10 +21,10 @@
       <div
         class="relative flex flex-col items-center justify-center w-full gap-4 px-4 py-6"
       >
-        <div 
+        <div
           class="font-bold text-center text-exd-1424"
           :style="{
-            color: settings?.global?.modal?.text_color
+            color: settings?.global?.modal?.text_color,
           }"
         >
           <p style="text-shadow: 0 3px 3px rgba(0, 0, 0, 0.16)">
@@ -50,14 +50,14 @@
         <a
           class="font-medium underline cursor-pointer text-exd-1220"
           :style="{
-            color: settings?.global?.modal?.text_color
+            color: settings?.global?.modal?.text_color,
           }"
           style="text-shadow: 0 3px 3px rgba(0, 0, 0, 0.16)"
           @click="navigateTo('/forgot-password')"
         >
           {{ $t('forgotYourPassword') }}
         </a>
-        
+
         <SolidButton
           :label="t('login')"
           variant="vermilion"
@@ -66,9 +66,17 @@
           :has-loading="isLoading"
         />
         <SolidButton
-          :label="settings?.register_login?.membership_registration_page?.button_text"
-          :bgColor="settings?.register_login?.membership_registration_page?.button_text_and_color.background"
-          :textColor="settings?.register_login?.membership_registration_page?.button_text_and_color.color"
+          :label="
+            settings?.register_login?.membership_registration_page?.button_text
+          "
+          :bgColor="
+            settings?.register_login?.membership_registration_page
+              ?.button_text_and_color.background
+          "
+          :textColor="
+            settings?.register_login?.membership_registration_page
+              ?.button_text_and_color.color
+          "
           :onClick="handleToRegister"
         />
       </div>
@@ -78,9 +86,9 @@
   <Dialog
     v-model:visible="isErrorMessage"
     modal
-    class=" !w-11/12 !max-w-sm border border-exd-gray-44"
+    class="!w-11/12 !max-w-sm border border-exd-gray-44"
     :style="{
-      background: settings?.global?.modal?.background_color
+      background: settings?.global?.modal?.background_color,
     }"
   >
     <template #container>
@@ -94,13 +102,28 @@
         @click="isErrorMessage = false"
       />
       <div class="flex flex-col items-center justify-center w-full gap-4 py-6">
-        <IconsWarning class="w-10 h-10" :style="{ color: settings?.global?.icon_color?.background }" />
-        <div class="w-10/12 text-center">
+        <IconsWarning
+          class="w-10 h-10"
+          :style="{ color: settings?.global?.icon_color?.background }"
+        />
+
+        <div v-if="errorStatus === 403" class="w-10/12 text-center">
+          <p
+            class="font-bold text-exd-1424"
+            :style="{
+              color: settings?.global?.modal?.text_color,
+            }"
+          >
+            {{ t('notRegistered') }}
+          </p>
+        </div>
+
+        <div v-else class="w-10/12 text-center">
           <p
             v-for="(item, index) in errorMessages"
             class="font-bold text-exd-1424"
             :style="{
-              color: settings?.global?.modal?.text_color
+              color: settings?.global?.modal?.text_color,
             }"
             :key="index"
           >
@@ -142,6 +165,7 @@ const form = ref({
 })
 
 const isErrorMessage = ref(false)
+const errorStatus = ref(null)
 const errorMessages = ref([])
 const route = useRoute()
 const { encryptData, decryptData } = useEncryption()
@@ -218,9 +242,7 @@ const handleSubmit = async () => {
       try {
         const encrypted = encryptData(form.value.password)
         sessionStorage.setItem('PASSWORD', encrypted)
-      } catch (encryptError) {
-        
-      }
+      } catch (encryptError) {}
     }
 
     await nextTick()
@@ -232,11 +254,16 @@ const handleSubmit = async () => {
     } else {
       await navigateTo('/dashboard', { replace: true })
     }
-    
-    isLoading.value = false
 
+    isLoading.value = false
   } catch (error) {
-    errorMessages.value = [settings.value?.register_login?.registration_login_pop_up_title]
+    console.log(error)
+    errorStatus.value = error?.status
+
+    errorMessages.value = [
+      settings.value?.register_login?.registration_login_pop_up_title,
+    ]
+
     isErrorMessage.value = true
   } finally {
     isLoading.value = false
@@ -282,9 +309,8 @@ const saveSpin = async () => {
 }
 
 onMounted(() => {
-
-  const emailSession    = sessionStorage.getItem('EMAIL')    || ''
-  const passwordCipher  = sessionStorage.getItem('PASSWORD') || ''
+  const emailSession = sessionStorage.getItem('EMAIL') || ''
+  const passwordCipher = sessionStorage.getItem('PASSWORD') || ''
 
   form.value.email = emailSession
   form.value.password = decryptData(passwordCipher)

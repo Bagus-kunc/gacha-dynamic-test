@@ -347,6 +347,7 @@
     "quiz": "Kuis",
     "answer": "Jawaban (Hiragana)",
     "answerRequired": "Kolom jawaban harus diisi",
-    "textOnlyAllowed": "Hanya teks yang diizinkan"
+    "textOnlyAllowed": "Hanya teks yang diizinkan",
+    "notRegistered": "Anda belum terdaftar. Anda perlu mendaftar sebagai anggota baru dengan memilih tombol ‘Daftar’."
   }
   

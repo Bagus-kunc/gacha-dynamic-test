@@ -34,7 +34,7 @@
       :label="settings.register_login?.change_membership_information_page_2?.button_text"
       :bgColor="settings.register_login?.change_membership_information_page_2?.button_text_and_color?.background"
       :textColor="settings.register_login?.change_membership_information_page_2?.button_text_and_color?.color"
-      :on-click="() => goTo('top')"
+      :on-click="goTo"
       :has-loading="isLoading"
       has-bottom
     />
@@ -73,18 +73,13 @@ const saveSpin = async () => {
   }
 }
 
-const goTo = (type) => {
-  switch (type) {
-    case 'top':
-      // router.push('/dashboard')
-      navigateTo('/#registration-complete')
-      break
-    case 'external':
-      window.open('https://nospot.new-ordinary.co.jp/maps/nagoya')
-      break
+const goTo = () => {
+  const needConfirm = localStorage.getItem('NEED_CONFIRMATION')
 
-    default:
-      break
+  if (needConfirm === 'false') {
+    navigateTo('/#registration-complete')
+  } else {
+    navigateTo('/')
   }
 }
 

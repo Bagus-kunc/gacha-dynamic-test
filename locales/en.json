@@ -347,5 +347,6 @@
   "quiz": "Quiz",
   "answer": "Answer (Hiragana)",
   "answerRequired": "The answer field is required",
-  "textOnlyAllowed": "Only text is allowed"
+  "textOnlyAllowed": "Only text is allowed",
+  "notRegistered": "You are not yet registered. You will need to register as a new member by selecting the ‘Register’ button."
 }

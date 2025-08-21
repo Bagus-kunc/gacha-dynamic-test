@@ -210,7 +210,7 @@
                   item.required,
                   item?.min,
                   item?.max,
-                  item.text_type
+                  item?.text_type
                 )
               "
               :class="{
@@ -219,7 +219,7 @@
                   item.required,
                   item?.min,
                   item?.max,
-                  item.text_type
+                  item?.text_type
                 ),
               }"
               :bgColor="
@@ -385,14 +385,14 @@
     <div class="mt-2" />
     <div class="fixed bottom-0 z-50 w-full max-w-md mx-auto mb-2">
       <SolidButton
-        :label="settings?.prize?.step_2?.data?.button_text"
+        :label="isLoading ? 'Loading...' : settings?.prize?.step_2?.[type]?.data?.button_text"
         :has-loading="isLoading"
         :disabled="disableRedeem || isLoading"
         :bgColor="
-          settings?.prize?.step_2?.data?.button_and_text_color?.background
+          settings?.prize?.step_2?.[type]?.data?.button_and_text_color?.background
         "
         :textColor="
-          settings?.prize?.step_2?.data?.button_and_text_color?.color
+          settings?.prize?.step_2?.[type]?.data?.button_and_text_color?.color
         "
         :on-click="handleSubmit"
         has-bottom
@@ -434,6 +434,12 @@
           :label="$t('applyNow')"
           :on-click="handleGoToClaim"
           has-bottom
+          :bgColor="
+            settings?.prize?.step_2?.[type]?.data?.button_and_text_color?.background
+          "
+          :textColor="
+            settings?.prize?.step_2?.[type]?.data?.button_and_text_color?.color
+          "
         />
       </div>
     </template>
@@ -466,7 +472,7 @@ const router = useRouter()
 const id = route.params.id
 const hasModal = ref(false)
 const errorScroll = ref([])
-const isLoading = ref(false)
+const isLoading = ref(true)
 const isFetching = ref(false)
 const errorMessages = ref([])
 const config = useRuntimeConfig()
@@ -672,6 +678,7 @@ const fetchingPrizeData = async () => {
     console.log(error)
   } finally {
     isFetching.value = false
+    isLoading.value = false
   }
 }
 
