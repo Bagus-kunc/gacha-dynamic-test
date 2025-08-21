@@ -64,10 +64,6 @@ import tapScreen from '~/assets/images/tap-screen.png'
 import { nextTick } from 'vue'
 import WarningPopUp from '~/components/WarningPopUp.vue'
 
-definePageMeta({
-  middleware: 'navigation-guard',
-})
-
 const route = useRoute()
 const router = useRouter()
 const { setSourceFrom } = useRegister()
@@ -122,33 +118,13 @@ const openBookmarkLink = () => {
   window.open(settings.value?.gacha?.user_tap_splash_screen?.url?.url_link, '_blank')
 }
 
-const verifyToken = async (token) => {
-  try {
-    const { status, data } = await useFetchApi(
-      'GET',
-      `/login/decrypt/${token}`
-    )
-    if (status && data && data.email) {
-      emailVerified.value = data.email
-      handleShowModal()
-    }
-  } catch (error) {
-    console.log(error)
-  }
+const handleEmailVerify = async (token) => {
+  await useFetchApi('POST', '/email/verify', { body: { token } })
+  navigateTo('/#registration-complete')
 }
 
-router.beforeEach(async (to) => {
-  const token = to;
-  console.log(token)
-  // if (to.path.startsWith('/email/verify/')) {
-  //   console.log(token)
-    // await verifyToken(token);
-    // return '#registration-complete';
-  // }
-});
-
 onMounted(async () => {
-  const verified = route.query.verified
+  const { verified, token } = route.query
   const hash = window.location.hash
 
   console.log(route.query.token)
@@ -161,20 +137,30 @@ onMounted(async () => {
     VALID_PASSWORD.value = null
   }
 
-  if (verified) {
-    await checkVerified(verified)
-    clearSession()
-  } else if (hash === '#verification-failed') {
-    isFailed.value = true
-    clearSession()
-  } else if (TOKEN.value) {
-    navigateTo('/dashboard')
+  try {
+    if (verified) {
+      await checkVerified(verified)
+      clearSession()
+    } else if (hash === '#verification-failed') {
+      isFailed.value = true
+      clearSession()
+    } else if (token) {
+      await handleEmailVerify(token)
+    } else if (TOKEN.value) {
+      return navigateTo('/dashboard')
+    }
+  } catch (err) {
+    console.error(err)
+    navigateTo('/')
   }
+})
 
-  if (hash === '#registration-complete') {
+watchEffect(() => {
+  if (route.hash === '#registration-complete') {
     isComplete.value = true
   }
 })
+
 </script>
 
 <style>

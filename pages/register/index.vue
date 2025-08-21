@@ -669,6 +669,7 @@ const fetchRegister = async (payload) => {
       sessionStorage.setItem('PASSWORD', encryptData(payload.password))
 
       localStorage.setItem('REGISTER_SUBMITTED', 'true')
+      localStorage.setItem('NEED_CONFIRMATION', data.need_confirmation)
 
       localStorage.setItem('NEED_CONFIRMATION', data?.need_confirmation)
 

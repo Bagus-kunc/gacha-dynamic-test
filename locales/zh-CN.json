@@ -347,6 +347,7 @@
     "quiz": "小测验",
     "answer": "答案 (平假名)",
     "answerRequired": "答案栏是必填项。",
-    "textOnlyAllowed": "仅允许文本"
+    "textOnlyAllowed": "仅允许文本",
+    "notRegistered": "您尚未注册。您需要点击‘注册’按钮以新会员身份进行注册。"
   }
   

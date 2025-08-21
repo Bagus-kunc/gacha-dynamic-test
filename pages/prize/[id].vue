@@ -61,7 +61,7 @@
           <HeadingSection
             v-if="
               settings?.prize?.step_1?.prize_description
-                ?.show_how_to_get_prizes === '1'
+                ?.show_how_to_get_prizes
             "
             :is-fetching="isFetching"
             :title="$t('howToGetPrizes')"
@@ -71,7 +71,7 @@
           <HeadingSection
             v-if="
               settings?.prize?.step_1?.prize_description
-                ?.show_terms_of_use === '1'
+                ?.show_terms_of_use
             "
             :is-fetching="isFetching"
             :title="$t('conditionsOfUse')"
@@ -81,7 +81,7 @@
           <div
             v-if="
               settings?.prize?.step_1?.prize_description
-                ?.show_redemption_location === '1'
+                ?.show_redemption_location
             "
             class="w-full mb-5"
           >
@@ -205,11 +205,6 @@ const settings = useState('settings')
 const redeemType = ref('form')
 
 const handleToggleModal = () => {
-  const isSwipeExchange = settings.value?.prize?.step_2?.redeem_prize 
-  if (isSwipeExchange === 'swipe_exchange') {
-    redeemType.value = 'swipe'
-  }
-
   if (disableRedeem.value) return
   hasModal.value = !hasModal.value
 }
@@ -217,7 +212,7 @@ const handleToggleModal = () => {
 const handleGoToRedeem = () => {
   if (disableRedeem.value) return
 
-  if (redeemType.value === 'swipe') {
+  if (popupType.value === 'swipe_exchange') {
     router.push(`/claim/${id}`)
   } else {
     router.push(`/redeem/${id}`)

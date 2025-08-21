@@ -202,7 +202,7 @@ const router = useRouter()
 const config = useRuntimeConfig()
 
 definePageMeta({
-  middleware: ['auth', 'navigation-guard'],
+  middleware: ['auth'],
   layout: 'with-bottom-bar',
 })
 

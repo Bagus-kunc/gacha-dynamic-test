@@ -764,7 +764,6 @@ const validateForm = () => {
 function initForm(fields) {
   return fields.reduce((acc, field) => {
     const key = Object.keys(field)[0]
-    console.log(key)
     acc[key] = ''
     return acc
   }, {})

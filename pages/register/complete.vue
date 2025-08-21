@@ -34,7 +34,11 @@
       :label="settings.register_login?.change_membership_information_page_2?.button_text"
       :bgColor="settings.register_login?.change_membership_information_page_2?.button_text_and_color?.background"
       :textColor="settings.register_login?.change_membership_information_page_2?.button_text_and_color?.color"
+<<<<<<< HEAD
       :on-click="handleRedirect"
+=======
+      :on-click="goTo"
+>>>>>>> 642e66d9c81dca6e67a3a08553537f6678f23805
       :has-loading="isLoading"
       has-bottom
     />
@@ -43,10 +47,6 @@
 
 <script setup>
 import useRegister from '~/composables/useRegister'
-
-definePageMeta({
-  middleware: 'navigation-guard',
-})
 
 const router = useRouter()
 const register = useRegister()
@@ -77,36 +77,13 @@ const saveSpin = async () => {
   }
 }
 
-const handleRedirect = () => {
-  const needConfirmation = localStorage.getItem('NEED_CONFIRMATION');
-  
-  const needsConfirmation = needConfirmation === 'true';
-  
-  if (needsConfirmation) {
-    goTo('confirmation');
+const goTo = () => {
+  const needConfirm = localStorage.getItem('NEED_CONFIRMATION')
+
+  if (needConfirm === 'false') {
+    navigateTo('/#registration-complete')
   } else {
-    goTo('top');
-  }
-}
-
-const goTo = (type) => {
-  localStorage.removeItem('NEED_CONFIRMATION');
-
-  switch (type) {
-    case 'top':
-      navigateTo('/');
-      break;
-    case 'confirmation':
-      navigateTo('/#registration-complete');
-      break;
-    
-    // case 'external':
-    //   window.open('https://nospot.new-ordinary.co.jp/maps/nagoya');
-    //   break;
-    default:
-      console.warn(`Unknown navigation type: ${type}`);
-      navigateTo('/'); 
-      break;
+    navigateTo('/')
   }
 
   localStorage.removeItem('REGISTER_SUBMITTED')

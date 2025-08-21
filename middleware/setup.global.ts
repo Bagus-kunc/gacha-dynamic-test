@@ -18,8 +18,8 @@ export default defineNuxtRouteMiddleware(async (to, from) => {
       const textColors = settings.value?.global?.text_colors || {}
       const regisBgColor = settings.value?.register_login?.membership_registration_page?.button_text_and_color?.background || ''
       const regisTextColor = settings.value?.register_login?.membership_registration_page?.button_text_and_color?.color || ''
-      const claimBgColor = settings.value?.prize?.step_2?.data?.button_and_text_color?.background || ''
-      const claimTextColor = settings.value?.prize?.step_2?.data?.button_and_text_color?.color || ''
+      const claimBgColor = settings.value?.prize?.step_2?.swipe_exchange?.data?.button_and_text_color?.background || ''
+      const claimTextColor = settings.value?.prize?.step_2?.swipe_exchange?.data?.button_and_text_color?.color || ''
       
       Object.keys(textColors).forEach(key => {
         root.style.setProperty(`--${key}`, textColors[key])

@@ -73,7 +73,7 @@ onMounted(() => {
   }
 })
 
-onBeforeMount(async () => {
+onMounted(async () => {
   bgPrize.value = settings.value?.prize?.step_1?.background_page?.type === 'image' ? `url(${settings.value?.prize?.step_1?.background_page?.value})` : settings.value?.prize?.step_1?.background_page?.value
 })
 </script>
