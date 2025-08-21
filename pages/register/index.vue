@@ -848,7 +848,6 @@ onMounted(() => {
     if (savedForm) {
       const parsed = JSON.parse(savedForm)
       form.value = { ...parsed, ...form.value }
-      // urutannya parsed dulu supaya data localStorage menang
     }
     getTerms()
   }

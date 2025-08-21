@@ -152,6 +152,12 @@ const validate = () => {
   emit('validate', value)
 }
 
+onMounted(() => {
+  const root = document.documentElement
+  root.style.setProperty('--bg-color', props.bgColor)
+  root.style.setProperty('--text-color', props.textColor)
+})
+
 watch(
   () => props.validateOnSubmit,
   (newValue) => {
@@ -172,11 +178,11 @@ watch(
 }
 
 :global(.p-select-list .p-select-option-selected) {
-  @apply !bg-[var(--register-bg-color)];
+  @apply !bg-[var(--bg-color)];
 }
 
 :global(.p-select-list .p-select-option.p-focus) {
-  @apply !bg-[var(--register-bg-color)] !text-[var(--register-text-color)];
+  @apply !bg-[var(--bg-color)] !text-[var(--text-color)];
 }
 
 :global(.p-select-option.p-select-option-selected.p-focus) {

@@ -15,14 +15,14 @@
     <div
       class="relative w-full px-3 mb-24 overflow-y-auto bg-white border border-b-0 border-gray-200"
     >
-      <div class="w-full flex items-center justify-center text-[15px]">
+      <div class="w-full flex flex-col items-center justify-center text-[15px]">
         <h1
           class="flex justify-center w-full pt-32 pb-10 font-bold text-exd-gray-scorpion"
         >
           {{ settings?.prize?.step_2?.[type]?.data?.sub_title }}
         </h1>
         
-        <div v-if="!type" class="flex justify-center pt-32">
+        <div v-if="!type" class="flex justify-center">
           <Skeleton class="!w-44 !h-6 bg-gray-200" />
         </div>
       </div>
@@ -86,12 +86,10 @@
               "
               :border="true"
               :bgColor="
-                settings?.register_login?.membership_registration_page
-                  ?.button_text_and_color?.background
+                settings?.prize?.step_2?.[type]?.data?.button_and_text_color?.background
               "
               :textColor="
-                settings?.register_login?.membership_registration_page
-                  ?.button_text_and_color?.color
+                settings?.prize?.step_2?.[type]?.data?.button_and_text_color?.color
               "
             />
 
@@ -109,12 +107,10 @@
               :required="item.required"
               :options="optionsMap(item.options)"
               :bg-color="
-                settings?.register_login?.membership_registration_page
-                  ?.button_text_and_color?.background
+                settings?.prize?.step_2?.[type]?.data?.button_and_text_color?.background
               "
               :text-color="
-                settings?.register_login?.membership_registration_page
-                  ?.button_text_and_color?.color
+                settings?.prize?.step_2?.[type]?.data?.button_and_text_color?.color
               "
             />
 
@@ -131,12 +127,10 @@
                 'input-error': handleError(item.name, item.required, item?.min, item?.max, item.text_type),
               }"
               :bgColor="
-                settings?.register_login?.membership_registration_page
-                  ?.button_text_and_color?.background
+                settings?.prize?.step_2?.[type]?.data?.button_and_text_color?.background
               "
               :textColor="
-                settings?.register_login?.membership_registration_page
-                  ?.button_text_and_color?.color
+                settings?.prize?.step_2?.[type]?.data?.button_and_text_color?.color
               "
               border
             />
@@ -156,12 +150,10 @@
                 'input-error': handleError(item.name, item.required, item?.min, item?.max, item.text_type),
               }"
               :bgColor="
-                settings?.register_login?.membership_registration_page
-                  ?.button_text_and_color?.background
+                settings?.prize?.step_2?.[type]?.data?.button_and_text_color?.background
               "
               :textColor="
-                settings?.register_login?.membership_registration_page
-                  ?.button_text_and_color?.color
+                settings?.prize?.step_2?.[type]?.data?.button_and_text_color?.color
               "
             />
 
@@ -176,12 +168,10 @@
                 'input-error': handleError(item.name, item.required, item?.min, item?.max, item.text_type),
               }"
               :bgColor="
-                settings?.register_login?.membership_registration_page
-                  ?.button_text_and_color?.background
+                settings?.prize?.step_2?.[type]?.data?.button_and_text_color?.background
               "
               :textColor="
-                settings?.register_login?.membership_registration_page
-                  ?.button_text_and_color?.color
+                settings?.prize?.step_2?.[type]?.data?.button_and_text_color?.color
               "
               :required="item.required"
             />
@@ -203,12 +193,10 @@
                 'input-error': handleError(item.name, item.required, item?.min, item?.max, item.text_type),
               }"
               :bgColor="
-                settings?.register_login?.membership_registration_page
-                  ?.button_text_and_color?.background
+                settings?.prize?.step_2?.[type]?.data?.button_and_text_color?.background
               "
               :textColor="
-                settings?.register_login?.membership_registration_page
-                  ?.button_text_and_color?.color
+                settings?.prize?.step_2?.[type]?.data?.button_and_text_color?.color
               "
             />
 
@@ -227,12 +215,10 @@
                 'input-error': handleError(item.name, item.required, item?.min, item?.max, item.text_type),
               }"
               :bgColor="
-                settings?.register_login?.membership_registration_page
-                  ?.button_text_and_color?.background
+                settings?.prize?.step_2?.[type]?.data?.button_and_text_color?.background
               "
               :textColor="
-                settings?.register_login?.membership_registration_page
-                  ?.button_text_and_color?.color
+                settings?.prize?.step_2?.[type]?.data?.button_and_text_color?.color
               "
             />
           </div>
@@ -269,12 +255,10 @@
                 }"
                 :border="true"
                 :bgColor="
-                  settings?.register_login?.membership_registration_page
-                    ?.button_text_and_color?.background
+                  settings?.prize?.step_2?.[type]?.data?.button_and_text_color?.background
                 "
                 :textColor="
-                  settings?.register_login?.membership_registration_page
-                    ?.button_text_and_color?.color
+                  settings?.prize?.step_2?.[type]?.data?.button_and_text_color?.color
                 "
               />
 
@@ -304,12 +288,10 @@
                 }"
                 :border="true"
                 :bgColor="
-                  settings?.register_login?.membership_registration_page
-                    ?.button_text_and_color?.background
+                  settings?.prize?.step_2?.[type]?.data?.button_and_text_color?.background
                 "
                 :textColor="
-                  settings?.register_login?.membership_registration_page
-                    ?.button_text_and_color?.color
+                  settings?.prize?.step_2?.[type]?.data?.button_and_text_color?.color
                 "
               />
             </div>
@@ -397,6 +379,7 @@ const errorScroll = ref([])
 const isLoading = ref(false)
 const isFetching = ref(false)
 const errorMessages = ref([])
+const config = useRuntimeConfig()
 const disableRedeem = ref(false)
 const LOCALE = useCookie('LOCALE')
 const validateOnSubmit = ref(false)
@@ -658,6 +641,10 @@ const fetchRedeem = async (payload) => {
       throw new Error(t('unexpectedResponse'))
     }
 
+    localStorage.setItem('REDEEM_SUBMITTED', 'true')
+
+    localStorage.removeItem('redeemForm')
+
     navigateTo('/redeem/complete')
   } catch (error) {
     handleApiError(error)
@@ -718,7 +705,7 @@ let postCodeBounds
 const checkPostalCode = async (code) => {
   if (!code || code.length < 7) {
     form.value.prefecture = ''
-    form.value.municipalities = ''
+    form.value.municipality = ''
     if (code && code.length > 0 && code.length < 7) {
       errorKeyPostCode.value = 'minLengthPostalCode'
     } else {
@@ -752,12 +739,12 @@ const checkPostalCode = async (code) => {
     })
 
     form.value.prefecture = address.prefecture
-    form.value.municipalities = `${address.city}, ${address.area}`
+    form.value.municipality = `${address.city}, ${address.area}`
     errorKeyPostCode.value = ''
   } catch (error) {
     console.error('Postal code error:', error)
     form.value.prefecture = ''
-    form.value.municipalities = ''
+    form.value.municipality = ''
 
     if (error.message.includes('timeout')) {
       errorKeyPostCode.value = 'postalCodeNotFound'
@@ -771,6 +758,28 @@ onMounted(async () => {
   await store.fetchingDashboardData()
   await fetchingPrizeData()
 })
+
+onMounted(() => {
+  if (import.meta.client) {
+    const savedForm = localStorage.getItem('redeemForm')
+    if (savedForm) {
+      const parsed = JSON.parse(savedForm)
+      form.value = { ...parsed, ...form.value }
+    }
+  }
+})
+
+watch(
+  form,
+  (newVal) => {
+    const current = JSON.parse(localStorage.getItem('redeemForm') || '{}')
+    localStorage.setItem(
+      'redeemForm',
+      JSON.stringify({ ...current, ...newVal })
+    )
+  },
+  { deep: true }
+)
 </script>
 
 <style scoped>

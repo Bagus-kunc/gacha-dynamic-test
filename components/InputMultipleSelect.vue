@@ -86,6 +86,12 @@ const modelValue = computed({
     )
   }
 })
+
+onMounted(() => {
+  const root = document.documentElement
+  root.style.setProperty('--bg-color', props.bgColor)
+  root.style.setProperty('--text-color', props.textColor)
+})
 </script>
 
 <style scoped>
@@ -99,10 +105,10 @@ const modelValue = computed({
   @apply !bg-white;
 }
 :global(.p-multiselect-list .p-focus) {
-  @apply !text-white bg-[var(--register-bg-color)];
+  @apply !text-white bg-[var(--bg-color)];
 }
 :global(.p-checkbox .p-checkbox-box) {
-  @apply bg-[var(--register-text-color)] border;
+  @apply bg-[var(--text-color)] border;
 }
 :global(.p-chip) {
   @apply text-exd-gray-scorpion bg-white border border-exd-gray-scorpion;

@@ -4,9 +4,9 @@
     class="flex flex-col mt-20 grow"
     :style="{
       background:
-        settings?.prize?.step_2?.data?.background_page.type === 'image'
-          ? `url(${settings?.prize?.step_2?.data?.background_page.value})`
-          : settings?.prize?.step_2?.data?.background_page.value,
+        step2Data?.background_page.type === 'image'
+          ? `url(${step2Data?.background_page.value})`
+          : step2Data?.background_page.value,
       'background-size': 'cover',
       'background-repeat': 'no-repeat',
     }"
@@ -18,7 +18,7 @@
     </p>
 
     <div
-      class="flex flex-col justify-between gap-5 py-8 bg-exd-banana grow px-7"
+      class="flex flex-col justify-between gap-5 py-8 grow px-7"
     >
       <div class="flex flex-col gap-5">
         <div class="relative w-full h-auto mx-auto bg-white rounded-lg">
@@ -32,7 +32,7 @@
         </div>
         <div class="flex flex-col gap-4">
           <div class="inline-flex justify-between w-full gap-5">
-            <div class="flex flex-col" :style="{ color: textColor }">
+            <div class="flex flex-col text-[var(--secondary)]">
               <template v-for="(text, index) in step2Texts" :key="index">
                 <Skeleton v-if="isFetching" class="!h-3" width="10rem" />
                 <p v-else class="font-bold text-exd-1424">
@@ -89,7 +89,7 @@
         :circle="true"
         :width="400"
         :height="56"
-        :text="settings?.prize?.step_2?.data?.button_text"
+        :text="step2Data?.button_text"
         :success-text="$t('claimed')"
         name="slideunlock"
         @completed="handleSwipe()"
@@ -178,6 +178,7 @@ import { useRouter } from 'vue-router'
 import SlideUnlock from '~/components/SlideUnlock.vue'
 import Skeleton from 'primevue/skeleton'
 import Dialog from 'primevue/dialog'
+import close from '~/assets/images/close.svg'
 import { useI18n } from 'vue-i18n'
 
 definePageMeta({
@@ -204,7 +205,6 @@ const prizeTypeText = ref(null)
 const colorBg = ref('')
 
 const step2Data = computed(() => settings.value?.prize?.step_2?.swipe_exchange?.data || {})
-const textColor = computed(() => step2Data.value.text_1_color)
 const prizeBg = computed(() => colorBg.value || '#000')
 const step2Texts = computed(() => [
   step2Data.value.text_1,
