@@ -114,6 +114,17 @@
               color: settings?.global?.modal?.text_color,
             }"
           >
+            {{ t('notVerified') }}
+          </p>
+        </div>
+
+        <div v-else-if="errorStatus === 401" class="w-10/12 text-center">
+          <p
+            class="font-bold text-exd-1424"
+            :style="{
+              color: settings?.global?.modal?.text_color,
+            }"
+          >
             {{ t('notRegistered') }}
           </p>
         </div>

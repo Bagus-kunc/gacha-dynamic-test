@@ -15,9 +15,9 @@
     class="flex flex-col text-black !bg-no-repeat h-full !bg-cover !bg-center"
     :style="{
       background:
-        settings?.prize?.step_2?.data?.background_page.type === 'image'
-          ? `url(${settings?.prize?.step_2?.data?.background_page.value})`
-          : settings?.prize?.step_2?.data?.background_page.value,
+        settings?.prize?.step_2?.[type]?.data?.background_page.type === 'image'
+          ? `url(${settings?.prize?.step_2?.[type]?.data?.background_page.value})`
+          : settings?.prize?.step_2?.[type]?.data?.background_page.value,
     }"
   >
     <div

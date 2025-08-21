@@ -58,9 +58,6 @@
 </template>
 
 <script setup>
-import topChar from '~/assets/images/top-char.png'
-import headLogo from '~/public/images/header-logo.png'
-import tapScreen from '~/assets/images/tap-screen.png'
 import { nextTick } from 'vue'
 import WarningPopUp from '~/components/WarningPopUp.vue'
 
@@ -126,8 +123,6 @@ const handleEmailVerify = async (token) => {
 onMounted(async () => {
   const { verified, token } = route.query
   const hash = window.location.hash
-
-  console.log(route.query.token)
 
   const clearSession = () => {
     localStorage.clear()

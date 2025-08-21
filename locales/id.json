@@ -348,6 +348,7 @@
     "answer": "Jawaban (Hiragana)",
     "answerRequired": "Kolom jawaban harus diisi",
     "textOnlyAllowed": "Hanya teks yang diizinkan",
-    "notRegistered": "Anda belum terdaftar. Anda perlu mendaftar sebagai anggota baru dengan memilih tombol ‘Daftar’."
+    "notRegistered": "Anda belum terdaftar. Anda perlu mendaftar sebagai anggota baru dengan memilih tombol ‘Daftar’.",
+    "notVerified": "Anda sudah mendaftar tetapi belum memverifikasi pendaftaran Anda. Silakan verifikasi pendaftaran melalui email Anda."
   }
   

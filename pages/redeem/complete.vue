@@ -2,11 +2,11 @@
   <div class="flex flex-col grow">
     <HeaderBar>
       <p
-        v-if="settings?.prize?.step_2?.data?.page_title"
+        v-if="settings?.prize?.step_2?.[type]?.data?.page_title"
         style="text-shadow: 0 3px 3px rgba(0, 0, 0, 0.16)"
         class="text-exd-gray-scorpion font-bold text-exd-1824.52"
       >
-        {{ settings?.prize?.step_2?.data?.page_title_2 }}
+        {{ settings?.prize?.step_2?.[type]?.data?.page_title_2 }}
       </p>
     </HeaderBar>
 
@@ -14,16 +14,16 @@
       class="flex flex-col justify-between !bg-no-repeat h-full !bg-cover !bg-center gap-6 px-3 grow"
       :style="{
       background:
-        settings?.prize?.step_2?.data?.background_page_2.type === 'image'
-          ? `url(${settings?.prize?.step_2?.data?.background_page_2.value})`
-          : settings?.prize?.step_2?.data?.background_page_2.value,
+        settings?.prize?.step_2?.[type]?.data?.background_page_2.type === 'image'
+          ? `url(${settings?.prize?.step_2?.[type]?.data?.background_page_2.value})`
+          : settings?.prize?.step_2?.[type]?.data?.background_page_2.value,
       }"
     >
       <div class="flex flex-col mt-32 grow">
         <p
           class="mt-8 font-semibold text-center text-exd-gray-scorpion text-exd-1416"
         >
-          {{ settings?.prize?.step_2?.data?.sub_title_2 }}
+          {{ settings?.prize?.step_2?.[type]?.data?.sub_title_2 }}
         </p>
       </div>
     </div>
@@ -32,12 +32,12 @@
         :on-click="handleClick"
         :has-loading="isLoading"
         :bgColor="
-          settings?.prize?.step_2?.data?.button_and_text_color_2?.background
+          settings?.prize?.step_2?.[type]?.data?.button_and_text_color_2?.background
         "
         :textColor="
-          settings?.prize?.step_2?.data?.button_and_text_color_2?.color
+          settings?.prize?.step_2?.[type]?.data?.button_and_text_color_2?.color
         "
-        :label="settings?.prize?.step_2?.data?.button_text_2"
+        :label="settings?.prize?.step_2?.[type]?.data?.button_text_2"
         has-bottom
       />
     </div>
