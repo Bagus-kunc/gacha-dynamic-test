@@ -16,8 +16,6 @@
           settings?.forgot_password?.[steps]?.background.type === 'image'
             ? `url(${settings?.forgot_password?.[steps]?.background.value})`
             : settings?.forgot_password?.[steps]?.background.value,
-        'background-size': 'cover',
-        'background-repeat': 'no-repeat',
       }"
     >
       <template v-if="isSuccessSendLinkResetPassword">

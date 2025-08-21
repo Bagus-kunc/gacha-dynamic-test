@@ -2,43 +2,47 @@
   <div class="flex flex-col grow">
     <HeaderBar>
       <p
-        v-if="type === 'a'"
+        v-if="settings?.prize?.step_2?.data?.page_title"
         style="text-shadow: 0 3px 3px rgba(0, 0, 0, 0.16)"
         class="text-exd-gray-scorpion font-bold text-exd-1824.52"
       >
-        {{ $t('chooseDigitalGift') }}
-      </p>
-      <p
-        v-if="type === 'b'"
-        style="text-shadow: 0 3px 3px rgba(0, 0, 0, 0.16)"
-        class="text-exd-gray-scorpion font-bold text-exd-1824.52"
-      >
-        {{ $t('enterYourMailing') }}
+        {{ settings?.prize?.step_2?.data?.page_title_2 }}
       </p>
     </HeaderBar>
 
     <div
-      class="flex flex-col justify-between w-full gap-6 px-3 pb-3 mt-32 grow"
+      class="flex flex-col justify-between !bg-no-repeat h-full !bg-cover !bg-center gap-6 px-3 grow"
+      :style="{
+      background:
+        settings?.prize?.step_2?.data?.background_page_2.type === 'image'
+          ? `url(${settings?.prize?.step_2?.data?.background_page_2.value})`
+          : settings?.prize?.step_2?.data?.background_page_2.value,
+      }"
     >
-      <div v-if="type" class="flex flex-col grow">
+      <div class="flex flex-col mt-32 grow">
         <p
           class="mt-8 font-semibold text-center text-exd-gray-scorpion text-exd-1416"
         >
-          {{ $t('done') }}
+          {{ settings?.prize?.step_2?.data?.sub_title_2 }}
         </p>
       </div>
     </div>
+    <div class="fixed bottom-0 z-50 w-full max-w-md mx-auto mb-2">
+      <SolidButton
+        :on-click="handleClick"
+        :has-loading="isLoading"
+        :bgColor="
+          settings?.prize?.step_2?.data?.button_and_text_color_2?.background
+        "
+        :textColor="
+          settings?.prize?.step_2?.data?.button_and_text_color_2?.color
+        "
+        :label="settings?.prize?.step_2?.data?.button_text_2"
+        has-bottom
+      />
+    </div>
   </div>
 
-  <div class="relative flex flex-col w-full gap-1">
-    <SolidButton
-      :on-click="handleClick"
-      :has-loading="isLoading"
-      variant="red-coral"
-      :label="$t('gachaTop')"
-      has-bottom
-    />
-  </div>
 </template>
 
 <script setup>
@@ -50,6 +54,7 @@ const { decryptData } = useEncryption()
 const router = useRouter()
 const route = useRoute()
 const isLoading = ref(false)
+const settings = useState('settings')
 
 const type = ref('')
 

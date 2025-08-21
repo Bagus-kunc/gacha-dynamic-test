@@ -33,10 +33,10 @@ export default defineNuxtRouteMiddleware((to) => {
       return navigateTo('/register')
     }
     if (to.path === '/claim/success' && !hasClaimed) {
-      return navigateTo('/dashboard')
+      return navigateTo('/prize')
     }
     if (to.path === '/redeem/complete' && !hasRedeemed) {
-      return navigateTo('/dashboard')
+      return navigateTo('/prize')
     }
   }
 })

@@ -1,6 +1,14 @@
 <template>
   <HeaderBar withLogo />
-  <div class="flex flex-col justify-between px-8 mt-20 grow">
+  <div
+    class="flex flex-col justify-between px-8 mt-20 !h-full grow !bg-no-repeat !bg-cover !bg-center"
+    :style="{
+      background:
+        settings?.prize?.step_2?.data?.background_page_2.type === 'image'
+          ? `url(${settings?.prize?.step_2?.data?.background_page_2.value})`
+          : settings?.prize?.step_2?.data?.background_page_2.value,
+    }"
+  >
     <p
       class="mx-auto my-8 font-bold text-center text-exd-gray-scorpion text-exd-1424 max-w-44"
     >
@@ -18,29 +26,23 @@
       </div>
     </div>
   </div>
-  <div class="relative flex flex-col w-full gap-1">
-    <!-- <SolidButton
-      :on-click="() => goTo('external')"
-      :label="$t('digitalMapTop')"
-    /> -->
-    <div class="w-full h-5" />
+  <div class="fixed bottom-0 w-full max-w-md px-8 mx-auto">
     <SolidButton
       :on-click="() => goTo('top')"
-      :label="$t('gachaTop')"
+      :label="settings?.prize?.step_2?.data?.button_text_2"
       has-bottom
-      :bg-color="settings?.prize?.step_2?.data?.button_and_text_color?.background"
+      :bg-color="
+        settings?.prize?.step_2?.data?.button_and_text_color?.background
+      "
       :text-color="settings?.prize?.step_2?.data?.button_and_text_color?.color"
     />
   </div>
 </template>
 
 <script setup>
-import duck from '~/assets/images/duck.svg'
-import arrow from '~/assets/images/arrow.svg'
-import { useRouter } from 'vue-router'
 
 definePageMeta({
-  middleware: [ 'auth' ],
+  middleware: ['auth', 'navigation-guard'],
   layout: 'default',
 })
 

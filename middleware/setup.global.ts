@@ -8,7 +8,7 @@ export default defineNuxtRouteMiddleware(async (to, from) => {
     const settings = useState('settings', () => null)
     if (!settings.value) {
       const res = await useFetchApi('GET', 'settings')
-      if (!res || !res.data) return
+      if (!res || !res.data) return navigateTo('/not-found')
       settings.value = res.data
     }
 

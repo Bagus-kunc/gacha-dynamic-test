@@ -22,10 +22,7 @@
     >
       <div class="flex flex-col gap-5">
         <div class="relative w-full h-auto mx-auto bg-white rounded-lg">
-          <Skeleton v-if="isFetching" class="!w-full !h-full" />
-
-          <CharacterCard
-            v-else
+          <LazyCharacterCard
             :image="prizeDetailData.image"
             variant="without-background"
           />
@@ -34,7 +31,7 @@
           <div class="inline-flex justify-between w-full gap-5">
             <div class="flex flex-col text-[var(--secondary)]">
               <template v-for="(text, index) in step2Texts" :key="index">
-                <Skeleton v-if="isFetching" class="!h-3" width="10rem" />
+                <Skeleton v-if="isFetching" class="!h-5 mb-1" :style="{ background: textColor }" width="10rem" />
                 <p v-else class="font-bold text-exd-1424">
                   {{ text }}
                 </p>
@@ -72,10 +69,7 @@
             </p>
           </div>
 
-          <Skeleton v-if="isFetching" class="!w-full !h-full" />
-
           <HeadingSection
-            v-else
             :is-fetching="isFetching"
             :title="$t('conditionsOfUse')"
             :body="prizeDetailData.terms_of_use"
