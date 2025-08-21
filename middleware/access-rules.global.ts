@@ -1,5 +1,4 @@
 export default defineNuxtRouteMiddleware((to) => {
-
   const settings = useState('settings')
   const screens = settings.value?.flow?.screens
 
@@ -15,7 +14,7 @@ export default defineNuxtRouteMiddleware((to) => {
   }
 
   const allowed = accessRules[to.path]
-  
+
   if (allowed === false) {
     return navigateTo('/not-found')
   }
@@ -30,7 +29,7 @@ export default defineNuxtRouteMiddleware((to) => {
     if (to.path === '/profile/complete' && (!hasSubmittedProfile || !userId)) {
       return navigateTo('/profile')
     }
-    if (to.path === '/register/complete' && (!hasSubmittedRegister)) {
+    if (to.path === '/register/complete' && !hasSubmittedRegister) {
       return navigateTo('/register')
     }
     if (to.path === '/claim/success' && !hasClaimed) {
@@ -39,7 +38,5 @@ export default defineNuxtRouteMiddleware((to) => {
     if (to.path === '/redeem/complete' && !hasRedeemed) {
       return navigateTo('/prize')
     }
-}
-
+  }
 })
-

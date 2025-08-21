@@ -7,7 +7,7 @@
       style="text-shadow: 0 3px 3px rgba(0, 0, 0, 0.16)"
       class="text-exd-gray-scorpion font-bold text-exd-1824.52"
     >
-      {{ settings?.prize?.step_2?.data?.page_title }}
+      {{ settings?.prize?.step_2?.[type]?.data?.page_title }}
     </p>
   </HeaderBar>
 
@@ -23,13 +23,14 @@
     <div
       class="relative w-full px-3 mb-20 overflow-y-auto border border-b-0 border-gray-200"
     >
-      <div class="w-full flex items-center justify-center text-[15px]">
+      <div class="w-full flex flex-col items-center justify-center text-[15px]">
         <h1
-          class="flex justify-center w-full pt-32 font-bold text-exd-gray-scorpion"
+          class="flex justify-center w-full pt-32 pb-10 font-bold text-exd-gray-scorpion"
         >
-          {{ settings?.prize?.step_2?.data?.page_sub_title }}
+          {{ settings?.prize?.step_2?.[type]?.data?.sub_title }}
         </h1>
-        <div v-if="isFetching" class="flex justify-center pt-32">
+        
+        <div v-if="!type" class="flex justify-center">
           <Skeleton class="!w-44 !h-6 bg-gray-200" />
         </div>
       </div>
@@ -100,10 +101,10 @@
               "
               :border="true"
               :bgColor="
-                settings?.prize?.step_2?.data?.button_and_text_color?.background
+                settings?.prize?.step_2?.[type]?.data?.button_and_text_color?.background
               "
               :textColor="
-                settings?.prize?.step_2?.data?.button_and_text_color?.color
+                settings?.prize?.step_2?.[type]?.data?.button_and_text_color?.color
               "
             />
 
@@ -121,10 +122,10 @@
               :required="item.required"
               :options="optionsMap(item.options)"
               :bg-color="
-                settings?.prize?.step_2?.data?.button_and_text_color?.background
+                settings?.prize?.step_2?.[type]?.data?.button_and_text_color?.background
               "
               :text-color="
-                settings?.prize?.step_2?.data?.button_and_text_color?.color
+                settings?.prize?.step_2?.[type]?.data?.button_and_text_color?.color
               "
             />
 
@@ -155,10 +156,10 @@
                 ),
               }"
               :bgColor="
-                settings?.prize?.step_2?.data?.button_and_text_color?.background
+                settings?.prize?.step_2?.[type]?.data?.button_and_text_color?.background
               "
               :textColor="
-                settings?.prize?.step_2?.data?.button_and_text_color?.color
+                settings?.prize?.step_2?.[type]?.data?.button_and_text_color?.color
               "
               border
             />
@@ -190,10 +191,10 @@
                 ),
               }"
               :bgColor="
-                settings?.prize?.step_2?.data?.button_and_text_color?.background
+                settings?.prize?.step_2?.[type]?.data?.button_and_text_color?.background
               "
               :textColor="
-                settings?.prize?.step_2?.data?.button_and_text_color?.color
+                settings?.prize?.step_2?.[type]?.data?.button_and_text_color?.color
               "
             />
 
@@ -209,7 +210,7 @@
                   item.required,
                   item?.min,
                   item?.max,
-                  item.text_type
+                  item?.text_type
                 )
               "
               :class="{
@@ -218,14 +219,14 @@
                   item.required,
                   item?.min,
                   item?.max,
-                  item.text_type
+                  item?.text_type
                 ),
               }"
               :bgColor="
-                settings?.prize?.step_2?.data?.button_and_text_color?.background
+                settings?.prize?.step_2?.[type]?.data?.button_and_text_color?.background
               "
               :textColor="
-                settings?.prize?.step_2?.data?.button_and_text_color?.color
+                settings?.prize?.step_2?.[type]?.data?.button_and_text_color?.color
               "
               :required="item.required"
             />
@@ -261,10 +262,10 @@
                 ),
               }"
               :bgColor="
-                settings?.prize?.step_2?.data?.button_and_text_color?.background
+                settings?.prize?.step_2?.[type]?.data?.button_and_text_color?.background
               "
               :textColor="
-                settings?.prize?.step_2?.data?.button_and_text_color?.color
+                settings?.prize?.step_2?.[type]?.data?.button_and_text_color?.color
               "
             />
 
@@ -297,10 +298,10 @@
                 ),
               }"
               :bgColor="
-                settings?.prize?.step_2?.data?.button_and_text_color?.background
+                settings?.prize?.step_2?.[type]?.data?.button_and_text_color?.background
               "
               :textColor="
-                settings?.prize?.step_2?.data?.button_and_text_color?.color
+                settings?.prize?.step_2?.[type]?.data?.button_and_text_color?.color
               "
             />
           </div>
@@ -337,12 +338,10 @@
                 }"
                 :border="true"
                 :bgColor="
-                  settings?.register_login?.membership_registration_page
-                    ?.button_text_and_color?.background
+                  settings?.prize?.step_2?.[type]?.data?.button_and_text_color?.background
                 "
                 :textColor="
-                  settings?.register_login?.membership_registration_page
-                    ?.button_text_and_color?.color
+                  settings?.prize?.step_2?.[type]?.data?.button_and_text_color?.color
                 "
               />
 
@@ -372,12 +371,10 @@
                 }"
                 :border="true"
                 :bgColor="
-                  settings?.register_login?.membership_registration_page
-                    ?.button_text_and_color?.background
+                  settings?.prize?.step_2?.[type]?.data?.button_and_text_color?.background
                 "
                 :textColor="
-                  settings?.register_login?.membership_registration_page
-                    ?.button_text_and_color?.color
+                  settings?.prize?.step_2?.[type]?.data?.button_and_text_color?.color
                 "
               />
             </div>
@@ -388,14 +385,14 @@
     <div class="mt-2" />
     <div class="fixed bottom-0 z-50 w-full max-w-md mx-auto mb-2">
       <SolidButton
-        :label="settings?.prize?.step_2?.data?.button_text"
+        :label="isLoading ? 'Loading...' : settings?.prize?.step_2?.[type]?.data?.button_text"
         :has-loading="isLoading"
         :disabled="disableRedeem || isLoading"
         :bgColor="
-          settings?.prize?.step_2?.data?.button_and_text_color?.background
+          settings?.prize?.step_2?.[type]?.data?.button_and_text_color?.background
         "
         :textColor="
-          settings?.prize?.step_2?.data?.button_and_text_color?.color
+          settings?.prize?.step_2?.[type]?.data?.button_and_text_color?.color
         "
         :on-click="handleSubmit"
         has-bottom
@@ -437,6 +434,12 @@
           :label="$t('applyNow')"
           :on-click="handleGoToClaim"
           has-bottom
+          :bgColor="
+            settings?.prize?.step_2?.[type]?.data?.button_and_text_color?.background
+          "
+          :textColor="
+            settings?.prize?.step_2?.[type]?.data?.button_and_text_color?.color
+          "
         />
       </div>
     </template>
@@ -457,7 +460,7 @@ import RadioButton from '~/components/RadioButton.vue'
 import InputMultipleSelect from '~/components/InputMultipleSelect.vue'
 
 definePageMeta({
-  middleware: ['auth', 'navigation-guard'],
+  middleware: 'auth',
   layout: 'default',
 })
 
@@ -469,9 +472,10 @@ const router = useRouter()
 const id = route.params.id
 const hasModal = ref(false)
 const errorScroll = ref([])
-const isLoading = ref(false)
+const isLoading = ref(true)
 const isFetching = ref(false)
 const errorMessages = ref([])
+const config = useRuntimeConfig()
 const disableRedeem = ref(false)
 const LOCALE = useCookie('LOCALE')
 const validateOnSubmit = ref(false)
@@ -490,17 +494,16 @@ const errorEmailMessage = ref('')
 const errorPasswordMessage = ref('')
 
 const form = ref({})
+const redeemData = computed(() => settings.value?.prize?.step_2?.[type.value]?.data || {})
 
 const emailRegex = (email) => {
   return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)
 }
 
-const registerFields =
-  settings.value?.prize?.step_2?.data?.redeem_prize_form || []
+const redeemFields = ref([])
 
 const visibleRedeemFields = computed(() =>
-  registerFields
-    .map((item) => {
+  redeemFields.value?.redeem_prize_form?.map((item) => {
       const name = Object.keys(item)[0]
       const fieldData = item[name]
       return {
@@ -667,11 +670,15 @@ const fetchingPrizeData = async () => {
     const { data } = await useFetchApi('GET', 'prizes/' + id)
     sessionStorage.setItem('type', data.type)
     type.value = data.type
+
+    redeemFields.value = redeemData.value || []
+    
     checkPoint(data.point)
   } catch (error) {
     console.log(error)
   } finally {
     isFetching.value = false
+    isLoading.value = false
   }
 }
 
@@ -721,14 +728,19 @@ const fetchRedeem = async (payload) => {
 
   try {
     const { status, data } = await useFetchApi('POST', 'prizes/redeem', {
-      body: payload,
+      body: {
+        prize_id: id,
+        ...payload
+      },
     })
 
     if (!status) {
       throw new Error(t('unexpectedResponse'))
     }
 
-    localStorage.setItem('REDEEM_SUCCESS', true)
+    localStorage.setItem('REDEEM_SUCCESS', 'true')
+    
+    localStorage.removeItem('redeemForm')
 
     navigateTo('/redeem/complete')
 
@@ -740,15 +752,7 @@ const fetchRedeem = async (payload) => {
   }
 }
 
-const handleSubmit = async () => {
-  if (disableRedeem.value) return
-
-  errorScroll.value = []
-
-  isLoading.value = true
-
-  validateOnSubmit.value = true
-
+const buildPayload = () => {
   const payload = form.value
 
   for (const key in payload) {
@@ -761,6 +765,20 @@ const handleSubmit = async () => {
       payload[key] = payload[key].map((item) => item.value)
     }
   }
+  
+  return payload
+}
+
+const handleSubmit = async () => {
+  if (disableRedeem.value) return
+
+  errorScroll.value = []
+
+  isLoading.value = true
+
+  validateOnSubmit.value = true
+
+  const payload = buildPayload()
 
   await fetchRedeem(payload)
 
@@ -786,7 +804,7 @@ let postCodeBounds
 const checkPostalCode = async (code) => {
   if (!code || code.length < 7) {
     form.value.prefecture = ''
-    form.value.municipalities = ''
+    form.value.municipality = ''
     if (code && code.length > 0 && code.length < 7) {
       errorKeyPostCode.value = 'minLengthPostalCode'
     } else {
@@ -820,12 +838,12 @@ const checkPostalCode = async (code) => {
     })
 
     form.value.prefecture = address.prefecture
-    form.value.municipalities = `${address.city}, ${address.area}`
+    form.value.municipality = `${address.city}, ${address.area}`
     errorKeyPostCode.value = ''
   } catch (error) {
     console.error('Postal code error:', error)
     form.value.prefecture = ''
-    form.value.municipalities = ''
+    form.value.municipality = ''
 
     if (error.message.includes('timeout')) {
       errorKeyPostCode.value = 'postalCodeNotFound'

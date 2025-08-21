@@ -48,10 +48,6 @@
 import useRegister from '~/composables/useRegister'
 import { useRouter } from 'vue-router'
 
-definePageMeta({
-  middleware: 'navigation-guard',
-})
-
 const { isSpin } = useRegister()
 const { decryptData } = useEncryption()
 const router = useRouter()

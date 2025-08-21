@@ -4,9 +4,9 @@
     class="flex flex-col mt-20 grow"
     :style="{
       background:
-        settings?.prize?.step_2?.data?.background_page.type === 'image'
-          ? `url(${settings?.prize?.step_2?.data?.background_page.value})`
-          : settings?.prize?.step_2?.data?.background_page.value,
+        step2Data?.background_page.type === 'image'
+          ? `url(${step2Data?.background_page.value})`
+          : step2Data?.background_page.value,
       'background-size': 'cover',
       'background-repeat': 'no-repeat',
     }"
@@ -18,7 +18,7 @@
     </p>
 
     <div
-      class="flex flex-col justify-between gap-5 py-8 bg-exd-banana grow px-7"
+      class="flex flex-col justify-between gap-5 py-8 grow px-7"
     >
       <div class="flex flex-col gap-5">
         <div class="relative w-full h-auto mx-auto bg-white rounded-lg">
@@ -29,7 +29,7 @@
         </div>
         <div class="flex flex-col gap-4">
           <div class="inline-flex justify-between w-full gap-5">
-            <div class="flex flex-col" :style="{ color: textColor }">
+            <div class="flex flex-col text-[var(--secondary)]">
               <template v-for="(text, index) in step2Texts" :key="index">
                 <Skeleton v-if="isFetching" class="!h-5 mb-1" :style="{ background: textColor }" width="10rem" />
                 <p v-else class="font-bold text-exd-1424">
@@ -39,7 +39,12 @@
             </div>
             <template v-if="isFetching">
               <Skeleton
-                class="!rounded-full bg-gray-100"
+                class="!rounded-full"
+                :style="{
+                  background:
+                    step2Data.button_and_text_color
+                      ?.background,
+                }"
                 width="3rem"
                 height="3rem"
               />
@@ -78,12 +83,12 @@
         :circle="true"
         :width="400"
         :height="56"
-        :text="settings?.prize?.step_2?.data?.button_text"
+        :text="step2Data?.button_text"
         :success-text="$t('claimed')"
         name="slideunlock"
         @completed="handleSwipe()"
         :bgColor="
-          settings?.prize?.step_2?.data?.button_and_text_color?.background
+          step2Data?.button_and_text_color?.background
         "
       />
     </div>
@@ -113,9 +118,15 @@
           </p>
 
           <SolidButton
-            :on-click="() => handleDialog"
+            :on-click="handleDialog"
             :has-loading="isLoading"
             label="GO!"
+            :bgColor="
+              step2Data?.button_and_text_color?.background
+            "
+            :textColor="
+              step2Data?.button_and_text_color?.color
+            "
           />
         </div>
       </div>
@@ -164,6 +175,9 @@
 
 <script setup>
 import { useRouter } from 'vue-router'
+import SlideUnlock from '~/components/SlideUnlock.vue'
+import Skeleton from 'primevue/skeleton'
+import Dialog from 'primevue/dialog'
 import close from '~/assets/images/close.svg'
 import { useI18n } from 'vue-i18n'
 
@@ -190,13 +204,19 @@ const vueslideunlock = ref(null)
 const prizeTypeText = ref(null)
 const colorBg = ref('')
 
-const step2Data = computed(() => settings.value?.prize?.step_2?.data || {})
-const step2Texts = computed(() => [
-  step2Data.value?.text_1,
-  step2Data.value?.text_2,
-])
-const textColor = computed(() => step2Data.value.text_1_color)
+const step2Data = computed(() => settings.value?.prize?.step_2?.swipe_exchange?.data || {})
 const prizeBg = computed(() => colorBg.value || '#000')
+const step2Texts = computed(() => [
+  step2Data.value.text_1,
+  step2Data.value.text_2
+])
+
+const handleDialog = () => {
+  const isSuccess = localStorage.getItem('CLAIM_SUCCESS')
+  if (isSuccess) {
+    navigateTo('/claim/success')
+  }
+}
 
 const fetchRedeem = async () => {
   try {
@@ -204,10 +224,13 @@ const fetchRedeem = async () => {
     disableSwipe.value = true
     const { message, status } = await useFetchApi(
       'POST',
-      'prizes/redeem-point',
+      'prizes/redeem',
       {
-        params: {
-          user_point_id: prizeDetailData.value?.id,
+        // params: {
+        //   user_point_id: prizeDetailData.value?.id,
+        // },
+        body: {
+          prize_id: id,
         },
       }
     )
@@ -216,16 +239,12 @@ const fetchRedeem = async () => {
       redeemMessage.value = t('giftExchangeComplete')
       isRedeemDialogVisible.value = true
       localStorage.setItem('CLAIM_SUCCESS', true)
-      setTimeout(() => {
-        router.push('/claim/success') 
-      }, 2000)
     } else {
       errorMessage.value = message
       insufficientDialogVisible.value = true
       vueslideunlock.value.reset()
     }
 
-    // Tampilkan dialog dengan pesan
   } catch (error) {
     console.error(error)
     errorMessage.value = error._data.message

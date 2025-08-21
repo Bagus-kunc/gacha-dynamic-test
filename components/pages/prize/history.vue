@@ -11,8 +11,11 @@
           class="inline-flex justify-between pr-4 text-exd-gray-scorpion w-100"
         >
           <div class="flex flex-col items-start justify-center gap-1">
-            <img 
-              v-if="body.rarity?.type === 'image'"
+            <img
+              v-if="
+                body.rarity?.type === 'image' &&
+                settings?.prize?.step_1?.has_been_redeemed?.show_prize_rarity
+              "
               :src="body.rarity?.image"
               alt="arrow"
               width="30"
@@ -22,22 +25,46 @@
             />
 
             <i18n-t
-              v-else-if="body.rarity?.type === 'color'"
+              v-else-if="
+                body.rarity?.type === 'color' &&
+                settings?.prize?.step_1?.has_been_redeemed?.show_prize_rarity
+              "
               keypath="prize"
               tag="div"
               scope="global"
               class="font-bold text-exd-1013.62 text-white py-[2px] px-2 flex items-center justify-center rounded-lg"
-              :style="{ backgroundColor: body.rarity.background_color, color: body.rarity.text_color }"
+              :style="{
+                backgroundColor: body.rarity.background_color,
+                color: body.rarity.text_color,
+              }"
             >
               <template v-slot:rank>
                 {{ body.rarity.text.toUpperCase() }}
               </template>
             </i18n-t>
 
-            <p class="font-semibold md:text-[15px] sm:text-[14px] text-[13px]">
+            <p
+              v-if="
+                settings?.prize?.step_1?.has_been_redeemed?.show_prize_title
+              "
+              class="font-semibold md:text-[15px] sm:text-[14px] text-[13px]"
+            >
               {{ body.name }}
             </p>
-            
+
+            <p
+              v-if="
+                settings?.prize?.step_1?.has_been_redeemed
+                  ?.show_application_period
+              "
+              class="text-[10px] sm:text-[12px] font-medium"
+              :style="{
+                color: settings?.global?.text_colors?.secondary,
+              }"
+            >
+              {{ $t('applicationPeriod') }}：{{ body.started_at }}〜{{
+                body.expired_at }}
+            </p>
           </div>
         </div>
       </template>
@@ -46,7 +73,7 @@
 </template>
 
 <script setup>
-import { useRouter } from "nuxt/app"
+import { useRouter } from 'nuxt/app'
 
 const props = defineProps({
   isFetching: { type: Boolean, default: false },
@@ -68,6 +95,7 @@ const props = defineProps({
 
 const color = ref('')
 const router = useRouter()
+const settings = useState('settings')
 
 const handleGoToDetailRedeem = (id) => router.push(`/prize/history/${id}`)
 </script>

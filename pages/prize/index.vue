@@ -38,8 +38,8 @@
           :headColor="prize.color"
           :currentPoint="store.point"
           :is-fetching="isFetching"
-          :showTitle="settings?.prize?.step_1?.to_be_redeemed?.show_prize_title === '1'"
-          :showPeriod="settings?.prize?.step_1?.to_be_redeemed?.show_application_period === '1'"
+          :showTitle="settings?.prize?.step_1?.to_be_redeemed?.show_prize_title"
+          :showPeriod="settings?.prize?.step_1?.to_be_redeemed?.show_application_period"
         />
       </template>
     </div>
