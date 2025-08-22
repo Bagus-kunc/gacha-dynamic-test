@@ -81,11 +81,11 @@ const goTo = () => {
   } else {
     navigateTo('/')
   }
+
+  localStorage.removeItem('REGISTER_SUBMITTED')
 }
 
 onMounted(() => {
   saveSpin()
-  localStorage.removeItem('REGISTER_SUBMITTED')
-
 })
 </script>

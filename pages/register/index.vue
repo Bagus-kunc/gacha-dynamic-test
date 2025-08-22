@@ -671,6 +671,8 @@ const fetchRegister = async (payload) => {
       localStorage.setItem('REGISTER_SUBMITTED', 'true')
       localStorage.setItem('NEED_CONFIRMATION', data.need_confirmation)
 
+      localStorage.setItem('NEED_CONFIRMATION', data?.need_confirmation)
+
       localStorage.removeItem('registerForm')
 
       navigateTo('/register/complete')

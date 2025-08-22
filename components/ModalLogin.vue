@@ -107,7 +107,18 @@
           :style="{ color: settings?.global?.icon_color?.background }"
         />
 
-        <div v-if="errorStatus === 403" class="w-10/12 text-center">
+        <div v-if="errorStatus === 'not_verified'" class="w-10/12 text-center">
+          <p
+            class="font-bold text-exd-1424"
+            :style="{
+              color: settings?.global?.modal?.text_color,
+            }"
+          >
+            {{ t('notVerified') }}
+          </p>
+        </div>
+
+        <div v-else-if="errorStatus === 'not_registered'" class="w-10/12 text-center">
           <p
             class="font-bold text-exd-1424"
             :style="{
@@ -257,8 +268,7 @@ const handleSubmit = async () => {
 
     isLoading.value = false
   } catch (error) {
-    console.log(error)
-    errorStatus.value = error?.status
+    errorStatus.value = error._data.data.type
 
     errorMessages.value = [
       settings.value?.register_login?.registration_login_pop_up_title,
@@ -320,9 +330,9 @@ watch(
   () => props.email,
   (newEmail) => {
     if (newEmail) {
-      form.value.email = newEmail // Update form email only if newEmail is provided
+      form.value.email = newEmail 
     }
   },
-  { immediate: true } // This will immediately set email if provided when the component mounts
+  { immediate: true }
 )
 </script>

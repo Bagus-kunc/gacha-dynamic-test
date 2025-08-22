@@ -12,7 +12,8 @@
     }"
   >
     <p
-      class="text-exd-red-coral text-exd-1724 text-center font-extrabold max-w-[356px] mx-auto p-4 my-4"
+      class="text-exd-1724 text-center font-extrabold max-w-[356px] mx-auto p-4 my-4"
+      :style="{ color: textColor }"
     >
       {{ step2Data.page_sub_title }}
     </p>
@@ -29,9 +30,9 @@
         </div>
         <div class="flex flex-col gap-4">
           <div class="inline-flex justify-between w-full gap-5">
-            <div class="flex flex-col text-[var(--secondary)]">
+            <div class="flex flex-col text-exd-gray-scorpion">
               <template v-for="(text, index) in step2Texts" :key="index">
-                <Skeleton v-if="isFetching" class="!h-5 mb-1" :style="{ background: textColor }" width="10rem" />
+                <Skeleton v-if="isFetching" class="!h-5 mb-1 bg-exd-gray-scorpion" width="10rem" />
                 <p v-else class="font-bold text-exd-1424">
                   {{ text }}
                 </p>
@@ -206,6 +207,7 @@ const colorBg = ref('')
 
 const step2Data = computed(() => settings.value?.prize?.step_2?.swipe_exchange?.data || {})
 const prizeBg = computed(() => colorBg.value || '#000')
+const textColor = computed(() => step2Data.value.text_1_color)
 const step2Texts = computed(() => [
   step2Data.value.text_1,
   step2Data.value.text_2
