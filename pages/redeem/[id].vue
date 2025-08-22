@@ -316,7 +316,7 @@
             >
               <InputText
                 :model="form.prefecture"
-                required
+                :required="item.required"
                 :label="item.prefecture.label || $t('prefecture')"
                 :placeholder="item.prefecture.placeholder || $t('prefecture')"
                 disabled
@@ -348,7 +348,7 @@
               <InputText
                 :model="form.municipality"
                 disabled
-                required
+                :required="item.required"
                 :label="item.municipality.label || $t('municipality')"
                 :placeholder="
                   item.municipality.placeholder || $t('municipality')
