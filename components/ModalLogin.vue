@@ -59,23 +59,32 @@
         </a>
 
         <SolidButton
-          :label="t('login')"
-          variant="vermilion"
+        :label="
+            settings?.register_login?.registration_login_pop_up?.button_1_text
+          "
+          :bgColor="
+            settings?.register_login?.registration_login_pop_up
+              ?.button_text_color_1.background
+          "
+          :textColor="
+            settings?.register_login?.registration_login_pop_up
+              ?.button_text_color_1.color
+          "
           :onClick="handleSubmit"
           :disabled="!isValidInput || isLoading"
           :has-loading="isLoading"
         />
         <SolidButton
           :label="
-            settings?.register_login?.membership_registration_page?.button_text
+            settings?.register_login?.registration_login_pop_up?.button_2_text
           "
           :bgColor="
-            settings?.register_login?.membership_registration_page
-              ?.button_text_and_color.background
+            settings?.register_login?.registration_login_pop_up
+              ?.button_text_color_2.background
           "
           :textColor="
-            settings?.register_login?.membership_registration_page
-              ?.button_text_and_color.color
+            settings?.register_login?.registration_login_pop_up
+              ?.button_text_color_2.color
           "
           :onClick="handleToRegister"
         />
