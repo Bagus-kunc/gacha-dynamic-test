@@ -43,8 +43,10 @@
     :on-close="handleClose"
     :has-button="true"
     :on-click-button="handleDialog"
-    label-button="GO!"
-    :modal-title="$t('verificationCompleted')"
+    :label-button="settings?.register_login?.successful_member_registration_page?.button_text"
+    :modal-title="settings?.register_login?.successful_member_registration_page?.pop_up_text"
+    :bgColor="settings?.register_login?.successful_member_registration_page?.button_text_and_color?.background"
+    :textColor="settings?.register_login?.successful_member_registration_page?.button_text_and_color?.color"
   />
 
   <WarningPopUp
