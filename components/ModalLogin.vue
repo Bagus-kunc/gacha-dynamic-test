@@ -32,20 +32,63 @@
           </p>
         </div>
 
-        <InputText
-          type="email"
-          :model="form.email"
-          :placeholder="$t('loginID')"
-          @update:model="updateModel('email', $event)"
-          @validate="validateInput('email', $event)"
-        />
-        <InputText
-          type="password"
-          :model="form.password"
-          :placeholder="$t('password')"
-          @update:model="updateModel('password', $event)"
-          @validate="validateInput('password', $event)"
-        />
+        <div
+          v-for="(item, index) in visibleLoginFields"
+          :key="index"
+          class="!w-full p-0"
+        >
+          <InputText
+            v-if="
+              item.type !== 'date'
+            "
+            :onlyNumeric="
+              item.text_type === 'number' ||
+              item.text_type === 'tel'
+                ? true
+                : false
+            "
+            :type="item.text_type"
+            :model="form[item.name]"
+            :placeholder="item.placeholder"
+            @update:model="updateModel(item.name, item.type, $event)"
+            @validate="validateInput(item.name, $event)"
+            :error="
+              handleError(
+                item.name,
+                item.required,
+                item?.min,
+                item?.max,
+                item.text_type
+              )
+            "
+          />
+
+          <InputDate
+            v-if="item.type === 'date'"
+            :placeholder="item.placeholder"
+            v-model:model="form[item.name]"
+            :error="
+              handleError(
+                item.name,
+                item.required,
+                item?.min,
+                item?.max,
+                item.text_type
+              )
+            "
+            @update:model="updateModel(item.name, item.type, $event)"
+            :manualInput="false"
+            :class="{
+              'input-error': handleError(
+                item.name,
+                item.required,
+                item?.min,
+                item?.max,
+                item.text_type
+              ),
+            }"
+          />
+        </div>
 
         <a
           class="font-medium underline cursor-pointer text-exd-1220"
@@ -59,7 +102,7 @@
         </a>
 
         <SolidButton
-        :label="
+          :label="
             settings?.register_login?.registration_login_pop_up?.button_1_text
           "
           :bgColor="
@@ -127,7 +170,10 @@
           </p>
         </div>
 
-        <div v-else-if="errorStatus === 'not_registered'" class="w-10/12 text-center">
+        <div
+          v-else-if="errorStatus === 'not_registered'"
+          class="w-10/12 text-center"
+        >
           <p
             class="font-bold text-exd-1424"
             :style="{
@@ -159,6 +205,7 @@
 import { useI18n } from 'vue-i18n'
 import close from '~/assets/images/close.svg'
 import InputText from '~/components/InputText.vue'
+import InputDate from '~/components/InputDate.vue'
 import useRegister from '~/composables/useRegister'
 
 const register = useRegister()
@@ -171,32 +218,67 @@ const props = defineProps({
   modelValue: Boolean,
   email: {
     type: String,
-    default: null, // Default to null if no email is provided
+    default: null,
   },
 })
 
 const emits = defineEmits(['update:modelValue', 'callback'])
 
 const isLoading = ref(false)
-
-const form = ref({
-  email: '',
-  password: '',
-})
+const config = useRuntimeConfig()
 
 const isErrorMessage = ref(false)
 const errorStatus = ref(null)
 const errorMessages = ref([])
 const route = useRoute()
 const { encryptData, decryptData } = useEncryption()
+const validateOnSubmit = ref(false)
 
-const isValidInput = computed(
-  () => form.value.email !== '' && form.value.password !== ''
-)
+const form = ref({})
+const loginFields = ref([])
 
-const updateModel = (field, value) => {
-  form.value[field] = value
+const visibleLoginFields = ref([])
+
+const isValidInput = computed(() => {
+  return Object.values(form.value).every((val) => val && val.toString().trim() !== '')
+})
+
+const handleError = (field, required, min, max, type) => {
+  const value = form.value[field] || ''
+  let errorMessage = ''
+  
+  if (!value && validateOnSubmit.value && required) {
+    errorMessage = t('fieldRequired')
+  } else if (min && value.length > 0 && value.length < min) {
+    errorMessage = t('minLength', { number: min })
+  } else if (max && value.length > max) {
+    errorMessage = t('maxLength', { number: max })
+  } else if (type === 'number' && value && !/^\d+$/.test(value)) {
+    errorMessage = t('validNumber')
+  } else if (type === 'text_only' && value && !textOnlyRegex.test(value)) {
+    errorMessage = t('textOnlyAllowed')
+  }
+
+  return errorMessage
 }
+
+const formatDate = (date) => {
+  return new Date(date).toLocaleDateString('en-CA', {
+    year: 'numeric',
+    month: '2-digit',
+    day: '2-digit',
+    timeZone: config.public.TIME_ZONE,
+  })
+}
+
+const updateModel = (field, type, value) => {
+  form.value[field] = value
+
+  if (type === 'date') {
+    form.value[field] = formatDate(value)
+  }
+}
+
 
 const validateInput = (field, value) => {
   // console.log(`Validated ${field}:`, value)
@@ -236,7 +318,7 @@ const handleSubmit = async () => {
   if (isLoading.value) return
   isLoading.value = true
 
-  if (!validateEmailFormat(form.value.email)) {
+  if (form.value.email && !validateEmailFormat(form.value.email)) {
     errorMessages.value = [t('emailValidation')]
     isErrorMessage.value = true
     isLoading.value = false
@@ -335,11 +417,34 @@ onMounted(() => {
   form.value.password = decryptData(passwordCipher)
 })
 
+onMounted(() => {
+  loginFields.value =
+    settings.value?.register_login?.registration_login_pop_up?.login_fields || []
+
+  visibleLoginFields.value = loginFields.value
+    .map((item) => {
+      const name = Object.keys(item)[0]
+      const fieldData = item[name]
+      return {
+        name,
+        ...fieldData,
+      }
+    })
+    .filter((field) => field.show)
+
+  const newForm = {}
+  visibleLoginFields.value.forEach((f) => {
+    newForm[f.name] = form.value[f.name] ?? ''
+  })
+  form.value = newForm
+})
+
+
 watch(
   () => props.email,
   (newEmail) => {
     if (newEmail) {
-      form.value.email = newEmail 
+      form.value.email = newEmail
     }
   },
   { immediate: true }
