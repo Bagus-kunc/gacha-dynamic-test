@@ -17,8 +17,8 @@
           <SolidButton
             v-if="hasButton"
             :label="labelButton"
-            :bgColor="settings.buttons[0].background"
-            :textColor="settings.buttons[0].color"
+            :bgColor="bgColor ? bgColor : settings.value?.buttons[0]?.background"
+            :textColor="textColor ? textColor : settings.value?.buttons[0]?.color"
             :on-click="() => handleClick()"
           />
         </div>
@@ -58,6 +58,14 @@ const props = defineProps({
   onClose: {
     type: Function,
     default: null,
+  },
+  bgColor: {
+    type: String,
+    default: '#000000',
+  },
+  textColor: {
+    type: String,
+    default:'#ffffff',
   },
 })
 
