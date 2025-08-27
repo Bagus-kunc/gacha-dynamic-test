@@ -38,12 +38,9 @@
           class="!w-full p-0"
         >
           <InputText
-            v-if="
-              item.type !== 'date'
-            "
+            v-if="item.type !== 'date'"
             :onlyNumeric="
-              item.text_type === 'number' ||
-              item.text_type === 'tel'
+              item.text_type === 'number' || item.text_type === 'tel'
                 ? true
                 : false
             "
@@ -98,7 +95,10 @@
           style="text-shadow: 0 3px 3px rgba(0, 0, 0, 0.16)"
           @click="navigateTo('/forgot-password')"
         >
-          {{ $t('forgotYourPassword') }}
+          {{
+            settings?.register_login?.registration_login_pop_up
+              ?.forgot_password_text
+          }}
         </a>
 
         <SolidButton
@@ -240,13 +240,15 @@ const loginFields = ref([])
 const visibleLoginFields = ref([])
 
 const isValidInput = computed(() => {
-  return Object.values(form.value).every((val) => val && val.toString().trim() !== '')
+  return Object.values(form.value).every(
+    (val) => val && val.toString().trim() !== ''
+  )
 })
 
 const handleError = (field, required, min, max, type) => {
   const value = form.value[field] || ''
   let errorMessage = ''
-  
+
   if (!value && validateOnSubmit.value && required) {
     errorMessage = t('fieldRequired')
   } else if (min && value.length > 0 && value.length < min) {
@@ -274,11 +276,12 @@ const formatDate = (date) => {
 const updateModel = (field, type, value) => {
   form.value[field] = value
 
+  console.log(`Updated ${field}:`, value)
+
   if (type === 'date') {
     form.value[field] = formatDate(value)
   }
 }
-
 
 const validateInput = (field, value) => {
   // console.log(`Validated ${field}:`, value)
@@ -318,6 +321,7 @@ const handleSubmit = async () => {
   if (isLoading.value) return
   isLoading.value = true
 
+  // Validasi email (jika field email ada)
   if (form.value.email && !validateEmailFormat(form.value.email)) {
     errorMessages.value = [t('emailValidation')]
     isErrorMessage.value = true
@@ -326,43 +330,39 @@ const handleSubmit = async () => {
   }
 
   try {
+    // Kirim semua field dinamis
     const response = await useFetchApi('POST', 'login', {
       body: { ...form.value },
     })
 
-    const TOKEN = useCookie('TOKEN', {
-      maxAge: 60 * 60 * 24 * 7,
-    })
-    const USER = useCookie('USER', {
-      maxAge: 60 * 60 * 24 * 7,
-    })
+    const TOKEN = useCookie('TOKEN', { maxAge: 60 * 60 * 24 * 7 })
+    const USER = useCookie('USER', { maxAge: 60 * 60 * 24 * 7 })
     TOKEN.value = response.data.token
     USER.value = response.data.user
 
-    sessionStorage.setItem('EMAIL', form.value?.email)
+    // Simpan password di sessionStorage hanya jika ada field password
     if (form.value?.password) {
       try {
         const encrypted = encryptData(form.value.password)
         sessionStorage.setItem('PASSWORD', encrypted)
-      } catch (encryptError) {}
+      } catch (encryptError) {
+        console.error('Password encryption failed', encryptError)
+      }
     }
 
     await nextTick()
 
     await saveSpin()
 
-    if (route.path === '/spin/character/' + location) {
-      await navigateTo('/dashboard', { replace: true })
-    } else {
-      await navigateTo('/dashboard', { replace: true })
-    }
+    // Redirect ke dashboard (path dynamic tetap dijaga)
+    await navigateTo('/dashboard', { replace: true })
 
-    isLoading.value = false
   } catch (error) {
-    errorStatus.value = error._data.data.type
+    errorStatus.value = error._data?.data?.type
 
     errorMessages.value = [
-      settings.value?.register_login?.registration_login_pop_up_title,
+      settings.value?.register_login?.registration_login_pop_up_title ||
+      t('loginFailed'),
     ]
 
     isErrorMessage.value = true
@@ -410,16 +410,10 @@ const saveSpin = async () => {
 }
 
 onMounted(() => {
-  const emailSession = sessionStorage.getItem('EMAIL') || ''
-  const passwordCipher = sessionStorage.getItem('PASSWORD') || ''
-
-  form.value.email = emailSession
-  form.value.password = decryptData(passwordCipher)
-})
-
-onMounted(() => {
+  // Ambil konfigurasi login fields
   loginFields.value =
-    settings.value?.register_login?.registration_login_pop_up?.login_fields || []
+    settings.value?.register_login?.registration_login_pop_up?.login_fields ||
+    []
 
   visibleLoginFields.value = loginFields.value
     .map((item) => {
@@ -432,14 +426,38 @@ onMounted(() => {
     })
     .filter((field) => field.show)
 
+  // Ambil dari localStorage kalau ada
+  const savedForm = JSON.parse(localStorage.getItem('loginForm') || '{}')
+
+  // Ambil dari sessionStorage kalau ada
+  const emailSession = sessionStorage.getItem('EMAIL') || ''
+  const passwordCipher = sessionStorage.getItem('PASSWORD') || ''
+
+  // Build form awal secara dinamis
   const newForm = {}
   visibleLoginFields.value.forEach((f) => {
-    newForm[f.name] = form.value[f.name] ?? ''
+    if (f.name === 'email') {
+      newForm[f.name] = savedForm[f.name] || emailSession || ''
+    } else if (f.name === 'password') {
+      newForm[f.name] = savedForm[f.name] || decryptData(passwordCipher) || ''
+    } else {
+      newForm[f.name] = savedForm[f.name] || ''
+    }
   })
   form.value = newForm
 })
 
+// Watch form supaya otomatis tersimpan (support field dinamis)
+watch(
+  form,
+  (newVal) => {
+    const current = JSON.parse(localStorage.getItem('loginForm') || '{}')
+    localStorage.setItem('loginForm', JSON.stringify({ ...current, ...newVal }))
+  },
+  { deep: true }
+)
 
+// Sync props.email jika ada
 watch(
   () => props.email,
   (newEmail) => {
