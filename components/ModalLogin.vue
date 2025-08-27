@@ -38,12 +38,9 @@
           class="!w-full p-0"
         >
           <InputText
-            v-if="
-              item.type !== 'date'
-            "
+            v-if="item.type !== 'date'"
             :onlyNumeric="
-              item.text_type === 'number' ||
-              item.text_type === 'tel'
+              item.text_type === 'number' || item.text_type === 'tel'
                 ? true
                 : false
             "
@@ -98,7 +95,10 @@
           style="text-shadow: 0 3px 3px rgba(0, 0, 0, 0.16)"
           @click="navigateTo('/forgot-password')"
         >
-          {{ $t('forgotYourPassword') }}
+          {{
+            settings?.register_login?.registration_login_pop_up
+              ?.forgot_password_text
+          }}
         </a>
 
         <SolidButton
@@ -236,17 +236,20 @@ const validateOnSubmit = ref(false)
 
 const form = ref({})
 const loginFields = ref([])
+const isFormReady = ref(false)
 
 const visibleLoginFields = ref([])
 
 const isValidInput = computed(() => {
-  return Object.values(form.value).every((val) => val && val.toString().trim() !== '')
+  return Object.values(form.value).every(
+    (val) => val && val.toString().trim() !== ''
+  )
 })
 
 const handleError = (field, required, min, max, type) => {
   const value = form.value[field] || ''
   let errorMessage = ''
-  
+
   if (!value && validateOnSubmit.value && required) {
     errorMessage = t('fieldRequired')
   } else if (min && value.length > 0 && value.length < min) {
@@ -278,7 +281,6 @@ const updateModel = (field, type, value) => {
     form.value[field] = formatDate(value)
   }
 }
-
 
 const validateInput = (field, value) => {
   // console.log(`Validated ${field}:`, value)
@@ -330,39 +332,23 @@ const handleSubmit = async () => {
       body: { ...form.value },
     })
 
-    const TOKEN = useCookie('TOKEN', {
-      maxAge: 60 * 60 * 24 * 7,
-    })
-    const USER = useCookie('USER', {
-      maxAge: 60 * 60 * 24 * 7,
-    })
+    const TOKEN = useCookie('TOKEN', { maxAge: 60 * 60 * 24 * 7 })
+    const USER = useCookie('USER', { maxAge: 60 * 60 * 24 * 7 })
     TOKEN.value = response.data.token
     USER.value = response.data.user
-
-    sessionStorage.setItem('EMAIL', form.value?.email)
-    if (form.value?.password) {
-      try {
-        const encrypted = encryptData(form.value.password)
-        sessionStorage.setItem('PASSWORD', encrypted)
-      } catch (encryptError) {}
-    }
 
     await nextTick()
 
     await saveSpin()
 
-    if (route.path === '/spin/character/' + location) {
-      await navigateTo('/dashboard', { replace: true })
-    } else {
-      await navigateTo('/dashboard', { replace: true })
-    }
+    await navigateTo('/dashboard', { replace: true })
 
-    isLoading.value = false
   } catch (error) {
-    errorStatus.value = error._data.data.type
+    errorStatus.value = error._data?.data?.type
 
     errorMessages.value = [
-      settings.value?.register_login?.registration_login_pop_up_title,
+      settings.value?.register_login?.registration_login_pop_up_title ||
+      t('loginFailed'),
     ]
 
     isErrorMessage.value = true
@@ -403,42 +389,83 @@ const saveSpin = async () => {
     sessionStorage.setItem('IS_QUOTA_AVAILABLE', data?.is_quota_available)
     sessionStorage.setItem('LOCATION_SLUG', data?.location_slug)
   } catch (error) {
-    // console.log("Error: Can't save spin result")
 
     throw error
   }
 }
 
-onMounted(() => {
-  const emailSession = sessionStorage.getItem('EMAIL') || ''
-  const passwordCipher = sessionStorage.getItem('PASSWORD') || ''
-
-  form.value.email = emailSession
-  form.value.password = decryptData(passwordCipher)
-})
-
-onMounted(() => {
-  loginFields.value =
-    settings.value?.register_login?.registration_login_pop_up?.login_fields || []
-
-  visibleLoginFields.value = loginFields.value
+const toVisibleLoginFields = (fields = []) =>
+  fields
     .map((item) => {
       const name = Object.keys(item)[0]
       const fieldData = item[name]
-      return {
-        name,
-        ...fieldData,
-      }
+      return { name, ...fieldData }
     })
     .filter((field) => field.show)
 
+const safeDecrypt = (cipher) => {
+  if (!cipher) return ''
+  try { return decryptData(cipher) } catch { return '' }
+}
+
+const initForm = () => {
+  const savedForm = JSON.parse(localStorage.getItem('loginForm') || '{}')
+  const emailSession = sessionStorage.getItem('EMAIL') || ''
+  const passwordCipher = sessionStorage.getItem('PASSWORD') || ''
+
   const newForm = {}
   visibleLoginFields.value.forEach((f) => {
-    newForm[f.name] = form.value[f.name] ?? ''
+    if (f.name === 'email') {
+      newForm.email = savedForm.email || emailSession || ''
+    } else if (f.name === 'password') {
+      const fromLocal = savedForm.password ? safeDecrypt(savedForm.password) : ''
+      const fromSession = safeDecrypt(passwordCipher)
+      newForm.password = fromLocal || fromSession || ''
+    } else {
+      newForm[f.name] = savedForm[f.name] ?? ''
+    }
   })
-  form.value = newForm
-})
 
+  form.value = newForm
+  isFormReady.value = true
+}
+
+watch(
+  () => settings.value?.register_login?.registration_login_pop_up?.login_fields,
+  (fields) => {
+    loginFields.value = fields || []
+    visibleLoginFields.value = toVisibleLoginFields(loginFields.value)
+
+    if (import.meta.client && visibleLoginFields.value.length && !isFormReady.value) {
+      initForm()
+    }
+  },
+  { immediate: true, deep: true }
+)
+
+watch(
+  form,
+  (newVal) => {
+    if (!import.meta.client || !isFormReady.value) return
+
+    const allEmpty = Object.values(newVal).every(v => !v)
+    if (allEmpty) return
+
+    const current = JSON.parse(localStorage.getItem('loginForm') || '{}')
+    const toSave = { ...current, ...newVal }
+
+    if (toSave.password) {
+      try {
+        toSave.password = encryptData(toSave.password)
+      } catch (e) {
+        console.error('Password encryption failed', e)
+      }
+    }
+
+    localStorage.setItem('loginForm', JSON.stringify(toSave))
+  },
+  { deep: true }
+)
 
 watch(
   () => props.email,
