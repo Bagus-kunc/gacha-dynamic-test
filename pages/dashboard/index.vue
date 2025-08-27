@@ -271,35 +271,41 @@ const handleClose = () => {
   sessionStorage.removeItem('LOCATION_SLUG')
 }
 
-const clearSessionExcept = (whitelist) => {
+const clearLocalStorageExcept = (whitelist) => {
   const keep = {}
   whitelist.forEach((key) => {
-    const val = sessionStorage.getItem(key)
+    const val = localStorage.getItem(key)
     if (val !== null) keep[key] = val
   })
 
-  sessionStorage.clear()
+  localStorage.clear()
 
-  Object.entries(keep).forEach(([k, v]) => sessionStorage.setItem(k, v))
+  Object.entries(keep).forEach(([k, v]) => localStorage.setItem(k, v))
 }
 
 const logout = async () => {
   try {
     const { data, status } = await useFetchApi('POST', 'logout')
-    const WHITELIST_SESSION = ['EMAIL', 'PASSWORD']
+    const WHITELIST_LOCAL = ['loginForm']
 
-    localStorage.clear()
-    clearSessionExcept(WHITELIST_SESSION)
+    clearLocalStorageExcept(WHITELIST_LOCAL)
+    sessionStorage.clear()
+
     TOKEN.value = null
     USER.value = null
     VALID_PASSWORD.value = null
+
     await navigateTo('/')
   } catch (error) {
-    localStorage.clear()
-    clearSessionExcept(WHITELIST_SESSION)
+    const WHITELIST_LOCAL = ['loginForm']
+
+    clearLocalStorageExcept(WHITELIST_LOCAL)
+    sessionStorage.clear()
+
     TOKEN.value = null
     USER.value = null
     VALID_PASSWORD.value = null
+
     await navigateTo('/')
     console.log(error)
   }

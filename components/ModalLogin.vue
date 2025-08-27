@@ -236,6 +236,7 @@ const validateOnSubmit = ref(false)
 
 const form = ref({})
 const loginFields = ref([])
+const isFormReady = ref(false)
 
 const visibleLoginFields = ref([])
 
@@ -275,8 +276,6 @@ const formatDate = (date) => {
 
 const updateModel = (field, type, value) => {
   form.value[field] = value
-
-  console.log(`Updated ${field}:`, value)
 
   if (type === 'date') {
     form.value[field] = formatDate(value)
@@ -321,7 +320,6 @@ const handleSubmit = async () => {
   if (isLoading.value) return
   isLoading.value = true
 
-  // Validasi email (jika field email ada)
   if (form.value.email && !validateEmailFormat(form.value.email)) {
     errorMessages.value = [t('emailValidation')]
     isErrorMessage.value = true
@@ -330,7 +328,6 @@ const handleSubmit = async () => {
   }
 
   try {
-    // Kirim semua field dinamis
     const response = await useFetchApi('POST', 'login', {
       body: { ...form.value },
     })
@@ -340,21 +337,10 @@ const handleSubmit = async () => {
     TOKEN.value = response.data.token
     USER.value = response.data.user
 
-    // Simpan password di sessionStorage hanya jika ada field password
-    if (form.value?.password) {
-      try {
-        const encrypted = encryptData(form.value.password)
-        sessionStorage.setItem('PASSWORD', encrypted)
-      } catch (encryptError) {
-        console.error('Password encryption failed', encryptError)
-      }
-    }
-
     await nextTick()
 
     await saveSpin()
 
-    // Redirect ke dashboard (path dynamic tetap dijaga)
     await navigateTo('/dashboard', { replace: true })
 
   } catch (error) {
@@ -403,61 +389,84 @@ const saveSpin = async () => {
     sessionStorage.setItem('IS_QUOTA_AVAILABLE', data?.is_quota_available)
     sessionStorage.setItem('LOCATION_SLUG', data?.location_slug)
   } catch (error) {
-    // console.log("Error: Can't save spin result")
 
     throw error
   }
 }
 
-onMounted(() => {
-  // Ambil konfigurasi login fields
-  loginFields.value =
-    settings.value?.register_login?.registration_login_pop_up?.login_fields ||
-    []
-
-  visibleLoginFields.value = loginFields.value
+const toVisibleLoginFields = (fields = []) =>
+  fields
     .map((item) => {
       const name = Object.keys(item)[0]
       const fieldData = item[name]
-      return {
-        name,
-        ...fieldData,
-      }
+      return { name, ...fieldData }
     })
     .filter((field) => field.show)
 
-  // Ambil dari localStorage kalau ada
-  const savedForm = JSON.parse(localStorage.getItem('loginForm') || '{}')
+const safeDecrypt = (cipher) => {
+  if (!cipher) return ''
+  try { return decryptData(cipher) } catch { return '' }
+}
 
-  // Ambil dari sessionStorage kalau ada
+const initForm = () => {
+  const savedForm = JSON.parse(localStorage.getItem('loginForm') || '{}')
   const emailSession = sessionStorage.getItem('EMAIL') || ''
   const passwordCipher = sessionStorage.getItem('PASSWORD') || ''
 
-  // Build form awal secara dinamis
   const newForm = {}
   visibleLoginFields.value.forEach((f) => {
     if (f.name === 'email') {
-      newForm[f.name] = savedForm[f.name] || emailSession || ''
+      newForm.email = savedForm.email || emailSession || ''
     } else if (f.name === 'password') {
-      newForm[f.name] = savedForm[f.name] || decryptData(passwordCipher) || ''
+      const fromLocal = savedForm.password ? safeDecrypt(savedForm.password) : ''
+      const fromSession = safeDecrypt(passwordCipher)
+      newForm.password = fromLocal || fromSession || ''
     } else {
-      newForm[f.name] = savedForm[f.name] || ''
+      newForm[f.name] = savedForm[f.name] ?? ''
     }
   })
-  form.value = newForm
-})
 
-// Watch form supaya otomatis tersimpan (support field dinamis)
+  form.value = newForm
+  isFormReady.value = true
+}
+
+watch(
+  () => settings.value?.register_login?.registration_login_pop_up?.login_fields,
+  (fields) => {
+    loginFields.value = fields || []
+    visibleLoginFields.value = toVisibleLoginFields(loginFields.value)
+
+    if (import.meta.client && visibleLoginFields.value.length && !isFormReady.value) {
+      initForm()
+    }
+  },
+  { immediate: true, deep: true }
+)
+
 watch(
   form,
   (newVal) => {
+    if (!import.meta.client || !isFormReady.value) return
+
+    const allEmpty = Object.values(newVal).every(v => !v)
+    if (allEmpty) return
+
     const current = JSON.parse(localStorage.getItem('loginForm') || '{}')
-    localStorage.setItem('loginForm', JSON.stringify({ ...current, ...newVal }))
+    const toSave = { ...current, ...newVal }
+
+    if (toSave.password) {
+      try {
+        toSave.password = encryptData(toSave.password)
+      } catch (e) {
+        console.error('Password encryption failed', e)
+      }
+    }
+
+    localStorage.setItem('loginForm', JSON.stringify(toSave))
   },
   { deep: true }
 )
 
-// Sync props.email jika ada
 watch(
   () => props.email,
   (newEmail) => {
