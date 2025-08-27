@@ -59,7 +59,7 @@
             <img
               v-for="(link, key) in socialMediaLinks"
               :key="key"
-              :src="share(key)"
+              :src="share(link)"
               :alt="key"
               :aria-label="key"
               class="cursor-pointer md:size-7 size-7"
@@ -296,7 +296,7 @@ const share = (type) => {
     { match: 'web3', icon: web3 },
   ]
 
-  const found = map.find(({ match }) => type.includes(match))
+  const found = map.find(({ match }) => type.key.includes(match))
   return found ? found.icon : download
 }
 
