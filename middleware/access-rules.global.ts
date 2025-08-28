@@ -29,9 +29,9 @@ export default defineNuxtRouteMiddleware((to) => {
     if (to.path === '/profile/complete' && (!hasSubmittedProfile || !userId)) {
       return navigateTo('/profile')
     }
-    if (to.path === '/register/complete' && !hasSubmittedRegister) {
-      return navigateTo('/register')
-    }
+    // if (to.path === '/register/complete' && !hasSubmittedRegister) {
+    //   return navigateTo('/register')
+    // }
     if (to.path === '/claim/success' && !hasClaimed) {
       return navigateTo('/prize')
     }
