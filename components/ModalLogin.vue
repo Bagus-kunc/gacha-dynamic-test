@@ -347,7 +347,7 @@ const handleSubmit = async () => {
     errorStatus.value = error._data?.data?.type
 
     errorMessages.value = [
-      settings.value?.register_login?.registration_login_pop_up_title ||
+      settings.value?.register_login?.registration_login_pop_up?.warning_text ||
       t('loginFailed'),
     ]
 
