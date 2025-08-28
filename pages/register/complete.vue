@@ -5,25 +5,33 @@
         style="text-shadow: 0 3px 3px rgba(0, 0, 0, 0.16)"
         class="text-exd-gray-scorpion font-bold text-exd-1824.52"
       >
-        {{ $t('newMemberRegistration') }}
+        {{ registerComplete?.page_title }}
       </p>
     </HeaderBar>
 
     <div
-      class="flex flex-col justify-between w-full gap-6 px-3 pb-3 mt-32 grow"
+      class="flex flex-col justify-between w-full gap-6 pt-32 pb-3 font-bold grow"
+      :style="{
+        background:
+          registerComplete
+            ?.background_page?.type === 'image'
+            ? `url(${registerComplete?.background_page?.value})`
+            : registerComplete
+                ?.background_page?.value,
+        'background-size': 'cover',
+        'background-repeat': 'no-repeat',
+      }"
     >
       <div class="flex flex-col grow">
         <p
           class="mt-8 font-bold text-center text-exd-gray-scorpion text-exd-1416"
         >
-          {{ $t('registrationComplete') }}
+          {{ registerComplete?.page_sub_title }}
         </p>
         <div
           class="flex flex-col max-w-xs mx-auto mt-8 font-normal leading-loose text-exd-gray-scorpion text-exd-1416 text-start"
         >
-          <p>{{ $t('registrationCompleteInformation1') }}</p>
-
-          <p>{{ $t('registrationCompleteInformation2') }}</p>
+          <p>{{ registerComplete?.page_description }}</p>
         </div>
       </div>
     </div>
@@ -31,9 +39,9 @@
 
   <div class="fixed bottom-0 z-50 w-full max-w-md mx-auto mb-2">
     <SolidButton
-      :label="settings.register_login?.change_membership_information_page_2?.button_text"
-      :bgColor="settings.register_login?.change_membership_information_page_2?.button_text_and_color?.background"
-      :textColor="settings.register_login?.change_membership_information_page_2?.button_text_and_color?.color"
+      :label="registerComplete?.button_text"
+      :bgColor="registerComplete?.button_text_and_color?.background"
+      :textColor="registerComplete?.button_text_and_color?.color"
       :on-click="goTo"
       :has-loading="isLoading"
       has-bottom
@@ -49,6 +57,8 @@ const register = useRegister()
 const { isSpin } = storeToRefs(register)
 const { decryptData } = useEncryption()
 const settings = useState('settings')
+
+const registerComplete = settings.value?.register_login?.membership_registration_page_2 || {}
 
 const saveSpin = async () => {
   if (!isSpin.value) return
