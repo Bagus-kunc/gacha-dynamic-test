@@ -125,6 +125,7 @@
                 settings?.register_login?.membership_registration_page
                   ?.button_text_and_color?.color
               "
+              :autocomplete="item.name"
             />
 
             <p

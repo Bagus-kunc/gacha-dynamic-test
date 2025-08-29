@@ -8,15 +8,16 @@
     <template v-slot:text v-if="!isFetching">
       <div class="flex flex-col justify-center gap-1 pr-4 overflow-hidden">
         <p
+          v-if="showImage === true || showImage === '1'"
           class="h-5 bg-no-repeat bg-contain bg-start"
           :style="raritySrc ? { backgroundImage: `url(${raritySrc})` } : {}"
         >
           <!-- {{ data.subtitle }} -->
         </p>
-        <p class="font-medium truncate text-exd-gray-scorpion text-exd-1416">
+        <p v-if="showTitle === true || showTitle === '1'" class="font-medium truncate text-exd-gray-scorpion text-exd-1416">
           {{ data.title }}
         </p>
-        <p class="font-medium truncate text-[var(--secondary)] text-exd-1014">
+        <p v-if="showDate === true || showDate === '1'" class="font-medium truncate text-[var(--secondary)] text-exd-1014">
           {{ data.date }}
         </p>
       </div>
@@ -41,6 +42,18 @@ const props = defineProps({
   isFetching: {
     type: Boolean,
     default: true,
+  },
+  showImage: {
+    type: String,
+    default: '',
+  },
+  showTitle: {
+    type: String,
+    default: '',
+  },
+  showDate: {
+    type: String,
+    default: '',
   },
 })
 

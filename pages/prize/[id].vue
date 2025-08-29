@@ -8,7 +8,7 @@
     </p>
   </HeaderBar>
 
-  <div class="flex flex-col px-8 mt-32 text-black bg-center">
+  <div class="flex flex-col px-8 pt-32 text-black bg-center">
     <div
       class="flex flex-col max-w-sm gap-2 overflow-hidden bg-white border border-gray-200 rounded-lg shadow"
     >

@@ -45,6 +45,7 @@
         :aria-describedby="`${model}-${label}--${prefix}-${suffix}-help`"
         :placeholder="placeholder"
         :disabled="disabled"
+        :autocomplete="autocomplete"
         :class="[
           'grow w-full bg-gray-100 focus:!border-none focus:!outline-none selection:!rounded-none rounded-none selection:!bg-gray-300 !border-none font-normal',
           disabled && '!text-gray-400',
@@ -182,6 +183,10 @@ const props = defineProps({
     type: String,
     default: 'white',
   },
+  autocomplete: {
+    type: String,
+    default: 'off',
+  }
 })
 
 const { t } = useI18n()
