@@ -185,7 +185,7 @@ const props = defineProps({
   },
   autocomplete: {
     type: String,
-    default: '',
+    default: 'off',
   }
 })
 
