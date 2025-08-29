@@ -4,10 +4,12 @@
       style="text-shadow: 0 3px 3px rgba(0, 0, 0, 0.16)"
       class="text-exd-gray-scorpion font-bold text-exd-1824.52"
     >
-      {{ $t('collection') }}
+      {{ historyData?.page_title }}
     </p>
   </HeaderBar>
-  <div class="flex flex-col gap-3 px-8 mt-32 text-black bg-center">
+  <div 
+    class="flex flex-col gap-3 px-8 pt-32 text-black"
+    >
     <div class="max-w-sm bg-white rounded-lg shadow">
       <div class="w-full overflow-hidden rounded-t-lg">
         <Skeleton v-if="isFetching" class="!w-full !h-full"></Skeleton>
@@ -245,6 +247,8 @@ const colorBg = ref('')
 const rarityImg = ref('')
 
 const settings = useState('settings')
+
+const historyData = settings.value?.character_collection || {}
 
 const socialMediaLinks = ref([])
 
