@@ -36,7 +36,7 @@
           <!-- Modal Text -->
           <div
             :class="[
-              'font-bold px-4 text-exd-1530 text-center text-exd-gray-scorpion'
+              'font-bold px-4 text-exd-1530 text-center text-exd-gray-scorpion',
             ]"
             style="text-shadow: 0 3px 3px rgba(0, 0, 0, 0.16)"
           >
@@ -79,19 +79,19 @@
           </div>
 
           <!-- Button -->
-            <SolidButton
-              v-if="afterGacha?.data?.button_and_social_media !== 'social_media'"
-              :label="settings?.gacha?.after_gacha_screen?.data?.button_text"
-              :bgColor="
-                settings?.gacha?.after_gacha_screen?.data?.button_and_text_color
-                  ?.background
-              "
-              :textColor="
-                settings?.gacha?.after_gacha_screen?.data?.button_and_text_color
-                  ?.color
-              "
-              @click="handleToRedirect"
-            />
+          <SolidButton
+            v-if="afterGacha?.data?.button_and_social_media !== 'social_media'"
+            :label="settings?.gacha?.after_gacha_screen?.data?.button_text"
+            :bgColor="
+              settings?.gacha?.after_gacha_screen?.data?.button_and_text_color
+                ?.background
+            "
+            :textColor="
+              settings?.gacha?.after_gacha_screen?.data?.button_and_text_color
+                ?.color
+            "
+            @click="handleToRedirect"
+          />
         </div>
       </div>
     </template>
@@ -253,19 +253,15 @@ const generateUrlToShare = () => {
   const storedData = useCookie('VALID_PASSWORD')
   const parsedData = decryptData(storedData.value)
   const slug = parsedData.slug
-  
+
   let objectToShare = {
     url: url,
     quote: quote,
   }
 
   try {
-    objectToShare.url =
-      url +
-      `/spin/${slug}`
-    objectToShare.quote =
-      quote +
-      `/spin/${slug}`
+    objectToShare.url = url + `/spin/${slug}`
+    objectToShare.quote = quote + `/spin/${slug}`
   } catch (error) {
     console.log(error)
   }
