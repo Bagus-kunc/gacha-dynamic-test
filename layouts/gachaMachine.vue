@@ -18,29 +18,21 @@ useHead({
   meta: [
     {
       name: 'description',
-      content: stripHtml(settings.value?.global?.ogp?.title),
-    },
-    // Facebook
-    { name: 'og:title', content: settings.value?.global?.ogp?.title },
-    {
-      name: 'og:description',
       content: stripHtml(settings.value?.global?.ogp?.description),
     },
-    { name: 'og:image', content: settings.value?.global?.ogp?.image },
-    { name: 'og:url', content: config.public.META_URL },
-    { name: 'og:type', content: 'Website' },
-    { name: 'og:image:width', content: '1200' },
-    { name: 'og:image:height', content: '630' },
-    // twitter
-    { name: 'twitter:title', content: settings.value?.global?.ogp?.title },
-    {
-      name: 'twitter:description',
-      content: stripHtml(settings.value?.global?.ogp?.description),
-    },
-    { name: 'twitter:image', content: settings.value?.global?.ogp?.image },
+    // Open Graph
+    { property: 'og:title', content: settings.value?.global?.ogp?.title },
+    { property: 'og:description', content: stripHtml(settings.value?.global?.ogp?.description) },
+    { property: 'og:image', content: settings.value?.global?.ogp?.image },
+    { property: 'og:url', content: config.public.META_URL },
+    { property: 'og:type', content: 'website' },
+    { property: 'og:image:width', content: '1200' },
+    { property: 'og:image:height', content: '630' },
+    // Twitter
     { name: 'twitter:card', content: 'summary_large_image' },
-    { name: 'twitter:image:width', content: '1200' },
-    { name: 'twitter:image:height', content: '630' },
+    { name: 'twitter:title', content: settings.value?.global?.ogp?.title },
+    { name: 'twitter:description', content: stripHtml(settings.value?.global?.ogp?.description) },
+    { name: 'twitter:image', content: settings.value?.global?.ogp?.image },
   ],
 })
 
