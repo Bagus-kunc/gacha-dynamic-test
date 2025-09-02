@@ -32,6 +32,8 @@
         :showImage="historyData?.show_hide_character_collection?.show_character_image"
         :showTitle="historyData?.show_hide_character_collection?.show_character_title"
         :showDate="historyData?.show_hide_character_collection?.show_character_date"
+        :showLocation="historyData?.show_hide_character_collection?.show_location"
+        :showPoint="historyData?.show_hide_character_collection?.show_point"
       />
     </template>
   </div>

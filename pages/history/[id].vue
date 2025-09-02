@@ -23,7 +23,7 @@
         />
       </div>
       <div class="flex flex-col gap-2 p-5">
-        <div class="inline-flex justify-between w-full gap-5">
+        <div class="inline-flex items-center justify-between w-full gap-5 mb-2">
           <Skeleton
             v-if="isFetching"
             class="!h-3 !bg-exd-gray-scorpion !rounded-full"
@@ -40,11 +40,8 @@
             class="!h-3 !bg-exd-gold !rounded-full"
             width="2rem "
           />
-          <p
-            v-else
-            class="font-bold text-exd-1824.52 text-white p-1 min-h-10 min-w-12 h-10 w-12 flex items-center justify-center rounded-full pr-2 bg-no-repeat bg-contain bg-center"
-            :style="rarityImg ? { backgroundImage: `url(${rarityImg})` } : {}"
-          ></p>
+          
+          <img v-if="settings?.flow?.screens?.spin_gacha_2_screen?.show_character_rarity" :src="rarityImg" alt="rarity icon" class="w-10" />
         </div>
         <div v-if="isFetching" class="flex items-center gap-5 text-exd-1218">
           <Skeleton
