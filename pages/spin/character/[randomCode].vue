@@ -195,31 +195,6 @@ definePageMeta({
 })
 
 const settings = useState('settings')
-const requestURL = useRequestURL()
-const url = requestURL.origin
-
-useHead({
-  title: settings.value?.global?.ogp?.title,
-  meta: [
-    {
-      name: 'description',
-      content: stripHtml(settings.value?.global?.ogp?.description),
-    },
-
-    { property: 'og:title', content: settings.value?.global?.ogp?.title },
-    { property: 'og:description', content: stripHtml(settings.value?.global?.ogp?.description) },
-    { property: 'og:image', content: settings.value?.global?.ogp?.image },
-    { property: 'og:url', content: url },
-    { property: 'og:type', content: 'website' },
-    { property: 'og:image:width', content: '1200' },
-    { property: 'og:image:height', content: '630' },
-
-    { name: 'twitter:card', content: 'summary_large_image' },
-    { name: 'twitter:title', content: settings.value?.global?.ogp?.title },
-    { name: 'twitter:description', content: stripHtml(settings.value?.global?.ogp?.description) },
-    { name: 'twitter:image', content: settings.value?.global?.ogp?.image },
-  ],
-})
 
 const { setSourceFrom } = useRegister()
 
@@ -263,10 +238,6 @@ const { decryptData } = useEncryption()
 const { t } = useI18n()
 
 const handleCloseModalLogin = () => (modalLogin.value = false)
-
-function stripHtml(html = '') {
-  return html.replace(/<\/?[^>]+(>|$)/g, '').trim()
-}
 
 const handleButton = async () => {
   if (!TOKEN.value && !USER.value) {

@@ -85,6 +85,37 @@ import emptyImage from '~/assets/images/no-image.svg'
 
 const settings = useState('settings')
 const langPanel = ref(false)
+
+const requestURL = useRequestURL()
+const url = requestURL.origin
+
+useHead({
+  title: settings.value?.global?.ogp?.title,
+  meta: [
+    {
+      name: 'description',
+      content: stripHtml(settings.value?.global?.ogp?.description),
+    },
+
+    { property: 'og:title', content: settings.value?.global?.ogp?.title },
+    { property: 'og:description', content: stripHtml(settings.value?.global?.ogp?.description) },
+    { property: 'og:image', content: settings.value?.global?.ogp?.image },
+    { property: 'og:url', content: url },
+    { property: 'og:type', content: 'website' },
+    { property: 'og:image:width', content: '1200' },
+    { property: 'og:image:height', content: '630' },
+
+    { name: 'twitter:card', content: 'summary_large_image' },
+    { name: 'twitter:title', content: settings.value?.global?.ogp?.title },
+    { name: 'twitter:description', content: stripHtml(settings.value?.global?.ogp?.description) },
+    { name: 'twitter:image', content: settings.value?.global?.ogp?.image },
+  ],
+})
+
+function stripHtml(html = '') {
+  return html.replace(/<\/?[^>]+(>|$)/g, '').trim()
+}
+
 const langPanelToggle = (event) => {
   langPanel.value = !langPanel.value
 }
