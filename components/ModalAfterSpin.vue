@@ -187,10 +187,7 @@ const handleCloseDialog = () => emit('update:visible', false)
 
 const detailCharacter = ref({})
 
-const title = settings.value?.global?.ogp?.title
 const description = settings.value?.global?.ogp?.description
-const image = settings.value?.global?.ogp?.image
-
 const requestURL = useRequestURL()
 const url = requestURL.origin
 
@@ -253,6 +250,10 @@ const share = (type) => {
 }
 
 const generateUrlToShare = () => {
+  const storedData = useCookie('VALID_PASSWORD')
+  const parsedData = decryptData(storedData.value)
+  const slug = parsedData.slug
+  
   let objectToShare = {
     url: url,
     quote: quote,
@@ -261,16 +262,10 @@ const generateUrlToShare = () => {
   try {
     objectToShare.url =
       url +
-      '/share/' +
-      detailCharacter.value.character_id +
-      '/' +
-      detailCharacter.value.location_id
+      `/spin/${slug}`
     objectToShare.quote =
       quote +
-      '/share/' +
-      detailCharacter.value.character_id +
-      '/' +
-      detailCharacter.value.location_id
+      `/spin/${slug}`
   } catch (error) {
     console.log(error)
   }
@@ -328,7 +323,7 @@ const handleImageAfterGacha = (data) => {
   } else if (type === 'point_category') {
     return props.popupImage
   } else {
-    return data?.popup_image
+    return data?.without_registration_image
   }
 }
 
