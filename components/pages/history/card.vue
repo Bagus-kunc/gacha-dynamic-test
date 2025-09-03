@@ -6,20 +6,24 @@
     :is-fetching="isFetching"
   >
     <template v-slot:text v-if="!isFetching">
-      <div class="flex flex-col justify-center gap-1 pr-4 overflow-hidden">
-        <p
-          v-if="showImage === true || showImage === '1'"
-          class="h-5 bg-no-repeat bg-contain bg-start"
-          :style="raritySrc ? { backgroundImage: `url(${raritySrc})` } : {}"
-        >
-          <!-- {{ data.subtitle }} -->
-        </p>
-        <p v-if="showTitle === true || showTitle === '1'" class="font-medium truncate text-exd-gray-scorpion text-exd-1416">
-          {{ data.title }}
-        </p>
-        <p v-if="showDate === true || showDate === '1'" class="font-medium truncate text-[var(--secondary)] text-exd-1014">
-          {{ data.date }}
-        </p>
+      <div class="flex flex-col justify-center w-full gap-1 pr-4 overflow-hidden ">
+        <div class="flex items-center gap-3">
+          <img v-if="showImage" :src="raritySrc" alt="rarity icon" class="h-4 " />
+          <p v-if="showTitle" class="pr-2 font-medium text-exd-gray-scorpion sm:text-exd-1320 text-[2.708vw] line-clamp-2">
+            {{ data.title }}
+          </p>
+        </div>
+        <div class="flex items-center gap-3">
+          <img :src="pinIcon" alt="pin icon" class="w-6 h-6" />
+          <div class="flex flex-col gap-1">
+            <p v-if="showLocation" class="pr-2 text-exd-gray-scorpion text-[2.292vw] sm:text-[11px] line-clamp-2">
+              {{ data.location }}
+            </p>
+            <p class="flex gap-5 truncate text-exd-gray-scorpion text-[2.292vw] sm:text-[11px] line-clamp-2">
+              <span v-if="showDate">{{ data.date }}</span> <span v-if="showPoint">{{ data.point }}pt</span>
+            </p>
+          </div>
+        </div>
       </div>
     </template>
   </ImageTextCard>
@@ -28,6 +32,7 @@
 <script setup>
 import { useRouter } from 'vue-router'
 import noImage from '~/assets/images/no-image.svg'
+import pinIcon from '~/assets/images/icon-pin.svg'
 import moment from 'moment'
 
 const props = defineProps({
@@ -44,16 +49,19 @@ const props = defineProps({
     default: true,
   },
   showImage: {
-    type: String,
-    default: '',
+    type: Boolean
   },
   showTitle: {
-    type: String,
-    default: '',
+    type: Boolean
   },
   showDate: {
-    type: String,
-    default: '',
+    type: Boolean
+  },
+  showLocation: {
+    type: Boolean
+  },
+  showPoint: {
+    type: Boolean
   },
 })
 

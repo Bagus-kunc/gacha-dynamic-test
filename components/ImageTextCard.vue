@@ -3,13 +3,13 @@
     <div
       :class="[
         roundedClass,
-        'bg-white p-3 inline-flex gap-2 border-b border-b-exd-light-grey w-100 relative',
+        'bg-white p-3 inline-flex gap-2 border-b border-b-exd-light-grey relative',
         isDisabled ? 'cursor-default' : 'cursor-pointer'
       ]"
       @click="handleClick"
     >
-      <div v-if="!history" class="w-full max-w-16 max-h-16">
-        <CharacterCard :image="imageCard" :isDisabled="isDisabled" variant="without-background" />
+      <div v-if="!history" class="w-[40%] flex items-center">
+        <CharacterCard :image="imageCard" :isDisabled="isDisabled"  :bgColor="setOpacity('#009245')" />
       </div>
       <slot name="text"></slot>
       <div
@@ -109,4 +109,12 @@ const handleClick = (event) => {
 const roundedClass = computed(() => {
   return props.hasRounded ? 'rounded-xl' : 'rounded-none'
 })
+
+const setOpacity = (bgColor) => {
+  const hex = bgColor.replace('#', '')
+  const r = parseInt(hex.substring(0, 2), 16)
+  const g = parseInt(hex.substring(2, 4), 16)
+  const b = parseInt(hex.substring(4, 6), 16)
+  return `rgba(${r}, ${g}, ${b}, 0.1)`
+}
 </script>
