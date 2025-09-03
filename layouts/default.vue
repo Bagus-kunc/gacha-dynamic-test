@@ -17,26 +17,22 @@ const requestURL = useRequestURL()
 const url = requestURL.origin
 
 useSeoMeta({
-  title: settings.value?.global?.ogp?.title,
-  meta: [
-    {
-      name: 'description',
-      content: stripHtml(settings.value?.global?.ogp?.description),
-    },
+  title: () => settings.value?.global?.ogp?.title,
+  description: () => stripHtml(settings.value?.global?.ogp?.description),
 
-    { property: 'og:title', content: settings.value?.global?.ogp?.title },
-    { property: 'og:description', content: stripHtml(settings.value?.global?.ogp?.description) },
-    { property: 'og:image', content: settings.value?.global?.ogp?.image },
-    { property: 'og:url', content: url },
-    { property: 'og:type', content: 'website' },
-    { property: 'og:image:width', content: '1200' },
-    { property: 'og:image:height', content: '630' },
+  // Open Graph
+  ogTitle: () => settings.value?.global?.ogp?.title,
+  ogDescription: () => stripHtml(settings.value?.global?.ogp?.description),
+  ogImage: () => settings.value?.global?.ogp?.image,
+  ogUrl: () => url,
+  ogType: 'website',
+  ogSiteName: settings.value?.global?.ogp?.title,
 
-    { name: 'twitter:card', content: 'summary_large_image' },
-    { name: 'twitter:title', content: settings.value?.global?.ogp?.title },
-    { name: 'twitter:description', content: stripHtml(settings.value?.global?.ogp?.description) },
-    { name: 'twitter:image', content: settings.value?.global?.ogp?.image },
-  ],
+  // Twitter
+  twitterCard: 'summary_large_image',
+  twitterTitle: () => settings.value?.global?.ogp?.title,
+  twitterDescription: () => stripHtml(settings.value?.global?.ogp?.description),
+  twitterImage: () => settings.value?.global?.ogp?.image,
 })
 
 function stripHtml(html = '') {
