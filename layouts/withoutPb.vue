@@ -38,6 +38,9 @@ const config = useRuntimeConfig()
 const settings = useState('settings')
 const bgPrize = ref('')
 
+const requestURL = useRequestURL()
+const url = requestURL.origin
+
 useHead({
   title: settings.value?.global?.ogp?.title,
   meta: [
@@ -45,15 +48,15 @@ useHead({
       name: 'description',
       content: stripHtml(settings.value?.global?.ogp?.description),
     },
-    // Open Graph
+
     { property: 'og:title', content: settings.value?.global?.ogp?.title },
     { property: 'og:description', content: stripHtml(settings.value?.global?.ogp?.description) },
     { property: 'og:image', content: settings.value?.global?.ogp?.image },
-    { property: 'og:url', content: config.public.META_URL },
+    { property: 'og:url', content: url },
     { property: 'og:type', content: 'website' },
     { property: 'og:image:width', content: '1200' },
     { property: 'og:image:height', content: '630' },
-    // Twitter
+
     { name: 'twitter:card', content: 'summary_large_image' },
     { name: 'twitter:title', content: settings.value?.global?.ogp?.title },
     { name: 'twitter:description', content: stripHtml(settings.value?.global?.ogp?.description) },
