@@ -344,6 +344,33 @@ import { useI18n } from 'vue-i18n'
 import moment from 'moment'
 import close from '~/assets/images/close.svg'
 
+const settings = useState('settings')
+const requestURL = useRequestURL()
+const url = requestURL.origin
+
+useHead({
+  title: settings.value?.global?.ogp?.title,
+  meta: [
+    {
+      name: 'description',
+      content: stripHtml(settings.value?.global?.ogp?.description),
+    },
+
+    { property: 'og:title', content: settings.value?.global?.ogp?.title },
+    { property: 'og:description', content: stripHtml(settings.value?.global?.ogp?.description) },
+    { property: 'og:image', content: settings.value?.global?.ogp?.image },
+    { property: 'og:url', content: url },
+    { property: 'og:type', content: 'website' },
+    { property: 'og:image:width', content: '1200' },
+    { property: 'og:image:height', content: '630' },
+
+    { name: 'twitter:card', content: 'summary_large_image' },
+    { name: 'twitter:title', content: settings.value?.global?.ogp?.title },
+    { name: 'twitter:description', content: stripHtml(settings.value?.global?.ogp?.description) },
+    { name: 'twitter:image', content: settings.value?.global?.ogp?.image },
+  ],
+})
+
 const router = useRouter()
 const route = useRoute()
 const errorMessages = ref('')
@@ -378,7 +405,9 @@ const isSplashComplete = ref(false)
 const modalSpinWarning = ref(false)
 const redirectLink = ref('')
 
-const settings = useState('settings')
+function stripHtml(html = '') {
+  return html.replace(/<\/?[^>]+(>|$)/g, '').trim()
+}
 
 const aboutSpinItems = ref([
   { id: 1, name: 'R', percen: 30, desc: 'normalMorizzoAndKiccoro' },
