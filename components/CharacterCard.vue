@@ -1,14 +1,15 @@
 <template>
   <div
     :class="[
-      variantClass,
-      'h-full w-full flex justify-center items-center p-2',
+      props.variant === 'without-background' ? 'bg-transparent' : '',
+      'h-full flex justify-center items-center p-2',
     ]"
+    :style="variantStyle"
   >
     <img
       :src="image || notImage"
       alt="character"
-      class="relative object-fill w-full h-full"
+      class="relative object-contain w-full h-full"
       preload
       @error="handleImageError"
       :class="isDisabled ? 'opacity-50' : ''"
@@ -17,26 +18,27 @@
 </template>
 
 <script setup>
+import { computed } from 'vue'
 import notImage from '~/assets/images/notimage.png'
 
 const props = defineProps({
-  image: {
-    type: String,
-    required: true,
-  },
+  image: String,
   variant: {
     type: String,
     default: 'with-background',
     validator: (value) =>
       ['with-background', 'without-background'].includes(value),
   },
-  isDisabled: {
-    type: Boolean,
-    default: false,
-  }
+  bgColor: {
+    type: String,
+    default: '#FFF6E8',
+  },
+  isDisabled: Boolean,
 })
 
-const variantClass = computed(() => {
-  return props.variant === 'with-background' ? 'bg-[#FFF6E8]' : 'bg-transparent'
+const variantStyle = computed(() => {
+  return props.variant === 'with-background'
+    ? { backgroundColor: props.bgColor }
+    : {}
 })
 </script>

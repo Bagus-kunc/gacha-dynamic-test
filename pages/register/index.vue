@@ -109,6 +109,7 @@
                 settings?.register_login?.membership_registration_page
                   ?.button_text_and_color?.color
               "
+              :autocomplete="getAutocomplete(item)"
             />
 
             <p
@@ -576,6 +577,10 @@ const handleError = (field, required, min, max, type) => {
     }
   }
 
+  if (field === 'nickname') {
+      return errorNicknameMessage.value
+  }
+
   if (field === 'phone_number') {
     return errorPhoneNumber.value
   }
@@ -843,6 +848,13 @@ const saveSpin = async () => {
   } catch (error) {
     console.log("Error: Can't save spin result")
   }
+}
+
+const getAutocomplete = (item) => {
+  if (item.name === 'password') {
+    return 'new-password'
+  }
+  return 'off'
 }
 
 onMounted(() => {

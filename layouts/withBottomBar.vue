@@ -1,7 +1,7 @@
 <template>
   <main
-    class="relative flex flex-col w-full h-full max-w-md mx-auto overflow-hidden bg-center bg-cover"
-    :style="{ background: settings?.user_dashboard?.my_account_settings?.background?.type === 'image' ? `url(${settings?.user_dashboard?.my_account_settings?.background?.value})` : settings?.user_dashboard?.my_account_settings?.background?.value }"
+    class="relative flex flex-col w-full h-full max-w-md mx-auto overflow-hidden bg-center bg-no-repeat bg-cover"
+    :style="{ background }"
   >
     <HeaderBar :hasBack="hasBack">
       <p
@@ -61,6 +61,41 @@ useHead({
 function stripHtml(html = '') {
   return html.replace(/<\/?[^>]+(>|$)/g, '').trim()
 }
+
+// :style="{
+//   background:
+//     historyData
+//       ?.background_image?.type === 'image'
+//       ? `url(${historyData?.background_image?.value})`
+//       : historyData
+//           ?.background_image?.value,
+//   'background-size': 'cover',
+//   'background-repeat': 'no-repeat',
+// }"
+
+const background = ref('')
+
+const resolveBackground = (bg) => {
+  if (!bg) return ''
+  return bg?.type === 'image' ? `url(${bg.value})` : bg.value
+}
+
+const handleBackground = () => {
+  const path = route.path
+  if (path.includes('history')) {
+    background.value = resolveBackground(settings.value?.character_collection?.background_image)
+  } else if (path.includes('dashboard')) {
+    background.value = resolveBackground(settings.value?.user_dashboard?.my_account_settings?.background)
+  } else if (path.includes('prize')) {
+    background.value = resolveBackground(settings.value?.prize?.step_1?.background_page)
+  } else {
+    background.value = ''
+  }
+}
+
+watch([() => route.path, () => settings.value], () => {
+  handleBackground()
+}, { immediate: true })
 
 onMounted(() => {
   if (!route.path.includes('quiz')) {
