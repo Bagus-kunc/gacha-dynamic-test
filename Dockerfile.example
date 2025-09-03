@@ -1,0 +1,32 @@
+# Stage 1: Build
+FROM node:20-alpine AS builder
+
+WORKDIR /app
+
+# Copy package.json & package-lock.json
+COPY package*.json ./
+
+# Install dependencies
+RUN npm install
+
+# Copy all source code
+COPY . .
+
+# Build Nuxt
+RUN npm run build
+
+# Stage 2: Production runtime
+FROM node:20-alpine
+
+WORKDIR /app
+
+# Copy build output and runtime node_modules from builder
+COPY --from=builder /app/.output .output
+COPY --from=builder /app/node_modules ./node_modules
+COPY package*.json ./
+
+# Expose Nuxt default port
+EXPOSE 3000
+
+# Start Nuxt in production mode
+CMD ["node", ".output/server/index.mjs"]

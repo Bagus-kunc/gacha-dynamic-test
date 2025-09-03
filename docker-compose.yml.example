@@ -1,0 +1,8 @@
+services:
+  gacha-food-loss-1-fe:
+    build: .
+    container_name: gacha-food-loss-1-fe
+    ports:
+      - "3016:3000" # Change to your desired port mapping
+    env_file:
+      - .env
