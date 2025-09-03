@@ -41,7 +41,7 @@ const bgPrize = ref('')
 const requestURL = useRequestURL()
 const url = requestURL.origin
 
-useHead({
+useSeoMeta({
   title: settings.value?.global?.ogp?.title,
   meta: [
     {
